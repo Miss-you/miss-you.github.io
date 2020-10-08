@@ -15,6 +15,12 @@ theme = "LoveIt"
   # LoveIt 主题版本
   version = "0.2.X"
 
+[params.social]
+#codepen = "MunifTanjim"
+email = "yousa@apache.org"
+#facebook = "MunifTanjim"
+github = "Miss-you"
+
 [menu]
   [[menu.main]]
     identifier = "posts"
