@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>GoLang - 分类 - 铲屎官的技术小窝</title>
+        <link>http://miss-you.github.io/categories/golang/</link>
+        <description>GoLang - 分类 - 铲屎官的技术小窝</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 08 Oct 2020 00:46:23 &#43;0800</lastBuildDate><atom:link href="http://miss-you.github.io/categories/golang/" rel="self" type="application/rss+xml" /><item>
+    <title>Go 语言：解决数据库中 null 值的问题</title>
+    <link>http://miss-you.github.io/posts/go-mysql-null/</link>
+    <pubDate>Thu, 08 Oct 2020 00:46:23 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://miss-you.github.io/posts/go-mysql-null/</guid>
+    <description><![CDATA[本文主要介绍如何使用 go 语言 database/sql 库从数据库中读取 null 值的问题，以及如何向数据库中插入 null 值。本文在这里使用的是 sql.NullString, sql.NullInt64, sql.NullFloat64 等结构体，为了方便书写，它们的泛]]></description>
+</item></channel>
+</rss>

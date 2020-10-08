@@ -2,6 +2,10 @@
 title: "Go 语言：解决数据库中 null 值的问题"
 date: 2020-10-08T00:46:23+08:00
 draft: false
+description: "本文主要介绍如何使用 go 语言 database/sql 库从数据库中读取 null 值的问题，以及如何向数据库中插入 null 值。本文在这里使用的是 sql.NullString, sql.NullInt64, sql.NullFloat64 等结构体，为了方便书写，它们的泛指我会使用 sql.Null 来表示. "
+author: "[厉辉（Yousa）]"
+categories: ["GoLang"]
+tags: ["mysql","golang"]
 ---
 
 > 本文主要介绍如何使用 go 语言 database/sql 库从数据库中读取 null 值的问题，以及如何向数据库中插入 null 值。本文在这里使用的是 sql.NullString, sql.NullInt64, sql.NullFloat64 等结构体，为了方便书写，它们的泛指我会使用 sql.Null 来表示
