@@ -6,8 +6,6 @@ draft: false
 
 > 本文主要介绍如何使用 go 语言 database/sql 库从数据库中读取 null 值的问题，以及如何向数据库中插入 null 值。本文在这里使用的是 sql.NullString, sql.NullInt64, sql.NullFloat64 等结构体，为了方便书写，它们的泛指我会使用 sql.Null 来表示
 
-[TOC]
-
 ## 要点
 
 1. 从数据库读取可能为 null 值得值时，可以选择使用 sql.NULL 来读取；或者使用 IFNULL、COALESCE 等命令让数据库查询值返回不为""或者 NULL

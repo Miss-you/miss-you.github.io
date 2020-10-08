@@ -1,185 +1,109 @@
 <!DOCTYPE html>
-<html lang='en' dir='auto'><head>
-  <meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='本文主要介绍如何使用 go 语言 database/sql 库从数据库中读取 null 值的问题，以及如何向数据库中插入 null 值。本文在这里使用的是 sql.NullString, sql.NullInt64, sql.NullFloat64 等结构体，为了方便书写，它们的泛指我会使用 sql.Null 来表示
- [TOC]
-要点  从数据库读取可能为 null 值得值时，可以选择使用 sql.NULL 来读取；或者使用 IFNULL、COALESCE 等命令让数据库查询值返回不为&quot;&ldquo;或者 NULL 若需要往数据库中插入 null 值，则依然可以使用 sql.NULL 存储所需的值，然后进行插入 NULL 值 直接使用 sql.NULL 类型容易出现 valid 遗漏设置等问题，普通 int、string 与其转换时，请写几个简单的 get、set 函数  本 demo 使用的数据库表以及数据如下
-mysql&gt; desc person; &#43;------------&#43;--------------&#43;------&#43;-----&#43;---------&#43;----------------&#43; | Field | Type | Null | Key | Default | Extra | &#43;------------&#43;--------------&#43;------&#43;-----&#43;---------&#43;----------------&#43; | id | int(11) | NO | PRI | NULL | auto_increment | | first_name | varchar(100) | NO | | NULL | | | last_name | varchar(40) | YES | | NULL | | | age | int(11) | YES | | NULL | | &#43;------------&#43;--------------&#43;------&#43;-----&#43;---------&#43;----------------&#43; mysql&gt; select * from person; &#43;----&#43;------------&#43;-----------&#43;------&#43; | id | first_name | last_name | age | &#43;----&#43;------------&#43;-----------&#43;------&#43; | 1 | yousa | NULL | NULL | &#43;----&#43;------------&#43;-----------&#43;------&#43; mysql&gt; show create table person; &#43;--------&#43;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&#43; | Table | Create Table | &#43;--------&#43;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&#43; | person | CREATE TABLE `person` ( `id` int(11) NOT NULL AUTO_INCREMENT, `first_name` varchar(100) NOT NULL, `last_name` varchar(40) DEFAULT NULL, `age` int(11) DEFAULT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 | &#43;--------&#43;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&#43; 1 row in set (0.'>
-<meta name='theme-color' content='#ffcd00'>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Go 语言：解决数据库中 null 值的问题 - 铲屎官的技术小窝</title><meta name="Description" content=""><meta property="og:title" content="Go 语言：解决数据库中 null 值的问题" />
+<meta property="og:description" content="本文主要介绍如何使用 go 语言 database/sql 库从数据库中读取 null 值的问题，以及如何向数据库中插入 null 值。本文在这里使用的是 sql.NullString, sql.NullInt64, sql.NullFloat64 等结构体，为了方便书写，它们的泛" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://miss-you.github.io/posts/go-mysql-null/" />
+<meta property="article:published_time" content="2020-10-08T00:46:23+08:00" />
+<meta property="article:modified_time" content="2020-10-08T00:46:23+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Go 语言：解决数据库中 null 值的问题"/>
+<meta name="twitter:description" content="本文主要介绍如何使用 go 语言 database/sql 库从数据库中读取 null 值的问题，以及如何向数据库中插入 null 值。本文在这里使用的是 sql.NullString, sql.NullInt64, sql.NullFloat64 等结构体，为了方便书写，它们的泛"/>
+<meta name="application-name" content="铲屎官的技术小窝">
+<meta name="apple-mobile-web-app-title" content="铲屎官的技术小窝"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://miss-you.github.io/posts/go-mysql-null/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Go 语言：解决数据库中 null 值的问题",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/miss-you.github.io\/posts\/go-mysql-null\/"
+        },"genre": "posts","wordcount":  1846 ,
+        "url": "http:\/\/miss-you.github.io\/posts\/go-mysql-null\/","datePublished": "2020-10-08T00:46:23+08:00","dateModified": "2020-10-08T00:46:23+08:00","publisher": {
+            "@type": "Organization",
+            "name": "作者"},"author": {
+                "@type": "Person",
+                "name": "作者"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="" header-mobile=""><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : '' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 
-<meta property='og:title' content='Go 语言：解决数据库中 null 值的问题 • Yousa&#39;s Blog'>
-<meta property='og:description' content='本文主要介绍如何使用 go 语言 database/sql 库从数据库中读取 null 值的问题，以及如何向数据库中插入 null 值。本文在这里使用的是 sql.NullString, sql.NullInt64, sql.NullFloat64 等结构体，为了方便书写，它们的泛指我会使用 sql.Null 来表示
- [TOC]
-要点  从数据库读取可能为 null 值得值时，可以选择使用 sql.NULL 来读取；或者使用 IFNULL、COALESCE 等命令让数据库查询值返回不为&quot;&ldquo;或者 NULL 若需要往数据库中插入 null 值，则依然可以使用 sql.NULL 存储所需的值，然后进行插入 NULL 值 直接使用 sql.NULL 类型容易出现 valid 遗漏设置等问题，普通 int、string 与其转换时，请写几个简单的 get、set 函数  本 demo 使用的数据库表以及数据如下
-mysql&gt; desc person; &#43;------------&#43;--------------&#43;------&#43;-----&#43;---------&#43;----------------&#43; | Field | Type | Null | Key | Default | Extra | &#43;------------&#43;--------------&#43;------&#43;-----&#43;---------&#43;----------------&#43; | id | int(11) | NO | PRI | NULL | auto_increment | | first_name | varchar(100) | NO | | NULL | | | last_name | varchar(40) | YES | | NULL | | | age | int(11) | YES | | NULL | | &#43;------------&#43;--------------&#43;------&#43;-----&#43;---------&#43;----------------&#43; mysql&gt; select * from person; &#43;----&#43;------------&#43;-----------&#43;------&#43; | id | first_name | last_name | age | &#43;----&#43;------------&#43;-----------&#43;------&#43; | 1 | yousa | NULL | NULL | &#43;----&#43;------------&#43;-----------&#43;------&#43; mysql&gt; show create table person; &#43;--------&#43;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&#43; | Table | Create Table | &#43;--------&#43;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&#43; | person | CREATE TABLE `person` ( `id` int(11) NOT NULL AUTO_INCREMENT, `first_name` varchar(100) NOT NULL, `last_name` varchar(40) DEFAULT NULL, `age` int(11) DEFAULT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 | &#43;--------&#43;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&#43; 1 row in set (0.'>
-<meta property='og:url' content='http://miss-you.github.io/posts/go-mysql-null/'>
-<meta property='og:site_name' content='Yousa&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:published_time' content='2020-10-08T00:46:23&#43;08:00'/><meta property='article:modified_time' content='2020-10-08T00:46:23&#43;08:00'/><meta name='twitter:card' content='summary'>
-
-<meta name="generator" content="Hugo 0.73.0" />
-
-  <title>Go 语言：解决数据库中 null 值的问题 • Yousa&#39;s Blog</title>
-  <link rel='canonical' href='http://miss-you.github.io/posts/go-mysql-null/'>
-  
-  
-  <link rel='icon' href='/favicon.ico'>
-<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.css'><style>
-:root{--color-accent:#ffcd00;}
-</style>
-
-  
-
-</head>
-<body class='page type-posts has-sidebar'>
-
-  <div class='site'><div id='sidebar' class='sidebar'>
-  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
-
-  <div class='container'><section class='widget widget-about sep-after'>
-  <header>
-    
-    <div class='logo'>
-      <a href='/'>
-        <img src='/images/logo.png'>
-      </a>
-    </div>
-    
-    <h2 class='title site-title '>
-      <a href='/'>
-      Yousa&#39;s Blog
-      </a>
-    </h2>
-    <div class='desc'>
-    Establish a heart for world, and a life for the people. For the saints in the past to continue their studies, and for all generations to find peace.
-    </div>
-  </header>
-
-</section>
-<section class='widget widget-search sep-after'>
-  <header>
-    <h4 class='title widget-title'>Search</h4>
-  </header>
-
-  <form action='/search' id='search-form' class='search-form'>
-    <label>
-      <span class='screen-reader-text'>Search</span>
-      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
-    </label></form>
-
-</section>
-<section class='widget widget-taxonomy_cloud sep-after'>
-  <header>
-    <h4 class='title widget-title'>Tags</h4>
-  </header>
-
-  <div class='container list-container'>
-  <ul class='list taxonomy-cloud'><span>Not a single Tag!</span></ul>
-</div>
-
-
-</section>
-</div>
-
-  <div class='sidebar-overlay'></div>
-</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
-  <div class='container'>
-    <a class='screen-reader-text' href='#content'>Skip to Content</a>
-
-<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
-  <span class='screen-reader-text'>Toggle Sidebar</span>
-  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <line x1="3" y1="12" x2="21" y2="12" />
-  <line x1="3" y1="6" x2="21" y2="6" />
-  <line x1="3" y1="18" x2="21" y2="18" />
-
-</svg>
-</span>
-  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <line x1="18" y1="6" x2="6" y2="18" />
-  <line x1="6" y1="6" x2="18" y2="18" />
-
-</svg>
-</span>
-</button>
-    <ul><li class='item'>
-        <a href='https://github.com/MunifTanjim/minimo'>Repo</a>
-      </li></ul>
-  </div>
-</nav><div class='header-widgets'>
-        <div class='container'>
-    
-    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
-  <section class='widget widget-breadcrumbs sep-after'>
-    <nav id='breadcrumbs'>
-      <ol><li><a href='/'>Yousa&#39;s Blog</a></li><li><a href='/posts/'>Posts</a></li><li><span>Go 语言：解决数据库中 null 值的问题</span></li></ol>
-    </nav>
-  </section></div>
-      </div>
-
-      <header id='header' class='header site-header'>
-        <div class='container sep-after'>
-          <div class='header-info'><p class='site-title title'>Yousa&#39;s Blog</p><p class='desc site-desc'>Establish a heart for world, and a life for the people. For the saints in the past to continue their studies, and for all generations to find peace.</p>
-          </div>
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="铲屎官的技术小窝">铲屎官的技术小窝</a>
         </div>
-      </header>
-
-      <main id='content'>
-
-
-<article lang='en' class='entry'>
-  <header class='header entry-header'>
-  <div class='container sep-after'>
-    <div class='header-info'>
-      <h1 class='title'>Go 语言：解决数据库中 null 值的问题</h1>
-      
-
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
     </div>
-    <div class='entry-meta'>
-  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-  <line x1="16" y1="2" x2="16" y2="6"/>
-  <line x1="8" y1="2" x2="8" y2="6"/>
-  <line x1="3" y1="10" x2="21" y2="10"/>
-
-</svg>
-<span class='screen-reader-text'>Posted on </span>
-  <time class='entry-date' datetime='2020-10-08T00:46:23&#43;08:00'>2020, Oct 08</time>
-</span>
-
-  
-  
-<span class='reading-time'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-  <circle cx="12" cy="12" r="10"/>
-  <polyline points="12 6 12 12 15 15"/>
-
-</svg>
-4 mins read
-</span>
-
-
-</div>
-
-
-  </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="铲屎官的技术小窝">铲屎官的技术小窝</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
 </header>
-
-  
-  
-
-  <div class='container entry-content'>
-  <blockquote>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Go 语言：解决数据库中 null 值的问题</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>作者</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-08">2020-10-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1846 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#要点">要点</a></li>
+    <li><a href="#从数据库中读取-null-值">从数据库中读取 NULL 值</a>
+      <ul>
+        <li><a href="#使用-sqlnull">使用 sqlNull</a></li>
+        <li><a href="#使用-ifnull-或者-coalesce">使用 IFNULL 或者 COALESCE</a></li>
+      </ul>
+    </li>
+    <li><a href="#往数据库中插入-null-值">往数据库中插入 NULL 值</a>
+      <ul>
+        <li><a href="#为什么不建议使用-null">为什么不建议使用 NULL</a></li>
+      </ul>
+    </li>
+    <li><a href="#helper-func提升效率减少错误">helper func（提升效率/减少错误）</a></li>
+    <li><a href="#参考博客">参考博客</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
 <p>本文主要介绍如何使用 go 语言 database/sql 库从数据库中读取 null 值的问题，以及如何向数据库中插入 null 值。本文在这里使用的是 sql.NullString, sql.NullInt64, sql.NullFloat64 等结构体，为了方便书写，它们的泛指我会使用 sql.Null 来表示</p>
 </blockquote>
-<p>[TOC]</p>
 <h2 id="要点">要点</h2>
 <ol>
 <li>从数据库读取可能为 null 值得值时，可以选择使用 sql.NULL 来读取；或者使用 IFNULL、COALESCE 等命令让数据库查询值返回不为&quot;&ldquo;或者 NULL</li>
@@ -357,56 +281,42 @@ func ToNullInt64(s string) sql.NullInt64 {
 <li><a href="https://godoc.org/database/sql">https://godoc.org/database/sql</a></li>
 <li><a href="http://url.cn/5cFTz4W">http://url.cn/5cFTz4W</a>  一千个不用 Null 的理由</li>
 </ul>
-
-</div>
-
-  
-<footer class='entry-footer'>
-  <div class='container sep-before'>
-  </div>
-</footer>
-
-
-</article>
-
-
-
-
-      </main>
-
-      <footer id='footer' class='footer'>
-        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
-    <ul><li>
-        <a href='https://github.com/Miss-you' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    
-      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-
-</svg>
-</a>
-      </li><li>
-        <a href='mailto:yousa@apache.org' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
-</svg>
-</a>
-      </li></ul>
-  </nav>
-</section><div class='copyright'>
-  <p> &copy; 2017-2020 MunifTanjim </p>
-</div>
-
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-10-08</span>
+            </div>
+            <div class="post-info-license"></div>
         </div>
-      </footer>
-
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
     </div>
-  </div><script>window.__assets_js_src="/assets/js/"</script>
 
-<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
 
-</body>
+    <div class="post-nav"></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.73.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
 
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>
-
