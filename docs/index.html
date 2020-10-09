@@ -11,7 +11,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://miss-you.github.io/" />
 <meta property="og:image" content="http://miss-you.github.io/logo.png"/>
-<meta property="og:updated_time" content="2020-10-08T13:52:49+08:00" />
+<meta property="og:updated_time" content="2020-10-10T03:03:29+08:00" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://miss-you.github.io/logo.png"/>
 
@@ -107,6 +107,23 @@
         alt="/images/avatar.png"
         title="/images/avatar.png" /></a></div><h2 class="home-subtitle"><div id="id-1" class="typeit"></div></h2><div class="links"><a href="https://github.com/xxxx" title="GitHub" target="_blank" rel="noopener noreffer me"><i class="fab fa-github-alt fa-fw"></i></a><a href="https://twitter.com/xxxx" title="Twitter" target="_blank" rel="noopener noreffer me"><i class="fab fa-twitter fa-fw"></i></a><a href="https://www.instagram.com/xxxx" title="Instagram" target="_blank" rel="noopener noreffer me"><i class="fab fa-instagram fa-fw"></i></a><a href="https://facebook.com/xxxx" title="facebook" target="_blank" rel="noopener noreffer me"><i class="fab fa-facebook fa-fw"></i></a><a href="https://t.me/xxxx" title="Telegram" target="_blank" rel="noopener noreffer me"><i class="fab fa-telegram-plane fa-fw"></i></a><a href="https://www.youtube.com/user/xxxx" title="YouTube" target="_blank" rel="noopener noreffer me"><i class="fab fa-youtube fa-fw"></i></a><a href="https://mastodon.technology/@xxxx" title="Mastodon" target="_blank" rel="noopener noreffer me"><i class="fab fa-mastodon fa-fw"></i></a><a href="mailto:xxxx@xxxx.com" title="Email" rel=" me"><i class="far fa-envelope fa-fw"></i></a><a href="/index.xml" title="RSS" target="_blank" rel="noopener noreffer me"><i class="fas fa-rss fa-fw"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/how-to-create-blog/">使用 Github Pages 和 Hugo 搭建个人博客教程</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>[厉辉（Yousa）]</a></span>&nbsp;<span class="post-publish">published on <time datetime="2020-10-10">2020-10-10</time></span>&nbsp;<span class="post-category">included in <a href="/categories/env/"><i class="far fa-folder fa-fw"></i>Env</a></span></div><div class="content">十一假期宅家无事，发现自己过去写了很多文章，却没有一个自己的博客，系统得管理自己的文章，所以准备将自己过去以及未来的文章都放到博客，以饷读者。另一方面，经过对 Serverless 博客、TCB 建站、虚拟机建站等一系列建站方式对比后，个人认为基于 Github Pages 最适合搭建个人技术博客，最重要的当然是免费，其次网上教程众多，可以快速建站，第三则是所有的博客直接托管在 github，也更符合个人习惯，最后则是自建个人博客可玩性和可扩展性好。
+当然，这个方案并不是完美无缺，缺点也比较明显，比如需要考虑到安全信息泄漏问题（比如可能会泄露公司内的机密信息或者秘钥到 Github，所以需要准备安全扫描方案，这个我们会在另一篇文章谈）；另一方面，读者需要能够翻墙才可以访问 Github Pages；最后，则是没有 CDN 加速，如果访问者众多或者网站图片众多，加载速度很慢。
+为什么要写技术文章？ 其实，个人写文章最初是兴趣使然以及工作需要。众所周知，IT 是一个技术革新很快的行业，新的概念、新的语言、新的框架层出不穷，程序员需要持续学习，我有对每一个新的知识有做笔记的习惯，笔记攒多了便需要回顾总结整理，便形成了一篇篇的文章。
+以前笔记的图找不到了，差不多在习惯使用电子笔记之前有十几本笔记，后来我习惯性使用思维导图 processon 等一系列工具记录笔记，比如这张图便是我做的思维导图笔记的冰山一角：
+那么，写技术文章有何价值？个人认为写技术文章的价值主要有三方面：个人价值、企业价值和社会价值、企业价值。从个人角度来说，技术写作是树立个人技术影响力，提升自我价值的最快路径，没有之一；从公司角度，坚持长线的写作，对于公司的技术品牌，技术文化，有着巨大的推动作用；从更高的维度来说，技术写作也是提升整个社会技术水平，推动技术不断进步的源动力。
+hugo 初探 hugo 是什么？ Hugo 是由 Go 语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。
+hugo 中文官方文档
+hugo 英文官方文档
+安装 hugo 在 windows 下，你可以在此处下载
+https://github.com/gohugoio/hugo/releases/download/v0.63.2/hugo_0.63.2_Windows-64bit.zip
+如果你是 mac 系统，则可以通过如下命令安装（需要先安装 homebrew）
+1  brew install hugo   确认 hugo 安装是否成功 通过检查版本号的方式，确认 hugo 安装是否成功
+1 2  hugo version Hugo Static Site Generator v0.73.0/extended darwin/amd64 BuildDate: unknown # 输出结果   初始化网站目录 安装好之后，便可以初始化一个 hugo 项目，</div><div class="post-footer">
+        <a href="/how-to-create-blog/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/blog/">blog</a>,&nbsp;<a href="/tags/github-pages/">github pages</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/go-mysql-null/">Go 语言：解决数据库中 null 值的问题</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>[厉辉（Yousa）]</a></span>&nbsp;<span class="post-publish">published on <time datetime="2020-10-08">2020-10-08</time></span>&nbsp;<span class="post-category">included in <a href="/categories/golang/"><i class="far fa-folder fa-fw"></i>GoLang</a></span></div><div class="content">本文主要介绍如何使用 go 语言 database/sql 库从数据库中读取 null 值的问题，以及如何向数据库中插入 null 值。本文在这里使用的是 sql.NullString, sql.NullInt64, sql.NullFloat64 等结构体，为了方便书写，它们的泛指我会使用 sql.Null 来表示
  要点  从数据库读取可能为 null 值得值时，可以选择使用 sql.NULL 来读取；或者使用 IFNULL、COALESCE 等命令让数据库查询值返回不为&quot;&ldquo;或者 NULL 若需要往数据库中插入 null 值，则依然可以使用 sql.NULL 存储所需的值，然后进行插入 NULL 值 直接使用 sql.NULL 类型容易出现 valid 遗漏设置等问题，普通 int、string 与其转换时，请写几个简单的 get、set 函数  本 demo 使用的数据库表以及数据如下

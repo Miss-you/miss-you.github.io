@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>使用 Github Pages 和 Hugo 搭建个人博客教程 - LoveIt</title><meta name="Description" content="Github Pages 建站教程 "><meta property="og:title" content="使用 Github Pages 和 Hugo 搭建个人博客教程" />
+<meta property="og:description" content="Github Pages 建站教程 " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://miss-you.github.io/how-to-create-blog/" />
+<meta property="og:image" content="http://miss-you.github.io/logo.png"/>
+<meta property="article:published_time" content="2020-10-10T03:03:29+08:00" />
+<meta property="article:modified_time" content="2020-10-10T03:03:29+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://miss-you.github.io/logo.png"/>
+
+<meta name="twitter:title" content="使用 Github Pages 和 Hugo 搭建个人博客教程"/>
+<meta name="twitter:description" content="Github Pages 建站教程 "/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://miss-you.github.io/how-to-create-blog/" /><link rel="prev" href="http://miss-you.github.io/go-mysql-null/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 Github Pages 和 Hugo 搭建个人博客教程",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/miss-you.github.io\/how-to-create-blog\/"
+        },"image": ["http:\/\/miss-you.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "blog, github pages","wordcount":  491 ,
+        "url": "http:\/\/miss-you.github.io\/how-to-create-blog\/","datePublished": "2020-10-10T03:03:29+08:00","dateModified": "2020-10-10T03:03:29+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "http:\/\/miss-you.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "[厉辉（Yousa）]"
+            },"description": "Github Pages 建站教程 "
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="LoveIt"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw'></i></span>LoveIt</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/categories/documentation/"> Docs </a><a class="menu-item" href="/about/"> About </a><a class="menu-item" href="https://github.com/dillonzq/LoveIt" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="Select Language">English<i class="fas fa-chevron-right fa-fw"></i>
+                        <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/how-to-create-blog/" selected>English</option></select>
+                    </a><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="LoveIt"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw'></i></span>LoveIt</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/categories/documentation/" title="">Docs</a><a class="menu-item" href="/about/" title="">About</a><a class="menu-item" href="https://github.com/dillonzq/LoveIt" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="Select Language">English<i class="fas fa-chevron-right fa-fw"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/how-to-create-blog/" selected>English</option></select>
+                </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">使用 Github Pages 和 Hugo 搭建个人博客教程</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>[厉辉（Yousa）]</a></span>&nbsp;<span class="post-category">included in <a href="/categories/env/"><i class="far fa-folder fa-fw"></i>Env</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-10">2020-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;491 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;<span id="/how-to-create-blog/" class="leancloud_visitors" data-flag-title="使用 Github Pages 和 Hugo 搭建个人博客教程">
+                        <i class="far fa-eye fa-fw"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么要写技术文章">为什么要写技术文章？</a></li>
+    <li><a href="#hugo-初探">hugo 初探</a>
+      <ul>
+        <li><a href="#hugo-是什么">hugo 是什么？</a></li>
+        <li><a href="#安装-hugo">安装 hugo</a></li>
+        <li><a href="#确认-hugo-安装是否成功">确认 hugo 安装是否成功</a></li>
+        <li><a href="#初始化网站目录">初始化网站目录</a></li>
+        <li><a href="#下载一个-hugo-主题">下载一个 hugo 主题</a></li>
+        <li><a href="#配置主题">配置主题</a></li>
+        <li><a href="#创建文章">创建文章</a></li>
+        <li><a href="#启动-hugo-服务器">启动 hugo 服务器</a></li>
+        <li><a href="#构建静态页面">构建静态页面</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用-github-pages-搭建个人博客">使用 Github Pages 搭建个人博客</a>
+      <ul>
+        <li><a href="#github-pages-是什么">Github Pages 是什么？</a></li>
+        <li><a href="#创建-github-pages-项目">创建 Github Pages 项目</a></li>
+        <li><a href="#配置-pages-项目">配置 pages 项目</a></li>
+        <li><a href="#hugo-生成静态页面">hugo 生成静态页面</a></li>
+        <li><a href="#上传-github-pages-项目">上传 github pages 项目</a></li>
+        <li><a href="#发布脚本">发布脚本</a></li>
+      </ul>
+    </li>
+    <li><a href="#faq">FAQ</a>
+      <ul>
+        <li><a href="#常见操作">常见操作</a>
+          <ul>
+            <li><a href="#修改模板">修改模板</a></li>
+            <li><a href="#创建友链">创建友链</a></li>
+            <li><a href="#创建联系方式">创建联系方式</a></li>
+            <li><a href="#文章插入图片">文章插入图片</a></li>
+          </ul>
+        </li>
+        <li><a href="#常见问题">常见问题</a>
+          <ul>
+            <li><a href="#github-pages-项目报错the-submodule-registered-for-themesxxx-could-not-be-cloned">Github Pages 项目报错：The submodule registered for ./themes/xxx could not be cloned.</a></li>
+            <li><a href="#toc-符号不生效">[TOC] 符号不生效</a></li>
+            <li><a href="#找不到主题error-module-loveit-not-found">找不到主题，Error: module &ldquo;LoveIt&rdquo; not found</a></li>
+            <li><a href="#github-搜索不到-loveit-主题">github 搜索不到 LoveIt 主题</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#参考链接">参考链接</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>十一假期宅家无事，发现自己过去写了很多文章，却没有一个自己的博客，系统得管理自己的文章，所以准备将自己过去以及未来的文章都放到博客，以饷读者。另一方面，经过对 Serverless 博客、TCB 建站、虚拟机建站等一系列建站方式对比后，个人认为基于 Github Pages 最适合搭建个人技术博客，最重要的当然是免费，其次网上教程众多，可以快速建站，第三则是所有的博客直接托管在 github，也更符合个人习惯，最后则是自建个人博客可玩性和可扩展性好。</p>
+<p>当然，这个方案并不是完美无缺，缺点也比较明显，比如需要考虑到安全信息泄漏问题（比如可能会泄露公司内的机密信息或者秘钥到 Github，所以需要准备安全扫描方案，这个我们会在另一篇文章谈）；另一方面，读者需要能够翻墙才可以访问 Github Pages；最后，则是没有 CDN 加速，如果访问者众多或者网站图片众多，加载速度很慢。</p>
+<h2 id="为什么要写技术文章">为什么要写技术文章？</h2>
+<p>其实，个人写文章最初是兴趣使然以及工作需要。众所周知，IT 是一个技术革新很快的行业，新的概念、新的语言、新的框架层出不穷，程序员需要持续学习，我有对每一个新的知识有做笔记的习惯，笔记攒多了便需要回顾总结整理，便形成了一篇篇的文章。</p>
+<p>以前笔记的图找不到了，差不多在习惯使用电子笔记之前有十几本笔记，后来我习惯性使用思维导图 processon 等一系列工具记录笔记，比如这张图便是我做的思维导图笔记的冰山一角：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://uploader.shimo.im/f/aNbu06I3AG7uNejg.png!thumbnail"
+        data-srcset="https://uploader.shimo.im/f/aNbu06I3AG7uNejg.png!thumbnail, https://uploader.shimo.im/f/aNbu06I3AG7uNejg.png!thumbnail 1.5x, https://uploader.shimo.im/f/aNbu06I3AG7uNejg.png!thumbnail 2x"
+        data-sizes="auto"
+        alt="https://uploader.shimo.im/f/aNbu06I3AG7uNejg.png!thumbnail"
+        title="图片" /></p>
+<p>那么，写技术文章有何价值？个人认为写技术文章的价值主要有三方面：个人价值、企业价值和社会价值、企业价值。从个人角度来说，技术写作是树立个人技术影响力，提升自我价值的最快路径，没有之一；从公司角度，坚持长线的写作，对于公司的技术品牌，技术文化，有着巨大的推动作用；从更高的维度来说，技术写作也是提升整个社会技术水平，推动技术不断进步的源动力。</p>
+<h2 id="hugo-初探">hugo 初探</h2>
+<h3 id="hugo-是什么">hugo 是什么？</h3>
+<p>Hugo 是由 Go 语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。</p>
+<p><a href="https://www.gohugo.org/" target="_blank" rel="noopener noreffer">hugo 中文官方文档</a></p>
+<p><a href="https://gohugo.io/documentation/" target="_blank" rel="noopener noreffer">hugo 英文官方文档</a></p>
+<h3 id="安装-hugo">安装 hugo</h3>
+<p>在 windows 下，你可以在此处下载</p>
+<p><a href="https://github.com/gohugoio/hugo/releases/download/v0.63.2/hugo_0.63.2_Windows-64bit.zip" target="_blank" rel="noopener noreffer">https://github.com/gohugoio/hugo/releases/download/v0.63.2/hugo_0.63.2_Windows-64bit.zip</a></p>
+<p>如果你是 mac 系统，则可以通过如下命令安装（需要先安装 homebrew）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-plain" data-lang="plain">brew install hugo
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="确认-hugo-安装是否成功">确认 hugo 安装是否成功</h3>
+<p>通过检查版本号的方式，确认 hugo 安装是否成功</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-plain" data-lang="plain">hugo version
+Hugo Static Site Generator v0.73.0/extended darwin/amd64 BuildDate: unknown # 输出结果
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="初始化网站目录">初始化网站目录</h3>
+<p>安装好之后，便可以初始化一个 hugo 项目，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-plain" data-lang="plain">hugo new site demosite # 命令格式，hugo new site &lt;项目名称&gt;
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="下载一个-hugo-主题">下载一个 hugo 主题</h3>
+<p>hugo 主题可以理解为是一种网站样式，你可以在该页面选择自己心仪的 <a href="https://www.gohugo.org/theme/" target="_blank" rel="noopener noreffer">hugo 主题</a>。我当前使用的是 LoveIt 这个主题，集成了很多插件，很好用很方便的一个中文博客模板。</p>
+<p>进入该目录，初始化 git 项目，并下载 hugo 主题</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-plain" data-lang="plain">cd demosite
+git init #初始化 git 项目
+git submodule add https://github.com/dillonzq/LoveIt.git themes/LoveIt #下载主题
+</code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>博客会采用 git 项目方式管理，所以需要初始化 git 项目</li>
+<li>采用 submodule 的方式管理主题库 theme，方便及时更新和管理</li>
+</ol>
+<h3 id="配置主题">配置主题</h3>
+<p>使用 LoveIt 的标准配置文件模板</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-plain" data-lang="plain">cp themes/LoveIt/exampleSite/config.toml .
+</code></pre></td></tr></table>
+</div>
+</div><p>需要修改一下主题路径 themesDir 配置，将其注释掉
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://uploader.shimo.im/f/hbIjOQftzaVsDhYL.png!thumbnail"
+        data-srcset="https://uploader.shimo.im/f/hbIjOQftzaVsDhYL.png!thumbnail, https://uploader.shimo.im/f/hbIjOQftzaVsDhYL.png!thumbnail 1.5x, https://uploader.shimo.im/f/hbIjOQftzaVsDhYL.png!thumbnail 2x"
+        data-sizes="auto"
+        alt="https://uploader.shimo.im/f/hbIjOQftzaVsDhYL.png!thumbnail"
+        title="图片" /></p>
+<h3 id="创建文章">创建文章</h3>
+<p>创建一篇空文章</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-plain" data-lang="plain">hugo new posts/demo.md
+</code></pre></td></tr></table>
+</div>
+</div><p>另外，需要将生成文章头部的<code>draft=true</code>修改为<code>draft=false</code>，否则并不会生成草稿页面
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://uploader.shimo.im/f/xn3sYkuTYUIHB9SF.png!thumbnail"
+        data-srcset="https://uploader.shimo.im/f/xn3sYkuTYUIHB9SF.png!thumbnail, https://uploader.shimo.im/f/xn3sYkuTYUIHB9SF.png!thumbnail 1.5x, https://uploader.shimo.im/f/xn3sYkuTYUIHB9SF.png!thumbnail 2x"
+        data-sizes="auto"
+        alt="https://uploader.shimo.im/f/xn3sYkuTYUIHB9SF.png!thumbnail"
+        title="图片" /></p>
+<h3 id="启动-hugo-服务器">启动 hugo 服务器</h3>
+<p>启动 hugo 服务器，进入 <a href="http://localhost:1313/" target="_blank" rel="noopener noreffer">http://localhost:1313/</a> 预览页面</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-plain" data-lang="plain">hugo server -D
+</code></pre></td></tr></table>
+</div>
+</div><p>页面预览如下
+<img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://uploader.shimo.im/f/V2qT2hvonzUwyPmO.png!thumbnail"
+        data-srcset="https://uploader.shimo.im/f/V2qT2hvonzUwyPmO.png!thumbnail, https://uploader.shimo.im/f/V2qT2hvonzUwyPmO.png!thumbnail 1.5x, https://uploader.shimo.im/f/V2qT2hvonzUwyPmO.png!thumbnail 2x"
+        data-sizes="auto"
+        alt="https://uploader.shimo.im/f/V2qT2hvonzUwyPmO.png!thumbnail"
+        title="图片" /></p>
+<h3 id="构建静态页面">构建静态页面</h3>
+<p>若要将博客托管在 github 上，需要上传静态页面。所以，需要使用 hugo 构建静态页面，构建命令如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-plain" data-lang="plain">hugo -D
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="使用-github-pages-搭建个人博客">使用 Github Pages 搭建个人博客</h2>
+<h3 id="github-pages-是什么">Github Pages 是什么？</h3>
+<p>GitHub Pages 是一项静态站点托管服务，它直接从 GitHub 上的仓库获取 index.html、HTML、CSS 和 JavaScript 文件，也可以通过构建过程运行文件，然后发布网站。</p>
+<p>GitHub Pages 可以识别指定分支根目录或者/docs 目录下的静态站点，具体可以在个人站点的 setting 中配置。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://uploader.shimo.im/f/R4vcd8mZXe9XRfSq.png!thumbnail"
+        data-srcset="https://uploader.shimo.im/f/R4vcd8mZXe9XRfSq.png!thumbnail, https://uploader.shimo.im/f/R4vcd8mZXe9XRfSq.png!thumbnail 1.5x, https://uploader.shimo.im/f/R4vcd8mZXe9XRfSq.png!thumbnail 2x"
+        data-sizes="auto"
+        alt="https://uploader.shimo.im/f/R4vcd8mZXe9XRfSq.png!thumbnail"
+        title="图片" /></p>
+<p>Github Pages 建站有两种类型：</p>
+<ul>
+<li>个人/组织站点，其域名格式形如<code>https://&lt;USERNAME|ORGANIZATION&gt;.github.io/</code></li>
+<li>项目站点，其域名格式形如<code>https://&lt;USERNAME|ORGANIZATION&gt;.github.io/&lt;PROJECT&gt;/</code></li>
+</ul>
+<p>你需要看清楚你的 Github Pages 建站类型，不同的建站类型的建站方法也不同，具体可以参考 <a href="https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages" target="_blank" rel="noopener noreffer">官方手册</a></p>
+<p>这里我们以个人站点（User Pages）为例</p>
+<h3 id="创建-github-pages-项目">创建 Github Pages 项目</h3>
+<p>创建一个新的 github 项目，项目名称需要是<code>&lt;用户名。github.io&gt;</code>格式，如下图样例</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://uploader.shimo.im/f/m3knqJ40EmlGgXPS.png!thumbnail"
+        data-srcset="https://uploader.shimo.im/f/m3knqJ40EmlGgXPS.png!thumbnail, https://uploader.shimo.im/f/m3knqJ40EmlGgXPS.png!thumbnail 1.5x, https://uploader.shimo.im/f/m3knqJ40EmlGgXPS.png!thumbnail 2x"
+        data-sizes="auto"
+        alt="https://uploader.shimo.im/f/m3knqJ40EmlGgXPS.png!thumbnail"
+        title="图片" /></p>
+<h3 id="配置-pages-项目">配置 pages 项目</h3>
+<p>点击进入 setting，搜索 github pages 关键字，找到相关配置：当前 github 默认分支已经是 main 分支，需要调整下；配置好之后即可通过<code>用户名。github.io</code>最初的 github 页面。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://uploader.shimo.im/f/DWcohsdFh7jCj4LH.png!thumbnail"
+        data-srcset="https://uploader.shimo.im/f/DWcohsdFh7jCj4LH.png!thumbnail, https://uploader.shimo.im/f/DWcohsdFh7jCj4LH.png!thumbnail 1.5x, https://uploader.shimo.im/f/DWcohsdFh7jCj4LH.png!thumbnail 2x"
+        data-sizes="auto"
+        alt="https://uploader.shimo.im/f/DWcohsdFh7jCj4LH.png!thumbnail"
+        title="图片" /></p>
+<h3 id="hugo-生成静态页面">hugo 生成静态页面</h3>
+<p>生成静态页面之前需要修改 config.toml 文件中的 baseURL 配置，将其修改为个人站点，比如我的就是 <code>miss-you.github.io</code></p>
+<p>前面我们知道<code>hugo -D</code>可以生成静态页面，但该命令会默认将静态页面生成到 public 目录下，而 Github Pages 仅支持根目录/或者/docs 目录，所以我们需要将静态页面生成到 docs 目录下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-plain" data-lang="plain">hugo -d docs
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="上传-github-pages-项目">上传 github pages 项目</h3>
+<p>静态页面生成完成后，便可以将整个静态页面以及本项目其他文件上传到 github 项目中。先使用<code>git remote</code>命令添加远端仓库，将文件提交（git add+git commit），最后推送到 Github Pages 项目中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-plain" data-lang="plain">git remote add origin git@github.com:Miss-you/miss-you.github.io.git # 将本地 git 项目与 github 项目相关联
+git fetch origin # 拉取 github 项目
+git checkout main #切换到主分支 main
+git add . 
+git commit -m &#34;init github pages&#34;
+git push origin
+</code></pre></td></tr></table>
+</div>
+</div><p>当然，这里也可以采用<code>git clone &lt;YOUR-PROJECT-URL&gt; &amp;&amp; cd &lt;YOUR-PROJECT&gt;</code>拉取项目、上传文件（git add/commit/push) 的方式，上传 github 项目，这里不作过多演示</p>
+<h3 id="发布脚本">发布脚本</h3>
+<p>虽然我们已经打通了基于 Github Pages 搭建个人博客的流程，但每次博客有修改都需要执行多条命令才能将博客发布，重复劳动且浪费时间，而程序员的天性是追求效率，应当用自动化（脚本）解决重复的工作。</p>
+<p>如下是一个常用脚本，会自动构建静态页面，然后提交构建出来的 docs 静态页面目录，将其推送到对应 Github Pages 项目中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-plain" data-lang="plain">#!/bin/sh
+# If a command fails then the deploy stops
+set -e
+printf &#34;\033[0;32mDeploying updates to GitHub...\033[0m\n&#34;
+# Build the project.
+hugo -d docs # if using a theme, replace with `hugo -t &lt;YOURTHEME&gt;`
+# Add changes to git.
+git add docs
+# Commit changes.
+msg=&#34;rebuilding site $(date)&#34;
+if [ -n &#34;$*&#34; ]; then
+	msg=&#34;$*&#34;
+fi
+git commit -m &#34;$msg&#34;
+# Push source and build repos.
+git push origin main
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="faq">FAQ</h2>
+<h3 id="常见操作">常见操作</h3>
+<p>TODO</p>
+<h4 id="修改模板">修改模板</h4>
+<p>TODO</p>
+<h4 id="创建友链">创建友链</h4>
+<p>TODO</p>
+<h4 id="创建联系方式">创建联系方式</h4>
+<p>TODO</p>
+<h4 id="文章插入图片">文章插入图片</h4>
+<p>TODO</p>
+<h3 id="常见问题">常见问题</h3>
+<h4 id="github-pages-项目报错the-submodule-registered-for-themesxxx-could-not-be-cloned">Github Pages 项目报错：The submodule registered for ./themes/xxx could not be cloned.</h4>
+<p>原因是 Github Pages 项目，若要使用 submodule 应用第三方主题，需要使用 https 的地址而不是 git 地址</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://uploader.shimo.im/f/Inz7QFMv8SdPfea8.png!thumbnail"
+        data-srcset="https://uploader.shimo.im/f/Inz7QFMv8SdPfea8.png!thumbnail, https://uploader.shimo.im/f/Inz7QFMv8SdPfea8.png!thumbnail 1.5x, https://uploader.shimo.im/f/Inz7QFMv8SdPfea8.png!thumbnail 2x"
+        data-sizes="auto"
+        alt="https://uploader.shimo.im/f/Inz7QFMv8SdPfea8.png!thumbnail"
+        title="图片" /></p>
+<h4 id="toc-符号不生效">[TOC] 符号不生效</h4>
+<p>toc 是 markdown 的一种进阶语法，用于自动生成目录，但是 hugo 并没有支持该语法。目录建议采用主题自带的目录功能，比如本文示例中的 LoveIt 主题。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://uploader.shimo.im/f/6Y80QHtbunmjMQJm.png!thumbnail"
+        data-srcset="https://uploader.shimo.im/f/6Y80QHtbunmjMQJm.png!thumbnail, https://uploader.shimo.im/f/6Y80QHtbunmjMQJm.png!thumbnail 1.5x, https://uploader.shimo.im/f/6Y80QHtbunmjMQJm.png!thumbnail 2x"
+        data-sizes="auto"
+        alt="https://uploader.shimo.im/f/6Y80QHtbunmjMQJm.png!thumbnail"
+        title="图片" /></p>
+<p>使用 loveit 或者切换到 loveit 主题入门教程：</p>
+<p><a href="https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration" target="_blank" rel="noopener noreffer">https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration</a></p>
+<h4 id="找不到主题error-module-loveit-not-found">找不到主题，Error: module &ldquo;LoveIt&rdquo; not found</h4>
+<p>原因是由于 LoveIt 示例主题中的 config.toml 文件，其主题路径为&rdquo;../..&quot;，该目录下并不会有 LoveIt 主题，将其注释掉即可，或者修改 LoveIt 主题所在的相对路径</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://uploader.shimo.im/f/jH5FtM2dZG7JFSaH.png!thumbnail"
+        data-srcset="https://uploader.shimo.im/f/jH5FtM2dZG7JFSaH.png!thumbnail, https://uploader.shimo.im/f/jH5FtM2dZG7JFSaH.png!thumbnail 1.5x, https://uploader.shimo.im/f/jH5FtM2dZG7JFSaH.png!thumbnail 2x"
+        data-sizes="auto"
+        alt="https://uploader.shimo.im/f/jH5FtM2dZG7JFSaH.png!thumbnail"
+        title="图片" /></p>
+<h4 id="github-搜索不到-loveit-主题">github 搜索不到 LoveIt 主题</h4>
+<p>LoveIt 英文小写是 loveit，不是 lovelt，因为不注意的话 I 和 l 难以区分，容易混淆</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://uploader.shimo.im/f/FUJWRApO5tLOLK4L.png!thumbnail"
+        data-srcset="https://uploader.shimo.im/f/FUJWRApO5tLOLK4L.png!thumbnail, https://uploader.shimo.im/f/FUJWRApO5tLOLK4L.png!thumbnail 1.5x, https://uploader.shimo.im/f/FUJWRApO5tLOLK4L.png!thumbnail 2x"
+        data-sizes="auto"
+        alt="https://uploader.shimo.im/f/FUJWRApO5tLOLK4L.png!thumbnail"
+        title="图片" /></p>
+<h2 id="参考链接">参考链接</h2>
+<p>hugo 中文官方文档</p>
+<p><a href="https://www.gohugo.org/" target="_blank" rel="noopener noreffer">https://www.gohugo.org/</a></p>
+<p>hugo 英文官方文档</p>
+<p><a href="https://gohugo.io/documentation/" target="_blank" rel="noopener noreffer">https://gohugo.io/documentation/</a></p>
+<p>hugo 主题站</p>
+<p><a href="https://www.gohugo.org/theme/" target="_blank" rel="noopener noreffer">https://www.gohugo.org/theme/</a></p>
+<p>github pages 官方手册</p>
+<p><a href="https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages" target="_blank" rel="noopener noreffer">https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages</a></p>
+<p>hugo loveit 主题使用教程</p>
+<p><a href="https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration" target="_blank" rel="noopener noreffer">https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2020-10-10</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/how-to-create-blog/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://miss-you.github.io/how-to-create-blog/" data-title="使用 Github Pages 和 Hugo 搭建个人博客教程" data-via="xxxx" data-hashtags="blog,github pages"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://miss-you.github.io/how-to-create-blog/" data-hashtag="blog"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://miss-you.github.io/how-to-create-blog/" data-title="使用 Github Pages 和 Hugo 搭建个人博客教程"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://miss-you.github.io/how-to-create-blog/" data-title="使用 Github Pages 和 Hugo 搭建个人博客教程"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://miss-you.github.io/how-to-create-blog/" data-title="使用 Github Pages 和 Hugo 搭建个人博客教程"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/blog/">blog</a>,&nbsp;<a href="/tags/github-pages/">github pages</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/go-mysql-null/" class="prev" rel="prev" title="Go 语言：解决数据库中 null 值的问题"><i class="fas fa-angle-left fa-fw"></i>Go 语言：解决数据库中 null 值的问题</a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.73.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">xxxx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@5.0.1/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
