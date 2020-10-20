@@ -74,6 +74,7 @@ git submodule add https://github.com/dillonzq/LoveIt.git themes/LoveIt #下载�
 cp themes/LoveIt/exampleSite/config.toml .
 ```
 需要修改一下主题路径 themesDir 配置，将其注释掉
+
 ![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132241.png)
 
 ### 创建文章
