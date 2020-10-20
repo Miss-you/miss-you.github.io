@@ -2,8 +2,8 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>http://miss-you.github.io/tags/blog/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://miss-you.github.io/categories/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>http://miss-you.github.io/tags/blog/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>http://miss-you.github.io/categories/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
                         href="http://miss-you.github.io/zh-cn/categories/"
@@ -16,9 +16,9 @@
                     hreflang="en"
                     href="http://miss-you.github.io/categories/"
                     /></url><url>
-            <loc>http://miss-you.github.io/categories/env/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://miss-you.github.io/tags/github-pages/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://miss-you.github.io/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>http://miss-you.github.io/categories/env/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>http://miss-you.github.io/tags/github-pages/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>http://miss-you.github.io/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
                         href="http://miss-you.github.io/zh-cn/"
@@ -31,8 +31,8 @@
                     hreflang="en"
                     href="http://miss-you.github.io/"
                     /></url><url>
-            <loc>http://miss-you.github.io/posts/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://miss-you.github.io/tags/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>http://miss-you.github.io/posts/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>http://miss-you.github.io/tags/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority><xhtml:link
                         rel="alternate"
                         hreflang="zh-cn"
                         href="http://miss-you.github.io/zh-cn/tags/"
@@ -45,8 +45,8 @@
                     hreflang="en"
                     href="http://miss-you.github.io/tags/"
                     /></url><url>
-            <loc>http://miss-you.github.io/how-to-create-blog/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://miss-you.github.io/go-mysql-null/</loc><lastmod>2020-10-08T13:52:49&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://miss-you.github.io/categories/golang/</loc><lastmod>2020-10-08T13:52:49&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://miss-you.github.io/tags/golang/</loc><lastmod>2020-10-08T13:52:49&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://miss-you.github.io/tags/mysql/</loc><lastmod>2020-10-08T13:52:49&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url></urlset>
+            <loc>http://miss-you.github.io/how-to-create-blog/</loc><lastmod>2020-10-10T03:03:29&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>http://miss-you.github.io/go-mysql-null/</loc><lastmod>2020-10-08T13:52:49&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>http://miss-you.github.io/categories/golang/</loc><lastmod>2020-10-08T13:52:49&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>http://miss-you.github.io/tags/golang/</loc><lastmod>2020-10-08T13:52:49&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>http://miss-you.github.io/tags/mysql/</loc><lastmod>2020-10-08T13:52:49&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url></urlset>

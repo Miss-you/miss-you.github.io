@@ -11,7 +11,7 @@
 
 以前笔记的图找不到了，差不多在习惯使用电子笔记之前有十几本笔记，后来我习惯性使用思维导图 processon 等一系列工具记录笔记，比如这张图便是我做的思维导图笔记的冰山一角：
 
-![图片](https://uploader.shimo.im/f/aNbu06I3AG7uNejg.png!thumbnail)
+![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131829.png)
 
 那么，写技术文章有何价值？个人认为写技术文章的价值主要有三方面：个人价值、企业价值和社会价值、企业价值。从个人角度来说，技术写作是树立个人技术影响力，提升自我价值的最快路径，没有之一；从公司角度，坚持长线的写作，对于公司的技术品牌，技术文化，有着巨大的推动作用；从更高的维度来说，技术写作也是提升整个社会技术水平，推动技术不断进步的源动力。
 
@@ -29,13 +29,14 @@ Hugo 是由 Go 语言实现的静态网站生成器。简单、易用、高效�
 
 在 windows 下，你可以在此处下载
 
-[https://github.com/gohugoio/hugo/releases/download/v0.63.2/hugo_0.63.2_Windows-64bit.zip](https://github.com/gohugoio/hugo/releases/download/v0.63.2/hugo_0.63.2_Windows-64bit.zip)
+[windows 版本下载链接](https://github.com/gohugoio/hugo/releases/download/v0.63.2/hugo_0.63.2_Windows-64bit.zip)
 
 如果你是 mac 系统，则可以通过如下命令安装（需要先安装 homebrew）
 
 ```plain
 brew install hugo
 ```
+
 ### 确认 hugo 安装是否成功
 
 通过检查版本号的方式，确认 hugo 安装是否成功
@@ -64,6 +65,7 @@ git submodule add https://github.com/dillonzq/LoveIt.git themes/LoveIt #下载�
 ```
 1. 博客会采用 git 项目方式管理，所以需要初始化 git 项目
 2. 采用 submodule 的方式管理主题库 theme，方便及时更新和管理
+
 ### 配置主题
 
 使用 LoveIt 的标准配置文件模板
@@ -72,7 +74,7 @@ git submodule add https://github.com/dillonzq/LoveIt.git themes/LoveIt #下载�
 cp themes/LoveIt/exampleSite/config.toml .
 ```
 需要修改一下主题路径 themesDir 配置，将其注释掉
-![图片](https://uploader.shimo.im/f/hbIjOQftzaVsDhYL.png!thumbnail)
+![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132241.png)
 
 ### 创建文章
 
@@ -82,7 +84,7 @@ cp themes/LoveIt/exampleSite/config.toml .
 hugo new posts/demo.md
 ```
 另外，需要将生成文章头部的`draft=true`修改为`draft=false`，否则并不会生成草稿页面
-![图片](https://uploader.shimo.im/f/xn3sYkuTYUIHB9SF.png!thumbnail)
+![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132227.png)
 
 ### 启动 hugo 服务器
 
@@ -92,7 +94,7 @@ hugo new posts/demo.md
 hugo server -D
 ```
 页面预览如下
-![图片](https://uploader.shimo.im/f/V2qT2hvonzUwyPmO.png!thumbnail)
+![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132216.png)
 
 ### 构建静态页面
 
@@ -101,7 +103,26 @@ hugo server -D
 ```plain
 hugo -D
 ```
+
 ## 使用 Github Pages 搭建个人博客
+
+### 个人博客整体架构
+
+一个静态博客数据有两部分，一部分是静态页面（体积小），另一部分是图片或者大文件（文件体积大），通常来讲一个网站整体结构是静态页面放在服务器上（比如可以使用虚拟机、自己的服务器、github pages 项目），而对于大文件或者图片则通常会使用对象存储服务（比如对象存储或者 github 项目），它们前端使用一个 CDN 进行加速（比如云厂商的 CDN 服务或者 cloudinary），当然，在 HTTPS 已经普及的时代，一个 HTTPS 服务也是必不可少的。
+
+整体架构图如下：
+
+![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.1/how-to-create-blog/arch.jpg)
+
+经过综合考量，个人建站选用组件如下：
+
+- 静态网站服务器：Github Pages
+- 图片上传工具：picgo
+- 图片存储服务：Github 项目 + jsdelivr 加速
+- 域名服务商/域名购买：NameCheap
+- HTTPS/CDN 服务提供商：Cloudfare
+
+> 腾讯云服务中的 TCB 一键建站也挺好用的。但是因为个人图省钱和喜欢折腾，还是选择自己建站自己选择组件，一方面免费，另一方面可以对网络有更加深刻的理解。
 
 ### Github Pages 是什么？
 
@@ -109,7 +130,7 @@ GitHub Pages 是一项静态站点托管服务，它直接从 GitHub 上的仓�
 
 GitHub Pages 可以识别指定分支根目录或者/docs 目录下的静态站点，具体可以在个人站点的 setting 中配置。
 
-![图片](https://uploader.shimo.im/f/R4vcd8mZXe9XRfSq.png!thumbnail)
+![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132202.png)
 
 Github Pages 建站有两种类型：
 
@@ -122,15 +143,15 @@ Github Pages 建站有两种类型：
 
 ### 创建 Github Pages 项目
 
-创建一个新的 github 项目，项目名称需要是`<用户名。github.io>`格式，如下图样例
+创建一个新的 github 项目，项目名称需要是`<username.github.io>`格式，如下图样例
 
-![图片](https://uploader.shimo.im/f/m3knqJ40EmlGgXPS.png!thumbnail)
+![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132156.png)
 
 ### 配置 pages 项目
 
 点击进入 setting，搜索 github pages 关键字，找到相关配置：当前 github 默认分支已经是 main 分支，需要调整下；配置好之后即可通过`用户名。github.io`最初的 github 页面。
 
-![图片](https://uploader.shimo.im/f/DWcohsdFh7jCj4LH.png!thumbnail)
+![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132138.png)
 
 ### hugo 生成静态页面
 
@@ -184,6 +205,14 @@ git push origin main
 
 TODO
 
+#### 文章插入图片
+
+图片上传问题
+
+图片存储问题
+
+TODO
+
 #### 修改模板
 
 TODO
@@ -196,59 +225,42 @@ TODO
 
 TODO
 
-#### 文章插入图片
-
-TODO
-
 ### 常见问题
 
 #### Github Pages 项目报错：The submodule registered for ./themes/xxx could not be cloned.
 
 原因是 Github Pages 项目，若要使用 submodule 应用第三方主题，需要使用 https 的地址而不是 git 地址
 
-![图片](https://uploader.shimo.im/f/Inz7QFMv8SdPfea8.png!thumbnail)
+![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132108.png)
 
 #### [TOC] 符号不生效
 
 toc 是 markdown 的一种进阶语法，用于自动生成目录，但是 hugo 并没有支持该语法。目录建议采用主题自带的目录功能，比如本文示例中的 LoveIt 主题。
 
-![图片](https://uploader.shimo.im/f/6Y80QHtbunmjMQJm.png!thumbnail)
+![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132119.png)
 
 使用 loveit 或者切换到 loveit 主题入门教程：
 
-[https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration](https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration)
+[LoveIt 入门教程](https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration)
 
 #### 找不到主题，Error: module "LoveIt" not found
 
 原因是由于 LoveIt 示例主题中的 config.toml 文件，其主题路径为"../.."，该目录下并不会有 LoveIt 主题，将其注释掉即可，或者修改 LoveIt 主题所在的相对路径
 
-![图片](https://uploader.shimo.im/f/jH5FtM2dZG7JFSaH.png!thumbnail)
+![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132035.png)
 
 #### github 搜索不到 LoveIt 主题
 
 LoveIt 英文小写是 loveit，不是 lovelt，因为不注意的话 I 和 l 难以区分，容易混淆
 
-![图片](https://uploader.shimo.im/f/FUJWRApO5tLOLK4L.png!thumbnail)
+![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131946.png)
 
 ## 参考链接
 
-hugo 中文官方文档
-
-[https://www.gohugo.org/](https://www.gohugo.org/)
-
-hugo 英文官方文档
-
-[https://gohugo.io/documentation/](https://gohugo.io/documentation/)
-
-hugo 主题站
-
-[https://www.gohugo.org/theme/](https://www.gohugo.org/theme/)
-
-github pages 官方手册
-
-[https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages)
-
-hugo loveit 主题使用教程
-
-[https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration](https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration)
-
+- [hugo 中文官方文档](https://www.gohugo.org/)
+- [hugo 英文官方文档](https://gohugo.io/documentation/)
+- [hugo 主题站](https://www.gohugo.org/theme/)
+- [github pages 官方手册](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages)
+- [hugo loveit 主题使用教程](https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration)
+- [cloudfare 配置教程](https://www.vps234.com/cloudflare-cdn-setting-tutorials/)
+- [picgo 官方教程](https://picgo.github.io/PicGo-Doc/zh/guide/)

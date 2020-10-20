@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/miss-you.github.io\/how-to-create-blog\/"
-        },"image": ["http:\/\/miss-you.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "blog, github pages","wordcount":  491 ,
+        },"image": ["http:\/\/miss-you.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "blog, github pages","wordcount":  525 ,
         "url": "http:\/\/miss-you.github.io\/how-to-create-blog\/","datePublished": "2020-10-10T03:03:29+08:00","dateModified": "2020-10-10T03:03:29+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "http:\/\/miss-you.github.io\/images\/avatar.png"},"author": {
@@ -110,7 +110,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">使用 Github Pages 和 Hugo 搭建个人博客教程</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>[厉辉（Yousa）]</a></span>&nbsp;<span class="post-category">included in <a href="/categories/env/"><i class="far fa-folder fa-fw"></i>Env</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-10">2020-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;491 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-10-10">2020-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;525 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;<span id="/how-to-create-blog/" class="leancloud_visitors" data-flag-title="使用 Github Pages 和 Hugo 搭建个人博客教程">
                         <i class="far fa-eye fa-fw"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
                     </span>&nbsp;</div>
@@ -137,6 +137,7 @@
     </li>
     <li><a href="#使用-github-pages-搭建个人博客">使用 Github Pages 搭建个人博客</a>
       <ul>
+        <li><a href="#个人博客整体架构">个人博客整体架构</a></li>
         <li><a href="#github-pages-是什么">Github Pages 是什么？</a></li>
         <li><a href="#创建-github-pages-项目">创建 Github Pages 项目</a></li>
         <li><a href="#配置-pages-项目">配置 pages 项目</a></li>
@@ -149,10 +150,10 @@
       <ul>
         <li><a href="#常见操作">常见操作</a>
           <ul>
+            <li><a href="#文章插入图片">文章插入图片</a></li>
             <li><a href="#修改模板">修改模板</a></li>
             <li><a href="#创建友链">创建友链</a></li>
             <li><a href="#创建联系方式">创建联系方式</a></li>
-            <li><a href="#文章插入图片">文章插入图片</a></li>
           </ul>
         </li>
         <li><a href="#常见问题">常见问题</a>
@@ -176,10 +177,10 @@
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="https://uploader.shimo.im/f/aNbu06I3AG7uNejg.png!thumbnail"
-        data-srcset="https://uploader.shimo.im/f/aNbu06I3AG7uNejg.png!thumbnail, https://uploader.shimo.im/f/aNbu06I3AG7uNejg.png!thumbnail 1.5x, https://uploader.shimo.im/f/aNbu06I3AG7uNejg.png!thumbnail 2x"
+        data-src="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131829.png"
+        data-srcset="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131829.png, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131829.png 1.5x, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131829.png 2x"
         data-sizes="auto"
-        alt="https://uploader.shimo.im/f/aNbu06I3AG7uNejg.png!thumbnail"
+        alt="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131829.png"
         title="图片" /></p>
 <p>那么，写技术文章有何价值？个人认为写技术文章的价值主要有三方面：个人价值、企业价值和社会价值、企业价值。从个人角度来说，技术写作是树立个人技术影响力，提升自我价值的最快路径，没有之一；从公司角度，坚持长线的写作，对于公司的技术品牌，技术文化，有着巨大的推动作用；从更高的维度来说，技术写作也是提升整个社会技术水平，推动技术不断进步的源动力。</p>
 <h2 id="hugo-初探">hugo 初探</h2>
@@ -189,7 +190,7 @@
 <p><a href="https://gohugo.io/documentation/" target="_blank" rel="noopener noreffer">hugo 英文官方文档</a></p>
 <h3 id="安装-hugo">安装 hugo</h3>
 <p>在 windows 下，你可以在此处下载</p>
-<p><a href="https://github.com/gohugoio/hugo/releases/download/v0.63.2/hugo_0.63.2_Windows-64bit.zip" target="_blank" rel="noopener noreffer">https://github.com/gohugoio/hugo/releases/download/v0.63.2/hugo_0.63.2_Windows-64bit.zip</a></p>
+<p><a href="https://github.com/gohugoio/hugo/releases/download/v0.63.2/hugo_0.63.2_Windows-64bit.zip" target="_blank" rel="noopener noreffer">windows 版本下载链接</a></p>
 <p>如果你是 mac 系统，则可以通过如下命令安装（需要先安装 homebrew）</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -254,10 +255,10 @@ git submodule add https://github.com/dillonzq/LoveIt.git themes/LoveIt #下载�
 <img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="https://uploader.shimo.im/f/hbIjOQftzaVsDhYL.png!thumbnail"
-        data-srcset="https://uploader.shimo.im/f/hbIjOQftzaVsDhYL.png!thumbnail, https://uploader.shimo.im/f/hbIjOQftzaVsDhYL.png!thumbnail 1.5x, https://uploader.shimo.im/f/hbIjOQftzaVsDhYL.png!thumbnail 2x"
+        data-src="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132241.png"
+        data-srcset="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132241.png, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132241.png 1.5x, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132241.png 2x"
         data-sizes="auto"
-        alt="https://uploader.shimo.im/f/hbIjOQftzaVsDhYL.png!thumbnail"
+        alt="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132241.png"
         title="图片" /></p>
 <h3 id="创建文章">创建文章</h3>
 <p>创建一篇空文章</p>
@@ -273,10 +274,10 @@ git submodule add https://github.com/dillonzq/LoveIt.git themes/LoveIt #下载�
 <img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="https://uploader.shimo.im/f/xn3sYkuTYUIHB9SF.png!thumbnail"
-        data-srcset="https://uploader.shimo.im/f/xn3sYkuTYUIHB9SF.png!thumbnail, https://uploader.shimo.im/f/xn3sYkuTYUIHB9SF.png!thumbnail 1.5x, https://uploader.shimo.im/f/xn3sYkuTYUIHB9SF.png!thumbnail 2x"
+        data-src="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132227.png"
+        data-srcset="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132227.png, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132227.png 1.5x, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132227.png 2x"
         data-sizes="auto"
-        alt="https://uploader.shimo.im/f/xn3sYkuTYUIHB9SF.png!thumbnail"
+        alt="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132227.png"
         title="图片" /></p>
 <h3 id="启动-hugo-服务器">启动 hugo 服务器</h3>
 <p>启动 hugo 服务器，进入 <a href="http://localhost:1313/" target="_blank" rel="noopener noreffer">http://localhost:1313/</a> 预览页面</p>
@@ -292,10 +293,10 @@ git submodule add https://github.com/dillonzq/LoveIt.git themes/LoveIt #下载�
 <img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="https://uploader.shimo.im/f/V2qT2hvonzUwyPmO.png!thumbnail"
-        data-srcset="https://uploader.shimo.im/f/V2qT2hvonzUwyPmO.png!thumbnail, https://uploader.shimo.im/f/V2qT2hvonzUwyPmO.png!thumbnail 1.5x, https://uploader.shimo.im/f/V2qT2hvonzUwyPmO.png!thumbnail 2x"
+        data-src="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132216.png"
+        data-srcset="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132216.png, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132216.png 1.5x, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132216.png 2x"
         data-sizes="auto"
-        alt="https://uploader.shimo.im/f/V2qT2hvonzUwyPmO.png!thumbnail"
+        alt="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132216.png"
         title="图片" /></p>
 <h3 id="构建静态页面">构建静态页面</h3>
 <p>若要将博客托管在 github 上，需要上传静态页面。所以，需要使用 hugo 构建静态页面，构建命令如下：</p>
@@ -308,16 +309,38 @@ git submodule add https://github.com/dillonzq/LoveIt.git themes/LoveIt #下载�
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="使用-github-pages-搭建个人博客">使用 Github Pages 搭建个人博客</h2>
+<h3 id="个人博客整体架构">个人博客整体架构</h3>
+<p>一个静态博客数据有两部分，一部分是静态页面（体积小），另一部分是图片或者大文件（文件体积大），通常来讲一个网站整体结构是静态页面放在服务器上（比如可以使用虚拟机、自己的服务器、github pages 项目），而对于大文件或者图片则通常会使用对象存储服务（比如对象存储或者 github 项目），它们前端使用一个 CDN 进行加速（比如云厂商的 CDN 服务或者 cloudinary），当然，在 HTTPS 已经普及的时代，一个 HTTPS 服务也是必不可少的。</p>
+<p>整体架构图如下：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.jsdelivr.net/gh/Miss-you/img@1.1/how-to-create-blog/arch.jpg"
+        data-srcset="https://cdn.jsdelivr.net/gh/Miss-you/img@1.1/how-to-create-blog/arch.jpg, https://cdn.jsdelivr.net/gh/Miss-you/img@1.1/how-to-create-blog/arch.jpg 1.5x, https://cdn.jsdelivr.net/gh/Miss-you/img@1.1/how-to-create-blog/arch.jpg 2x"
+        data-sizes="auto"
+        alt="https://cdn.jsdelivr.net/gh/Miss-you/img@1.1/how-to-create-blog/arch.jpg"
+        title="图片" /></p>
+<p>经过综合考量，个人建站选用组件如下：</p>
+<ul>
+<li>静态网站服务器：Github Pages</li>
+<li>图片上传工具：picgo</li>
+<li>图片存储服务：Github 项目 + jsdelivr 加速</li>
+<li>域名服务商/域名购买：NameCheap</li>
+<li>HTTPS/CDN 服务提供商：Cloudfare</li>
+</ul>
+<blockquote>
+<p>腾讯云服务中的 TCB 一键建站也挺好用的。但是因为个人图省钱和喜欢折腾，还是选择自己建站自己选择组件，一方面免费，另一方面可以对网络有更加深刻的理解。</p>
+</blockquote>
 <h3 id="github-pages-是什么">Github Pages 是什么？</h3>
 <p>GitHub Pages 是一项静态站点托管服务，它直接从 GitHub 上的仓库获取 index.html、HTML、CSS 和 JavaScript 文件，也可以通过构建过程运行文件，然后发布网站。</p>
 <p>GitHub Pages 可以识别指定分支根目录或者/docs 目录下的静态站点，具体可以在个人站点的 setting 中配置。</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="https://uploader.shimo.im/f/R4vcd8mZXe9XRfSq.png!thumbnail"
-        data-srcset="https://uploader.shimo.im/f/R4vcd8mZXe9XRfSq.png!thumbnail, https://uploader.shimo.im/f/R4vcd8mZXe9XRfSq.png!thumbnail 1.5x, https://uploader.shimo.im/f/R4vcd8mZXe9XRfSq.png!thumbnail 2x"
+        data-src="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132202.png"
+        data-srcset="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132202.png, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132202.png 1.5x, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132202.png 2x"
         data-sizes="auto"
-        alt="https://uploader.shimo.im/f/R4vcd8mZXe9XRfSq.png!thumbnail"
+        alt="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132202.png"
         title="图片" /></p>
 <p>Github Pages 建站有两种类型：</p>
 <ul>
@@ -327,24 +350,24 @@ git submodule add https://github.com/dillonzq/LoveIt.git themes/LoveIt #下载�
 <p>你需要看清楚你的 Github Pages 建站类型，不同的建站类型的建站方法也不同，具体可以参考 <a href="https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages" target="_blank" rel="noopener noreffer">官方手册</a></p>
 <p>这里我们以个人站点（User Pages）为例</p>
 <h3 id="创建-github-pages-项目">创建 Github Pages 项目</h3>
-<p>创建一个新的 github 项目，项目名称需要是<code>&lt;用户名。github.io&gt;</code>格式，如下图样例</p>
+<p>创建一个新的 github 项目，项目名称需要是<code>&lt;username.github.io&gt;</code>格式，如下图样例</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="https://uploader.shimo.im/f/m3knqJ40EmlGgXPS.png!thumbnail"
-        data-srcset="https://uploader.shimo.im/f/m3knqJ40EmlGgXPS.png!thumbnail, https://uploader.shimo.im/f/m3knqJ40EmlGgXPS.png!thumbnail 1.5x, https://uploader.shimo.im/f/m3knqJ40EmlGgXPS.png!thumbnail 2x"
+        data-src="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132156.png"
+        data-srcset="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132156.png, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132156.png 1.5x, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132156.png 2x"
         data-sizes="auto"
-        alt="https://uploader.shimo.im/f/m3knqJ40EmlGgXPS.png!thumbnail"
+        alt="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132156.png"
         title="图片" /></p>
 <h3 id="配置-pages-项目">配置 pages 项目</h3>
 <p>点击进入 setting，搜索 github pages 关键字，找到相关配置：当前 github 默认分支已经是 main 分支，需要调整下；配置好之后即可通过<code>用户名。github.io</code>最初的 github 页面。</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="https://uploader.shimo.im/f/DWcohsdFh7jCj4LH.png!thumbnail"
-        data-srcset="https://uploader.shimo.im/f/DWcohsdFh7jCj4LH.png!thumbnail, https://uploader.shimo.im/f/DWcohsdFh7jCj4LH.png!thumbnail 1.5x, https://uploader.shimo.im/f/DWcohsdFh7jCj4LH.png!thumbnail 2x"
+        data-src="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132138.png"
+        data-srcset="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132138.png, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132138.png 1.5x, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132138.png 2x"
         data-sizes="auto"
-        alt="https://uploader.shimo.im/f/DWcohsdFh7jCj4LH.png!thumbnail"
+        alt="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132138.png"
         title="图片" /></p>
 <h3 id="hugo-生成静态页面">hugo 生成静态页面</h3>
 <p>生成静态页面之前需要修改 config.toml 文件中的 baseURL 配置，将其修改为个人站点，比如我的就是 <code>miss-you.github.io</code></p>
@@ -422,13 +445,15 @@ git push origin main
 </div><h2 id="faq">FAQ</h2>
 <h3 id="常见操作">常见操作</h3>
 <p>TODO</p>
+<h4 id="文章插入图片">文章插入图片</h4>
+<p>图片上传问题</p>
+<p>图片存储问题</p>
+<p>TODO</p>
 <h4 id="修改模板">修改模板</h4>
 <p>TODO</p>
 <h4 id="创建友链">创建友链</h4>
 <p>TODO</p>
 <h4 id="创建联系方式">创建联系方式</h4>
-<p>TODO</p>
-<h4 id="文章插入图片">文章插入图片</h4>
 <p>TODO</p>
 <h3 id="常见问题">常见问题</h3>
 <h4 id="github-pages-项目报错the-submodule-registered-for-themesxxx-could-not-be-cloned">Github Pages 项目报错：The submodule registered for ./themes/xxx could not be cloned.</h4>
@@ -436,54 +461,53 @@ git push origin main
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="https://uploader.shimo.im/f/Inz7QFMv8SdPfea8.png!thumbnail"
-        data-srcset="https://uploader.shimo.im/f/Inz7QFMv8SdPfea8.png!thumbnail, https://uploader.shimo.im/f/Inz7QFMv8SdPfea8.png!thumbnail 1.5x, https://uploader.shimo.im/f/Inz7QFMv8SdPfea8.png!thumbnail 2x"
+        data-src="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132108.png"
+        data-srcset="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132108.png, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132108.png 1.5x, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132108.png 2x"
         data-sizes="auto"
-        alt="https://uploader.shimo.im/f/Inz7QFMv8SdPfea8.png!thumbnail"
+        alt="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132108.png"
         title="图片" /></p>
 <h4 id="toc-符号不生效">[TOC] 符号不生效</h4>
 <p>toc 是 markdown 的一种进阶语法，用于自动生成目录，但是 hugo 并没有支持该语法。目录建议采用主题自带的目录功能，比如本文示例中的 LoveIt 主题。</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="https://uploader.shimo.im/f/6Y80QHtbunmjMQJm.png!thumbnail"
-        data-srcset="https://uploader.shimo.im/f/6Y80QHtbunmjMQJm.png!thumbnail, https://uploader.shimo.im/f/6Y80QHtbunmjMQJm.png!thumbnail 1.5x, https://uploader.shimo.im/f/6Y80QHtbunmjMQJm.png!thumbnail 2x"
+        data-src="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132119.png"
+        data-srcset="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132119.png, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132119.png 1.5x, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132119.png 2x"
         data-sizes="auto"
-        alt="https://uploader.shimo.im/f/6Y80QHtbunmjMQJm.png!thumbnail"
+        alt="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132119.png"
         title="图片" /></p>
 <p>使用 loveit 或者切换到 loveit 主题入门教程：</p>
-<p><a href="https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration" target="_blank" rel="noopener noreffer">https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration</a></p>
+<p><a href="https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration" target="_blank" rel="noopener noreffer">LoveIt 入门教程</a></p>
 <h4 id="找不到主题error-module-loveit-not-found">找不到主题，Error: module &ldquo;LoveIt&rdquo; not found</h4>
 <p>原因是由于 LoveIt 示例主题中的 config.toml 文件，其主题路径为&rdquo;../..&quot;，该目录下并不会有 LoveIt 主题，将其注释掉即可，或者修改 LoveIt 主题所在的相对路径</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="https://uploader.shimo.im/f/jH5FtM2dZG7JFSaH.png!thumbnail"
-        data-srcset="https://uploader.shimo.im/f/jH5FtM2dZG7JFSaH.png!thumbnail, https://uploader.shimo.im/f/jH5FtM2dZG7JFSaH.png!thumbnail 1.5x, https://uploader.shimo.im/f/jH5FtM2dZG7JFSaH.png!thumbnail 2x"
+        data-src="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132035.png"
+        data-srcset="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132035.png, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132035.png 1.5x, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132035.png 2x"
         data-sizes="auto"
-        alt="https://uploader.shimo.im/f/jH5FtM2dZG7JFSaH.png!thumbnail"
+        alt="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132035.png"
         title="图片" /></p>
 <h4 id="github-搜索不到-loveit-主题">github 搜索不到 LoveIt 主题</h4>
 <p>LoveIt 英文小写是 loveit，不是 lovelt，因为不注意的话 I 和 l 难以区分，容易混淆</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="https://uploader.shimo.im/f/FUJWRApO5tLOLK4L.png!thumbnail"
-        data-srcset="https://uploader.shimo.im/f/FUJWRApO5tLOLK4L.png!thumbnail, https://uploader.shimo.im/f/FUJWRApO5tLOLK4L.png!thumbnail 1.5x, https://uploader.shimo.im/f/FUJWRApO5tLOLK4L.png!thumbnail 2x"
+        data-src="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131946.png"
+        data-srcset="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131946.png, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131946.png 1.5x, https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131946.png 2x"
         data-sizes="auto"
-        alt="https://uploader.shimo.im/f/FUJWRApO5tLOLK4L.png!thumbnail"
+        alt="https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131946.png"
         title="图片" /></p>
 <h2 id="参考链接">参考链接</h2>
-<p>hugo 中文官方文档</p>
-<p><a href="https://www.gohugo.org/" target="_blank" rel="noopener noreffer">https://www.gohugo.org/</a></p>
-<p>hugo 英文官方文档</p>
-<p><a href="https://gohugo.io/documentation/" target="_blank" rel="noopener noreffer">https://gohugo.io/documentation/</a></p>
-<p>hugo 主题站</p>
-<p><a href="https://www.gohugo.org/theme/" target="_blank" rel="noopener noreffer">https://www.gohugo.org/theme/</a></p>
-<p>github pages 官方手册</p>
-<p><a href="https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages" target="_blank" rel="noopener noreffer">https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages</a></p>
-<p>hugo loveit 主题使用教程</p>
-<p><a href="https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration" target="_blank" rel="noopener noreffer">https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration</a></p>
+<ul>
+<li><a href="https://www.gohugo.org/" target="_blank" rel="noopener noreffer">hugo 中文官方文档</a></li>
+<li><a href="https://gohugo.io/documentation/" target="_blank" rel="noopener noreffer">hugo 英文官方文档</a></li>
+<li><a href="https://www.gohugo.org/theme/" target="_blank" rel="noopener noreffer">hugo 主题站</a></li>
+<li><a href="https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages" target="_blank" rel="noopener noreffer">github pages 官方手册</a></li>
+<li><a href="https://hugoloveit.com/zh-cn/theme-documentation-basics/#basic-configuration" target="_blank" rel="noopener noreffer">hugo loveit 主题使用教程</a></li>
+<li><a href="https://www.vps234.com/cloudflare-cdn-setting-tutorials/" target="_blank" rel="noopener noreffer">cloudfare 配置教程</a></li>
+<li><a href="https://picgo.github.io/PicGo-Doc/zh/guide/" target="_blank" rel="noopener noreffer">picgo 官方教程</a></li>
+</ul>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">

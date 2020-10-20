@@ -20,7 +20,7 @@ hugo 初探 hugo 是什么？ Hugo 是由 Go 语言实现的静态网站生成�
 hugo 中文官方文档
 hugo 英文官方文档
 安装 hugo 在 windows 下，你可以在此处下载
-https://github.com/gohugoio/hugo/releases/download/v0.63.2/hugo_0.63.2_Windows-64bit.zip
+windows 版本下载链接
 如果你是 mac 系统，则可以通过如下命令安装（需要先安装 homebrew）
 1  brew install hugo   确认 hugo 安装是否成功 通过检查版本号的方式，确认 hugo 安装是否成功
 1 2  hugo version Hugo Static Site Generator v0.73.0/extended darwin/amd64 BuildDate: unknown # 输出结果   初始化网站目录 安装好之后，便可以初始化一个 hugo 项目，]]></description>
