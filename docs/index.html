@@ -11,7 +11,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://miss-you.github.io/" />
 <meta property="og:image" content="http://miss-you.github.io/logo.png"/>
-<meta property="og:updated_time" content="2020-11-25T02:48:39+08:00" />
+<meta property="og:updated_time" content="2020-11-25T03:00:27+08:00" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://miss-you.github.io/logo.png"/>
 
@@ -107,6 +107,17 @@
         alt="/images/avatar.png"
         title="/images/avatar.png" /></a></div><h2 class="home-subtitle"><div id="id-1" class="typeit"></div></h2><div class="links"><a href="https://github.com/Miss-you" title="GitHub" target="_blank" rel="noopener noreffer me"><i class="fab fa-github-alt fa-fw"></i></a><a href="https://mastodon.technology/@xxxx" title="Mastodon" target="_blank" rel="noopener noreffer me"><i class="fab fa-mastodon fa-fw"></i></a><a href="mailto:yousa@apache.org" title="Email" rel=" me"><i class="far fa-envelope fa-fw"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/perf/">Perf 入门教程</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>[厉辉（Yousa）](https://github.com/Miss-you)</a></span>&nbsp;<span class="post-publish">published on <time datetime="2020-11-25">2020-11-25</time></span></div><div class="content">#perf 使用教程
+##Perf 简介
+Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话是在 CPU 的 PMU register 中 Get/Set performance counters 来获得诸如 instructions executed，cache-missed suffered，branches mispredicted 等信息。
+ perf 本身的工具有很多，这里主要介绍个人在查询程序性能问题时使用的一些工具 包括 perf list、perf stat、perf record、perf report
+ ##perf list
+使用 perf 之前肯定要知道 perf 能监控哪些性能指标吧？那么就要使用 perf list 进行查看，通常使用的指标是 cpu-clock/task-clock 等，具体要根据需要来判断
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  $ perf list List of pre-defined events (to be used in -e): cpu-cycles OR cycles [Hardware event] instructions [Hardware event] … cpu-clock [Software event] task-clock [Software event] context-switches OR cs [Software event] … ext4:ext4_allocate_inode [Tracepoint event] kmem:kmalloc [Tracepoint event] module:module_load [Tracepoint event] workqueue:workqueue_execution [Tracepoint event] sched:sched_{wakeup,switch} [Tracepoint event] syscalls:sys_{enter,exit}_epoll_wait [Tracepoint event] …   不同内核版本列出的结果不一样多。.</div><div class="post-footer">
+        <a href="/perf/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/profile/">profile</a>,&nbsp;<a href="/tags/perf/">perf</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/flame/">性能调优利器--火焰图</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>[厉辉（Yousa）](https://github.com/Miss-you)</a></span>&nbsp;<span class="post-publish">published on <time datetime="2020-11-25">2020-11-25</time></span></div><div class="content">本文主要分享火焰图使用技巧，介绍 systemtap 的原理机制，如何使用火焰图快速定位性能问题原因，同时加深对 systemtap 的理解。
  让我们回想一下，曾经作为编程新手的我们是如何调优程序的？通常是在没有数据的情况下依靠主观臆断来瞎蒙，稍微有些经验的同学则会对差异代码进行二分或者逐段调试。这种定位问题的方式不仅耗时耗力，而且还不具有通用性，当遇到其他类似的性能问题时，需要重复踩坑、填坑，那么如何避免这种情况呢？
