@@ -1,21 +1,21 @@
 ---
-title: "Perf 入门教程"
+title: "perf 入门教程（待补充和完善）"
 date: 2020-11-25T02:54:43+08:00
 draft: false
 author: "[厉辉（Yousa）](https://github.com/Miss-you)"
 tags: ["profile","perf"]
 ---
 
-#perf 使用教程
+# perf 使用教程
 
-##Perf 简介
+## perf 简介
 
 Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话是在 CPU 的 PMU register 中 Get/Set performance counters 来获得诸如 instructions executed，cache-missed suffered，branches mispredicted 等信息。
 
 > perf 本身的工具有很多，这里主要介绍个人在查询程序性能问题时使用的一些工具
 > 包括 perf list、perf stat、perf record、perf report
 
-##perf list
+## perf list
 
 使用 perf 之前肯定要知道 perf 能监控哪些性能指标吧？那么就要使用 perf list 进行查看，通常使用的指标是 cpu-clock/task-clock 等，具体要根据需要来判断
 
@@ -50,7 +50,7 @@ perf report -e cpu-clock ls
 监控运行 ls 命令时的 cpu 时钟占用监控
 ```
 
-##perf stat
+## perf stat
 
 刚刚知道了可以监控哪些事件，但是事件这么多，该如何下手呢？
 
@@ -90,7 +90,7 @@ Performance counter stats for './gw --gtpu-ip 172.31.24.58 --sgw-s11-ip 172.31.2
 4. 16,368 page-faults 是指程序发生了 xx 次页错误
 5. 其他可以监控的譬如分支预测、cache 命中等
 
-##perf record
+## perf record
 
 前面通过 `perf stat` 获得了程序性能瓶颈类型，之后，假设你已经知道哪个进程需要优化**（若不知道则需要使用 perf top 进行进一步监控，这里由于个人没有使用过，所以不作介绍）**，那么下一步就是对该进程进行细粒度的分析，分析在长长的程序代码中究竟是哪几段代码、哪几个函数需要修改呢？**这便需要使用 perf record 记录单个函数级别的统计信息，并使用 perf report 来显示统计结果。**
 
@@ -109,7 +109,7 @@ perf record -e cpu-clock -g ./gw --gtpu-ip 172.31.24.58 --sgw-s11-ip 172.31.24.2
 3. 程序运行完之后，`perf record` 会生成一个名为 perf.data 的文件（缺省值），如果之前已有，那么之前的 perf.data 文件会变为 perf.data.old 文件
 4. 获得这个 perf.data 文件之后，我们其实还不能直接查看，下面就需要 `perf report` 工具进行查看
 
-##perf report
+## perf report
 
 前面通过`perf record`工具获得了某一进程的指标监控数据 perf.data，下面就需要使用`perf report`工具查看该文件
 
@@ -133,11 +133,11 @@ perf report -i perf.data
 3.  /+   4.93%  gw  libcurl-gnutls.so.4.3.0  [.] 0x000000000001e1e0 ，左边的加号代表 perf 已经记录了该调用关系，按 enter 键可以查看调用关系，**不过由于这个是动态库里的函数，基本查看到的都是一些二进制数值：P**
 4. perf 监控 gw 进程结果记录到很多内核调用，说明 gw 进程在运行过程中，有可能被内核态任务频繁中断，应尽量避免这种情况，**对于这个问题我的解决办法是采用绑核，譬如机器有 8 个 CPU，那么我就绑定内核操作、中断等主要在 0-5CPU，GW 由于有两个线程，分别绑定到 6、7CPU 上**
 
-##实践
+## 实践
 
 这里使用我在实验中程序在某一场景 CPU 占用率飙升的问题作为示例
 
-###1.perf stat 整体定位性能瓶颈
+### 1.perf stat 整体定位性能瓶颈
 
 CPU 飙升场景与正常场景使用 perf stat 对比差异
 
@@ -189,7 +189,7 @@ perf stat ./gw --gtpu-ip 172.31.24.58 --sgw-s11-ip 172.31.24.250 --zmq-ip 172.31
 1. task-clock 异常场景比正常场景占用率高许多，说明程序 CPU 占用率提升
 2. cpu-migrations 异常场景比正常场景占用率高许多，说明进程发生了较频繁的从一个 CPU 迁移到另一个 CPU
 
-###2.perf record+perf report 单点定位进程本身问题
+### 2.perf record+perf report 单点定位进程本身问题
 
 通过 perf stat 整体上监控进程性能问题之后，使用 perf record 等对进程本身进行监控
 
@@ -221,3 +221,14 @@ root@ip-172-31-24-250:/home/ubuntu/EPC/gw#
 4. 整个统计显示有很多 task-clock 占用是由于** kernel.kallsyms **导致，同时也验证了对 perf stat 获得的数据的初步判断，即 CPU 飙升也与频繁的 CPU 迁移（内核态中断用户态操作）导致，解决办法是采用 CPU 绑核
 
 > perf 工具很好用，要善用这个利器
+
+## 自我提问
+
+1. perf 是什么？
+2. perf 能解决什么样的问题？什么样的问题无法解决？为什么？
+3. 如何理解 perf 的探针？在 C++/C/Go/Rust 场景下，这些探针有代表什么含义呢？
+4. perf 是如何统计的？perf 的探测机制是什么？为什么 perf 的探测对性能影响有限？
+5. 使用上，perf 可以衡量哪些指标？针对于什么语言？针对于哪些问题可以评估？可以绘制哪些图？
+6. 后起之秀 bcc/ebpf 与 perf 的取舍？
+7. perf 的哪些机制值得学习？如何使用 perf？能够用 perf 解决什么样的问题？perf 对应指标分别是什么？如何理解这些指标？perf 解决问题的技巧？perf 是如何统计数据的？perf 为什么统计数据可以比较高性能？perf 的局限性有哪些？perf 与后起之秀的 pk？
+8. 一些具体的场景和案例
