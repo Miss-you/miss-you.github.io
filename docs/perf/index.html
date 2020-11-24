@@ -5,29 +5,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>Perf 入门教程 - LoveIt</title><meta name="Description" content="About LoveIt Theme"><meta property="og:title" content="Perf 入门教程" />
-<meta property="og:description" content="#perf 使用教程
-##Perf 简介
-Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话是在 CPU 的 PMU register 中 Get/Set performance counters 来获得诸如 instructions executed，cache-missed suffered，branches mispredicted 等信息。
+        <title>perf 入门教程（待补充和完善） - LoveIt</title><meta name="Description" content="About LoveIt Theme"><meta property="og:title" content="perf 入门教程（待补充和完善）" />
+<meta property="og:description" content="perf 使用教程 perf 简介 Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话是在 CPU 的 PMU register 中 Get/Set performance counters 来获得诸如 instructions executed，cache-missed suffered，branches mispredicted 等信息。
  perf 本身的工具有很多，这里主要介绍个人在查询程序性能问题时使用的一些工具 包括 perf list、perf stat、perf record、perf report
- ##perf list
-使用 perf 之前肯定要知道 perf 能监控哪些性能指标吧？那么就要使用 perf list 进行查看，通常使用的指标是 cpu-clock/task-clock 等，具体要根据需要来判断
+ perf list 使用 perf 之前肯定要知道 perf 能监控哪些性能指标吧？那么就要使用 perf list 进行查看，通常使用的指标是 cpu-clock/task-clock 等，具体要根据需要来判断
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  $ perf list List of pre-defined events (to be used in -e): cpu-cycles OR cycles [Hardware event] instructions [Hardware event] … cpu-clock [Software event] task-clock [Software event] context-switches OR cs [Software event] … ext4:ext4_allocate_inode [Tracepoint event] kmem:kmalloc [Tracepoint event] module:module_load [Tracepoint event] workqueue:workqueue_execution [Tracepoint event] sched:sched_{wakeup,switch} [Tracepoint event] syscalls:sys_{enter,exit}_epoll_wait [Tracepoint event] …   不同内核版本列出的结果不一样多。." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://miss-you.github.io/perf/" />
 <meta property="og:image" content="http://miss-you.github.io/logo.png"/>
 <meta property="article:published_time" content="2020-11-25T02:54:43+08:00" />
-<meta property="article:modified_time" content="2020-11-25T03:00:27+08:00" />
+<meta property="article:modified_time" content="2020-11-25T03:09:23+08:00" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://miss-you.github.io/logo.png"/>
 
-<meta name="twitter:title" content="Perf 入门教程"/>
-<meta name="twitter:description" content="#perf 使用教程
-##Perf 简介
-Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话是在 CPU 的 PMU register 中 Get/Set performance counters 来获得诸如 instructions executed，cache-missed suffered，branches mispredicted 等信息。
+<meta name="twitter:title" content="perf 入门教程（待补充和完善）"/>
+<meta name="twitter:description" content="perf 使用教程 perf 简介 Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话是在 CPU 的 PMU register 中 Get/Set performance counters 来获得诸如 instructions executed，cache-missed suffered，branches mispredicted 等信息。
  perf 本身的工具有很多，这里主要介绍个人在查询程序性能问题时使用的一些工具 包括 perf list、perf stat、perf record、perf report
- ##perf list
-使用 perf 之前肯定要知道 perf 能监控哪些性能指标吧？那么就要使用 perf list 进行查看，通常使用的指标是 cpu-clock/task-clock 等，具体要根据需要来判断
+ perf list 使用 perf 之前肯定要知道 perf 能监控哪些性能指标吧？那么就要使用 perf list 进行查看，通常使用的指标是 cpu-clock/task-clock 等，具体要根据需要来判断
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  $ perf list List of pre-defined events (to be used in -e): cpu-cycles OR cycles [Hardware event] instructions [Hardware event] … cpu-clock [Software event] task-clock [Software event] context-switches OR cs [Software event] … ext4:ext4_allocate_inode [Tracepoint event] kmem:kmalloc [Tracepoint event] module:module_load [Tracepoint event] workqueue:workqueue_execution [Tracepoint event] sched:sched_{wakeup,switch} [Tracepoint event] syscalls:sys_{enter,exit}_epoll_wait [Tracepoint event] …   不同内核版本列出的结果不一样多。."/>
 <meta name="application-name" content="LoveIt">
 <meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -36,13 +30,13 @@ Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话�
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "Perf 入门教程",
+        "headline": "perf 入门教程（待补充和完善）",
         "inLanguage": "en",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/miss-you.github.io\/perf\/"
-        },"image": ["http:\/\/miss-you.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "profile, perf","wordcount":  959 ,
-        "url": "http:\/\/miss-you.github.io\/perf\/","datePublished": "2020-11-25T02:54:43+08:00","dateModified": "2020-11-25T03:00:27+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["http:\/\/miss-you.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "profile, perf","wordcount":  994 ,
+        "url": "http:\/\/miss-you.github.io\/perf\/","datePublished": "2020-11-25T02:54:43+08:00","dateModified": "2020-11-25T03:09:23+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "http:\/\/miss-you.github.io\/images\/avatar.png"},"author": {
                 "@type": "Person",
@@ -120,10 +114,10 @@ Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话�
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">Perf 入门教程</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animated flipInX">perf 入门教程（待补充和完善）</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>[厉辉（Yousa）](https://github.com/Miss-you)</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-25">2020-11-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;959 words&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;<span id="/perf/" class="leancloud_visitors" data-flag-title="Perf 入门教程">
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-25">2020-11-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;994 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;<span id="/perf/" class="leancloud_visitors" data-flag-title="perf 入门教程（待补充和完善）">
                         <i class="far fa-eye fa-fw"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
                     </span>&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -131,15 +125,30 @@ Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话�
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right"></i></span>
                 </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
-            </div><div class="content" id="content"><p>#perf 使用教程</p>
-<p>##Perf 简介</p>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#perf-简介">perf 简介</a></li>
+    <li><a href="#perf-list">perf list</a></li>
+    <li><a href="#perf-stat">perf stat</a></li>
+    <li><a href="#perf-record">perf record</a></li>
+    <li><a href="#perf-report">perf report</a></li>
+    <li><a href="#实践">实践</a>
+      <ul>
+        <li><a href="#1perf-stat-整体定位性能瓶颈">1.perf stat 整体定位性能瓶颈</a></li>
+        <li><a href="#2perf-recordperf-report-单点定位进程本身问题">2.perf record+perf report 单点定位进程本身问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#自我提问">自我提问</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="perf-使用教程">perf 使用教程</h1>
+<h2 id="perf-简介">perf 简介</h2>
 <p>Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话是在 CPU 的 PMU register 中 Get/Set performance counters 来获得诸如 instructions executed，cache-missed suffered，branches mispredicted 等信息。</p>
 <blockquote>
 <p>perf 本身的工具有很多，这里主要介绍个人在查询程序性能问题时使用的一些工具
 包括 perf list、perf stat、perf record、perf report</p>
 </blockquote>
-<p>##perf list</p>
+<h2 id="perf-list">perf list</h2>
 <p>使用 perf 之前肯定要知道 perf 能监控哪些性能指标吧？那么就要使用 perf list 进行查看，通常使用的指标是 cpu-clock/task-clock 等，具体要根据需要来判断</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -196,7 +205,7 @@ Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话�
 监控运行 ls 命令时的 cpu 时钟占用监控
 </code></pre></td></tr></table>
 </div>
-</div><p>##perf stat</p>
+</div><h2 id="perf-stat">perf stat</h2>
 <p>刚刚知道了可以监控哪些事件，但是事件这么多，该如何下手呢？</p>
 <p>解决问题的时候有条理才解决的更快，所以面对一个性能问题的时候，最好采用自顶向下的策略。先整体看看该程序运行时各种统计事件的大概，再针对某些方向深入细节。而不要一下子扎进琐碎细节，会一叶障目的。</p>
 <p>整体监测代码性能就需要使用 <strong>perf stat</strong> 这个工具，该工具主要是从全局上监控，可以看到程序导致性能瓶颈主要是什么原因。因为不同的程序导致其性能瓶颈的原因不同，譬如有些程序慢是由于计算量大，而有些程序是由于频繁的 I/O 导致性能瓶颈，他们的优化方式不同。<strong>perf stat 通过概括精简的方式提供被调试程序运行的整体情况和汇总数据。</strong></p>
@@ -255,7 +264,7 @@ perf stat ./gw --gtpu-ip 172.31.24.58 --sgw-s11-ip 172.31.24.250 --zmq-ip 172.31
 <li>16,368 page-faults 是指程序发生了 xx 次页错误</li>
 <li>其他可以监控的譬如分支预测、cache 命中等</li>
 </ol>
-<p>##perf record</p>
+<h2 id="perf-record">perf record</h2>
 <p>前面通过 <code>perf stat</code> 获得了程序性能瓶颈类型，之后，假设你已经知道哪个进程需要优化**（若不知道则需要使用 perf top 进行进一步监控，这里由于个人没有使用过，所以不作介绍）**，那么下一步就是对该进程进行细粒度的分析，分析在长长的程序代码中究竟是哪几段代码、哪几个函数需要修改呢？**这便需要使用 perf record 记录单个函数级别的统计信息，并使用 perf report 来显示统计结果。**</p>
 <p>调优应该将注意力集中到百分比高的热点代码片段上，假如一段代码只占用整个程序运行时间的 0.1%，就算将其优化到仅剩一条机器指令，恐怕也只能将整体的程序性能提高 0.1%。</p>
 <blockquote>
@@ -276,7 +285,7 @@ perf stat ./gw --gtpu-ip 172.31.24.58 --sgw-s11-ip 172.31.24.250 --zmq-ip 172.31
 <li>程序运行完之后，<code>perf record</code> 会生成一个名为 perf.data 的文件（缺省值），如果之前已有，那么之前的 perf.data 文件会变为 perf.data.old 文件</li>
 <li>获得这个 perf.data 文件之后，我们其实还不能直接查看，下面就需要 <code>perf report</code> 工具进行查看</li>
 </ol>
-<p>##perf report</p>
+<h2 id="perf-report">perf report</h2>
 <p>前面通过<code>perf record</code>工具获得了某一进程的指标监控数据 perf.data，下面就需要使用<code>perf report</code>工具查看该文件</p>
 <p>使用方法</p>
 <div class="highlight"><div class="chroma">
@@ -310,9 +319,9 @@ perf report -i perf.data
 <li>/+   4.93%  gw  libcurl-gnutls.so.4.3.0  [.] 0x000000000001e1e0 ，左边的加号代表 perf 已经记录了该调用关系，按 enter 键可以查看调用关系，<strong>不过由于这个是动态库里的函数，基本查看到的都是一些二进制数值：P</strong></li>
 <li>perf 监控 gw 进程结果记录到很多内核调用，说明 gw 进程在运行过程中，有可能被内核态任务频繁中断，应尽量避免这种情况，<strong>对于这个问题我的解决办法是采用绑核，譬如机器有 8 个 CPU，那么我就绑定内核操作、中断等主要在 0-5CPU，GW 由于有两个线程，分别绑定到 6、7CPU 上</strong></li>
 </ol>
-<p>##实践</p>
+<h2 id="实践">实践</h2>
 <p>这里使用我在实验中程序在某一场景 CPU 占用率飙升的问题作为示例</p>
-<p>###1.perf stat 整体定位性能瓶颈</p>
+<h3 id="1perf-stat-整体定位性能瓶颈">1.perf stat 整体定位性能瓶颈</h3>
 <p>CPU 飙升场景与正常场景使用 perf stat 对比差异</p>
 <p>执行</p>
 <div class="highlight"><div class="chroma">
@@ -398,7 +407,7 @@ perf report -i perf.data
 <li>task-clock 异常场景比正常场景占用率高许多，说明程序 CPU 占用率提升</li>
 <li>cpu-migrations 异常场景比正常场景占用率高许多，说明进程发生了较频繁的从一个 CPU 迁移到另一个 CPU</li>
 </ol>
-<p>###2.perf record+perf report 单点定位进程本身问题</p>
+<h3 id="2perf-recordperf-report-单点定位进程本身问题">2.perf record+perf report 单点定位进程本身问题</h3>
 <p>通过 perf stat 整体上监控进程性能问题之后，使用 perf record 等对进程本身进行监控</p>
 <p>执行</p>
 <div class="highlight"><div class="chroma">
@@ -447,12 +456,23 @@ perf report -i perf.data
 <blockquote>
 <p>perf 工具很好用，要善用这个利器</p>
 </blockquote>
+<h2 id="自我提问">自我提问</h2>
+<ol>
+<li>perf 是什么？</li>
+<li>perf 能解决什么样的问题？什么样的问题无法解决？为什么？</li>
+<li>如何理解 perf 的探针？在 C++/C/Go/Rust 场景下，这些探针有代表什么含义呢？</li>
+<li>perf 是如何统计的？perf 的探测机制是什么？为什么 perf 的探测对性能影响有限？</li>
+<li>使用上，perf 可以衡量哪些指标？针对于什么语言？针对于哪些问题可以评估？可以绘制哪些图？</li>
+<li>后起之秀 bcc/ebpf 与 perf 的取舍？</li>
+<li>perf 的哪些机制值得学习？如何使用 perf？能够用 perf 解决什么样的问题？perf 对应指标分别是什么？如何理解这些指标？perf 解决问题的技巧？perf 是如何统计数据的？perf 为什么统计数据可以比较高性能？perf 的局限性有哪些？perf 与后起之秀的 pk？</li>
+<li>一些具体的场景和案例</li>
+</ol>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2020-11-25&nbsp;<a class="git-hash" href="https://github.com/dillonzq/LoveIt/commit/ffda2d05e71d8d97f2a7d5f9cc3021273ed6a822" target="_blank" title="commit by Miss-you(snowfly1993@gmail.com) ffda2d05e71d8d97f2a7d5f9cc3021273ed6a822: Perf 入门教程">
-                                    <i class="fas fa-hashtag fa-fw"></i>ffda2d0</a></span>
+                <span>Updated on 2020-11-25&nbsp;<a class="git-hash" href="https://github.com/dillonzq/LoveIt/commit/73b1f113c927134be589bb4246ab36ac5228a295" target="_blank" title="commit by Miss-you(snowfly1993@gmail.com) 73b1f113c927134be589bb4246ab36ac5228a295: perf 使用教程补充自我提问">
+                                    <i class="fas fa-hashtag fa-fw"></i>73b1f11</a></span>
             </div>
             <div class="post-info-license"></div>
         </div>
@@ -461,7 +481,7 @@ perf report -i perf.data
                             <a class="link-to-markdown" href="/perf/index.md" target="_blank">Read Markdown</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://miss-you.github.io/perf/" data-title="Perf 入门教程" data-hashtags="profile,perf"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://miss-you.github.io/perf/" data-hashtag="profile"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://miss-you.github.io/perf/" data-title="Perf 入门教程"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://miss-you.github.io/perf/" data-title="Perf 入门教程"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://miss-you.github.io/perf/" data-title="Perf 入门教程"><i class="fab fa-weibo fa-fw"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://miss-you.github.io/perf/" data-title="perf 入门教程（待补充和完善）" data-hashtags="profile,perf"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://miss-you.github.io/perf/" data-hashtag="profile"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://miss-you.github.io/perf/" data-title="perf 入门教程（待补充和完善）"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://miss-you.github.io/perf/" data-title="perf 入门教程（待补充和完善）"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://miss-you.github.io/perf/" data-title="perf 入门教程（待补充和完善）"><i class="fab fa-weibo fa-fw"></i></a></span>
             </div>
         </div>
     </div>

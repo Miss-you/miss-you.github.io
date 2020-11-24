@@ -4,17 +4,14 @@
         <link>http://miss-you.github.io/tags/profile/</link>
         <description>profile - Tag - LoveIt</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 25 Nov 2020 02:54:43 &#43;0800</lastBuildDate><atom:link href="http://miss-you.github.io/tags/profile/" rel="self" type="application/rss+xml" /><item>
-    <title>Perf 入门教程</title>
+    <title>perf 入门教程（待补充和完善）</title>
     <link>http://miss-you.github.io/perf/</link>
     <pubDate>Wed, 25 Nov 2020 02:54:43 &#43;0800</pubDate>
     <author>Author</author>
     <guid>http://miss-you.github.io/perf/</guid>
-    <description><![CDATA[#perf 使用教程
-##Perf 简介
-Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话是在 CPU 的 PMU register 中 Get/Set performance counters 来获得诸如 instructions executed，cache-missed suffered，branches mispredicted 等信息。
+    <description><![CDATA[perf 使用教程 perf 简介 Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话是在 CPU 的 PMU register 中 Get/Set performance counters 来获得诸如 instructions executed，cache-missed suffered，branches mispredicted 等信息。
  perf 本身的工具有很多，这里主要介绍个人在查询程序性能问题时使用的一些工具 包括 perf list、perf stat、perf record、perf report
- ##perf list
-使用 perf 之前肯定要知道 perf 能监控哪些性能指标吧？那么就要使用 perf list 进行查看，通常使用的指标是 cpu-clock/task-clock 等，具体要根据需要来判断
+ perf list 使用 perf 之前肯定要知道 perf 能监控哪些性能指标吧？那么就要使用 perf list 进行查看，通常使用的指标是 cpu-clock/task-clock 等，具体要根据需要来判断
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  $ perf list List of pre-defined events (to be used in -e): cpu-cycles OR cycles [Hardware event] instructions [Hardware event] … cpu-clock [Software event] task-clock [Software event] context-switches OR cs [Software event] … ext4:ext4_allocate_inode [Tracepoint event] kmem:kmalloc [Tracepoint event] module:module_load [Tracepoint event] workqueue:workqueue_execution [Tracepoint event] sched:sched_{wakeup,switch} [Tracepoint event] syscalls:sys_{enter,exit}_epoll_wait [Tracepoint event] …   不同内核版本列出的结果不一样多。.]]></description>
 </item><item>
     <title>性能调优利器--火焰图</title>
