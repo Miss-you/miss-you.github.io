@@ -18,7 +18,7 @@ tags: ["blog","github pages"]
 
 以前笔记的图找不到了，差不多在习惯使用电子笔记之前有十几本笔记，后来我习惯性使用思维导图 processon 等一系列工具记录笔记，比如这张图便是我做的思维导图笔记的冰山一角：
 
-![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131829.png)
+![图片](https://cdn.jsdelivr.net/gh/Miss-you/img/how-to-create-blog/20201020131829.png)
 
 那么，写技术文章有何价值？个人认为写技术文章的价值主要有三方面：个人价值、企业价值和社会价值、企业价值。从个人角度来说，技术写作是树立个人技术影响力，提升自我价值的最快路径，没有之一；从公司角度，坚持长线的写作，对于公司的技术品牌，技术文化，有着巨大的推动作用；从更高的维度来说，技术写作也是提升整个社会技术水平，推动技术不断进步的源动力。
 
@@ -262,6 +262,17 @@ toc 是 markdown 的一种进阶语法，用于自动生成目录，但是 hugo 
 LoveIt 英文小写是 loveit，不是 lovelt，因为不注意的话 I 和 l 难以区分，容易混淆
 
 ![图片](https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020131946.png)
+
+#### jsdelivr latest图片找不到问题
+
+https://cdn.jsdelivr.net/gh/Miss-you/img/how-to-create-blog/20201020132241.png
+
+https://cdn.jsdelivr.net/gh/Miss-you/img@1.0/how-to-create-blog/20201020132241.png
+
+必须要带版本号才可以找得到
+
+为什么latest用不了？
+github的bug，他们的latest默认会去找master分支的，而不是main分支的图片……
 
 ## 参考链接
 
