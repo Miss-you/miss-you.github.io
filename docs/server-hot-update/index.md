@@ -1,10 +1,5 @@
----
-title: "从 nginx 热更新聊一聊 Golang 中的热更新"
-date: 2020-12-28T01:23:35+08:00
-draft: false
-author: "[厉辉（Yousa）](https://github.com/Miss-you)"
-tags: ["nginx","golang"]
----
+# 从 nginx 热更新聊一聊 Golang 中的热更新
+
 
 # 从 nginx 热更新聊一聊 Golang 中的热更新
 

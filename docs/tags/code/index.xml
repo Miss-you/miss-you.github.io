@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>code - Tag - LoveIt</title>
+        <link>http://miss-you.github.io/tags/code/</link>
+        <description>code - Tag - LoveIt</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 25 Nov 2020 03:11:02 &#43;0800</lastBuildDate><atom:link href="http://miss-you.github.io/tags/code/" rel="self" type="application/rss+xml" /><item>
+    <title>获取服务器本机 IP 的不同语言实现</title>
+    <link>http://miss-you.github.io/how-to-get-localip/</link>
+    <pubDate>Wed, 25 Nov 2020 03:11:02 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://miss-you.github.io/how-to-get-localip/</guid>
+    <description><![CDATA[C/C++ 版本 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31  int CNetOperations::GetLocalIp(__be32 *pLocalIp, const char* pIfName) { if (!pLocalIp || !pIfName) { return (-EINVAL); } int iSocket; iSocket = socket(AF_INET, SOCK_DGRAM, 0); if (iSocket &lt; 0) { return (-errno); } struct ifreq stIfr; memset(stIfr.ifr_name, 0x0, sizeof(stIfr.ifr_name)); strcpy(stIfr.]]></description>
+</item></channel>
+</rss>
