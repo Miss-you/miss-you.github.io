@@ -3,7 +3,7 @@ title: "使用 Github Pages 和 Hugo 搭建个人博客教程"
 date: 2020-10-10T03:03:29+08:00
 draft: false
 description: "Github Pages 建站教程 "
-author: "[厉辉（Yousa）]"
+author: "[厉辉（Yousa）](https://github.com/Miss-you)"
 categories: ["Env"]
 tags: ["blog","github pages"]
 ---
