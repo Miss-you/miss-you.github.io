@@ -18,7 +18,7 @@ draft: true
 
 ## JSON 转义
 
-### 一起没有escaping导致的异常
+### 为什么需要 JSON 转义？
 
 json 形如xxx
 
