@@ -6,7 +6,9 @@ draft: true
 
 # 聊一聊 JSON 和 JSON 转义的那些事
 
-## 要点
+[TOC]
+
+### 要点
 
 写一下前情提要
 
@@ -16,61 +18,47 @@ draft: true
 
 > 适合人群：入门级
 
-## JSON 转义
+## JSON 和 JSON 转义
 
-### 为什么需要 JSON 转义？
+21 世纪初，Douglas Crockford 寻找一种简便的数据交换格式，能够在服务器之间交换数据。当时通用的数据交换语言是 XML，但是 Douglas Crockford 觉得 XML 的生成和解析都太麻烦，所以他提出了一种简化格式，也就是 JSON。
 
-json 形如xxx
+JSON 其结构形如 `{"云原生":"Kubernetes"}`，可以很直观的使用字符串表示对象或数据结构。对象或数据结构使用序列化接口转换成 JSON 字符串，比如 Golang 中的`json.Marshal`接口。
 
-json 字符串构造方法通常使用序列化等接口构造
+你可能会有这样的疑问：既然 JSON 字符串结构简单，为什么不直接使用字符串拼接的方式，而是要使用 JSON 序列化接口呢？
 
-有人也会疑问，直接使用字符串拼接/字符串格式化的方法会有什么问题呢？
+结果显而易见：JSON 序列化接口会一并将数据中的特殊字符进行转义，防止其破坏 JSON 原有结构。比如数据中含有双引号`"`特殊字符，序列化接口便会对双引号进行转义，最终结果类似于`{"云原生":"\"Kubernetes\""}`，否则，该场景下直接拼接的字符串会非法。
 
-缺少json 转义流程，会导致json结构异常
+### JSON 转义
 
-例子
+许多程序设计语言把双引号字符`（"）`用作字符串的分界符。反斜线`（\）`转义字符提供了两种方式来把双引号字符置入字符串中，或者是使用转义序列`\"`表示单个的`"`字符本身，而不是作为字符串分界符；或者是直接开始字符`"`的 16 进制编码值的转义序列`\x22`来表示`"`，也可以使用 8 进制编码值的转义序列，如`\042`。
 
+在 Python 中，下面的代码将会产生语法错误
 
-### json 转义是什么？
+```
+print "Cloud Navite "Hello World!".";
+```
 
-简而言之
+而另一段 Python 代码则会产生符合预期的结果
 
-一张图
+```
+print "Cloud Navite \"Hello World!\".";
+```
+
+在 JSON 中，也是如此：当使用 json 接口解析字符串`{"云原生":""Kubernetes""}`时会报错，而解析经过转义的 JSON 字符串`{"云原生":"\"Kubernetes\""}`则会解析成功。
+
+JSON 转义机制如下图：
 
 ![](https://cdn.jsdelivr.net/gh/Miss-you/img/picgo/20201228022357.png)
 
-具体机制
+1. JSON 中字符串针对于特殊字符需要 JSON 转义，它使用反斜杠`\`进行转义
+2. JSON 序列包括`“\\、\"、\/、\b、\f、\n、\r、\t`，或者 Unicode16 进制转义字符（比如`\uD83D\uDE02`)
+3. JSON 字符串为 UTF-8 编码
 
-1. a
-2. b
-3. c
+### JSON 语法
 
-> 在展开讲之前，复习一下json语法，忘记的可以查看，比较熟悉的可以直接跳过
+> 在讲具体案例之前，复习一下 JSON 语法，忘记的可以翻阅该章节。
 
-## JSON 语法简介
-
-> JSON我觉得很多人用，所以就仅仅介绍一下简单的语法，以供理解
-
-### JSON是什么？
-
-- JSON 指的是 JavaScript 对象表示法（JavaScript Object Notation）
-- JSON 是轻量级的文本数据交换格式
-- JSON 独立于语言 
-- JSON 具有自我描述性，更易理解
-
-JSON 使用 JavaScript 语法来描述数据对象，但是 JSON 仍然独立于语言和平台。JSON 解析器和 JSON 库支持许多不同的编程语言。
-
-### JSON 应用领域
-
-JSON最开始被广泛的应用于WEB应用的开发
-
-RESTFUL API
-
-相对于传统的关系型数据库，一些基于文档存储的NoSQL非关系型数据库选择JSON作为其数据存储格式，比较出名的产品有：MongoDB、CouchDB、RavenDB等。
-
-### JSON语法规则
-
-JSON语法简单来说就是四条：
+JSON 语法简单来说就是四条：
 
 - 数据在名称/值对中
 - 数据由逗号分隔
@@ -92,13 +80,15 @@ JSON语法简单来说就是四条：
 }
 ```
 
-### JSON名称/值对
+##### 1. JSON 名称/值对
 
-JSON数据的书写格式是：名称：值，这样的一对。即名称在前，该名称的值在冒号后面。例如：
+JSON 数据的书写格式是：名称：值，这样的一对。即名称在前，该名称的值在冒号后面。例如：
 
-`"virteNBName":"virt1"`
+```
+"virteNBName":"virt1"
+```
 
-这里的名称是**"virteNBName"**，值是**"virt1"**，他们均是字符串
+这里的名称是`"virteNBName"`，值是`"virt1"`，他们均是字符串
 
 名称和值得类型可以有以下几种：
 
@@ -109,7 +99,7 @@ JSON数据的书写格式是：名称：值，这样的一对。即名称在前�
 - 对象（在花括号中）
 - null
 
-### JSON数据由逗号分隔
+#### 2. JSON 数据由逗号分隔
 
 譬如：
 
@@ -118,15 +108,15 @@ JSON数据的书写格式是：名称：值，这样的一对。即名称在前�
 数组内的对象之间当然也是要用逗号分隔。只要是对象之间，分隔就是用逗号`,`。但是，要注意，对象结束的时候，不要加逗号。数组内也是，例如：
 
 ```
-	[
-        {"eRANName":"eNB1", "eRANID":3002, "ctlPort":36412, "dataPort":2152},
-        {"eRANName":"eNB2", "eRANID":10000, "ctlPort":36412, "dataPort":2152},
-    ]
+[
+    {"eRANName":"eNB1", "eRANID":3002, "ctlPort":36412, "dataPort":2152},
+    {"eRANName":"eNB2", "eRANID":10000, "ctlPort":36412, "dataPort":2152},
+]
 ```
 
 上面这个就是错误的，因为在数组中，两个对象之间需要逗号，但是到这个数组末尾了，不需要加逗号了。
 
-### JSON花括号保存对象
+#### 3. JSON 花括号保存对象
 
 对象可以包含多个名称/值对，如：
 
@@ -143,42 +133,50 @@ JSON数据的书写格式是：名称：值，这样的一对。即名称在前�
 "dataPort" = 2152
 ```
 
-### JSON方括号保存数组
+#### 4. JSON 方括号保存数组
 
 数组可包含多个对象：
 
 ```
-	"eRAN":[
-        {"eRANName":"eNB1", "eRANID":3002, "ctlPort":36412, "dataPort":2152},
-        {"eRANName":"eNB2", "eRANID":10000, "ctlPort":36412, "dataPort":2152}
-    ]
+"eRAN":[
+    {"eRANName":"eNB1", "eRANID":3002, "ctlPort":36412, "dataPort":2152},
+    {"eRANName":"eNB2", "eRANID":10000, "ctlPort":36412, "dataPort":2152}
+]
 ```
-在上面的例子中，对象 "eRAN" 是包含2个对象的数组。每个对象代表一条基站的记录。
 
-### JSON 转义
+在上面的例子中，对象 "eRAN" 是包含 2 个对象的数组。每个对象代表一条基站的记录。
 
-JSON交换时必须编码为UTF-8。[1]转义序列可以为：“\\”、“\"”、“\/”、“\b”、“\f”、“\n”、“\r”、“\t”，或Unicode16进制转义字符序列（\u后面跟随4位16进制数字）。对于不在基本多文种平面上的码位，必须用UTF-16代理对（surrogate pair）表示，例如对于Emoji字符—喜极而泣的表情U+1F602 😂 face with tears of joy在JSON中应表示为：
-
-{ "face": "😂" }
-// or
-{ "face": "\uD83D\uDE02" }
-
-### JSON 格式化工具
-
-JSON格式取代了XML给网络传输带来了很大的便利，但是却没有了XML的一目了然，尤其是JSON数据很长的时候，会让人陷入繁琐复杂的数据节点查找中。开发者可以通过在线JSON格式化工具，来更方便的对JSON数据进行节点查找和解析。
-
-### JSON 与其他格式的比较
-
-#### vs XML
-
-JSON与XML最大的不同在于XML是一个完整的标记语言，而JSON不是。这使得XML在程序判读上需要比较多的功夫。主要的原因在于XML的设计理念与JSON不同。XML利用标记语言的特性提供了绝佳的延展性（如XPath），在数据存储，扩展及高级检索方面具备对JSON的优势，而JSON则由于比XML更加小巧，以及浏览器的内建快速解析支持，使得其更适用于网络数据传输领域。
-
-#### vs YAML
-
+上面四条规则，就是 JSON 格式的所有内容。
 
 ## 案例
 
-## 拓展阅读和参考
+## JSON 与其他格式的比较
 
-https://www.json.org/json-en.html
-https://en.wikipedia.org/wiki/JSON
+### JSON vs XML
+
+JSON 与 XML 最大的不同在于 XML 是一个完整的标记语言，而 JSON 不是。这使得 XML 在程序判读上需要比较多的功夫。主要的原因在于 XML 的设计理念与 JSON 不同。XML 利用标记语言的特性提供了绝佳的延展性（如 XPath），在数据存储，扩展及高级检索方面具备对 JSON 的优势，而 JSON 则由于比 XML 更加小巧，以及浏览器的内建快速解析支持，使得其更适用于网络数据传输领域。
+
+从转义角度来看，XML 标签名不能包含任何字符`!"#$%&'()*+,/;<=>?@[\]^{|}~`，也不能包含空格字符，不能以`-`、`.`或数字数字开头，而 JSON 键可以（引号和反斜杠必须转义）。
+
+### JSON vs YAML
+
+JSON 格式虽然简单易上手，但是却没有了 YAML 的一目了然，尤其是 JSON 数据很长的时候，会让人陷入繁琐复杂的数据节点查找中。开发者可以通过在线 JSON 格式化工具，来更方便的对 JSON 数据进行节点查找和解析。
+
+### There Is One More Thing
+
+从结构上看，不仅仅是 JSON、YAML、XML，大部分或者所有的数据（data）最终都可以分解成三种类型：
+
+第一种类型是标量（scalar），也就是一个单独的字符串（string）或数字（numbers），比如`"云原生"`这个单独的词。
+
+第二种类型是序列（sequence），也就是若干个相关的数据按照一定顺序并列在一起，又叫做数组（array）或列表（List），比如`["Kubernetes", "Istio"]`。
+
+第三种类型是映射（mapping），也就是一个名/值对（Name/value），即数据有一个名称，还有一个与之相对应的值，这又称作散列（hash）或字典（dictionary），比如`"CloudNative": "Kubernetes"`。
+
+## 参考
+
+- [JSON 官网](https://www.json.org/json-en.html)
+- [JSON 维基百科](https://en.wikipedia.org/wiki/JSON)
+- [数据类型和 Json 格式--阮一峰](http://www.ruanyifeng.com/blog/2009/05/data_types_and_json.html)
+- [YAML Ain’t Markup Language (YAML™) Version 1.1](https://yaml.org/spec/1.1/index.html)
+- [World Wide Web Consortium](https://www.w3.org/TR/xml11/)
+- [自己最初了解 JSON 时总结的一篇文章](https://blog.csdn.net/qq_15437667/article/details/50957996)
