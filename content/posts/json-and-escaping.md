@@ -1,20 +1,14 @@
 ---
 title: "聊一聊 JSON 和 JSON 转义的那些事"
 date: 2020-12-28T01:21:26+08:00
-draft: true
+draft: false
+author: "[厉辉（Yousa）](https://github.com/Miss-you)"
+tags: ["code"]
 ---
 
 # 聊一聊 JSON 和 JSON 转义的那些事
 
 [TOC]
-
-### 要点
-
-写一下前情提要
-
-> 思维导图
-
-![](https://cdn.jsdelivr.net/gh/Miss-you/img/picgo/jsonescape.jpg)
 
 > 适合人群：入门级
 
@@ -150,6 +144,62 @@ JSON 数据的书写格式是：名称：值，这样的一对。即名称在前
 
 ## 案例
 
+### 一个由特殊字符导致 JSON 格式的 Nginx 访问日志/日志系统的 BUG
+
+访问日志 `access_log`：Nginx 会将每个客户端访问其本身的请求以日志的形式记录到指定的日志文件里，以供分析用户的浏览或请求行为，或者可以用于快速分析故障所在。此功能由 `ngx_http_log_module` 模块负责。
+
+在 Nginx 文件中，访问日志 `access.log` 配置形如下文的格式：
+
+```
+log_format  main  '$remote_addr [$time_local] "$request" '
+                    '$status $bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
+access_log  logs/access.log  main buffer=32k;
+```
+
+- `logs/access.log` 指定访问日志路径
+- `log_format` 定义访问日志格式
+- `buffer=32k` 是日志缓冲区大小
+
+访问日志 `access_log` 其通过格式化输出 `nginx` 变量以及拼接字符串的方式打印日志。
+
+在云原生时代，Nginx 运维的最佳实践之一就是将 Nginx 访问日志采用 EFK 架构 `(Elasticsearch+Filebeat+Kibana)`，通过收集和管理访问日志，提供统一的检索功能，这样做不仅可以提高诊断效率，而且可以全面了解系统情况，避免被动事后救火。
+
+通常，为了方便分析，会将 Nginx 访问日志输出为 JSON 字符串，其配置如下：
+
+```
+log_format  main  '{"remote_addr":"$remote_addr","time_local":"$time_local","request":"$request",'
+                    '"status":"$status","bytes_sent":"$bytes_sent","http_referer":"$http_referer",'
+                    '"http_user_agent":"$http_user_agent","http_x_forwarded_for":"$http_x_forwarded_for"}';
+access_log  logs/access.log  main buffer=32k;
+```
+
+乍一看，这样的配置没什么问题。但再深入思考，生成 JSON 字符串的标准做法是调用 JSON 序列化接口，而 Nginx 访问日志是直接格式化拼接字符串，故一旦访问日志中出现特殊字符（比如双引号`"`），就会导致整行访问日志解析出错，影响接下来的日志分析系统对访问日志的数据查找、服务诊断和数据分析。
+
+为了解决 JSON 转义的问题，Nginx 在 1.11.8 版本中给日志格式 `log_format` 新增了序列化配置 `escape=json`，其格式为：
+
+```
+Syntax:	log_format name [escape=default|json|none] string ...;
+Default:	
+log_format combined "...";
+Context:	http
+```
+
+当配置为 `escape=json` 时，JSON 字符串中所有不允许的字符都将被转义：
+
+- `"`和`/`字符被转义为`/"`和`//`
+- 值小于 32 的字符被转义`“\n”, “\r”, “\t”, “\b”, “\f”, or “\u00XX”`
+
+所以，正确的 `log_format` 配置为
+
+```
+log_format  main  escape=json '{"remote_addr":"$remote_addr","time_local":"$time_local","request":"$request",'
+                    '"status":"$status","bytes_sent":"$bytes_sent","http_referer":"$http_referer",'
+                    '"http_user_agent":"$http_user_agent","http_x_forwarded_for":"$http_x_forwarded_for"}';
+```
+
+当然，因为 JSON 转义导致的 BUG 不止这一个，近期遇到的另一个 BUG 也是因为前人实现的代码实现不规范，其逻辑是将收到的请求以字符串拼接的方式构造 JSON 串，导致一旦请求中带有双引号`"`或其他特殊字符，就必定出现 BUG。
+
 ## JSON 与其他格式的比较
 
 ### JSON vs XML
@@ -160,9 +210,20 @@ JSON 与 XML 最大的不同在于 XML 是一个完整的标记语言，而 JSON
 
 ### JSON vs YAML
 
-JSON 格式虽然简单易上手，但是却没有了 YAML 的一目了然，尤其是 JSON 数据很长的时候，会让人陷入繁琐复杂的数据节点查找中。开发者可以通过在线 JSON 格式化工具，来更方便的对 JSON 数据进行节点查找和解析。
+JSON 格式简单易上手，但没有了 YAML 的一目了然，尤其是 JSON 数据很长的时候，会让人陷入繁琐复杂的数据节点查找中。通常我会使用在线 JSON 格式化工具，来更方便的对 JSON 数据进行节点查找和解析。
 
-### There Is One More Thing
+个人认为，YAML 几乎将 JSON 秒成渣渣，这里直接引用公司内部大佬的一个关于 YAML 的总结：
+
+- YAML 的可读性好
+- YAML 和脚本语言的交互性好
+- YAML 使用实现语言的数据类型
+- YAML 有一个一致的信息模型
+- YAML 易于实现
+- YAML 可以基于流来处理
+- YAML 表达能力强，扩展性好
+- YAML 可以写注释
+
+## There Is One More Thing
 
 从结构上看，不仅仅是 JSON、YAML、XML，大部分或者所有的数据（data）最终都可以分解成三种类型：
 
