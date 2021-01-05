@@ -31,6 +31,22 @@
  nginx 热更新 (Upgrading Executable on the Fly) nginx [engine x] 是 Igor Sysoev 编写的一个 HTTP 和反向代理服务器，另外它也可以作为邮件代理服务器。 它已经在众多流量很大的俄罗斯网站上使用了很长时间，这些网站包括 Yandex、Mail.Ru、VKontakte，以及 Rambler。据 Netcraft 统计，在 2012 年 8 月份，世界上最繁忙的网站中有 11.48%使用 Nginx 作为其服务器或者代理服务器。
  NginX 采用 Master/Worker 的多进程模型，Master 进程负责整个 NginX 进程的管理。Nginx 的模块化、热更新、Http 处理流程、日志等机制都非常经典。这里将会简要介绍一下热更新的机制]]></description>
 </item><item>
+    <title>聊一聊 JSON 和 JSON 转义的那些事</title>
+    <link>http://miss-you.github.io/json-and-escaping/</link>
+    <pubDate>Mon, 28 Dec 2020 01:21:26 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>http://miss-you.github.io/json-and-escaping/</guid>
+    <description><![CDATA[聊一聊 JSON 和 JSON 转义的那些事 [TOC]
+ 适合人群：入门级
+ JSON 和 JSON 转义 21 世纪初，Douglas Crockford 寻找一种简便的数据交换格式，能够在服务器之间交换数据。当时通用的数据交换语言是 XML，但是 Douglas Crockford 觉得 XML 的生成和解析都太麻烦，所以他提出了一种简化格式，也就是 JSON。
+JSON 其结构形如 {&quot;云原生&quot;:&quot;Kubernetes&quot;}，可以很直观的使用字符串表示对象或数据结构。对象或数据结构使用序列化接口转换成 JSON 字符串，比如 Golang 中的json.Marshal接口。
+你可能会有这样的疑问：既然 JSON 字符串结构简单，为什么不直接使用字符串拼接的方式，而是要使用 JSON 序列化接口呢？
+结果显而易见：JSON 序列化接口会一并将数据中的特殊字符进行转义，防止其破坏 JSON 原有结构。比如数据中含有双引号&quot;特殊字符，序列化接口便会对双引号进行转义，最终结果类似于{&quot;云原生&quot;:&quot;\&quot;Kubernetes\&quot;&quot;}，否则，该场景下直接拼接的字符串会非法。
+JSON 转义 许多程序设计语言把双引号字符（&quot;）用作字符串的分界符。反斜线（\）转义字符提供了两种方式来把双引号字符置入字符串中，或者是使用转义序列\&quot;表示单个的&quot;字符本身，而不是作为字符串分界符；或者是直接开始字符&quot;的 16 进制编码值的转义序列\x22来表示&quot;，也可以使用 8 进制编码值的转义序列，如\042。
+在 Python 中，下面的代码将会产生语法错误
+1  print &#34;Cloud Navite &#34;Hello World!&#34;.&#34;;   而另一段 Python 代码则会产生符合预期的结果
+1  print &#34;Cloud Navite \&#34;Hello World!\&#34;.&#34;;   在 JSON 中，也是如此：当使用 json 接口解析字符串{&quot;云原生&quot;:&quot;&quot;Kubernetes&quot;&quot;}时会报错，而解析经过转义的 JSON 字符串{&quot;云原生&quot;:&quot;\&quot;Kubernetes\&quot;&quot;}则会解析成功。]]></description>
+</item><item>
     <title>获取服务器本机 IP 的不同语言实现</title>
     <link>http://miss-you.github.io/how-to-get-localip/</link>
     <pubDate>Wed, 25 Nov 2020 03:11:02 &#43;0800</pubDate>

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>聊一聊 JSON 和 JSON 转义的那些事 - LoveIt</title><meta name="Description" content="About LoveIt Theme"><meta property="og:title" content="聊一聊 JSON 和 JSON 转义的那些事" />
+<meta property="og:description" content="聊一聊 JSON 和 JSON 转义的那些事 [TOC]
+ 适合人群：入门级
+ JSON 和 JSON 转义 21 世纪初，Douglas Crockford 寻找一种简便的数据交换格式，能够在服务器之间交换数据。当时通用的数据交换语言是 XML，但是 Douglas Crockford 觉得 XML 的生成和解析都太麻烦，所以他提出了一种简化格式，也就是 JSON。
+JSON 其结构形如 {&quot;云原生&quot;:&quot;Kubernetes&quot;}，可以很直观的使用字符串表示对象或数据结构。对象或数据结构使用序列化接口转换成 JSON 字符串，比如 Golang 中的json.Marshal接口。
+你可能会有这样的疑问：既然 JSON 字符串结构简单，为什么不直接使用字符串拼接的方式，而是要使用 JSON 序列化接口呢？
+结果显而易见：JSON 序列化接口会一并将数据中的特殊字符进行转义，防止其破坏 JSON 原有结构。比如数据中含有双引号&quot;特殊字符，序列化接口便会对双引号进行转义，最终结果类似于{&quot;云原生&quot;:&quot;\&quot;Kubernetes\&quot;&quot;}，否则，该场景下直接拼接的字符串会非法。
+JSON 转义 许多程序设计语言把双引号字符（&quot;）用作字符串的分界符。反斜线（\）转义字符提供了两种方式来把双引号字符置入字符串中，或者是使用转义序列\&quot;表示单个的&quot;字符本身，而不是作为字符串分界符；或者是直接开始字符&quot;的 16 进制编码值的转义序列\x22来表示&quot;，也可以使用 8 进制编码值的转义序列，如\042。
+在 Python 中，下面的代码将会产生语法错误
+1  print &#34;Cloud Navite &#34;Hello World!&#34;.&#34;;   而另一段 Python 代码则会产生符合预期的结果
+1  print &#34;Cloud Navite \&#34;Hello World!\&#34;.&#34;;   在 JSON 中，也是如此：当使用 json 接口解析字符串{&quot;云原生&quot;:&quot;&quot;Kubernetes&quot;&quot;}时会报错，而解析经过转义的 JSON 字符串{&quot;云原生&quot;:&quot;\&quot;Kubernetes\&quot;&quot;}则会解析成功。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://miss-you.github.io/json-and-escaping/" />
+<meta property="og:image" content="http://miss-you.github.io/logo.png"/>
+<meta property="article:published_time" content="2020-12-28T01:21:26+08:00" />
+<meta property="article:modified_time" content="2021-01-06T00:05:51+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://miss-you.github.io/logo.png"/>
+
+<meta name="twitter:title" content="聊一聊 JSON 和 JSON 转义的那些事"/>
+<meta name="twitter:description" content="聊一聊 JSON 和 JSON 转义的那些事 [TOC]
+ 适合人群：入门级
+ JSON 和 JSON 转义 21 世纪初，Douglas Crockford 寻找一种简便的数据交换格式，能够在服务器之间交换数据。当时通用的数据交换语言是 XML，但是 Douglas Crockford 觉得 XML 的生成和解析都太麻烦，所以他提出了一种简化格式，也就是 JSON。
+JSON 其结构形如 {&quot;云原生&quot;:&quot;Kubernetes&quot;}，可以很直观的使用字符串表示对象或数据结构。对象或数据结构使用序列化接口转换成 JSON 字符串，比如 Golang 中的json.Marshal接口。
+你可能会有这样的疑问：既然 JSON 字符串结构简单，为什么不直接使用字符串拼接的方式，而是要使用 JSON 序列化接口呢？
+结果显而易见：JSON 序列化接口会一并将数据中的特殊字符进行转义，防止其破坏 JSON 原有结构。比如数据中含有双引号&quot;特殊字符，序列化接口便会对双引号进行转义，最终结果类似于{&quot;云原生&quot;:&quot;\&quot;Kubernetes\&quot;&quot;}，否则，该场景下直接拼接的字符串会非法。
+JSON 转义 许多程序设计语言把双引号字符（&quot;）用作字符串的分界符。反斜线（\）转义字符提供了两种方式来把双引号字符置入字符串中，或者是使用转义序列\&quot;表示单个的&quot;字符本身，而不是作为字符串分界符；或者是直接开始字符&quot;的 16 进制编码值的转义序列\x22来表示&quot;，也可以使用 8 进制编码值的转义序列，如\042。
+在 Python 中，下面的代码将会产生语法错误
+1  print &#34;Cloud Navite &#34;Hello World!&#34;.&#34;;   而另一段 Python 代码则会产生符合预期的结果
+1  print &#34;Cloud Navite \&#34;Hello World!\&#34;.&#34;;   在 JSON 中，也是如此：当使用 json 接口解析字符串{&quot;云原生&quot;:&quot;&quot;Kubernetes&quot;&quot;}时会报错，而解析经过转义的 JSON 字符串{&quot;云原生&quot;:&quot;\&quot;Kubernetes\&quot;&quot;}则会解析成功。"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://miss-you.github.io/json-and-escaping/" /><link rel="prev" href="http://miss-you.github.io/how-to-get-localip/" /><link rel="next" href="http://miss-you.github.io/server-hot-update/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "聊一聊 JSON 和 JSON 转义的那些事",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/miss-you.github.io\/json-and-escaping\/"
+        },"image": ["http:\/\/miss-you.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "code","wordcount":  467 ,
+        "url": "http:\/\/miss-you.github.io\/json-and-escaping\/","datePublished": "2020-12-28T01:21:26+08:00","dateModified": "2021-01-06T00:05:51+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "http:\/\/miss-you.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "[厉辉（Yousa）](https://github.com/Miss-you)"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="LoveIt"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw'></i></span>LoveIt</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/categories/documentation/"> Docs </a><a class="menu-item" href="/about/"> About </a><a class="menu-item" href="https://github.com/dillonzq/LoveIt" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="Select Language">English<i class="fas fa-chevron-right fa-fw"></i>
+                        <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/json-and-escaping/" selected>English</option></select>
+                    </a><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="LoveIt"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw'></i></span>LoveIt</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/categories/documentation/" title="">Docs</a><a class="menu-item" href="/about/" title="">About</a><a class="menu-item" href="https://github.com/dillonzq/LoveIt" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="Select Language">English<i class="fas fa-chevron-right fa-fw"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/json-and-escaping/" selected>English</option></select>
+                </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">聊一聊 JSON 和 JSON 转义的那些事</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>[厉辉（Yousa）](https://github.com/Miss-you)</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-12-28">2020-12-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;467 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;<span id="/json-and-escaping/" class="leancloud_visitors" data-flag-title="聊一聊 JSON 和 JSON 转义的那些事">
+                        <i class="far fa-eye fa-fw"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#json-和-json-转义">JSON 和 JSON 转义</a>
+      <ul>
+        <li><a href="#json-转义">JSON 转义</a></li>
+        <li><a href="#json-语法">JSON 语法</a>
+          <ul>
+            <li>
+              <ul>
+                <li><a href="#1-json-名称值对">1. JSON 名称/值对</a></li>
+              </ul>
+            </li>
+            <li><a href="#2-json-数据由逗号分隔">2. JSON 数据由逗号分隔</a></li>
+            <li><a href="#3-json-花括号保存对象">3. JSON 花括号保存对象</a></li>
+            <li><a href="#4-json-方括号保存数组">4. JSON 方括号保存数组</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#案例">案例</a>
+      <ul>
+        <li><a href="#一个由特殊字符导致-json-格式的-nginx-访问日志日志系统的-bug">一个由特殊字符导致 JSON 格式的 Nginx 访问日志/日志系统的 BUG</a></li>
+      </ul>
+    </li>
+    <li><a href="#json-与其他格式的比较">JSON 与其他格式的比较</a>
+      <ul>
+        <li><a href="#json-vs-xml">JSON vs XML</a></li>
+        <li><a href="#json-vs-yaml">JSON vs YAML</a></li>
+      </ul>
+    </li>
+    <li><a href="#there-is-one-more-thing">There Is One More Thing</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="聊一聊-json-和-json-转义的那些事">聊一聊 JSON 和 JSON 转义的那些事</h1>
+<p>[TOC]</p>
+<blockquote>
+<p>适合人群：入门级</p>
+</blockquote>
+<h2 id="json-和-json-转义">JSON 和 JSON 转义</h2>
+<p>21 世纪初，Douglas Crockford 寻找一种简便的数据交换格式，能够在服务器之间交换数据。当时通用的数据交换语言是 XML，但是 Douglas Crockford 觉得 XML 的生成和解析都太麻烦，所以他提出了一种简化格式，也就是 JSON。</p>
+<p>JSON 其结构形如 <code>{&quot;云原生&quot;:&quot;Kubernetes&quot;}</code>，可以很直观的使用字符串表示对象或数据结构。对象或数据结构使用序列化接口转换成 JSON 字符串，比如 Golang 中的<code>json.Marshal</code>接口。</p>
+<p>你可能会有这样的疑问：既然 JSON 字符串结构简单，为什么不直接使用字符串拼接的方式，而是要使用 JSON 序列化接口呢？</p>
+<p>结果显而易见：JSON 序列化接口会一并将数据中的特殊字符进行转义，防止其破坏 JSON 原有结构。比如数据中含有双引号<code>&quot;</code>特殊字符，序列化接口便会对双引号进行转义，最终结果类似于<code>{&quot;云原生&quot;:&quot;\&quot;Kubernetes\&quot;&quot;}</code>，否则，该场景下直接拼接的字符串会非法。</p>
+<h3 id="json-转义">JSON 转义</h3>
+<p>许多程序设计语言把双引号字符<code>（&quot;）</code>用作字符串的分界符。反斜线<code>（\）</code>转义字符提供了两种方式来把双引号字符置入字符串中，或者是使用转义序列<code>\&quot;</code>表示单个的<code>&quot;</code>字符本身，而不是作为字符串分界符；或者是直接开始字符<code>&quot;</code>的 16 进制编码值的转义序列<code>\x22</code>来表示<code>&quot;</code>，也可以使用 8 进制编码值的转义序列，如<code>\042</code>。</p>
+<p>在 Python 中，下面的代码将会产生语法错误</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">print &#34;Cloud Navite &#34;Hello World!&#34;.&#34;;
+</code></pre></td></tr></table>
+</div>
+</div><p>而另一段 Python 代码则会产生符合预期的结果</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">print &#34;Cloud Navite \&#34;Hello World!\&#34;.&#34;;
+</code></pre></td></tr></table>
+</div>
+</div><p>在 JSON 中，也是如此：当使用 json 接口解析字符串<code>{&quot;云原生&quot;:&quot;&quot;Kubernetes&quot;&quot;}</code>时会报错，而解析经过转义的 JSON 字符串<code>{&quot;云原生&quot;:&quot;\&quot;Kubernetes\&quot;&quot;}</code>则会解析成功。</p>
+<p>JSON 转义机制如下图：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://cdn.jsdelivr.net/gh/Miss-you/img/picgo/20201228022357.png"
+        data-srcset="https://cdn.jsdelivr.net/gh/Miss-you/img/picgo/20201228022357.png, https://cdn.jsdelivr.net/gh/Miss-you/img/picgo/20201228022357.png 1.5x, https://cdn.jsdelivr.net/gh/Miss-you/img/picgo/20201228022357.png 2x"
+        data-sizes="auto"
+        alt="https://cdn.jsdelivr.net/gh/Miss-you/img/picgo/20201228022357.png"
+        title="https://cdn.jsdelivr.net/gh/Miss-you/img/picgo/20201228022357.png" /></p>
+<ol>
+<li>JSON 中字符串针对于特殊字符需要 JSON 转义，它使用反斜杠<code>\</code>进行转义</li>
+<li>JSON 序列包括<code>“\\、\&quot;、\/、\b、\f、\n、\r、\t</code>，或者 Unicode16 进制转义字符（比如<code>\uD83D\uDE02</code>)</li>
+<li>JSON 字符串为 UTF-8 编码</li>
+</ol>
+<h3 id="json-语法">JSON 语法</h3>
+<blockquote>
+<p>在讲具体案例之前，复习一下 JSON 语法，忘记的可以翻阅该章节。</p>
+</blockquote>
+<p>JSON 语法简单来说就是四条：</p>
+<ul>
+<li>数据在名称/值对中</li>
+<li>数据由逗号分隔</li>
+<li>花括号保存对象</li>
+<li>方括号保存数组</li>
+</ul>
+<blockquote>
+<p>声明：以下使用的对象均来自于以下内容</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
+    &#34;virtualeNB&#34;:[
+        {&#34;virteNBName&#34;:&#34;virt1&#34;, &#34;virteNBNum&#34;:5, &#34;begineNBID&#34;:0, &#34;beginCtlPort&#34;:6000, &#34;beginDataPort&#34;:7000, &#34;virtIPNum&#34;:5},
+        {&#34;virteNBName&#34;:&#34;virt2&#34;, &#34;virteNBNum&#34;:10, &#34;begineNBID&#34;:10, &#34;beginCtlPort&#34;:6000, &#34;beginDataPort&#34;:7000, &#34;virtIPNum&#34;:10}
+    ],
+    &#34;eRAN&#34;:[
+        {&#34;eRANName&#34;:&#34;eNB1&#34;, &#34;eRANID&#34;:3002, &#34;ctlPort&#34;:36412, &#34;dataPort&#34;:2152},
+        {&#34;eRANName&#34;:&#34;eNB2&#34;, &#34;eRANID&#34;:10000, &#34;ctlPort&#34;:36412, &#34;dataPort&#34;:2152}
+    ]
+}
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="1-json-名称值对">1. JSON 名称/值对</h5>
+<p>JSON 数据的书写格式是：名称：值，这样的一对。即名称在前，该名称的值在冒号后面。例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&#34;virteNBName&#34;:&#34;virt1&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>这里的名称是<code>&quot;virteNBName&quot;</code>，值是<code>&quot;virt1&quot;</code>，他们均是字符串</p>
+<p>名称和值得类型可以有以下几种：</p>
+<ul>
+<li>数字（整数或浮点数）</li>
+<li>字符串（在双引号中）</li>
+<li>逻辑值（true 或 false）</li>
+<li>数组（在方括号中）</li>
+<li>对象（在花括号中）</li>
+<li>null</li>
+</ul>
+<h4 id="2-json-数据由逗号分隔">2. JSON 数据由逗号分隔</h4>
+<p>譬如：</p>
+<p><code>&quot;virteNBName&quot;:&quot;virt1&quot;, &quot;virteNBNum&quot;:5, &quot;begineNBID&quot;:0</code>这几个对象之间就是使用逗号分隔。</p>
+<p>数组内的对象之间当然也是要用逗号分隔。只要是对象之间，分隔就是用逗号<code>,</code>。但是，要注意，对象结束的时候，不要加逗号。数组内也是，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">[
+    {&#34;eRANName&#34;:&#34;eNB1&#34;, &#34;eRANID&#34;:3002, &#34;ctlPort&#34;:36412, &#34;dataPort&#34;:2152},
+    {&#34;eRANName&#34;:&#34;eNB2&#34;, &#34;eRANID&#34;:10000, &#34;ctlPort&#34;:36412, &#34;dataPort&#34;:2152},
+]
+</code></pre></td></tr></table>
+</div>
+</div><p>上面这个就是错误的，因为在数组中，两个对象之间需要逗号，但是到这个数组末尾了，不需要加逗号了。</p>
+<h4 id="3-json-花括号保存对象">3. JSON 花括号保存对象</h4>
+<p>对象可以包含多个名称/值对，如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{&#34;eRANName&#34;:&#34;eNB1&#34;, &#34;eRANID&#34;:3002, &#34;ctlPort&#34;:36412, &#34;dataPort&#34;:2152}
+</code></pre></td></tr></table>
+</div>
+</div><p>这一点也容易理解，与这条 JavaScript 语句等价：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&#34;eRANName&#34; = &#34;eNB1&#34;
+&#34;eRANID&#34; = 3002
+&#34;ctlPort&#34; = 36412
+&#34;dataPort&#34; = 2152
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="4-json-方括号保存数组">4. JSON 方括号保存数组</h4>
+<p>数组可包含多个对象：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&#34;eRAN&#34;:[
+    {&#34;eRANName&#34;:&#34;eNB1&#34;, &#34;eRANID&#34;:3002, &#34;ctlPort&#34;:36412, &#34;dataPort&#34;:2152},
+    {&#34;eRANName&#34;:&#34;eNB2&#34;, &#34;eRANID&#34;:10000, &#34;ctlPort&#34;:36412, &#34;dataPort&#34;:2152}
+]
+</code></pre></td></tr></table>
+</div>
+</div><p>在上面的例子中，对象 &ldquo;eRAN&rdquo; 是包含 2 个对象的数组。每个对象代表一条基站的记录。</p>
+<p>上面四条规则，就是 JSON 格式的所有内容。</p>
+<h2 id="案例">案例</h2>
+<h3 id="一个由特殊字符导致-json-格式的-nginx-访问日志日志系统的-bug">一个由特殊字符导致 JSON 格式的 Nginx 访问日志/日志系统的 BUG</h3>
+<p>访问日志 <code>access_log</code>：Nginx 会将每个客户端访问其本身的请求以日志的形式记录到指定的日志文件里，以供分析用户的浏览或请求行为，或者可以用于快速分析故障所在。此功能由 <code>ngx_http_log_module</code> 模块负责。</p>
+<p>在 Nginx 文件中，访问日志 <code>access.log</code> 配置形如下文的格式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">log_format  main  &#39;$remote_addr [$time_local] &#34;$request&#34; &#39;
+                    &#39;$status $bytes_sent &#34;$http_referer&#34; &#39;
+                    &#39;&#34;$http_user_agent&#34; &#34;$http_x_forwarded_for&#34;&#39;;
+access_log  logs/access.log  main buffer=32k;
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>logs/access.log</code> 指定访问日志路径</li>
+<li><code>log_format</code> 定义访问日志格式</li>
+<li><code>buffer=32k</code> 是日志缓冲区大小</li>
+</ul>
+<p>访问日志 <code>access_log</code> 其通过格式化输出 <code>nginx</code> 变量以及拼接字符串的方式打印日志。</p>
+<p>在云原生时代，Nginx 运维的最佳实践之一就是将 Nginx 访问日志采用 EFK 架构 <code>(Elasticsearch+Filebeat+Kibana)</code>，通过收集和管理访问日志，提供统一的检索功能，这样做不仅可以提高诊断效率，而且可以全面了解系统情况，避免被动事后救火。</p>
+<p>通常，为了方便分析，会将 Nginx 访问日志输出为 JSON 字符串，其配置如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">log_format  main  &#39;{&#34;remote_addr&#34;:&#34;$remote_addr&#34;,&#34;time_local&#34;:&#34;$time_local&#34;,&#34;request&#34;:&#34;$request&#34;,&#39;
+                    &#39;&#34;status&#34;:&#34;$status&#34;,&#34;bytes_sent&#34;:&#34;$bytes_sent&#34;,&#34;http_referer&#34;:&#34;$http_referer&#34;,&#39;
+                    &#39;&#34;http_user_agent&#34;:&#34;$http_user_agent&#34;,&#34;http_x_forwarded_for&#34;:&#34;$http_x_forwarded_for&#34;}&#39;;
+access_log  logs/access.log  main buffer=32k;
+</code></pre></td></tr></table>
+</div>
+</div><p>乍一看，这样的配置没什么问题。但再深入思考，生成 JSON 字符串的标准做法是调用 JSON 序列化接口，而 Nginx 访问日志是直接格式化拼接字符串，故一旦访问日志中出现特殊字符（比如双引号<code>&quot;</code>），就会导致整行访问日志解析出错，影响接下来的日志分析系统对访问日志的数据查找、服务诊断和数据分析。</p>
+<p>为了解决 JSON 转义的问题，Nginx 在 1.11.8 版本中给日志格式 <code>log_format</code> 新增了序列化配置 <code>escape=json</code>，其格式为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">Syntax:	log_format name [escape=default|json|none] string ...;
+Default:	
+log_format combined &#34;...&#34;;
+Context:	http
+</code></pre></td></tr></table>
+</div>
+</div><p>当配置为 <code>escape=json</code> 时，JSON 字符串中所有不允许的字符都将被转义：</p>
+<ul>
+<li><code>&quot;</code>和<code>/</code>字符被转义为<code>/&quot;</code>和<code>//</code></li>
+<li>值小于 32 的字符被转义<code>“\n”, “\r”, “\t”, “\b”, “\f”, or “\u00XX”</code></li>
+</ul>
+<p>所以，正确的 <code>log_format</code> 配置为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">log_format  main  escape=json &#39;{&#34;remote_addr&#34;:&#34;$remote_addr&#34;,&#34;time_local&#34;:&#34;$time_local&#34;,&#34;request&#34;:&#34;$request&#34;,&#39;
+                    &#39;&#34;status&#34;:&#34;$status&#34;,&#34;bytes_sent&#34;:&#34;$bytes_sent&#34;,&#34;http_referer&#34;:&#34;$http_referer&#34;,&#39;
+                    &#39;&#34;http_user_agent&#34;:&#34;$http_user_agent&#34;,&#34;http_x_forwarded_for&#34;:&#34;$http_x_forwarded_for&#34;}&#39;;
+</code></pre></td></tr></table>
+</div>
+</div><p>当然，因为 JSON 转义导致的 BUG 不止这一个，近期遇到的另一个 BUG 也是因为前人实现的代码实现不规范，其逻辑是将收到的请求以字符串拼接的方式构造 JSON 串，导致一旦请求中带有双引号<code>&quot;</code>或其他特殊字符，就必定出现 BUG。</p>
+<h2 id="json-与其他格式的比较">JSON 与其他格式的比较</h2>
+<h3 id="json-vs-xml">JSON vs XML</h3>
+<p>JSON 与 XML 最大的不同在于 XML 是一个完整的标记语言，而 JSON 不是。这使得 XML 在程序判读上需要比较多的功夫。主要的原因在于 XML 的设计理念与 JSON 不同。XML 利用标记语言的特性提供了绝佳的延展性（如 XPath），在数据存储，扩展及高级检索方面具备对 JSON 的优势，而 JSON 则由于比 XML 更加小巧，以及浏览器的内建快速解析支持，使得其更适用于网络数据传输领域。</p>
+<p>从转义角度来看，XML 标签名不能包含任何字符<code>!&quot;#$%&amp;'()*+,/;&lt;=&gt;?@[\]^{|}~</code>，也不能包含空格字符，不能以<code>-</code>、<code>.</code>或数字数字开头，而 JSON 键可以（引号和反斜杠必须转义）。</p>
+<h3 id="json-vs-yaml">JSON vs YAML</h3>
+<p>JSON 格式简单易上手，但没有了 YAML 的一目了然，尤其是 JSON 数据很长的时候，会让人陷入繁琐复杂的数据节点查找中。通常我会使用在线 JSON 格式化工具，来更方便的对 JSON 数据进行节点查找和解析。</p>
+<p>个人认为，YAML 几乎将 JSON 秒成渣渣，这里直接引用公司内部大佬的一个关于 YAML 的总结：</p>
+<ul>
+<li>YAML 的可读性好</li>
+<li>YAML 和脚本语言的交互性好</li>
+<li>YAML 使用实现语言的数据类型</li>
+<li>YAML 有一个一致的信息模型</li>
+<li>YAML 易于实现</li>
+<li>YAML 可以基于流来处理</li>
+<li>YAML 表达能力强，扩展性好</li>
+<li>YAML 可以写注释</li>
+</ul>
+<h2 id="there-is-one-more-thing">There Is One More Thing</h2>
+<p>从结构上看，不仅仅是 JSON、YAML、XML，大部分或者所有的数据（data）最终都可以分解成三种类型：</p>
+<p>第一种类型是标量（scalar），也就是一个单独的字符串（string）或数字（numbers），比如<code>&quot;云原生&quot;</code>这个单独的词。</p>
+<p>第二种类型是序列（sequence），也就是若干个相关的数据按照一定顺序并列在一起，又叫做数组（array）或列表（List），比如<code>[&quot;Kubernetes&quot;, &quot;Istio&quot;]</code>。</p>
+<p>第三种类型是映射（mapping），也就是一个名/值对（Name/value），即数据有一个名称，还有一个与之相对应的值，这又称作散列（hash）或字典（dictionary），比如<code>&quot;CloudNative&quot;: &quot;Kubernetes&quot;</code>。</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://www.json.org/json-en.html" target="_blank" rel="noopener noreffer">JSON 官网</a></li>
+<li><a href="https://en.wikipedia.org/wiki/JSON" target="_blank" rel="noopener noreffer">JSON 维基百科</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2009/05/data_types_and_json.html" target="_blank" rel="noopener noreffer">数据类型和 Json 格式&ndash;阮一峰</a></li>
+<li><a href="https://yaml.org/spec/1.1/index.html" target="_blank" rel="noopener noreffer">YAML Ain’t Markup Language (YAML™) Version 1.1</a></li>
+<li><a href="https://www.w3.org/TR/xml11/" target="_blank" rel="noopener noreffer">World Wide Web Consortium</a></li>
+<li><a href="https://blog.csdn.net/qq_15437667/article/details/50957996" target="_blank" rel="noopener noreffer">自己最初了解 JSON 时总结的一篇文章</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-01-06&nbsp;<a class="git-hash" href="https://github.com/dillonzq/LoveIt/commit/b4bd82b6706deef1a1a21fdcdd7f228013421703" target="_blank" title="commit by Miss-you(snowfly1993@gmail.com) b4bd82b6706deef1a1a21fdcdd7f228013421703: 补充好JSON转义的文章">
+                                    <i class="fas fa-hashtag fa-fw"></i>b4bd82b</a></span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/json-and-escaping/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://miss-you.github.io/json-and-escaping/" data-title="聊一聊 JSON 和 JSON 转义的那些事" data-hashtags="code"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://miss-you.github.io/json-and-escaping/" data-hashtag="code"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://miss-you.github.io/json-and-escaping/" data-title="聊一聊 JSON 和 JSON 转义的那些事"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://miss-you.github.io/json-and-escaping/" data-title="聊一聊 JSON 和 JSON 转义的那些事"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://miss-you.github.io/json-and-escaping/" data-title="聊一聊 JSON 和 JSON 转义的那些事"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/code/">code</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/how-to-get-localip/" class="prev" rel="prev" title="获取服务器本机 IP 的不同语言实现"><i class="fas fa-angle-left fa-fw"></i>获取服务器本机 IP 的不同语言实现</a>
+            <a href="/server-hot-update/" class="next" rel="next" title="从 nginx 热更新聊一聊 Golang 中的热更新">从 nginx 热更新聊一聊 Golang 中的热更新<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.73.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">xxxx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@5.0.1/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
