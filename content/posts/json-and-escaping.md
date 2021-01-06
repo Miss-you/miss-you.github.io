@@ -212,7 +212,7 @@ JSON 与 XML 最大的不同在于 XML 是一个完整的标记语言，而 JSON
 
 JSON 格式简单易上手，但没有了 YAML 的一目了然，尤其是 JSON 数据很长的时候，会让人陷入繁琐复杂的数据节点查找中。通常我会使用在线 JSON 格式化工具，来更方便的对 JSON 数据进行节点查找和解析。
 
-个人认为，YAML 几乎将 JSON 秒成渣渣，这里直接引用公司内部大佬的一个关于 YAML 的总结：
+个人认为，YAML 几乎将 JSON 秒成渣渣，这里直接引用 [YAML 官方文档](https://yaml.org/spec/1.1/index.html) 关于 YAML 的总结：
 
 - YAML 的可读性好
 - YAML 和脚本语言的交互性好
