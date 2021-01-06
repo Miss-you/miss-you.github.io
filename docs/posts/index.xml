@@ -4,12 +4,12 @@
         <link>http://miss-you.github.io/posts/</link>
         <description>All Posts | LoveIt</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 05 Jan 2021 01:21:26 &#43;0800</lastBuildDate><atom:link href="http://miss-you.github.io/posts/" rel="self" type="application/rss+xml" /><item>
-    <title>聊一聊 JSON 和 JSON 转义的那些事</title>
+    <title>为什么 JSON 需要转义</title>
     <link>http://miss-you.github.io/json-and-escaping/</link>
     <pubDate>Tue, 05 Jan 2021 01:21:26 &#43;0800</pubDate>
     <author>Author</author>
     <guid>http://miss-you.github.io/json-and-escaping/</guid>
-    <description><![CDATA[聊一聊 JSON 和 JSON 转义的那些事 [TOC]
+    <description><![CDATA[为什么 JSON 需要转义？ [TOC]
  适合人群：入门级
  JSON 和 JSON 转义 21 世纪初，Douglas Crockford 寻找一种简便的数据交换格式，能够在服务器之间交换数据。当时通用的数据交换语言是 XML，但是 Douglas Crockford 觉得 XML 的生成和解析都太麻烦，所以他提出了一种简化格式，也就是 JSON。
 JSON 其结构形如 {&quot;云原生&quot;:&quot;Kubernetes&quot;}，可以很直观的使用字符串表示对象或数据结构。对象或数据结构使用序列化接口转换成 JSON 字符串，比如 Golang 中的json.Marshal接口。

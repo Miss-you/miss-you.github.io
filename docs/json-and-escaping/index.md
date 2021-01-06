@@ -1,7 +1,7 @@
-# 聊一聊 JSON 和 JSON 转义的那些事
+# 为什么 JSON 需要转义
 
 
-# 聊一聊 JSON 和 JSON 转义的那些事
+# 为什么 JSON 需要转义？
 
 [TOC]
 
