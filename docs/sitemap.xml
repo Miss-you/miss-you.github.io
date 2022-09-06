@@ -1,21 +1,108 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-	
-	<sitemap>
-	   	<loc>http://miss-you.github.io/en/sitemap.xml</loc>
-		
-	   	<lastmod>2021-03-02T16:50:28+08:00</lastmod>
-		
-	</sitemap>
-	
-	<sitemap>
-	   	<loc>http://miss-you.github.io/zh-cn/sitemap.xml</loc>
-		
-	</sitemap>
-	
-	<sitemap>
-	   	<loc>http://miss-you.github.io/fr/sitemap.xml</loc>
-		
-	</sitemap>
-	
-</sitemapindex>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xhtml="http://www.w3.org/1999/xhtml"
+      xsi:schemaLocation="
+            http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with PRO Sitemap Service https://pro-sitemaps.com -->
+
+  <url>
+       <loc>https://www.yousali.com/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.8000</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/posts/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/tags/code/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/categories/essay/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/tags/blog/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/tags/essay/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/tags/nginx/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/tags/golang/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/tags/profile/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/tags/perf/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/tags/flamegraph/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/tags/github-pages/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.5120</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/tags/mysql/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.5120</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/categories/env/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.5120</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/categories/golang/index.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.5120</priority>
+  </url>
+  <url>
+       <loc>https://www.yousali.com/openresty-best-practices/sitemap.xml</loc>
+       <lastmod>2022-09-05T10:06:20+00:00</lastmod>
+       <changefreq>daily</changefreq>
+       <priority>0.5120</priority>
+  </url>
+</urlset>
