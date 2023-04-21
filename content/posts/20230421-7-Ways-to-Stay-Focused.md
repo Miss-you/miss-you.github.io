@@ -3,7 +3,7 @@ title: "提升专注力的七种方法"
 description: "让思维更聚焦，让生活更高效"
 author: "[厉辉（Yousa）](https://github.com/Miss-you)"
 tags: ["work"]
-date: 2020-11-25T02:39:47+08:00
+date: 2023-04-21T17:39:47+08:00
 draft: false
 ---
 
