@@ -1,34 +1,33 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>blog - Tag - LoveIt</title>
-        <link>http://miss-you.github.io/tags/blog/</link>
-        <description>blog - Tag - LoveIt</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 28 Dec 2020 22:43:47 &#43;0800</lastBuildDate><atom:link href="http://miss-you.github.io/tags/blog/" rel="self" type="application/rss+xml" /><item>
-    <title>《欧洲绘画五百年》参观有感</title>
-    <link>http://miss-you.github.io/history-of-western-painting/</link>
-    <pubDate>Mon, 28 Dec 2020 22:43:47 &#43;0800</pubDate>
-    <author>Author</author>
-    <guid>http://miss-you.github.io/history-of-western-painting/</guid>
-    <description><![CDATA[生日的时候飞去成都参观成都博物馆正在展出的西方绘画史，庆祝生日，感慨良多，记录下自己的感想
-  画作主题受限于思想。被神学/基督教控制的文艺复兴初期，画作只能是神祗，颜料也尽显奢华；随着西方文艺复兴给人们带来的思想解放，大家的主题不再局限于神祗，更注重于人本身，比如充满情趣的田园画，肖像画/自画像；随着科技进步，颜料可以带出门，派生出风景画派；大家生活水平提升，画画不再是一定是谋生手段（为达官贵人画肖像画可以填饱肚子），可以画自己想画的东西，主题百花齐放。 吃饱了才能搞艺术。西方文艺复兴以来其艺术中心的变迁：意大利/罗马（文艺复兴）-&gt;荷兰黄金时代（荷兰小画派）-&gt;巴黎-&gt;西欧以及美国百花齐放百家争鸣，其实也对应的是西方十四世纪以来的经济中心的变迁：从东西罗马纵横捭阖，荷兰/西班牙黄金一代/大航海时代，法兰西帝国和日不落帝国，第一次和第二次工业革命英国和美国变为世界的两极。 一个人的成功不仅要靠自身的努力和天分，还要考虑历史的进程以及找对师父。要有天分，很多大家早在十几岁二十几岁其绘画天赋便锋芒毕露；要靠个人努力，大部分在展上的画师无一不是耗费了巨大的精力投入在艺术创作中，年少成名的画师也是十一二岁便要在画师家里当学徒，兢兢业业；要站在巨人的肩膀上，要师从名师/大家，名画家的师父往往也很有名，自学成才的很少，比如高更（月亮与六便士的主角）。 画作充满美感。个人艺术细胞不足，对于艺术性的感受就是，不论是端庄严谨的教会画、轻松愉快的田园画、栩栩如生的肖像画和风景画、百花齐放百家争鸣的现实主义、浪漫主义、象征主义画作，都很美。在场看跟在网上或书上看的感觉完全不一样。  参考链接 欧洲绘画五百年丨高更：被画画拐上“歧路”，却抵达了艺术的神坛]]></description>
-</item><item>
-    <title>使用 Github Pages 和 Hugo 搭建个人博客教程</title>
-    <link>http://miss-you.github.io/how-to-create-blog/</link>
-    <pubDate>Sat, 10 Oct 2020 03:03:29 &#43;0800</pubDate>
-    <author>Author</author>
-    <guid>http://miss-you.github.io/how-to-create-blog/</guid>
-    <description><![CDATA[十一假期宅家无事，发现自己过去写了很多文章，却没有一个自己的博客，系统得管理自己的文章，所以准备将自己过去以及未来的文章都放到博客，以饷读者。另一方面，经过对 Serverless 博客、TCB 建站、虚拟机建站等一系列建站方式对比后，个人认为基于 Github Pages 最适合搭建个人技术博客，最重要的当然是免费，其次网上教程众多，可以快速建站，第三则是所有的博客直接托管在 github，也更符合个人习惯，最后则是自建个人博客可玩性和可扩展性好。
-当然，这个方案并不是完美无缺，缺点也比较明显，比如需要考虑到安全信息泄漏问题（比如可能会泄露公司内的机密信息或者秘钥到 Github，所以需要准备安全扫描方案，这个我们会在另一篇文章谈）；另一方面，读者需要能够翻墙才可以访问 Github Pages；最后，则是没有 CDN 加速，如果访问者众多或者网站图片众多，加载速度很慢。
-为什么要写技术文章？ 其实，个人写文章最初是兴趣使然以及工作需要。众所周知，IT 是一个技术革新很快的行业，新的概念、新的语言、新的框架层出不穷，程序员需要持续学习，我有对每一个新的知识有做笔记的习惯，笔记攒多了便需要回顾总结整理，便形成了一篇篇的文章。
-以前笔记的图找不到了，差不多在习惯使用电子笔记之前有十几本笔记，后来我习惯性使用思维导图 processon 等一系列工具记录笔记，比如这张图便是我做的思维导图笔记的冰山一角：
-那么，写技术文章有何价值？个人认为写技术文章的价值主要有三方面：个人价值、企业价值和社会价值、企业价值。从个人角度来说，技术写作是树立个人技术影响力，提升自我价值的最快路径，没有之一；从公司角度，坚持长线的写作，对于公司的技术品牌，技术文化，有着巨大的推动作用；从更高的维度来说，技术写作也是提升整个社会技术水平，推动技术不断进步的源动力。
-hugo 初探 hugo 是什么？ Hugo 是由 Go 语言实现的静态网站生成器。简单、易用、高效、易扩展、快速部署。
-hugo 中文官方文档
-hugo 英文官方文档
-安装 hugo 在 windows 下，你可以在此处下载
-windows 版本下载链接
-如果你是 mac 系统，则可以通过如下命令安装（需要先安装 homebrew）
-1  brew install hugo   确认 hugo 安装是否成功 通过检查版本号的方式，确认 hugo 安装是否成功
-1 2  hugo version Hugo Static Site Generator v0.73.0/extended darwin/amd64 BuildDate: unknown # 输出结果   初始化网站目录 安装好之后，便可以初始化一个 hugo 项目，]]></description>
-</item></channel>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Blog on yousa Blog</title>
+    <link>https://miss-you.github.io/tags/blog/</link>
+    <description>Recent content in Blog on yousa Blog</description>
+    <generator>Hugo -- 0.148.1</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 15 Jul 2025 19:55:00 +0800</lastBuildDate>
+    <atom:link href="https://miss-you.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hugo 文章目录管理教程</title>
+      <link>https://miss-you.github.io/posts/20250715-hugo-tutorial/</link>
+      <pubDate>Tue, 15 Jul 2025 19:55:00 +0800</pubDate>
+      <guid>https://miss-you.github.io/posts/20250715-hugo-tutorial/</guid>
+      <description>演示如何为每个Hugo文章创建独立目录，便于管理文章相关的图片和资源</description>
+    </item>
+    <item>
+      <title>《欧洲绘画五百年》参观有感</title>
+      <link>https://miss-you.github.io/posts/history-of-western-painting/</link>
+      <pubDate>Mon, 28 Dec 2020 22:43:47 +0800</pubDate>
+      <guid>https://miss-you.github.io/posts/history-of-western-painting/</guid>
+      <description>《欧洲绘画五百年》参观有感</description>
+    </item>
+    <item>
+      <title>使用 Github Pages 和 Hugo 搭建个人博客教程</title>
+      <link>https://miss-you.github.io/posts/how-to-create-blog/</link>
+      <pubDate>Sat, 10 Oct 2020 03:03:29 +0800</pubDate>
+      <guid>https://miss-you.github.io/posts/how-to-create-blog/</guid>
+      <description>Github Pages 建站教程 </description>
+    </item>
+  </channel>
 </rss>
