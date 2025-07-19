@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>AI on yousa Blog</title>
-    <link>https://miss-you.github.io/tags/ai/</link>
-    <description>Recent content in AI on yousa Blog</description>
+    <title>Collaboration on yousa Blog</title>
+    <link>https://miss-you.github.io/tags/collaboration/</link>
+    <description>Recent content in Collaboration on yousa Blog</description>
     <generator>Hugo -- 0.148.1</generator>
     <language>en</language>
     <lastBuildDate>Sat, 19 Jul 2025 17:40:37 +0800</lastBuildDate>
-    <atom:link href="https://miss-you.github.io/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://miss-you.github.io/tags/collaboration/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Working with AI, or, The Amplifier of Thought</title>
       <link>https://miss-you.github.io/posts/20250719-working-with-ai-or-the-amplifier-of-thought/</link>
       <pubDate>Sat, 19 Jul 2025 17:40:37 +0800</pubDate>
       <guid>https://miss-you.github.io/posts/20250719-working-with-ai-or-the-amplifier-of-thought/</guid>
       <description>The true value of AI isn&amp;#39;t in its ability to think independently, but in how it amplifies and accelerates our own thinking. This article explores proper AI collaboration through a real example of writing a recommendation, and discusses the importance of thinking quality in the AI era.</description>
-    </item>
-    <item>
-      <title>与 AI 共事，或，思考的放大器</title>
-      <link>https://miss-you.github.io/posts/20250719--ai-/</link>
-      <pubDate>Sat, 19 Jul 2025 17:24:45 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20250719--ai-/</guid>
-      <description>AI的真正价值不在于它能独立思考，而在于它能放大和加速我们的思考。这篇文章通过一个写推荐语的实例，探讨了如何正确地与AI协作，以及思考质量在AI时代的重要性。</description>
     </item>
   </channel>
 </rss>
