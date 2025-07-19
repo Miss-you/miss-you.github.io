@@ -6,8 +6,22 @@
     <description>Recent content on yousa Blog</description>
     <generator>Hugo -- 0.148.1</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 15 Jul 2025 19:55:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 19 Jul 2025 17:24:45 +0800</lastBuildDate>
     <atom:link href="https://miss-you.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>与 AI 共事，或，思考的放大器</title>
+      <link>https://miss-you.github.io/posts/20250719--ai-/</link>
+      <pubDate>Sat, 19 Jul 2025 17:24:45 +0800</pubDate>
+      <guid>https://miss-you.github.io/posts/20250719--ai-/</guid>
+      <description>AI的真正价值不在于它能独立思考，而在于它能放大和加速我们的思考。这篇文章通过一个写推荐语的实例，探讨了如何正确地与AI协作，以及思考质量在AI时代的重要性。</description>
+    </item>
+    <item>
+      <title>解决Cursor AI编程助手「地区不可用」错误：完整的VPN代理配置指南</title>
+      <link>https://miss-you.github.io/posts/20250717-fix-cursor-unavailable-region/</link>
+      <pubDate>Thu, 17 Jul 2025 12:16:22 +0800</pubDate>
+      <guid>https://miss-you.github.io/posts/20250717-fix-cursor-unavailable-region/</guid>
+      <description>Cursor AI编程助手显示「Model not available」或「地区不可用」？本文提供详细的代理配置解决方案，包括Clash、V2Ray等工具的具体设置步骤，让你重新使用AI编程功能。</description>
+    </item>
     <item>
       <title>Hugo 文章目录管理教程</title>
       <link>https://miss-you.github.io/posts/20250715-hugo-tutorial/</link>
