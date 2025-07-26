@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>从 nginx 热更新聊一聊 Golang 中的热更新 - LoveIt</title><meta name="Description" content="About LoveIt Theme"><meta property="og:url" content="https://miss-you.github.io/server-hot-update/">
+  <meta property="og:site_name" content="LoveIt">
+  <meta property="og:title" content="从 nginx 热更新聊一聊 Golang 中的热更新">
+  <meta property="og:description" content="从 nginx 热更新聊一聊 Golang 中的热更新 静态语言在服务器编程时都会遇到这样的问题：如何保证已有的连接服务不中断同时又升级版本？ 最近花了点时间看了下 nginx 热更新代码流程，想了下结合之前的经验一并总结下热更新
+热更新是什么？ 举个例子，你现在在坐卡车，卡车开到了 150KM/H
+然后，有个轮胎，爆了
+然后，司机说，你就直接换吧，我不停车。你小心点换
+嗯。就这个意思
+网关中的热更新 服务程序热更新这个问题在层 7 网关中尤其严重，网关中承载着大量的请求，包括 HTTP/HTTPS 短连接、HTTP/HTTPS 长连接、甚至是 websocket 这种超长连接（websocket 通常连接时间会很长，十几分钟到几天不等）。服务进程热更新是非常有必要的。
+网关作为一个基础组件，需要保证高可用，是很难将其先停下来再更新的；
+有人说可以使用负载均衡将需要更新的组件先隔离，再停机更新，但是如果是一个很小的集群没有负载均衡呢，又或者这样手动一台一台升级也着实麻烦，部分情况下就算隔离了也不过是不会有新的连接过来，旧的连接/请求依旧需要处理完成，否则就会造成部分服务不可用
+不过实际上线上操作是集群隔离加热更新一起操作
+nginx 热更新 (Upgrading Executable on the Fly) nginx [engine x] 是 Igor Sysoev 编写的一个 HTTP 和反向代理服务器，另外它也可以作为邮件代理服务器。 它已经在众多流量很大的俄罗斯网站上使用了很长时间，这些网站包括 Yandex、Mail.Ru、VKontakte，以及 Rambler。据 Netcraft 统计，在 2012 年 8 月份，世界上最繁忙的网站中有 11.48%使用 Nginx 作为其服务器或者代理服务器。
+NginX 采用 Master/Worker 的多进程模型，Master 进程负责整个 NginX 进程的管理。Nginx 的模块化、热更新、Http 处理流程、日志等机制都非常经典。这里将会简要介绍一下热更新的机制
+nginx 热升级流程 步骤 1、升级 nginx 二进制文件，需要先将新的 nginx 可执行文件替换原有旧的 nginx 文件，然后给 nginx master 进程发送 USR2 信号，告知其开始升级可执行文件；nginx master 进程会将老的 pid 文件增加。oldbin 后缀，然后拉起新的 master 和 worker 进程，并写入新的 master 进程的 pid。">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-12-28T01:23:35+08:00">
+    <meta property="article:modified_time" content="2020-12-28T01:32:25+08:00">
+    <meta property="article:tag" content="Nginx">
+    <meta property="article:tag" content="Golang">
+    <meta property="og:image" content="https://miss-you.github.io/logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://miss-you.github.io/logo.png">
+  <meta name="twitter:title" content="从 nginx 热更新聊一聊 Golang 中的热更新">
+  <meta name="twitter:description" content="从 nginx 热更新聊一聊 Golang 中的热更新 静态语言在服务器编程时都会遇到这样的问题：如何保证已有的连接服务不中断同时又升级版本？ 最近花了点时间看了下 nginx 热更新代码流程，想了下结合之前的经验一并总结下热更新
+热更新是什么？ 举个例子，你现在在坐卡车，卡车开到了 150KM/H
+然后，有个轮胎，爆了
+然后，司机说，你就直接换吧，我不停车。你小心点换
+嗯。就这个意思
+网关中的热更新 服务程序热更新这个问题在层 7 网关中尤其严重，网关中承载着大量的请求，包括 HTTP/HTTPS 短连接、HTTP/HTTPS 长连接、甚至是 websocket 这种超长连接（websocket 通常连接时间会很长，十几分钟到几天不等）。服务进程热更新是非常有必要的。
+网关作为一个基础组件，需要保证高可用，是很难将其先停下来再更新的；
+有人说可以使用负载均衡将需要更新的组件先隔离，再停机更新，但是如果是一个很小的集群没有负载均衡呢，又或者这样手动一台一台升级也着实麻烦，部分情况下就算隔离了也不过是不会有新的连接过来，旧的连接/请求依旧需要处理完成，否则就会造成部分服务不可用
+不过实际上线上操作是集群隔离加热更新一起操作
+nginx 热更新 (Upgrading Executable on the Fly) nginx [engine x] 是 Igor Sysoev 编写的一个 HTTP 和反向代理服务器，另外它也可以作为邮件代理服务器。 它已经在众多流量很大的俄罗斯网站上使用了很长时间，这些网站包括 Yandex、Mail.Ru、VKontakte，以及 Rambler。据 Netcraft 统计，在 2012 年 8 月份，世界上最繁忙的网站中有 11.48%使用 Nginx 作为其服务器或者代理服务器。
+NginX 采用 Master/Worker 的多进程模型，Master 进程负责整个 NginX 进程的管理。Nginx 的模块化、热更新、Http 处理流程、日志等机制都非常经典。这里将会简要介绍一下热更新的机制
+nginx 热升级流程 步骤 1、升级 nginx 二进制文件，需要先将新的 nginx 可执行文件替换原有旧的 nginx 文件，然后给 nginx master 进程发送 USR2 信号，告知其开始升级可执行文件；nginx master 进程会将老的 pid 文件增加。oldbin 后缀，然后拉起新的 master 和 worker 进程，并写入新的 master 进程的 pid。">
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://miss-you.github.io/server-hot-update/" /><link rel="prev" href="https://miss-you.github.io/how-to-get-localip/" /><link rel="next" href="https://miss-you.github.io/history-of-western-painting/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "从 nginx 热更新聊一聊 Golang 中的热更新",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/miss-you.github.io\/server-hot-update\/"
+        },"image": ["https:\/\/miss-you.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "nginx, golang","wordcount":  2624 ,
+        "url": "https:\/\/miss-you.github.io\/server-hot-update\/","datePublished": "2020-12-28T01:23:35+08:00","dateModified": "2020-12-28T01:32:25+08:00","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": "https:\/\/miss-you.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "[厉辉（Yousa）](https://github.com/Miss-you)"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="LoveIt"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw'></i></span>LoveIt</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/categories/documentation/"> Docs </a><a class="menu-item" href="/about/"> About </a><a class="menu-item" href="https://github.com/dillonzq/LoveIt" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="Select Language">English<i class="fas fa-chevron-right fa-fw"></i>
+                        <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/server-hot-update/" selected>English</option></select>
+                    </a><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="LoveIt"><span class="header-title-pre"><i class='far fa-kiss-wink-heart fa-fw'></i></span>LoveIt</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/categories/documentation/" title="">Docs</a><a class="menu-item" href="/about/" title="">About</a><a class="menu-item" href="https://github.com/dillonzq/LoveIt" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="Select Language">English<i class="fas fa-chevron-right fa-fw"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/server-hot-update/" selected>English</option></select>
+                </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">从 nginx 热更新聊一聊 Golang 中的热更新</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>[厉辉（Yousa）](https://github.com/Miss-you)</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-12-28">2020-12-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;2624 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;13 minutes&nbsp;<span id="/server-hot-update/" class="leancloud_visitors" data-flag-title="从 nginx 热更新聊一聊 Golang 中的热更新">
+                        <i class="far fa-eye fa-fw"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
+                    </span>&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#热更新是什么">热更新是什么？</a></li>
+    <li><a href="#网关中的热更新">网关中的热更新</a></li>
+    <li><a href="#nginx-热更新-upgrading-executable-on-the-fly">nginx 热更新 (Upgrading Executable on the Fly)</a>
+      <ul>
+        <li><a href="#nginx-热升级流程">nginx 热升级流程</a></li>
+        <li><a href="#nginx-热更新相关信号">nginx 热更新相关信号</a></li>
+        <li><a href="#nginx-相关代码走读">nginx 相关代码走读</a>
+          <ul>
+            <li><a href="#1usr2-流程">1、USR2 流程</a></li>
+            <li><a href="#2winch-流程">2、WINCH 流程</a></li>
+            <li><a href="#3quit-流程">3、QUIT 流程</a></li>
+          </ul>
+        </li>
+        <li><a href="#nginx-升级过程中若出现问题如何回滚">nginx 升级过程中若出现问题如何回滚？</a></li>
+        <li><a href="#nginx-热升级-qa">nginx 热升级 QA</a></li>
+        <li><a href="#总结一下个人在-nginx-二进制文件热升级时用的命令">总结一下个人在 nginx 二进制文件热升级时用的命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#热升级">热升级</a></li>
+    <li><a href="#热更新">热更新</a>
+      <ul>
+        <li><a href="#简易的-http-server">简易的 http server</a></li>
+        <li><a href="#fork-一个新的进程">fork 一个新的进程</a></li>
+        <li><a href="#子进程初始化">子进程初始化</a></li>
+        <li><a href="#给父进程发送信号停止父进程">给父进程发送信号停止父进程</a></li>
+        <li><a href="#优雅停止父进程">优雅停止父进程</a></li>
+        <li><a href="#遇到的问题">遇到的问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#github-上的已有开源方案">github 上的已有开源方案</a>
+      <ul>
+        <li><a href="#实现浅析">实现浅析</a>
+          <ul>
+            <li><a href="#1各个开源库-demo-代码">1、各个开源库 demo 代码</a></li>
+            <li><a href="#2对比">2、对比</a></li>
+          </ul>
+        </li>
+        <li><a href="#问题拓展">问题拓展</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#参考">参考</a></li>
+    <li><a href="#代码附录">代码附录</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#1facebookgograce">1、facebookgo/grace</a></li>
+            <li><a href="#2fvbockendless">2、fvbock/endless</a></li>
+            <li><a href="#3jpilloraoverseer">3、jpillora/overseer</a></li>
+            <li><a href="#4overseer">4、overseer</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#参考-1">参考</a></li>
+    <li><a href="#附加技巧">附加技巧</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="从-nginx-热更新聊一聊-golang-中的热更新">从 nginx 热更新聊一聊 Golang 中的热更新</h1>
+<blockquote>
+<p>静态语言在服务器编程时都会遇到这样的问题：如何保证已有的连接服务不中断同时又升级版本？
+最近花了点时间看了下 nginx 热更新代码流程，想了下结合之前的经验一并总结下热更新</p></blockquote>
+<h2 id="热更新是什么">热更新是什么？</h2>
+<p>举个例子，你现在在坐卡车，卡车开到了 150KM/H</p>
+<p>然后，有个轮胎，爆了</p>
+<p>然后，司机说，你就直接换吧，我不停车。你小心点换</p>
+<p>嗯。就这个意思</p>
+<h2 id="网关中的热更新">网关中的热更新</h2>
+<p>服务程序热更新这个问题在层 7 网关中尤其严重，网关中承载着大量的请求，包括 HTTP/HTTPS 短连接、HTTP/HTTPS 长连接、甚至是 websocket 这种超长连接（websocket 通常连接时间会很长，十几分钟到几天不等）。服务进程热更新是非常有必要的。</p>
+<p>网关作为一个基础组件，需要保证高可用，是很难将其先停下来再更新的；</p>
+<p>有人说可以使用负载均衡将需要更新的组件先隔离，再停机更新，但是如果是一个很小的集群没有负载均衡呢，又或者这样手动一台一台升级也着实麻烦，部分情况下就算隔离了也不过是不会有新的连接过来，旧的连接/请求依旧需要处理完成，否则就会造成部分服务不可用</p>
+<blockquote>
+<p>不过实际上线上操作是集群隔离加热更新一起操作</p></blockquote>
+<h2 id="nginx-热更新-upgrading-executable-on-the-fly">nginx 热更新 (Upgrading Executable on the Fly)</h2>
+<p>nginx [engine x] 是 Igor Sysoev 编写的一个 HTTP 和反向代理服务器，另外它也可以作为邮件代理服务器。 它已经在众多流量很大的俄罗斯网站上使用了很长时间，这些网站包括 Yandex、Mail.Ru、VKontakte，以及 Rambler。据 Netcraft 统计，在 2012 年 8 月份，世界上最繁忙的网站中有 11.48%使用 Nginx 作为其服务器或者代理服务器。</p>
+<blockquote>
+<p>NginX 采用 Master/Worker 的多进程模型，Master 进程负责整个 NginX 进程的管理。Nginx 的模块化、热更新、Http 处理流程、日志等机制都非常经典。这里将会简要介绍一下热更新的机制</p></blockquote>
+<h3 id="nginx-热升级流程">nginx 热升级流程</h3>
+<p>步骤 1、升级 nginx 二进制文件，需要先将新的 nginx 可执行文件替换原有旧的 nginx 文件，然后给 nginx master 进程发送 USR2 信号，告知其开始升级可执行文件；nginx master 进程会将老的 pid 文件增加。oldbin 后缀，然后拉起新的 master 和 worker 进程，并写入新的 master 进程的 pid。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">UID        PID  PPID  C STIME TTY          TIME CMD
+</span></span><span class="line"><span class="cl">root      4584     1  0 Oct17 ?        00:00:00 nginx: master process /usr/local/apigw/apigw_nginx/nginx
+</span></span><span class="line"><span class="cl">root     12936  4584  0 Oct26 ?        00:03:24 nginx: worker process
+</span></span><span class="line"><span class="cl">root     12937  4584  0 Oct26 ?        00:00:04 nginx: worker process
+</span></span><span class="line"><span class="cl">root     12938  4584  0 Oct26 ?        00:00:04 nginx: worker process
+</span></span><span class="line"><span class="cl">root     23692  4584  0 21:28 ?        00:00:00 nginx: master process /usr/local/apigw/apigw_nginx/nginx
+</span></span><span class="line"><span class="cl">root     23693 23692  3 21:28 ?        00:00:00 nginx: worker process
+</span></span><span class="line"><span class="cl">root     23694 23692  3 21:28 ?        00:00:00 nginx: worker process
+</span></span><span class="line"><span class="cl">root     23695 23692  3 21:28 ?        00:00:00 nginx: worker process
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>步骤 2、在此之后，所有工作进程（包括旧进程和新进程）将会继续接受请求。这时候，需要发送 WINCH 信号给 nginx master 进程，master 进程将会向 worker 进程发送消息，告知其需要进行 graceful shutdown，worker 进程会在连接处理完之后进行退出。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">UID        PID  PPID  C STIME TTY          TIME CMD
+</span></span><span class="line"><span class="cl">root      4584     1  0 Oct17 ?        00:00:00 nginx: master process /usr/local/apigw/apigw_nginx/nginx
+</span></span><span class="line"><span class="cl">root     12936  4584  0 Oct26 ?        00:03:24 nginx: worker process
+</span></span><span class="line"><span class="cl">root     12937  4584  0 Oct26 ?        00:00:04 nginx: worker process
+</span></span><span class="line"><span class="cl">root     12938  4584  0 Oct26 ?        00:00:04 nginx: worker process
+</span></span><span class="line"><span class="cl">root     23692  4584  0 21:28 ?        00:00:00 nginx: master process /usr/local/apigw/apigw_nginx/nginx
+</span></span><span class="line"><span class="cl">#若旧的 worker 进程还需要处理连接，则 worker 进程不会立即退出，需要待消息处理完后再退出
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>步骤 3、经过一段时间之后，将会只会有新的 worker 进程处理新的连接。</p>
+<blockquote>
+<p>注意，旧 master 进程并不会关闭它的 listen socket；因为如果出问题后，需要回滚，master 进程需要法重新启动它的 worker 进程。</p></blockquote>
+<p>步骤 4、如果升级成功，则可以向旧 master 进程发送 QUIT 信号，停止老的 master 进程；如果新的 master 进程（意外）退出，那么旧 master 进程将会去掉自己的 pid 文件的。oldbin 后缀。</p>
+<h3 id="nginx-热更新相关信号">nginx 热更新相关信号</h3>
+<p>master 进程相关信号</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">USR2	升级可执行文件
+</span></span><span class="line"><span class="cl">WINCH	优雅停止 worker 进程
+</span></span><span class="line"><span class="cl">QUIT	优雅停止 master 进程
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>worker 进程相关信号</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">TERM, INT	快速退出进程
+</span></span><span class="line"><span class="cl">QUIT	优雅停止进程
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="nginx-相关代码走读">nginx 相关代码走读</h3>
+<h4 id="1usr2-流程">1、USR2 流程</h4>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://img-blog.csdnimg.cn/20181029211941159.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3,size_16,color_FFFFFF,t_70"
+        data-srcset="https://img-blog.csdnimg.cn/20181029211941159.png?x-oss-process=image/watermark%2ctype_ZmFuZ3poZW5naGVpdGk%2cshadow_10%2ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3%2csize_16%2ccolor_FFFFFF%2ct_70, https://img-blog.csdnimg.cn/20181029211941159.png?x-oss-process=image/watermark%2ctype_ZmFuZ3poZW5naGVpdGk%2cshadow_10%2ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3%2csize_16%2ccolor_FFFFFF%2ct_70 1.5x, https://img-blog.csdnimg.cn/20181029211941159.png?x-oss-process=image/watermark%2ctype_ZmFuZ3poZW5naGVpdGk%2cshadow_10%2ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3%2csize_16%2ccolor_FFFFFF%2ct_70 2x"
+        data-sizes="auto"
+        alt="https://img-blog.csdnimg.cn/20181029211941159.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3,size_16,color_FFFFFF,t_70"
+        title="在这里插入图片描述" /></p>
+<p>master 收到 USR2 信号后，会拉起新的 master nginx 进程；</p>
+<p>新的 master 进程拉起新的 worker 进程；</p>
+<p>最终，老的 worker 进程和新的 worker 进程共用一个 listen socket，接受连接</p>
+<blockquote>
+<p>若打开了 REUSEPORT 开关，则 socket 继承情况会有些区别，感兴趣的可以自行翻看代码</p></blockquote>
+<h4 id="2winch-流程">2、WINCH 流程</h4>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://img-blog.csdnimg.cn/20181030095755923.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3,size_16,color_FFFFFF,t_70"
+        data-srcset="https://img-blog.csdnimg.cn/20181030095755923.png?x-oss-process=image/watermark%2ctype_ZmFuZ3poZW5naGVpdGk%2cshadow_10%2ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3%2csize_16%2ccolor_FFFFFF%2ct_70, https://img-blog.csdnimg.cn/20181030095755923.png?x-oss-process=image/watermark%2ctype_ZmFuZ3poZW5naGVpdGk%2cshadow_10%2ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3%2csize_16%2ccolor_FFFFFF%2ct_70 1.5x, https://img-blog.csdnimg.cn/20181030095755923.png?x-oss-process=image/watermark%2ctype_ZmFuZ3poZW5naGVpdGk%2cshadow_10%2ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3%2csize_16%2ccolor_FFFFFF%2ct_70 2x"
+        data-sizes="auto"
+        alt="https://img-blog.csdnimg.cn/20181030095755923.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3,size_16,color_FFFFFF,t_70"
+        title="在这里插入图片描述" /></p>
+<p>master 进程收到 WINCH 信号后，会给各个 worker 进程发送 QUIT 信号，让其优雅退出；master 进程并不再处理新的连接。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://img-blog.csdnimg.cn/20181030105115956.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3,size_16,color_FFFFFF,t_70"
+        data-srcset="https://img-blog.csdnimg.cn/20181030105115956.png?x-oss-process=image/watermark%2ctype_ZmFuZ3poZW5naGVpdGk%2cshadow_10%2ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3%2csize_16%2ccolor_FFFFFF%2ct_70, https://img-blog.csdnimg.cn/20181030105115956.png?x-oss-process=image/watermark%2ctype_ZmFuZ3poZW5naGVpdGk%2cshadow_10%2ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3%2csize_16%2ccolor_FFFFFF%2ct_70 1.5x, https://img-blog.csdnimg.cn/20181030105115956.png?x-oss-process=image/watermark%2ctype_ZmFuZ3poZW5naGVpdGk%2cshadow_10%2ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3%2csize_16%2ccolor_FFFFFF%2ct_70 2x"
+        data-sizes="auto"
+        alt="https://img-blog.csdnimg.cn/20181030105115956.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE1NDM3NjY3,size_16,color_FFFFFF,t_70"
+        title="在这里插入图片描述" /></p>
+<p>worker graceful shutdown 流程，关闭 listen socket，不再处理新的连接；待已有连接处理完后，清理连接，退出进程。</p>
+<h4 id="3quit-流程">3、QUIT 流程</h4>
+<p>master graceful shutdown 流程，没什么好说的</p>
+<h3 id="nginx-升级过程中若出现问题如何回滚">nginx 升级过程中若出现问题如何回滚？</h3>
+<h3 id="nginx-热升级-qa">nginx 热升级 QA</h3>
+<p><strong>1、如何防止多次可执行文件触发热更新？</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="err">相关代码</span>
+</span></span><span class="line"><span class="cl"><span class="n">ngx_signal_handler</span>
+</span></span><span class="line"><span class="cl"><span class="o">--&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="n">ngx_signal_value</span><span class="p">(</span><span class="n">NGX_CHANGEBIN_SIGNAL</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">ngx_getppid</span><span class="p">()</span> <span class="o">==</span> <span class="n">ngx_parent</span> <span class="o">||</span> <span class="n">ngx_new_binary</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">/*</span>
+</span></span><span class="line"><span class="cl">            <span class="o">*</span> <span class="n">Ignore</span> <span class="n">the</span> <span class="k">signal</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">new</span> <span class="n">binary</span> <span class="k">if</span> <span class="n">its</span> <span class="n">parent</span> <span class="n">is</span>
+</span></span><span class="line"><span class="cl">            <span class="o">*</span> <span class="ow">not</span> <span class="n">changed</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="n">the</span> <span class="n">old</span> <span class="n">binary</span><span class="s1">&#39;s process is still</span>
+</span></span><span class="line"><span class="cl">            <span class="o">*</span> <span class="n">running</span><span class="o">.</span>  <span class="n">Or</span> <span class="n">ignore</span> <span class="n">the</span> <span class="k">signal</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">old</span> <span class="n">binary</span><span class="s1">&#39;s</span>
+</span></span><span class="line"><span class="cl">            <span class="o">*</span> <span class="n">process</span> <span class="k">if</span> <span class="n">the</span> <span class="n">new</span> <span class="n">binary</span><span class="s1">&#39;s process is already running.</span>
+</span></span><span class="line"><span class="cl">            <span class="o">*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">action</span> <span class="o">=</span> <span class="s2">&#34;, ignoring&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ignore</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ngx_change_binary</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">action</span> <span class="o">=</span> <span class="s2">&#34;, changing binary&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">break</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>若老的 nginx 还在，nginx 无法进行热更新二进制文件</p>
+<p><strong>2、nginx 升级过程中，发现新的可执行文件出现问题该如何回滚？</strong></p>
+<ul>
+<li>a、向旧 master 进程发送 HUP 信号。旧进程将启动新的 worker 进程，而且不会重新读取配置。之后，通过向新的主 master 进程发送 QUIT 信号，可以优雅地关闭新的 master 和 worker 进程。</li>
+<li>b、将 TERM 信号发送到新的 master 进程，然后新的 master 进程将向其 worker 进程发送一条消息，让它们立即退出，这种退出不是 graceful shutdown。当新的 master 进程退出时，旧的 master 进程将启动新的 worker 进程。</li>
+<li>c、如果新的进程没有退出，则应该向它们发送终止 KILL 信号。当新的 master 进程退出时，旧的 master 进程将启动新的工作进程。</li>
+</ul>
+<p><strong>3、什么是 graceful shutdown</strong></p>
+<p>本文中的 graceful shutdown 是指 server 不再处理新的连接，但是进程不会立即退出，待所有连接断开后再退出进程。</p>
+<h3 id="总结一下个人在-nginx-二进制文件热升级时用的命令">总结一下个人在 nginx 二进制文件热升级时用的命令</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cd /usr/local/nginx
+</span></span><span class="line"><span class="cl">cp nginx nginx_bak 
+</span></span><span class="line"><span class="cl">mv /data/nginx/nginx ./nginx #需要使用 mv 来更新二进制文件
+</span></span><span class="line"><span class="cl">./nginx -t #尝试启动，查看其加载配置文件等初始化功能是否正常
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">netstat -anp | grep -E &#34;80|443&#34; | grep nginx #检查连接状态
+</span></span><span class="line"><span class="cl">kill -USR2 `cat /usr/local/nginx/nginx.pid` #升级 nginx 可执行文件，此时会有两组 nginx master 和 worker 进程
+</span></span><span class="line"><span class="cl">kill -WINCH `cat /usr/local/nginx/nginx.pid.oldbin` #新的可执行文件启动 ok，且能够正常处理数据流，告知老的 master 进程去通知其 worker 进程进行优雅退出
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">kill -QUIT `cat /usr/local/nginx/nginx.pid.oldbin` #待所有的老的 nginx worker 进程优雅退出后（处理完连接），停止老的 master 进程
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>TODO：nginx 还会有依赖的 so 文件的热升级&ndash;其实更应该属于后台进程的 so 文件热升级流程，我在使用它的时候也踩过坑&ndash;主要原因还是操作不规范，对 so 其加载运行原理不够熟悉导致</p></blockquote>
+<h2 id="热升级">热升级</h2>
+<p>实际上，静态语言后端 server 有一套固定的热升级（单进程）流程，其基本流程如下：</p>
+<blockquote>
+<p>若需要支持热升级的是多进程，那么 nginx 的热升级过程是最值得参考的</p></blockquote>
+<ul>
+<li>
+<p>1、通过调用 fork/exec 启动新的版本的进程，</p>
+</li>
+<li>
+<p>2、子进程调用接口获取从父进程继承的 socket 文件描述符重新监听 socket</p>
+</li>
+<li>
+<p>3、在此过程中，不会对用户请求造成任何中断。</p>
+</li>
+</ul>
+<p>nginx 的热升级流程也是类似，只不过由于 nginx 工作是多进程，故它会先启动新版本的一组 master/worker 进程；</p>
+<p>然后停止老的 worker 进程，让其不处理连接，由新的 worker 进程来处理连接；</p>
+<p>升级完毕后，即可退出老的 master 进程，热升级完成。</p>
+<h2 id="热更新">热更新</h2>
+<p>热更新目标：</p>
+<ul>
+<li>1、正在处理中的连接/服务/请求不能立即中断，需要继续提供服务</li>
+<li>2、socket 对用户来说要保持可用，可以接受新的请求</li>
+</ul>
+<p>直接沿用上篇的思路，热更新（单进程）流程，其基本流程如下：</p>
+<ul>
+<li>1、用新的 bin 文件去替换老的 bin 文件</li>
+<li>2、发送信号告知 server 进程（通常是 USR2 信号），进行平滑升级</li>
+<li>3、server 进程收到信号后，通过调用 fork/exec 启动新的版本的进程</li>
+<li>4、子进程调用接口获取从父进程继承的 socket 文件描述符重新监听 socket</li>
+<li>5、老的进程不再接受请求，待正在处理中的请求处理完后，进程自动退出</li>
+<li>6、子进程托管给 init 进程</li>
+</ul>
+<p>我们可以按照这个思路完成一个简单的可以热更新的 http server</p>
+<h3 id="简易的-http-server">简易的 http server</h3>
+<p>首先，我们需要一个最简单的 http server</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&#34;Hello World!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">err</span> <span class="n">error</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">//</span> <span class="err">注册</span> <span class="n">http</span> <span class="err">请求的处理方法</span>
+</span></span><span class="line"><span class="cl">    <span class="n">http</span><span class="o">.</span><span class="n">HandleFunc</span><span class="p">(</span><span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="k">func</span><span class="p">(</span><span class="n">w</span> <span class="n">http</span><span class="o">.</span><span class="n">ResponseWriter</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">w</span><span class="o">.</span><span class="n">Write</span><span class="p">([]</span><span class="n">byte</span><span class="p">(</span><span class="s2">&#34;Hello world!&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">//</span> <span class="err">在</span> <span class="mi">8086</span> <span class="err">端口启动</span> <span class="n">http</span> <span class="err">服务，其内部有一个循环</span> <span class="n">accept</span> <span class="mi">8086</span> <span class="err">端口</span>
+</span></span><span class="line"><span class="cl">    <span class="o">//</span> <span class="err">每当新的</span> <span class="n">HTTP</span> <span class="err">请求过来则开一个协程处理</span>
+</span></span><span class="line"><span class="cl">    <span class="n">err</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">ListenAndServe</span><span class="p">(</span><span class="s2">&#34;localhost:8086&#34;</span><span class="p">,</span> <span class="n">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="fork-一个新的进程">fork 一个新的进程</h3>
+<p>在 go 语言里面可以有很多种方法 fork 一个新的进程，但是在这里我更倾向于推荐 exec.Command 接口来启动一个新的进程。因为 Cmd struct 中有一个 ExtraFiles 变量，子进程可以通过它直接继承文件描述符 fd。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">func</span> <span class="n">forkProcess</span><span class="p">()</span> <span class="n">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">var</span> <span class="n">err</span> <span class="n">error</span>
+</span></span><span class="line"><span class="cl">	<span class="n">files</span> <span class="p">:</span><span class="o">=</span> <span class="p">[]</span><span class="o">*</span><span class="n">os</span><span class="o">.</span><span class="n">File</span><span class="p">{</span><span class="n">gListen</span><span class="o">.</span><span class="n">File</span><span class="p">()}</span> <span class="o">//</span><span class="n">demo</span> <span class="n">only</span> <span class="n">one</span> <span class="o">//.</span><span class="n">File</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="n">path</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&#34;/Users/yousa/work/src/graceful-restart-demo/graceful-restart-demo&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">args</span> <span class="p">:</span><span class="o">=</span> <span class="p">[]</span><span class="n">string</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="s2">&#34;-graceful&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">env</span> <span class="p">:</span><span class="o">=</span> <span class="n">append</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">		<span class="n">os</span><span class="o">.</span><span class="n">Environ</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">		<span class="s2">&#34;ENDLESS_CONTINUE=1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">env</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="err">`</span><span class="n">ENDLESS_SOCKET_ORDER</span><span class="o">=%</span><span class="n">s</span><span class="err">`</span><span class="p">,</span> <span class="s2">&#34;0,127.0.0.1&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">cmd</span> <span class="p">:</span><span class="o">=</span> <span class="n">exec</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">args</span><span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="o">//</span><span class="n">cmd</span> <span class="p">:</span><span class="o">=</span> <span class="n">exec</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&#34;-graceful&#34;</span><span class="p">,</span> <span class="s2">&#34;true&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cmd</span><span class="o">.</span><span class="n">Stdout</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">Stdout</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cmd</span><span class="o">.</span><span class="n">Stderr</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">Stderr</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cmd</span><span class="o">.</span><span class="n">ExtraFiles</span> <span class="o">=</span> <span class="n">files</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cmd</span><span class="o">.</span><span class="n">Env</span> <span class="o">=</span> <span class="n">env</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">err</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">log</span><span class="o">.</span><span class="n">Fatalf</span><span class="p">(</span><span class="s2">&#34;Restart: Failed to launch, error: %v&#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>代码浅析：</p>
+<p>在上面的 files 是存储父进程的文件描述符，path 的内容是新的要替换的可执行文件的路径。</p>
+<p>重要的一点是，.File() 返回一个 <a href="http://pubs.opengroup.org/onlinepubs/009695399/functions/dup.html" target="_blank" rel="noopener noreffer">dup(2)</a> 的文件描述符。这个重复的文件描述符不会设置 FD_CLOEXEC 标志，这个文件描述符操作容易出错，容易被在子进程中被错误关闭。</p>
+<p>在其他语言（或者 go 里面）里面你可能通过使用命令行将文件描述符传递给子进程，在这里比较推荐使用 ExtraFile 传递 fd。不过 ExtraFiles 在 windows 中不支持。</p>
+<p>args 中传递的-graceful 参数是告诉子进程这是优雅热升级的一部分，这样子进程可以通过它知道，自己需要重用套接字而不是重新打开一个新的套接字</p>
+<h3 id="子进程初始化">子进程初始化</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&#34;Hello World!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="o">...</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">    <span class="k">var</span> <span class="n">gracefulChild</span> <span class="ne">bool</span>
+</span></span><span class="line"><span class="cl">	<span class="k">var</span> <span class="n">netListen</span> <span class="n">net</span><span class="o">.</span><span class="n">Listener</span>
+</span></span><span class="line"><span class="cl">	<span class="k">var</span> <span class="n">err</span> <span class="n">error</span>
+</span></span><span class="line"><span class="cl">	<span class="n">args</span> <span class="p">:</span><span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">Args</span>
+</span></span><span class="line"><span class="cl">	<span class="o">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;-graceful&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">gracefulChild</span> <span class="o">=</span> <span class="bp">true</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">gracefulChild</span> <span class="o">=</span> <span class="bp">false</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&#34;gracefulChild:&#34;</span><span class="p">,</span> <span class="n">gracefulChild</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">gracefulChild</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="o">//</span><span class="err">重用套接字</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">log</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="s2">&#34;main: Listening to existing file descriptor 3.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">NewFile</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="n">netListen</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">FileListener</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">log</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="s2">&#34;main: Listening on a new file descriptor.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">netListen</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">Listen</span><span class="p">(</span><span class="s2">&#34;tcp&#34;</span><span class="p">,</span> <span class="n">gServer</span><span class="o">.</span><span class="n">Addr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">log</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>args 用于解析入参，gracefulChild 表示进程自己是否是子进程（对应到 fork 中的-graceful）（这里更推荐 flag.BoolVar，但是写 demo 的时候使用起来有些问题，故临时使用 args）</p>
+<p>net.FileListener 重用套接字，ExtraFiles 中传递的套接字，从 idx 3 的位置开始获取。</p>
+<h3 id="给父进程发送信号停止父进程">给父进程发送信号停止父进程</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="o">//</span><span class="n">init</span>
+</span></span><span class="line"><span class="cl">	<span class="o">...</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="n">gracefulChild</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">syscall</span><span class="o">.</span><span class="n">Kill</span><span class="p">(</span><span class="n">syscall</span><span class="o">.</span><span class="n">Getppid</span><span class="p">(),</span> <span class="n">syscall</span><span class="o">.</span><span class="n">SIGTERM</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&#34;Graceful shutdown parent process.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="o">//</span><span class="n">start</span> <span class="n">http</span> <span class="n">server</span><span class="o">.</span>
+</span></span><span class="line"><span class="cl">	<span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>给父进程发送 graceful shutdown 信号</p>
+<h3 id="优雅停止父进程">优雅停止父进程</h3>
+<blockquote>
+<p>等待请求超时或者处理完成退出进程</p></blockquote>
+<p>第一眼给人感觉，不知道该如何下手做热升级。</p>
+<p>我们需要去跟踪连接，故想到的是有没有钩子函数来解决连接的 accept 和 close，让人觉得 Golang 标准 http 包没有提供任何钩子来处理 Accept() 和 Close()，这里恰恰是 golang 的 interface 的魅力所在。</p>
+<blockquote>
+<p>interface 基础知识请自行补充</p></blockquote>
+<p>我们需要一个 sync.WaitGroup 来跟踪已经打开的连接，每新 accept 一个连接则让其加一，每当连接断开则减一。定义一个 listener struct 并实现相应的 Accept()、Close()、Addr() 等方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">type</span> <span class="n">demoListener</span> <span class="n">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">net</span><span class="o">.</span><span class="n">Listener</span>
+</span></span><span class="line"><span class="cl">	<span class="n">stopped</span> <span class="ne">bool</span>
+</span></span><span class="line"><span class="cl">	<span class="n">stop</span>    <span class="n">chan</span> <span class="n">error</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">func</span> <span class="n">newDemoListener</span><span class="p">(</span><span class="n">listen</span> <span class="n">net</span><span class="o">.</span><span class="n">Listener</span><span class="p">)</span> <span class="p">(</span><span class="n">demoListen</span> <span class="o">*</span><span class="n">demoListener</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">demoListen</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">demoListener</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">Listener</span><span class="p">:</span> <span class="n">listen</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="n">stop</span><span class="p">:</span> <span class="n">make</span><span class="p">(</span><span class="n">chan</span> <span class="n">error</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">func</span> <span class="p">(</span><span class="n">listen</span> <span class="o">*</span><span class="n">demoListener</span><span class="p">)</span> <span class="n">Accept</span><span class="p">()</span> <span class="p">(</span><span class="n">conn</span> <span class="n">net</span><span class="o">.</span><span class="n">Conn</span><span class="p">,</span> <span class="n">err</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">conn</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">listen</span><span class="o">.</span><span class="n">Listener</span><span class="o">.</span><span class="n">Accept</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">conn</span> <span class="o">=</span> <span class="n">demoConn</span><span class="p">{</span><span class="n">Conn</span><span class="p">:</span> <span class="n">conn</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">gWg</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">func</span> <span class="p">(</span><span class="n">listen</span> <span class="o">*</span><span class="n">demoListener</span><span class="p">)</span> <span class="n">Close</span><span class="p">()</span> <span class="n">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="n">listen</span><span class="o">.</span><span class="n">stopped</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">syscall</span><span class="o">.</span><span class="n">EINVAL</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">listen</span><span class="o">.</span><span class="n">stopped</span> <span class="o">=</span> <span class="bp">true</span> 
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">listen</span><span class="o">.</span><span class="n">Listener</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span> <span class="o">//</span><span class="err">停止接受新的连接</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">//</span><span class="n">get</span> <span class="n">fd</span>
+</span></span><span class="line"><span class="cl"><span class="k">func</span> <span class="p">(</span><span class="n">listen</span> <span class="o">*</span><span class="n">demoListener</span><span class="p">)</span> <span class="ne">File</span><span class="p">()</span> <span class="o">*</span><span class="n">os</span><span class="o">.</span><span class="n">File</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="o">//</span> <span class="n">returns</span> <span class="n">a</span> <span class="n">dup</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">FD_CLOEXEC</span> <span class="n">flag</span> <span class="o">*</span><span class="ow">not</span><span class="o">*</span> <span class="n">set</span>
+</span></span><span class="line"><span class="cl">	<span class="n">tcpListen</span> <span class="p">:</span><span class="o">=</span> <span class="n">listen</span><span class="o">.</span><span class="n">Listener</span><span class="o">.</span><span class="p">(</span><span class="o">*</span><span class="n">net</span><span class="o">.</span><span class="n">TCPListener</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">fd</span><span class="p">,</span> <span class="n">_</span> <span class="p">:</span><span class="o">=</span> <span class="n">tcpListen</span><span class="o">.</span><span class="n">File</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">fd</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>demoListener 定义的时候，通过匿名结构体（可以理解为是一种组合），继承了 net.Listener 的结构和方法，下面的 Accept 和 Close 则重载了 net.Listener 的 Accept 和 Close 方法。</p>
+<p>Listener 在每个 Accept() 上都增加了一个等待组。</p>
+<p>newDemoListener() 是 Listener 的构造函数。</p>
+<p>File() 方法是从 Listener 中获取文件描述符 fd</p>
+<p>当然，我们需要重载连接 net.Conn 的 Close() 方法，在连接断开时，将 wg 减一</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">type</span> <span class="n">demoConn</span> <span class="n">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">net</span><span class="o">.</span><span class="n">Conn</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">func</span> <span class="p">(</span><span class="n">conn</span> <span class="n">demoConn</span><span class="p">)</span> <span class="n">Close</span><span class="p">()</span> <span class="n">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">err</span> <span class="p">:</span><span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">Conn</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="n">err</span> <span class="o">==</span> <span class="n">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">gWg</span><span class="o">.</span><span class="n">Done</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后，有可能客户端已经很长时间不发消息了，但是他不主动断开连接；为了避免这种情况，server 端通常认为这种是连接超时，在一定时间后会将连接关闭，故初始化 http.Server 时比较建议这样：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">	gServer = &amp;http.Server{
+</span></span><span class="line"><span class="cl">        Addr:           &#34;0.0.0.0:8086&#34;,
+</span></span><span class="line"><span class="cl">        ReadTimeout:    60 * time.Second,
+</span></span><span class="line"><span class="cl">        WriteTimeout:   60 * time.Second,
+</span></span><span class="line"><span class="cl">		MaxHeaderBytes: 1 &lt;&lt; 16,
+</span></span><span class="line"><span class="cl">		Handler:		demoHandler{},
+</span></span><span class="line"><span class="cl">	}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><strong>注意：若使用的 go 版本在 1.8 版本以上（包括），http 包已经支持优雅退出，直接调用 Shutdown() 接口即可，更为简单。</strong></p></blockquote>
+<p><strong>关闭 listener 连接和监控信号的部分这里便不再赘述，文末附有源码，有兴趣可以看看。</strong></p>
+<p>测试结果：</p>
+<p>启动 server，发送 http 请求</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">YOUSALI-MB0:~ yousa$ curl -i http://localhost:8086
+</span></span><span class="line"><span class="cl">HTTP/1.1 200 OK
+</span></span><span class="line"><span class="cl">Date: Mon, 05 Nov 2018 08:11:17 GMT
+</span></span><span class="line"><span class="cl">Content-Length: 17
+</span></span><span class="line"><span class="cl">Content-Type: text/plain; charset=utf-8
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Hello Tencent!
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>发送 usr2 信号给 server</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">YOUSALI-MB0:graceful-restart-demo yousa$ ps -ef | grep grace
+</span></span><span class="line"><span class="cl">  501 50199 41134   0  4:10 下午 ttys002    0:00.01 ./graceful-restart-demo
+</span></span><span class="line"><span class="cl">  501 50252 44808   0  4:11 下午 ttys003    0:00.00 grep grace
+</span></span><span class="line"><span class="cl">YOUSALI-MB0:graceful-restart-demo yousa$ kill -USR2 50199
+</span></span><span class="line"><span class="cl">YOUSALI-MB0:graceful-restart-demo yousa$ ps -ef | grep grace
+</span></span><span class="line"><span class="cl">  501 50253     1   0  4:11 下午 ttys002    0:00.01 /Users/yousa/work/src/graceful-restart-demo/graceful-restart-demo -graceful
+</span></span><span class="line"><span class="cl">  501 51460 44808   0  4:37 下午 ttys003    0:00.00 grep grace
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">## 终端打印
+</span></span><span class="line"><span class="cl">Hello World!
+</span></span><span class="line"><span class="cl">gracefulChild: false
+</span></span><span class="line"><span class="cl">2018/11/05 16:10:16 main: Listening on a new file descriptor.
+</span></span><span class="line"><span class="cl">2018/11/05 16:11:10 50199 Received SIGUSR2.
+</span></span><span class="line"><span class="cl">Hello World!
+</span></span><span class="line"><span class="cl">gracefulChild: true
+</span></span><span class="line"><span class="cl">2018/11/05 16:11:10 main: Listening to existing file descriptor 3.
+</span></span><span class="line"><span class="cl">2018/11/05 16:11:10 Graceful shutdown parent process.
+</span></span><span class="line"><span class="cl">2018/11/05 16:11:10 50199 Received SIGTERM.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>待升级后发送消息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">YOUSALI-MB0:~ yousa$ curl -i http://localhost:8086
+</span></span><span class="line"><span class="cl">HTTP/1.1 200 OK
+</span></span><span class="line"><span class="cl">Date: Mon, 05 Nov 2018 08:11:44 GMT
+</span></span><span class="line"><span class="cl">Content-Length: 14
+</span></span><span class="line"><span class="cl">Content-Type: text/plain; charset=utf-8
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Happy 20th birthday!
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="遇到的问题">遇到的问题</h3>
+<p>1、翻了下代码，并没有看到父进程如何退出？是怎样的流程？</p>
+<p>先看一下 http ListenAndServe 接口，它会调用 net.Listen 和 serve.Serve 两个函数，net.Listen 是 listen 端口。</p>
+<p>Serve 代码如下，它是一个 for 循环，Accept 一个新的连接后会用一个新的协程来处理请求；当 listen 的端口被关闭或者异常后，该 Serve 循环便会跳出</p>
+<blockquote>
+<p>另外，也可以在这里看到，如果让 http server 接入协程池则可以重载 http.Server 的 Serve，在收到新的连接后，从协程池中分配一个协程供新的连接使用。</p></blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">func</span> <span class="p">(</span><span class="n">srv</span> <span class="o">*</span><span class="n">Server</span><span class="p">)</span> <span class="n">Serve</span><span class="p">(</span><span class="n">l</span> <span class="n">net</span><span class="o">.</span><span class="n">Listener</span><span class="p">)</span> <span class="n">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">defer</span> <span class="n">l</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">var</span> <span class="n">tempDelay</span> <span class="n">time</span><span class="o">.</span><span class="n">Duration</span> <span class="o">//</span> <span class="n">how</span> <span class="n">long</span> <span class="n">to</span> <span class="n">sleep</span> <span class="n">on</span> <span class="n">accept</span> <span class="n">failure</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">rw</span><span class="p">,</span> <span class="n">e</span> <span class="p">:</span><span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">Accept</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="n">e</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="n">ne</span><span class="p">,</span> <span class="n">ok</span> <span class="p">:</span><span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">Error</span><span class="p">);</span> <span class="n">ok</span> <span class="o">&amp;&amp;</span> <span class="n">ne</span><span class="o">.</span><span class="n">Temporary</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span> <span class="n">tempDelay</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="n">tempDelay</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">time</span><span class="o">.</span><span class="n">Millisecond</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="n">tempDelay</span> <span class="o">*=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span> <span class="nb">max</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">time</span><span class="o">.</span><span class="n">Second</span><span class="p">;</span> <span class="n">tempDelay</span> <span class="o">&gt;</span> <span class="nb">max</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">					<span class="n">tempDelay</span> <span class="o">=</span> <span class="nb">max</span>
+</span></span><span class="line"><span class="cl">				<span class="p">}</span>
+</span></span><span class="line"><span class="cl">				<span class="n">srv</span><span class="o">.</span><span class="n">logf</span><span class="p">(</span><span class="s2">&#34;http: Accept error: %v; retrying in %v&#34;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">tempDelay</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">				<span class="n">time</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">tempDelay</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">				<span class="k">continue</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="n">e</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="n">tempDelay</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">		<span class="n">c</span><span class="p">,</span> <span class="n">err</span> <span class="p">:</span><span class="o">=</span> <span class="n">srv</span><span class="o">.</span><span class="n">newConn</span><span class="p">(</span><span class="n">rw</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">continue</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="n">c</span><span class="o">.</span><span class="n">setState</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">rwc</span><span class="p">,</span> <span class="n">StateNew</span><span class="p">)</span> <span class="o">//</span> <span class="n">before</span> <span class="n">Serve</span> <span class="n">can</span> <span class="k">return</span>
+</span></span><span class="line"><span class="cl">		<span class="n">go</span> <span class="n">c</span><span class="o">.</span><span class="n">serve</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再看一下 shutdownProcess 函数，故在这里关闭 listen socket 后，http Serve 处理请求的主循环便会退出</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">func</span> <span class="n">shutdownProcess</span><span class="p">()</span> <span class="n">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">gServer</span><span class="o">.</span><span class="n">SetKeepAlivesEnabled</span><span class="p">(</span><span class="bp">false</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">gListen</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&#34;shutdownProcess success.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>将 listen socket 关闭后，main 函数中的 gServer.Serve(gListen) 便会退出，但实际上已有的连接/服务并没有处理完成，需要使用 waitgroup 等待连接处理完成后，进程再退出。</p>
+<h2 id="github-上的已有开源方案">github 上的已有开源方案</h2>
+<p>解决 golang http server 热更新问题，有了基本的思路之后，想到的是去 github 看下有没有稳定的解决方案。找到了如下三个库：</p>
+<ul>
+<li><a href="https://github.com/fvbock/endless" target="_blank" rel="noopener noreffer">fvbock/endless</a> - Zero downtime restarts for golang HTTP and HTTPS servers. (for golang 1.3+)</li>
+<li><a href="https://github.com/facebookgo/grace" target="_blank" rel="noopener noreffer">facebookgo/grace</a> - Grace provides a library that makes it easy to build socket based servers that can be gracefully terminated &amp; restarted (that is, without dropping any connections).</li>
+<li><a href="https://github.com/jpillora/overseer" target="_blank" rel="noopener noreffer">jpillora/overseer</a> - Overseer is a package for creating monitorable, gracefully restarting, self-upgrading binaries in Go (golang)</li>
+</ul>
+<blockquote>
+<p>其实除了这些外，还有一些支持热更新的库，但是更新时间过老，在这里就不作讨论了。
+当然，非常火爆的框架比如 beego 等，也支持热升级/gracefun shutdown，但是由于嵌入到了 beego 中，故本章中不作讨论，有兴趣的可以自行去看看。</p></blockquote>
+<h3 id="实现浅析">实现浅析</h3>
+<p>我们使用官方的例子来简单分析其流程并简单比较其异同</p>
+<h4 id="1各个开源库-demo-代码">1、各个开源库 demo 代码</h4>
+<p>demo 代码较为冗长，很影响阅读观感，故贴在了最后的附录中</p>
+<h4 id="2对比">2、对比</h4>
+<p>操作步骤：</p>
+<ul>
+<li>编译 demo 示例，启动示例进程，记录其 pid</li>
+<li>修改内容 (Hello Tencent 初始内容，修改为 Happy 20th Birthday！且请求处理均需要 sleep 10-20 秒），重新构建。</li>
+<li>发送请求，发送热升级信号，再发送请求，对比两次请求内容</li>
+<li>对比进程热升级前后的 pid，是否与之前一致</li>
+</ul>
+<p>结果对比</p>
+<table>
+  <thead>
+      <tr>
+          <th>第三方库</th>
+          <th>第一次请求返回</th>
+          <th>第二次请求返回</th>
+          <th>操作前进程 pid</th>
+          <th>操作后进程 pid</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>facebookgo/grace</td>
+          <td>Hello Tencent</td>
+          <td>Happy 20th Birthday！</td>
+          <td>41992</td>
+          <td>41998</td>
+      </tr>
+      <tr>
+          <td>fvbock/endless</td>
+          <td>Hello Tencent</td>
+          <td>Happy 20th Birthday！</td>
+          <td>41200</td>
+          <td>41520</td>
+      </tr>
+      <tr>
+          <td>jpillora/overseer</td>
+          <td>Hello Tencent</td>
+          <td>Happy 20th Birthday！</td>
+          <td>43424</td>
+          <td>43424</td>
+      </tr>
+  </tbody>
+</table>
+<p>原理浅析：</p>
+<p>grace 和 endless 的热升级方法与本文重点讲述的方法一致，基本是 fork 一个子进程，子进程 listen 端口，父进程优雅退出，这里便不再赘述</p>
+<blockquote>
+<p>overseer 的热升级与 grace/endless 有些不同，由于作者很久不更新了（差不多 1-2 年），也找不到比较好的介绍文章，故这里只能简要贴一下其 github 上对 overseer 的原理介绍。由于不是本文核心介绍内容，放在附录中。
+overseer 用一个主进程管理平滑重启，子进程处理连接，保持主进程 pid 不变；</p></blockquote>
+<p>优缺点对比：</p>
+<ul>
+<li>grace 库支持 net tcp 热升级以及 http 热升级，endless 仅支持 http 热升级</li>
+<li>grace 库接入第三方 http server 较麻烦（比如 fasthttp、gin 等）；endless 接入则只需要替换 ListenAndServe 即可（endless 继承/重写了 Serve 方法），通用性更好</li>
+<li>grace 库功能强大，但是稍微复杂；endless 库更为简洁</li>
+</ul>
+<p>由于我的项目使用了 gin 作为 http 框架，故考虑到快速集成，我选择了 endless 该框架</p>
+<blockquote>
+<p>第三方库的对比经验：
+主观因素：个人品味，是否要自己造轮子，朋友的推荐也对个人的判断也有很大影响；
+客观因素：集成复杂度，内存管理，是否有大量 I/O 访问/耗性能访问，错误处理，工具参考文档等。</p></blockquote>
+<p>集成起来也非常方便，类似于如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">router</span> <span class="p">:</span><span class="o">=</span> <span class="n">gin</span><span class="o">.</span><span class="n">Default</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="n">router</span><span class="o">.</span><span class="n">GET</span><span class="p">(</span><span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="n">handler</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="o">//</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="n">endless</span><span class="o">.</span><span class="n">ListenAndServe</span><span class="p">(</span><span class="s2">&#34;:8086&#34;</span><span class="p">,</span> <span class="n">router</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="问题拓展">问题拓展</h3>
+<p>我其实又想了这些问题，也想抛出来与大家一起讨论</p>
+<p>1、简单的 http server 很容易升级，若监听了多个端口该如何进行热升级？</p>
+<p>2、若 go server 使用 tls 服务（其他也类似），如何进行升级？</p>
+<p>3、go http server 在容器场景下是否需要平滑热升级？平滑停机是否足够？如果平滑停机足够的话，那么如何结合 docker+k8s 进行热升级？</p>
+<p>个人猜测了一下，这种场景下，后端服务应该会有冗余部署，前端通过负载均衡/elb/tgw 等中间层访问，或者使用 consul 之类的服务注册发现机制，串行重启或者分批次重启，来做到不停服升级服务</p>
+<h2 id="总结">总结</h2>
+<p>热更新目标：</p>
+<ul>
+<li>1、正在处理中的连接/服务/请求不能立即中断，需要继续提供服务</li>
+<li>2、socket 对用户来说要保持可用，可以接受新的请求</li>
+</ul>
+<p>直接沿用上篇的思路，热更新（单进程）流程，其基本流程如下：</p>
+<ul>
+<li>1、用新的 bin 文件去替换老的 bin 文件</li>
+<li>2、发送信号告知 server 进程（通常是 USR2 信号），进行平滑升级</li>
+<li>3、server 进程收到信号后，通过调用 fork/exec 启动新的版本的进程</li>
+<li>4、子进程调用接口获取从父进程继承的 socket 文件描述符重新监听 socket</li>
+<li>5、老的进程不再接受请求，待正在处理中的请求处理完后，进程自动退出</li>
+<li>6、子进程托管给 init 进程</li>
+</ul>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://grisha.org/blog/2014/06/03/graceful-restart-in-golang/" target="_blank" rel="noopener noreffer">https://grisha.org/blog/2014/06/03/graceful-restart-in-golang/</a></li>
+<li><a href="https://blog.csdn.net/u012058778/article/details/78705536" target="_blank" rel="noopener noreffer">https://blog.csdn.net/u012058778/article/details/78705536</a></li>
+<li><a href="http://gulu-dev.com/post/2014-07-28-tech-evaluation" target="_blank" rel="noopener noreffer">http://gulu-dev.com/post/2014-07-28-tech-evaluation</a></li>
+<li><a href="https://golang.org/doc/go1.8#http_shutdown" target="_blank" rel="noopener noreffer">https://golang.org/doc/go1.8#http_shutdown</a>  golang1.8 升级日志，支持 gracefulshutdown</li>
+</ul>
+<h2 id="代码附录">代码附录</h2>
+<h4 id="1facebookgograce">1、facebookgo/grace</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="o">//</span> <span class="n">Command</span> <span class="n">gracedemo</span> <span class="n">implements</span> <span class="n">a</span> <span class="n">demo</span> <span class="n">server</span> <span class="n">showing</span> <span class="n">how</span> <span class="n">to</span> <span class="n">gracefully</span>
+</span></span><span class="line"><span class="cl"><span class="o">//</span> <span class="n">terminate</span> <span class="n">an</span> <span class="n">HTTP</span> <span class="n">server</span> <span class="n">using</span> <span class="n">grace</span><span class="o">.</span>
+</span></span><span class="line"><span class="cl"><span class="n">package</span> <span class="n">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;flag&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;net/http&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;github.com/facebookgo/grace/gracehttp&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="n">address0</span> <span class="o">=</span> <span class="n">flag</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="s2">&#34;a0&#34;</span><span class="p">,</span> <span class="s2">&#34;:48567&#34;</span><span class="p">,</span> <span class="s2">&#34;Zero address to bind to.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">address1</span> <span class="o">=</span> <span class="n">flag</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="s2">&#34;a1&#34;</span><span class="p">,</span> <span class="s2">&#34;:48568&#34;</span><span class="p">,</span> <span class="s2">&#34;First address to bind to.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">address2</span> <span class="o">=</span> <span class="n">flag</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="s2">&#34;a2&#34;</span><span class="p">,</span> <span class="s2">&#34;:48569&#34;</span><span class="p">,</span> <span class="s2">&#34;Second address to bind to.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">now</span>      <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">Now</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">flag</span><span class="o">.</span><span class="n">Parse</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="n">gracehttp</span><span class="o">.</span><span class="n">Serve</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">		<span class="o">&amp;</span><span class="n">http</span><span class="o">.</span><span class="n">Server</span><span class="p">{</span><span class="n">Addr</span><span class="p">:</span> <span class="o">*</span><span class="n">address0</span><span class="p">,</span> <span class="n">Handler</span><span class="p">:</span> <span class="n">newHandler</span><span class="p">(</span><span class="s2">&#34;Zero  &#34;</span><span class="p">)},</span>
+</span></span><span class="line"><span class="cl">		<span class="o">&amp;</span><span class="n">http</span><span class="o">.</span><span class="n">Server</span><span class="p">{</span><span class="n">Addr</span><span class="p">:</span> <span class="o">*</span><span class="n">address1</span><span class="p">,</span> <span class="n">Handler</span><span class="p">:</span> <span class="n">newHandler</span><span class="p">(</span><span class="s2">&#34;First &#34;</span><span class="p">)},</span>
+</span></span><span class="line"><span class="cl">		<span class="o">&amp;</span><span class="n">http</span><span class="o">.</span><span class="n">Server</span><span class="p">{</span><span class="n">Addr</span><span class="p">:</span> <span class="o">*</span><span class="n">address2</span><span class="p">,</span> <span class="n">Handler</span><span class="p">:</span> <span class="n">newHandler</span><span class="p">(</span><span class="s2">&#34;Second&#34;</span><span class="p">)},</span>
+</span></span><span class="line"><span class="cl">	<span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">func</span> <span class="n">newHandler</span><span class="p">(</span><span class="n">name</span> <span class="n">string</span><span class="p">)</span> <span class="n">http</span><span class="o">.</span><span class="n">Handler</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">mux</span> <span class="p">:</span><span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">NewServeMux</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="n">mux</span><span class="o">.</span><span class="n">HandleFunc</span><span class="p">(</span><span class="s2">&#34;/sleep/&#34;</span><span class="p">,</span> <span class="k">func</span><span class="p">(</span><span class="n">w</span> <span class="n">http</span><span class="o">.</span><span class="n">ResponseWriter</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">duration</span><span class="p">,</span> <span class="n">err</span> <span class="p">:</span><span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">ParseDuration</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">FormValue</span><span class="p">(</span><span class="s2">&#34;duration&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="n">http</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">err</span><span class="o">.</span><span class="n">Error</span><span class="p">(),</span> <span class="mi">400</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="n">time</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="n">fmt</span><span class="o">.</span><span class="n">Fprintf</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">			<span class="n">w</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="s2">&#34;</span><span class="si">%s</span><span class="s2"> started at </span><span class="si">%s</span><span class="s2"> slept for </span><span class="si">%d</span><span class="s2"> nanoseconds from pid </span><span class="si">%d</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">name</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">now</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">duration</span><span class="o">.</span><span class="n">Nanoseconds</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">			<span class="n">os</span><span class="o">.</span><span class="n">Getpid</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">		<span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">mux</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="2fvbockendless">2、fvbock/endless</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">package</span> <span class="n">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;log&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;net/http&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;github.com/fvbock/endless&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;github.com/gorilla/mux&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">func</span> <span class="n">handler</span><span class="p">(</span><span class="n">w</span> <span class="n">http</span><span class="o">.</span><span class="n">ResponseWriter</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">w</span><span class="o">.</span><span class="n">Write</span><span class="p">([]</span><span class="n">byte</span><span class="p">(</span><span class="s2">&#34;WORLD!&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">mux1</span> <span class="p">:</span><span class="o">=</span> <span class="n">mux</span><span class="o">.</span><span class="n">NewRouter</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="n">mux1</span><span class="o">.</span><span class="n">HandleFunc</span><span class="p">(</span><span class="s2">&#34;/hello&#34;</span><span class="p">,</span> <span class="n">handler</span><span class="p">)</span><span class="o">.</span>
+</span></span><span class="line"><span class="cl">		<span class="n">Methods</span><span class="p">(</span><span class="s2">&#34;GET&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">err</span> <span class="p">:</span><span class="o">=</span> <span class="n">endless</span><span class="o">.</span><span class="n">ListenAndServe</span><span class="p">(</span><span class="s2">&#34;localhost:4242&#34;</span><span class="p">,</span> <span class="n">mux1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="n">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">&#34;Server on 4242 stopped&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">os</span><span class="o">.</span><span class="n">Exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="3jpilloraoverseer">3、jpillora/overseer</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">package</span> <span class="n">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;net/http&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;github.com/jpillora/overseer&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;github.com/jpillora/overseer/fetcher&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">//</span><span class="n">see</span> <span class="n">example</span><span class="o">.</span><span class="n">sh</span> <span class="k">for</span> <span class="n">the</span> <span class="n">use</span><span class="o">-</span><span class="k">case</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">//</span> <span class="n">BuildID</span> <span class="n">is</span> <span class="n">compile</span><span class="o">-</span><span class="n">time</span> <span class="n">variable</span>
+</span></span><span class="line"><span class="cl"><span class="k">var</span> <span class="n">BuildID</span> <span class="o">=</span> <span class="s2">&#34;0&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">//</span><span class="nb">convert</span> <span class="n">your</span> <span class="s1">&#39;main()&#39;</span> <span class="n">into</span> <span class="n">a</span> <span class="s1">&#39;prog(state)&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">//</span><span class="s1">&#39;prog()&#39;</span> <span class="n">is</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">child</span> <span class="n">process</span>
+</span></span><span class="line"><span class="cl"><span class="k">func</span> <span class="n">prog</span><span class="p">(</span><span class="n">state</span> <span class="n">overseer</span><span class="o">.</span><span class="n">State</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">&#34;app#</span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">) listening...</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">BuildID</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">http</span><span class="o">.</span><span class="n">Handle</span><span class="p">(</span><span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="n">http</span><span class="o">.</span><span class="n">HandlerFunc</span><span class="p">(</span><span class="k">func</span><span class="p">(</span><span class="n">w</span> <span class="n">http</span><span class="o">.</span><span class="n">ResponseWriter</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">d</span><span class="p">,</span> <span class="n">_</span> <span class="p">:</span><span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">ParseDuration</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">URL</span><span class="o">.</span><span class="n">Query</span><span class="p">()</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="s2">&#34;d&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">		<span class="n">time</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="n">fmt</span><span class="o">.</span><span class="n">Fprintf</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s2">&#34;app#</span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">) says hello</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">BuildID</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}))</span>
+</span></span><span class="line"><span class="cl">	<span class="n">http</span><span class="o">.</span><span class="n">Serve</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">Listener</span><span class="p">,</span> <span class="n">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">&#34;app#</span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">) exiting...</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">BuildID</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">//</span><span class="n">then</span> <span class="n">create</span> <span class="n">another</span> <span class="s1">&#39;main&#39;</span> <span class="n">which</span> <span class="n">runs</span> <span class="n">the</span> <span class="n">upgrades</span>
+</span></span><span class="line"><span class="cl"><span class="o">//</span><span class="s1">&#39;main()&#39;</span> <span class="n">is</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">initial</span> <span class="n">process</span>
+</span></span><span class="line"><span class="cl"><span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">overseer</span><span class="o">.</span><span class="n">Run</span><span class="p">(</span><span class="n">overseer</span><span class="o">.</span><span class="n">Config</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">Program</span><span class="p">:</span> <span class="n">prog</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="n">Address</span><span class="p">:</span> <span class="s2">&#34;:5001&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="n">Fetcher</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">fetcher</span><span class="o">.</span><span class="n">File</span><span class="p">{</span><span class="ne">Path</span><span class="p">:</span> <span class="s2">&#34;my_app_next&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">		<span class="n">Debug</span><span class="p">:</span>   <span class="bp">false</span><span class="p">,</span> <span class="o">//</span><span class="n">display</span> <span class="nb">log</span> <span class="n">of</span> <span class="n">overseer</span> <span class="n">actions</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="4overseer">4、overseer</h4>
+<ul>
+<li>
+<p>overseer uses the main process to check for and install upgrades and a child process to run Program.</p>
+</li>
+<li>
+<p>The main process retrieves the files of the listeners described by Address/es.</p>
+</li>
+<li>
+<p>The child process is provided with these files which is converted into a Listener/s for the Program to consume.</p>
+</li>
+<li>
+<p>All child process pipes are connected back to the main process.</p>
+</li>
+<li>
+<p>All signals received on the main process are forwarded through to the child process.</p>
+</li>
+<li>
+<p>Fetcher runs in a goroutine and checks for updates at preconfigured interval. When Fetcher returns a valid binary stream (io.Reader), the master process saves it to a temporary location, verifies it, replaces the current binary and initiates a graceful restart.</p>
+</li>
+<li>
+<p>The fetcher.HTTP accepts a URL, it polls this URL with HEAD requests and until it detects a change. On change, we GET the URL and stream it back out to overseer. See also fetcher.S3.</p>
+</li>
+<li>
+<p>Once a binary is received, it is run with a simple echo token to confirm it is a overseer binary.</p>
+</li>
+<li>
+<p>Except for scheduled restarts, the active child process exiting will cause the main process to exit with the same code. So, overseer is not a process manager.</p>
+</li>
+</ul>
+<p>[外链图片转存失败，源站可能有防盗链机制，建议将图片保存下来直接上传 (img-nJwx0ZVC-1609089892264)(https://camo.githubusercontent.com/45df268c40025baddcafea70a437537c8c67b31c/68747470733a2f2f646f63732e676f6f676c652e636f6d2f64726177696e67732f642f316f31326e6a597952494c79335544733245364a7a794a456c3070735534655059694d5132306a6975564f592f7075623f773d35363626683d323834)]</p>
+<h2 id="参考-1">参考</h2>
+<p><a href="http://tengine.taobao.org/nginx_docs/cn/docs/control.html" target="_blank" rel="noopener noreffer">http://tengine.taobao.org/nginx_docs/cn/docs/control.html</a></p>
+<h2 id="附加技巧">附加技巧</h2>
+<blockquote>
+<p>nginx 如何在指定时间内热重启？</p></blockquote>
+<blockquote>
+<p>envoy 热重启流程跟一般golang进程、nginx进程又有什么异同？</p></blockquote>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2020-12-28&nbsp;<a class="git-hash" href="https://github.com/dillonzq/LoveIt/commit/90eb253dc7d18faa3f4523a640c77a73856f8fed" target="_blank" title="commit by Miss-you(snowfly1993@gmail.com) 90eb253dc7d18faa3f4523a640c77a73856f8fed: rebuilding site 2020年12月28日 星期一 01时32分25秒 CST">
+                                    <i class="fas fa-hashtag fa-fw"></i>90eb253</a></span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/server-hot-update/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://miss-you.github.io/server-hot-update/" data-title="从 nginx 热更新聊一聊 Golang 中的热更新" data-hashtags="nginx,golang"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://miss-you.github.io/server-hot-update/" data-hashtag="nginx"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://miss-you.github.io/server-hot-update/" data-title="从 nginx 热更新聊一聊 Golang 中的热更新"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://miss-you.github.io/server-hot-update/" data-title="从 nginx 热更新聊一聊 Golang 中的热更新"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://miss-you.github.io/server-hot-update/" data-title="从 nginx 热更新聊一聊 Golang 中的热更新"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/nginx/">Nginx</a>,&nbsp;<a href="/tags/golang/">Golang</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/how-to-get-localip/" class="prev" rel="prev" title="获取服务器本机 IP 的不同语言实现"><i class="fas fa-angle-left fa-fw"></i>获取服务器本机 IP 的不同语言实现</a>
+            <a href="/history-of-western-painting/" class="next" rel="next" title="《欧洲绘画五百年》参观有感">《欧洲绘画五百年》参观有感<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.148.1">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">xxxx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.2.0/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@5.0.1/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"en","pageSize":10,"placeholder":"Your comment ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.en","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

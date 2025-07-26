@@ -1,0 +1,116 @@
+{
+  "date": "2025-02-25",
+  "source": "AI交流群",
+  "messages": [
+    {
+      "timestamp": "13:52:00",
+      "sender": "鸭哥",
+      "content": "比如你可以执行claude -q \"把谷歌和亚马逊去年的股价可视化出来\""
+    },
+    {
+      "timestamp": "13:52:00",
+      "sender": "鸭哥",
+      "content": "区别是我们没办法调用cursor"
+    },
+    {
+      "timestamp": "13:53:00",
+      "sender": "鸭哥",
+      "content": "它没有api，没有cli，用户只能跟它的GUI打交道"
+    },
+    {
+      "timestamp": "13:53:00",
+      "sender": "Min Xie",
+      "content": "哦 [抱拳]"
+    },
+    {
+      "timestamp": "13:53:00",
+      "sender": "Min Xie",
+      "content": "感觉到这个意思了"
+    },
+    {
+      "timestamp": "14:15:00",
+      "sender": "Oversea",
+      "content": "那是不是可以很容易手机上操作了？"
+    },
+    {
+      "timestamp": "14:16:00",
+      "sender": "鸭哥",
+      "content": "我感觉是的！"
+    },
+    {
+      "timestamp": "14:16:00",
+      "sender": "鸭哥",
+      "content": "打算最近build一下"
+    },
+    {
+      "timestamp": "14:18:00",
+      "sender": "Oversea",
+      "content": "现在和devin最大的区别就是不能work from bed/car"
+    },
+    {
+      "timestamp": "14:18:00",
+      "sender": "鸭哥",
+      "content": "+1"
+    },
+    {
+      "timestamp": "14:19:00",
+      "sender": "_",
+      "content": "全靠打字写代码么"
+    },
+    {
+      "timestamp": "14:19:00",
+      "sender": "_",
+      "content": "聊天式上班"
+    },
+    {
+      "timestamp": "14:20:00",
+      "sender": "Surprise",
+      "content": "[Photo]"
+    },
+    {
+      "timestamp": "14:21:00",
+      "sender": "哈库那马塔塔",
+      "content": "[Video] 顶级恶灵？😂笑醒了！彻底不困了"
+    },
+    {
+      "timestamp": "14:21:00",
+      "sender": "粥当当🔭",
+      "content": "有钱啊"
+    },
+    {
+      "timestamp": "14:21:00",
+      "sender": "粥当当🔭",
+      "content": "现在的自媒体宣传感觉都重在部署，都没说应用场景"
+    },
+    {
+      "timestamp": "14:26:00",
+      "sender": "Oversea",
+      "content": "[Photo]"
+    },
+    {
+      "timestamp": "14:26:00",
+      "sender": "Oversea",
+      "content": "怀疑oai就是收集这堆东西"
+    },
+    {
+      "timestamp": "14:27:00",
+      "sender": "Oversea",
+      "content": "然后来判断是不是降级/封号"
+    },
+    {
+      "timestamp": "14:28:00",
+      "sender": "Adrian",
+      "content": "做政绩"
+    },
+    {
+      "timestamp": "14:31:00",
+      "sender": "王正博",
+      "content": "秀肌肉🤣"
+    },
+    {
+      "timestamp": "14:31:00",
+      "sender": "王正博",
+      "content": "都是有钱的单位"
+    }
+  ]
+}

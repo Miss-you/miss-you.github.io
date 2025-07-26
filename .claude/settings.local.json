@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(hugo:*)",
+      "Bash(brew install:*)",
+      "Bash(ls:*)",
+      "Bash(chmod:*)",
+      "Bash(python3:*)",
+      "Bash(cp:*)",
+      "Bash(git submodule add:*)",
+      "Bash(mkdir:*)",
+      "Bash(git config:*)",
+      "Bash(git init:*)",
+      "Bash(rm:*)",
+      "Bash(git add:*)",
+      "Bash(git rm:*)",
+      "Bash(./new-post.sh:*)",
+      "Bash(grep:*)",
+      "Bash(./deploy.sh:*)",
+      "Bash(find:*)"
+    ],
+    "deny": []
+  }
+}
