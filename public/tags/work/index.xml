@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Work on yousa Blog</title>
-    <link>https://miss-you.github.io/tags/work/</link>
+    <link>http://localhost:1313/tags/work/</link>
     <description>Recent content in Work on yousa Blog</description>
     <generator>Hugo -- 0.148.1</generator>
     <language>en</language>
     <lastBuildDate>Tue, 15 Jul 2025 20:32:32 +0800</lastBuildDate>
-    <atom:link href="https://miss-you.github.io/tags/work/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/work/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>当 nil 不等于 nil？深度剖析 Go 的 typed nil 大坑</title>
-      <link>https://miss-you.github.io/posts/20250515-go-typed-nil/</link>
+      <link>http://localhost:1313/posts/20250515-go-typed-nil/</link>
       <pubDate>Thu, 15 May 2025 17:39:47 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20250515-go-typed-nil/</guid>
+      <guid>http://localhost:1313/posts/20250515-go-typed-nil/</guid>
       <description>&lt;h2 id=&#34;0-一个能悄悄坑你的真实示例serror-的故事&#34;&gt;0. 一个能“悄悄坑你”的真实示例：&lt;code&gt;SError&lt;/code&gt; 的故事&lt;/h2&gt;
 &lt;p&gt;先看你提到的这段代码，表面上看非常正常，甚至很多人第一眼不会觉得哪里有问题：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -99,9 +99,9 @@
     </item>
     <item>
       <title>畅享 ChatGPT Plus：无需额外支付手段，突破 OpenAI 支付风控</title>
-      <link>https://miss-you.github.io/posts/20240423-openai-register/</link>
+      <link>http://localhost:1313/posts/20240423-openai-register/</link>
       <pubDate>Tue, 23 Apr 2024 17:39:47 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20240423-openai-register/</guid>
+      <guid>http://localhost:1313/posts/20240423-openai-register/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;截至 2024 年 2 月 10 日，该教程仍然有效。我已根据此教程重新操作并成功充值。请注意，购买苹果充值卡时应确保从苹果官方网站购买。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://raw.githubusercontent.com/Miss-you/img/master/picgo/20240423-164227-1-28fd8bc46d10a26c0e639aeb5ec9862f.jpg&#34;&gt;&lt;/p&gt;
@@ -142,16 +142,16 @@ d. 已注册成功的 chatGPT 账号&lt;/p&gt;
     </item>
     <item>
       <title>【译】创业生存手册：如何有效地打造产品、组建团队并筹集资金</title>
-      <link>https://miss-you.github.io/posts/20230703-startup-playbook/</link>
+      <link>http://localhost:1313/posts/20230703-startup-playbook/</link>
       <pubDate>Mon, 03 Jul 2023 17:39:47 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20230703-startup-playbook/</guid>
+      <guid>http://localhost:1313/posts/20230703-startup-playbook/</guid>
       <description>个人认为，大公司内的小团队或创新团队与创业公司在诸多方面有着密切的相似性。两者都面临着从零开始，将一个概念或想法转化为可行产品或服务的挑战。他们都需要快速地适应和学习，寻找产品与市场的契合点，同时也要不断地迭代产品，以满足不断变化的市场需求。在这两种环境中，都需要强大的领导力和管理才能以及优秀的团队成员。而且，他们都需要面对并管理风险，同时在有限的资源下取得最大的产出。因此，无论你是处于创业环境还是大公司的创新团队，本文都会为你提供极大的价值。Sam Altman的经验和洞察将帮助你更好地理解如何建立并领导一支成功的团队，如何募集资金，如何处理竞争，以及如何建立持久并能够盈利的公司。</description>
     </item>
     <item>
       <title>提升专注力的七种方法</title>
-      <link>https://miss-you.github.io/posts/20230421-7-ways-to-stay-focused/</link>
+      <link>http://localhost:1313/posts/20230421-7-ways-to-stay-focused/</link>
       <pubDate>Fri, 21 Apr 2023 17:39:47 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20230421-7-ways-to-stay-focused/</guid>
+      <guid>http://localhost:1313/posts/20230421-7-ways-to-stay-focused/</guid>
       <description>让思维更聚焦，让生活更高效</description>
     </item>
   </channel>

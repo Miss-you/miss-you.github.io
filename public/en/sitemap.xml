@@ -2,235 +2,235 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://miss-you.github.io/categories/</loc>
-    <lastmod>2025-07-27T00:17:01+08:00</lastmod>
+    <loc>http://localhost:1313/categories/</loc>
+    <lastmod>2025-07-27T01:36:18+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://miss-you.github.io/zh/categories/"
+                href="http://localhost:1313/zh/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://miss-you.github.io/categories/"
+                href="http://localhost:1313/categories/"
                 />
   </url><url>
-    <loc>https://miss-you.github.io/tags/paul-graham/</loc>
-    <lastmod>2025-07-27T00:17:01+08:00</lastmod>
+    <loc>http://localhost:1313/tags/paul-graham/</loc>
+    <lastmod>2025-07-27T01:36:18+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/</loc>
-    <lastmod>2025-07-27T00:17:01+08:00</lastmod>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-07-27T01:36:18+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/</loc>
-    <lastmod>2025-07-27T00:17:01+08:00</lastmod>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-07-27T01:36:18+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://miss-you.github.io/zh/tags/"
+                href="http://localhost:1313/zh/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://miss-you.github.io/tags/"
+                href="http://localhost:1313/tags/"
                 />
   </url><url>
-    <loc>https://miss-you.github.io/</loc>
-    <lastmod>2025-07-27T00:17:01+08:00</lastmod>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-07-27T01:36:18+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://miss-you.github.io/zh/"
+                href="http://localhost:1313/zh/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://miss-you.github.io/"
+                href="http://localhost:1313/"
                 />
   </url><url>
-    <loc>https://miss-you.github.io/categories/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/</loc>
-    <lastmod>2025-07-27T00:17:01+08:00</lastmod>
+    <loc>http://localhost:1313/categories/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/</loc>
+    <lastmod>2025-07-27T01:36:18+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/categories/%E6%80%9D%E8%80%83/</loc>
-    <lastmod>2025-07-27T00:17:01+08:00</lastmod>
+    <loc>http://localhost:1313/categories/%E6%80%9D%E8%80%83/</loc>
+    <lastmod>2025-07-27T01:36:18+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86/</loc>
-    <lastmod>2025-07-27T00:17:01+08:00</lastmod>
+    <loc>http://localhost:1313/tags/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86/</loc>
+    <lastmod>2025-07-27T01:36:18+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/%E6%B3%A8%E6%84%8F%E5%8A%9B%E7%BB%8F%E6%B5%8E/</loc>
-    <lastmod>2025-07-27T00:17:01+08:00</lastmod>
+    <loc>http://localhost:1313/tags/%E6%B3%A8%E6%84%8F%E5%8A%9B%E7%BB%8F%E6%B5%8E/</loc>
+    <lastmod>2025-07-27T01:36:18+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/categories/%E6%B8%B8%E6%88%8F/</loc>
-    <lastmod>2025-07-27T00:17:01+08:00</lastmod>
+    <loc>http://localhost:1313/categories/%E6%B8%B8%E6%88%8F/</loc>
+    <lastmod>2025-07-27T01:36:18+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1/</loc>
-    <lastmod>2025-07-27T00:17:01+08:00</lastmod>
+    <loc>http://localhost:1313/tags/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2025-07-27T01:36:18+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/20250727-game-art-game-pua/</loc>
-    <lastmod>2025-07-27T00:17:01+08:00</lastmod>
+    <loc>http://localhost:1313/posts/20250727-game-art-game-pua/</loc>
+    <lastmod>2025-07-27T01:36:18+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/ai/</loc>
+    <loc>http://localhost:1313/tags/ai/</loc>
     <lastmod>2025-07-19T17:42:01+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/artificial-intelligence/</loc>
+    <loc>http://localhost:1313/tags/artificial-intelligence/</loc>
     <lastmod>2025-07-19T17:42:01+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/collaboration/</loc>
+    <loc>http://localhost:1313/tags/collaboration/</loc>
     <lastmod>2025-07-19T17:42:01+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/categories/thinking/</loc>
+    <loc>http://localhost:1313/categories/thinking/</loc>
     <lastmod>2025-07-19T17:42:01+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/thinking-methods/</loc>
+    <loc>http://localhost:1313/tags/thinking-methods/</loc>
     <lastmod>2025-07-19T17:42:01+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/work-methods/</loc>
+    <loc>http://localhost:1313/tags/work-methods/</loc>
     <lastmod>2025-07-19T17:42:01+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/20250719-working-with-ai-or-the-amplifier-of-thought/</loc>
+    <loc>http://localhost:1313/posts/20250719-working-with-ai-or-the-amplifier-of-thought/</loc>
     <lastmod>2025-07-19T17:42:01+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/20250719--ai-/</loc>
+    <loc>http://localhost:1313/posts/20250719--ai-/</loc>
     <lastmod>2025-07-19T17:33:43+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</loc>
+    <loc>http://localhost:1313/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</loc>
     <lastmod>2025-07-19T17:33:43+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/%E5%8D%8F%E4%BD%9C/</loc>
+    <loc>http://localhost:1313/tags/%E5%8D%8F%E4%BD%9C/</loc>
     <lastmod>2025-07-19T17:33:43+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/%E5%B7%A5%E4%BD%9C%E6%96%B9%E6%B3%95/</loc>
+    <loc>http://localhost:1313/tags/%E5%B7%A5%E4%BD%9C%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2025-07-19T17:33:43+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/%E6%80%9D%E8%80%83%E6%96%B9%E6%B3%95/</loc>
+    <loc>http://localhost:1313/tags/%E6%80%9D%E8%80%83%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2025-07-19T17:33:43+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/ai%E7%BC%96%E7%A8%8B/</loc>
+    <loc>http://localhost:1313/tags/ai%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2025-07-17T17:22:40+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/cursor/</loc>
+    <loc>http://localhost:1313/tags/cursor/</loc>
     <lastmod>2025-07-17T17:22:40+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/vpn/</loc>
+    <loc>http://localhost:1313/tags/vpn/</loc>
     <lastmod>2025-07-17T17:22:40+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/</loc>
+    <loc>http://localhost:1313/tags/%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2025-07-17T17:22:40+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/categories/%E6%8A%80%E6%9C%AF%E6%95%99%E7%A8%8B/</loc>
+    <loc>http://localhost:1313/categories/%E6%8A%80%E6%9C%AF%E6%95%99%E7%A8%8B/</loc>
     <lastmod>2025-07-17T17:22:40+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98/</loc>
+    <loc>http://localhost:1313/tags/%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98/</loc>
     <lastmod>2025-07-17T17:22:40+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/%E7%BF%BB%E5%A2%99/</loc>
+    <loc>http://localhost:1313/tags/%E7%BF%BB%E5%A2%99/</loc>
     <lastmod>2025-07-17T17:22:40+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/20250717-fix-cursor-unavailable-region/</loc>
+    <loc>http://localhost:1313/posts/20250717-fix-cursor-unavailable-region/</loc>
     <lastmod>2025-07-17T17:22:40+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/blog/</loc>
+    <loc>http://localhost:1313/tags/blog/</loc>
     <lastmod>2025-07-15T20:32:32+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/hugo/</loc>
+    <loc>http://localhost:1313/tags/hugo/</loc>
     <lastmod>2025-07-15T20:32:32+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/20250715-hugo-tutorial/</loc>
+    <loc>http://localhost:1313/posts/20250715-hugo-tutorial/</loc>
     <lastmod>2025-07-15T20:32:32+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/tutorial/</loc>
+    <loc>http://localhost:1313/tags/tutorial/</loc>
     <lastmod>2025-07-15T20:32:32+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/categories/%E6%8A%80%E6%9C%AF/</loc>
+    <loc>http://localhost:1313/categories/%E6%8A%80%E6%9C%AF/</loc>
     <lastmod>2025-07-15T20:32:32+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/work/</loc>
+    <loc>http://localhost:1313/tags/work/</loc>
     <lastmod>2025-07-15T20:32:32+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/20250515-go-typed-nil/</loc>
+    <loc>http://localhost:1313/posts/20250515-go-typed-nil/</loc>
     <lastmod>2025-07-15T20:32:32+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/20240423-openai-register/</loc>
+    <loc>http://localhost:1313/posts/20240423-openai-register/</loc>
     <lastmod>2025-07-15T19:31:16+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/20230703-startup-playbook/</loc>
+    <loc>http://localhost:1313/posts/20230703-startup-playbook/</loc>
     <lastmod>2023-07-04T00:57:07+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/20230421-7-ways-to-stay-focused/</loc>
+    <loc>http://localhost:1313/posts/20230421-7-ways-to-stay-focused/</loc>
     <lastmod>2023-04-21T18:09:29+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/code/</loc>
+    <loc>http://localhost:1313/tags/code/</loc>
     <lastmod>2021-03-02T16:50:28+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/json-and-escaping/</loc>
+    <loc>http://localhost:1313/posts/json-and-escaping/</loc>
     <lastmod>2021-03-02T16:50:28+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/history-of-western-painting/</loc>
+    <loc>http://localhost:1313/posts/history-of-western-painting/</loc>
     <lastmod>2020-12-28T22:56:58+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/categories/essay/</loc>
+    <loc>http://localhost:1313/categories/essay/</loc>
     <lastmod>2020-12-28T22:56:58+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/essay/</loc>
+    <loc>http://localhost:1313/tags/essay/</loc>
     <lastmod>2020-12-28T22:56:58+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/golang/</loc>
+    <loc>http://localhost:1313/tags/golang/</loc>
     <lastmod>2020-12-28T01:32:25+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/nginx/</loc>
+    <loc>http://localhost:1313/tags/nginx/</loc>
     <lastmod>2020-12-28T01:32:25+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/server-hot-update/</loc>
+    <loc>http://localhost:1313/posts/server-hot-update/</loc>
     <lastmod>2020-12-28T01:32:25+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/how-to-get-localip/</loc>
+    <loc>http://localhost:1313/posts/how-to-get-localip/</loc>
     <lastmod>2020-12-28T01:32:25+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/perf/</loc>
+    <loc>http://localhost:1313/tags/perf/</loc>
     <lastmod>2020-11-25T03:09:23+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/perf/</loc>
+    <loc>http://localhost:1313/posts/perf/</loc>
     <lastmod>2020-11-25T03:09:23+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/profile/</loc>
+    <loc>http://localhost:1313/tags/profile/</loc>
     <lastmod>2020-11-25T03:09:23+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/flamegraph/</loc>
+    <loc>http://localhost:1313/tags/flamegraph/</loc>
     <lastmod>2020-11-25T02:48:39+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/flame/</loc>
+    <loc>http://localhost:1313/posts/flame/</loc>
     <lastmod>2020-11-25T02:48:39+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/categories/env/</loc>
+    <loc>http://localhost:1313/categories/env/</loc>
     <lastmod>2020-12-29T00:27:08+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/github-pages/</loc>
+    <loc>http://localhost:1313/tags/github-pages/</loc>
     <lastmod>2020-12-29T00:27:08+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/how-to-create-blog/</loc>
+    <loc>http://localhost:1313/posts/how-to-create-blog/</loc>
     <lastmod>2020-12-29T00:27:08+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/go-mysql-null/</loc>
+    <loc>http://localhost:1313/posts/go-mysql-null/</loc>
     <lastmod>2020-10-08T13:52:49+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/categories/golang/</loc>
+    <loc>http://localhost:1313/categories/golang/</loc>
     <lastmod>2020-10-08T13:52:49+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/mysql/</loc>
+    <loc>http://localhost:1313/tags/mysql/</loc>
     <lastmod>2020-10-08T13:52:49+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/posts/how-to-control-claude-to-write/</loc>
+    <loc>http://localhost:1313/posts/how-to-control-claude-to-write/</loc>
     <lastmod>2025-07-15T20:32:32+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/series/</loc>
+    <loc>http://localhost:1313/series/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://miss-you.github.io/zh/series/"
+                href="http://localhost:1313/zh/series/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://miss-you.github.io/series/"
+                href="http://localhost:1313/series/"
                 />
   </url>
 </urlset>

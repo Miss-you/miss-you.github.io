@@ -2,52 +2,52 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on yousa Blog</title>
-    <link>https://miss-you.github.io/posts/</link>
+    <link>http://localhost:1313/posts/</link>
     <description>Recent content in Posts on yousa Blog</description>
     <generator>Hugo -- 0.148.1</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 27 Jul 2025 00:17:01 +0800</lastBuildDate>
-    <atom:link href="https://miss-you.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 27 Jul 2025 01:36:18 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>王者</title>
-      <link>https://miss-you.github.io/posts/20250727-game-art-game-pua/</link>
+      <link>http://localhost:1313/posts/20250727-game-art-game-pua/</link>
       <pubDate>Sun, 27 Jul 2025 00:17:01 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20250727-game-art-game-pua/</guid>
+      <guid>http://localhost:1313/posts/20250727-game-art-game-pua/</guid>
       <description>从一个王者印记开始的思考：游戏公司要的不是你的钱，而是你的时间</description>
     </item>
     <item>
       <title>Working with AI, or, The Amplifier of Thought</title>
-      <link>https://miss-you.github.io/posts/20250719-working-with-ai-or-the-amplifier-of-thought/</link>
+      <link>http://localhost:1313/posts/20250719-working-with-ai-or-the-amplifier-of-thought/</link>
       <pubDate>Sat, 19 Jul 2025 17:40:37 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20250719-working-with-ai-or-the-amplifier-of-thought/</guid>
+      <guid>http://localhost:1313/posts/20250719-working-with-ai-or-the-amplifier-of-thought/</guid>
       <description>The true value of AI isn&amp;#39;t in its ability to think independently, but in how it amplifies and accelerates our own thinking. This article explores proper AI collaboration through a real example of writing a recommendation, and discusses the importance of thinking quality in the AI era.</description>
     </item>
     <item>
       <title>与 AI 共事，或，思考的放大器</title>
-      <link>https://miss-you.github.io/posts/20250719--ai-/</link>
+      <link>http://localhost:1313/posts/20250719--ai-/</link>
       <pubDate>Sat, 19 Jul 2025 17:24:45 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20250719--ai-/</guid>
+      <guid>http://localhost:1313/posts/20250719--ai-/</guid>
       <description>AI的真正价值不在于它能独立思考，而在于它能放大和加速我们的思考。这篇文章通过一个写推荐语的实例，探讨了如何正确地与AI协作，以及思考质量在AI时代的重要性。</description>
     </item>
     <item>
       <title>解决Cursor AI编程助手「地区不可用」错误：完整的VPN代理配置指南</title>
-      <link>https://miss-you.github.io/posts/20250717-fix-cursor-unavailable-region/</link>
+      <link>http://localhost:1313/posts/20250717-fix-cursor-unavailable-region/</link>
       <pubDate>Thu, 17 Jul 2025 12:16:22 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20250717-fix-cursor-unavailable-region/</guid>
+      <guid>http://localhost:1313/posts/20250717-fix-cursor-unavailable-region/</guid>
       <description>Cursor AI编程助手显示「Model not available」或「地区不可用」？本文提供详细的代理配置解决方案，包括Clash、V2Ray等工具的具体设置步骤，让你重新使用AI编程功能。</description>
     </item>
     <item>
       <title>Hugo 文章目录管理教程</title>
-      <link>https://miss-you.github.io/posts/20250715-hugo-tutorial/</link>
+      <link>http://localhost:1313/posts/20250715-hugo-tutorial/</link>
       <pubDate>Tue, 15 Jul 2025 19:55:00 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20250715-hugo-tutorial/</guid>
+      <guid>http://localhost:1313/posts/20250715-hugo-tutorial/</guid>
       <description>演示如何为每个Hugo文章创建独立目录，便于管理文章相关的图片和资源</description>
     </item>
     <item>
       <title>当 nil 不等于 nil？深度剖析 Go 的 typed nil 大坑</title>
-      <link>https://miss-you.github.io/posts/20250515-go-typed-nil/</link>
+      <link>http://localhost:1313/posts/20250515-go-typed-nil/</link>
       <pubDate>Thu, 15 May 2025 17:39:47 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20250515-go-typed-nil/</guid>
+      <guid>http://localhost:1313/posts/20250515-go-typed-nil/</guid>
       <description>&lt;h2 id=&#34;0-一个能悄悄坑你的真实示例serror-的故事&#34;&gt;0. 一个能“悄悄坑你”的真实示例：&lt;code&gt;SError&lt;/code&gt; 的故事&lt;/h2&gt;
 &lt;p&gt;先看你提到的这段代码，表面上看非常正常，甚至很多人第一眼不会觉得哪里有问题：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -134,9 +134,9 @@
     </item>
     <item>
       <title>畅享 ChatGPT Plus：无需额外支付手段，突破 OpenAI 支付风控</title>
-      <link>https://miss-you.github.io/posts/20240423-openai-register/</link>
+      <link>http://localhost:1313/posts/20240423-openai-register/</link>
       <pubDate>Tue, 23 Apr 2024 17:39:47 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20240423-openai-register/</guid>
+      <guid>http://localhost:1313/posts/20240423-openai-register/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;截至 2024 年 2 月 10 日，该教程仍然有效。我已根据此教程重新操作并成功充值。请注意，购买苹果充值卡时应确保从苹果官方网站购买。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://raw.githubusercontent.com/Miss-you/img/master/picgo/20240423-164227-1-28fd8bc46d10a26c0e639aeb5ec9862f.jpg&#34;&gt;&lt;/p&gt;
@@ -177,23 +177,23 @@ d. 已注册成功的 chatGPT 账号&lt;/p&gt;
     </item>
     <item>
       <title>【译】创业生存手册：如何有效地打造产品、组建团队并筹集资金</title>
-      <link>https://miss-you.github.io/posts/20230703-startup-playbook/</link>
+      <link>http://localhost:1313/posts/20230703-startup-playbook/</link>
       <pubDate>Mon, 03 Jul 2023 17:39:47 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20230703-startup-playbook/</guid>
+      <guid>http://localhost:1313/posts/20230703-startup-playbook/</guid>
       <description>个人认为，大公司内的小团队或创新团队与创业公司在诸多方面有着密切的相似性。两者都面临着从零开始，将一个概念或想法转化为可行产品或服务的挑战。他们都需要快速地适应和学习，寻找产品与市场的契合点，同时也要不断地迭代产品，以满足不断变化的市场需求。在这两种环境中，都需要强大的领导力和管理才能以及优秀的团队成员。而且，他们都需要面对并管理风险，同时在有限的资源下取得最大的产出。因此，无论你是处于创业环境还是大公司的创新团队，本文都会为你提供极大的价值。Sam Altman的经验和洞察将帮助你更好地理解如何建立并领导一支成功的团队，如何募集资金，如何处理竞争，以及如何建立持久并能够盈利的公司。</description>
     </item>
     <item>
       <title>提升专注力的七种方法</title>
-      <link>https://miss-you.github.io/posts/20230421-7-ways-to-stay-focused/</link>
+      <link>http://localhost:1313/posts/20230421-7-ways-to-stay-focused/</link>
       <pubDate>Fri, 21 Apr 2023 17:39:47 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20230421-7-ways-to-stay-focused/</guid>
+      <guid>http://localhost:1313/posts/20230421-7-ways-to-stay-focused/</guid>
       <description>让思维更聚焦，让生活更高效</description>
     </item>
     <item>
       <title>为什么 JSON 需要转义</title>
-      <link>https://miss-you.github.io/posts/json-and-escaping/</link>
+      <link>http://localhost:1313/posts/json-and-escaping/</link>
       <pubDate>Tue, 05 Jan 2021 01:21:26 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/json-and-escaping/</guid>
+      <guid>http://localhost:1313/posts/json-and-escaping/</guid>
       <description>&lt;h1 id=&#34;为什么-json-需要转义&#34;&gt;为什么 JSON 需要转义？&lt;/h1&gt;
 &lt;p&gt;[TOC]&lt;/p&gt;
 &lt;blockquote&gt;
@@ -227,16 +227,16 @@ d. 已注册成功的 chatGPT 账号&lt;/p&gt;
     </item>
     <item>
       <title>《欧洲绘画五百年》参观有感</title>
-      <link>https://miss-you.github.io/posts/history-of-western-painting/</link>
+      <link>http://localhost:1313/posts/history-of-western-painting/</link>
       <pubDate>Mon, 28 Dec 2020 22:43:47 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/history-of-western-painting/</guid>
+      <guid>http://localhost:1313/posts/history-of-western-painting/</guid>
       <description>《欧洲绘画五百年》参观有感</description>
     </item>
     <item>
       <title>从 nginx 热更新聊一聊 Golang 中的热更新</title>
-      <link>https://miss-you.github.io/posts/server-hot-update/</link>
+      <link>http://localhost:1313/posts/server-hot-update/</link>
       <pubDate>Mon, 28 Dec 2020 01:23:35 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/server-hot-update/</guid>
+      <guid>http://localhost:1313/posts/server-hot-update/</guid>
       <description>&lt;h1 id=&#34;从-nginx-热更新聊一聊-golang-中的热更新&#34;&gt;从 nginx 热更新聊一聊 Golang 中的热更新&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;静态语言在服务器编程时都会遇到这样的问题：如何保证已有的连接服务不中断同时又升级版本？
@@ -261,9 +261,9 @@ d. 已注册成功的 chatGPT 账号&lt;/p&gt;
     </item>
     <item>
       <title>获取服务器本机 IP 的不同语言实现</title>
-      <link>https://miss-you.github.io/posts/how-to-get-localip/</link>
+      <link>http://localhost:1313/posts/how-to-get-localip/</link>
       <pubDate>Wed, 25 Nov 2020 03:11:02 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/how-to-get-localip/</guid>
+      <guid>http://localhost:1313/posts/how-to-get-localip/</guid>
       <description>&lt;h2 id=&#34;cc-版本&#34;&gt;C/C++ 版本&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -339,9 +339,9 @@ d. 已注册成功的 chatGPT 账号&lt;/p&gt;
     </item>
     <item>
       <title>perf 入门教程（待补充和完善）</title>
-      <link>https://miss-you.github.io/posts/perf/</link>
+      <link>http://localhost:1313/posts/perf/</link>
       <pubDate>Wed, 25 Nov 2020 02:54:43 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/perf/</guid>
+      <guid>http://localhost:1313/posts/perf/</guid>
       <description>&lt;h1 id=&#34;perf-使用教程&#34;&gt;perf 使用教程&lt;/h1&gt;
 &lt;h2 id=&#34;perf-简介&#34;&gt;perf 简介&lt;/h2&gt;
 &lt;p&gt;Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话是在 CPU 的 PMU register 中 Get/Set performance counters 来获得诸如 instructions executed，cache-missed suffered，branches mispredicted 等信息。&lt;/p&gt;
@@ -392,30 +392,30 @@ d. 已注册成功的 chatGPT 账号&lt;/p&gt;
     </item>
     <item>
       <title>性能调优利器--火焰图</title>
-      <link>https://miss-you.github.io/posts/flame/</link>
+      <link>http://localhost:1313/posts/flame/</link>
       <pubDate>Wed, 25 Nov 2020 02:39:47 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/flame/</guid>
+      <guid>http://localhost:1313/posts/flame/</guid>
       <description>本文主要分享火焰图使用技巧，介绍 systemtap 的原理机制，如何使用火焰图快速定位性能问题原因，同时加深对 systemtap 的理解。</description>
     </item>
     <item>
       <title>使用 Github Pages 和 Hugo 搭建个人博客教程</title>
-      <link>https://miss-you.github.io/posts/how-to-create-blog/</link>
+      <link>http://localhost:1313/posts/how-to-create-blog/</link>
       <pubDate>Sat, 10 Oct 2020 03:03:29 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/how-to-create-blog/</guid>
+      <guid>http://localhost:1313/posts/how-to-create-blog/</guid>
       <description>Github Pages 建站教程 </description>
     </item>
     <item>
       <title>Go 语言：解决数据库中 null 值的问题</title>
-      <link>https://miss-you.github.io/posts/go-mysql-null/</link>
+      <link>http://localhost:1313/posts/go-mysql-null/</link>
       <pubDate>Thu, 08 Oct 2020 00:46:23 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/go-mysql-null/</guid>
+      <guid>http://localhost:1313/posts/go-mysql-null/</guid>
       <description>本文主要介绍如何使用 go 语言 database/sql 库从数据库中读取 null 值的问题，以及如何向数据库中插入 null 值。本文在这里使用的是 sql.NullString, sql.NullInt64, sql.NullFloat64 等结构体，为了方便书写，它们的泛指我会使用 sql.Null 来表示. </description>
     </item>
     <item>
       <title></title>
-      <link>https://miss-you.github.io/posts/how-to-control-claude-to-write/</link>
+      <link>http://localhost:1313/posts/how-to-control-claude-to-write/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://miss-you.github.io/posts/how-to-control-claude-to-write/</guid>
+      <guid>http://localhost:1313/posts/how-to-control-claude-to-write/</guid>
       <description>&lt;h3 id=&#34;1-设定写作目标与受众&#34;&gt;1️⃣ 设定写作目标与受众&lt;/h3&gt;
 &lt;table&gt;
   &lt;thead&gt;

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Essay on yousa Blog</title>
-    <link>https://miss-you.github.io/tags/essay/</link>
+    <link>http://localhost:1313/tags/essay/</link>
     <description>Recent content in Essay on yousa Blog</description>
     <generator>Hugo -- 0.148.1</generator>
     <language>en</language>
     <lastBuildDate>Mon, 28 Dec 2020 22:56:58 +0800</lastBuildDate>
-    <atom:link href="https://miss-you.github.io/tags/essay/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/essay/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>《欧洲绘画五百年》参观有感</title>
-      <link>https://miss-you.github.io/posts/history-of-western-painting/</link>
+      <link>http://localhost:1313/posts/history-of-western-painting/</link>
       <pubDate>Mon, 28 Dec 2020 22:43:47 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/history-of-western-painting/</guid>
+      <guid>http://localhost:1313/posts/history-of-western-painting/</guid>
       <description>《欧洲绘画五百年》参观有感</description>
     </item>
   </channel>

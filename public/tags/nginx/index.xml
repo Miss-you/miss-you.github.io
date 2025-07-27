@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Nginx on yousa Blog</title>
-    <link>https://miss-you.github.io/tags/nginx/</link>
+    <link>http://localhost:1313/tags/nginx/</link>
     <description>Recent content in Nginx on yousa Blog</description>
     <generator>Hugo -- 0.148.1</generator>
     <language>en</language>
     <lastBuildDate>Mon, 28 Dec 2020 01:32:25 +0800</lastBuildDate>
-    <atom:link href="https://miss-you.github.io/tags/nginx/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/nginx/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>从 nginx 热更新聊一聊 Golang 中的热更新</title>
-      <link>https://miss-you.github.io/posts/server-hot-update/</link>
+      <link>http://localhost:1313/posts/server-hot-update/</link>
       <pubDate>Mon, 28 Dec 2020 01:23:35 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/server-hot-update/</guid>
+      <guid>http://localhost:1313/posts/server-hot-update/</guid>
       <description>&lt;h1 id=&#34;从-nginx-热更新聊一聊-golang-中的热更新&#34;&gt;从 nginx 热更新聊一聊 Golang 中的热更新&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;静态语言在服务器编程时都会遇到这样的问题：如何保证已有的连接服务不中断同时又升级版本？

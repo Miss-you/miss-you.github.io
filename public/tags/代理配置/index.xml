@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>代理配置 on yousa Blog</title>
-    <link>https://miss-you.github.io/tags/%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/</link>
+    <link>http://localhost:1313/tags/%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/</link>
     <description>Recent content in 代理配置 on yousa Blog</description>
     <generator>Hugo -- 0.148.1</generator>
     <language>en</language>
     <lastBuildDate>Thu, 17 Jul 2025 17:22:40 +0800</lastBuildDate>
-    <atom:link href="https://miss-you.github.io/tags/%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>解决Cursor AI编程助手「地区不可用」错误：完整的VPN代理配置指南</title>
-      <link>https://miss-you.github.io/posts/20250717-fix-cursor-unavailable-region/</link>
+      <link>http://localhost:1313/posts/20250717-fix-cursor-unavailable-region/</link>
       <pubDate>Thu, 17 Jul 2025 12:16:22 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20250717-fix-cursor-unavailable-region/</guid>
+      <guid>http://localhost:1313/posts/20250717-fix-cursor-unavailable-region/</guid>
       <description>Cursor AI编程助手显示「Model not available」或「地区不可用」？本文提供详细的代理配置解决方案，包括Clash、V2Ray等工具的具体设置步骤，让你重新使用AI编程功能。</description>
     </item>
   </channel>
