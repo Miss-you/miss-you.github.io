@@ -6,27 +6,48 @@
     <description>Recent content in Categories on yousa Blog</description>
     <generator>Hugo -- 0.148.1</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 19 Jul 2025 17:40:37 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 30 Jul 2025 10:54:50 +0800</lastBuildDate>
     <atom:link href="https://miss-you.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Thinking</title>
-      <link>https://miss-you.github.io/categories/thinking/</link>
-      <pubDate>Sat, 19 Jul 2025 17:40:37 +0800</pubDate>
-      <guid>https://miss-you.github.io/categories/thinking/</guid>
+      <title>个人成长</title>
+      <link>https://miss-you.github.io/categories/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/</link>
+      <pubDate>Sun, 27 Jul 2025 00:17:01 +0800</pubDate>
+      <guid>https://miss-you.github.io/categories/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/</guid>
       <description></description>
     </item>
     <item>
       <title>思考</title>
       <link>https://miss-you.github.io/categories/%E6%80%9D%E8%80%83/</link>
-      <pubDate>Sat, 19 Jul 2025 17:24:45 +0800</pubDate>
+      <pubDate>Sun, 27 Jul 2025 00:17:01 +0800</pubDate>
       <guid>https://miss-you.github.io/categories/%E6%80%9D%E8%80%83/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>游戏</title>
+      <link>https://miss-you.github.io/categories/%E6%B8%B8%E6%88%8F/</link>
+      <pubDate>Sun, 27 Jul 2025 00:17:01 +0800</pubDate>
+      <guid>https://miss-you.github.io/categories/%E6%B8%B8%E6%88%8F/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>开发工具</title>
+      <link>https://miss-you.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Fri, 25 Jul 2025 15:15:25 +0800</pubDate>
+      <guid>https://miss-you.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/</guid>
       <description></description>
     </item>
     <item>
       <title>技术教程</title>
       <link>https://miss-you.github.io/categories/%E6%8A%80%E6%9C%AF%E6%95%99%E7%A8%8B/</link>
-      <pubDate>Thu, 17 Jul 2025 12:16:22 +0800</pubDate>
+      <pubDate>Fri, 25 Jul 2025 15:15:25 +0800</pubDate>
       <guid>https://miss-you.github.io/categories/%E6%8A%80%E6%9C%AF%E6%95%99%E7%A8%8B/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Thinking</title>
+      <link>https://miss-you.github.io/categories/thinking/</link>
+      <pubDate>Sat, 19 Jul 2025 17:40:37 +0800</pubDate>
+      <guid>https://miss-you.github.io/categories/thinking/</guid>
       <description></description>
     </item>
     <item>
