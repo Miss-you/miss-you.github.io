@@ -9,7 +9,7 @@ printf "\033[0;32mDeploying updates to GitHub...\033[0m\n"
 hugo -d docs
 
 # Add changes to git.
-git add content
+git add -u content
 git add docs
 git add config.yaml
 git add themes
