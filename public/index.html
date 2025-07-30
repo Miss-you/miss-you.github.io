@@ -250,6 +250,27 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">30分钟解决Claude封号问题：程序员的终极自救指南
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>“又被封号了？”
+如果你因为使用不稳定的公共代理（机场/VPN）而频繁遭遇 Claude 封号、网络中断的困扰，那么这份指南将彻底解决你的问题。我们将一步步搭建一套专属于你的、稳定且干净的网络环境。
+【你是否需要这份指南？快速诊断】 在开始之前，请先回答以下几个问题：
+[ ] 我的 Claude 账号被封过，或者朋友的账号被封过。 [ ] Claude Code/Gemini CLI 非常好用，很想用，又怕被封号 [ ] 试过多个代理客户端，被规则配置搞晕了 [ ] 用公共机场/VPN，总是不稳定或突然失效 如果你勾选了任何一项，那么请继续阅读。这套方案就是为你量身定制的。
+💰 预期成本 本方案需要购买一台云服务器（VPS）。 每月成本约 ￥30-60 元，大致相当于一个王者荣耀的普通皮肤，或两张抽卡游戏的月卡。这是一笔为稳定生产力工具支付的、高性价比的投资。
+本指南分为两部分：
+第一部分【快速上手操作手册】：如果你想立刻解决问题，请直接跟随这部分的三个步骤操作。 第二部分【原理解析与进阶】：如果你想了解“为什么这么做”，可以阅读这部分。 第一部分：快速上手操作手册 (三步走) 目标： 通过以下三步，搭建一套稳定、私人的网络环境，从此告别封号烦恼。
+▶︎ 第一步：在你的电脑上安装“指挥官” (本地代理客户端) 这个工具负责智能分流网络请求。
+下载并安装 Clash 客户端。 Windows 用户：搜索 Clash for Windows 或 Clash Verge。 macOS 用户：搜索 ClashX Pro 或 Clash Verge。 为什么选 Clash？ 说实话，我试过 Shadowsocks 客户端（规则太难配）、最后选了 Clash，因为规则配置直观，一看就懂。 目的：先把它装好，我们稍后会来配置它。 ▶︎ 第二步：搭建你的专属“高速通道” (自建 VPS) 这是整个流程的核心，目的是获得一个干净、固定的 IP 地址。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-07-25 15:15:25 +0800 CST'>July 25, 2025</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;465 words&nbsp;·&nbsp;Miss-you</footer>
+  <a class="entry-link" aria-label="post link to 30分钟解决Claude封号问题：程序员的终极自救指南" href="http://localhost:1313/posts/20250715-how-to-pick-and-build-the-vps-svc/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Working with AI, or, The Amplifier of Thought
     </h2>
   </header>
@@ -429,28 +450,6 @@ Sam Altman，OpenAI CEO，经常会在博客中分享他的创业经验与智慧
   </div>
   <footer class="entry-footer"><span title='2023-04-21 17:39:47 +0800 CST'>April 21, 2023</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;10 words&nbsp;·&nbsp;[厉辉（Yousa）](https://github.com/Miss-you)</footer>
   <a class="entry-link" aria-label="post link to 提升专注力的七种方法" href="http://localhost:1313/posts/20230421-7-ways-to-stay-focused/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">为什么 JSON 需要转义
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>为什么 JSON 需要转义？ [TOC]
-适合人群：入门级
-JSON 和 JSON 转义 21 世纪初，Douglas Crockford 寻找一种简便的数据交换格式，能够在服务器之间交换数据。当时通用的数据交换语言是 XML，但是 Douglas Crockford 觉得 XML 的生成和解析都太麻烦，所以他提出了一种简化格式，也就是 JSON。
-JSON 其结构形如 {&#34;云原生&#34;:&#34;Kubernetes&#34;}，可以很直观的使用字符串表示对象或数据结构。对象或数据结构使用序列化接口转换成 JSON 字符串，比如 Golang 中的json.Marshal接口。
-你可能会有这样的疑问：既然 JSON 字符串结构简单，为什么不直接使用字符串拼接的方式，而是要使用 JSON 序列化接口呢？
-结果显而易见：JSON 序列化接口会一并将数据中的特殊字符进行转义，防止其破坏 JSON 原有结构。比如数据中含有双引号&#34;特殊字符，序列化接口便会对双引号进行转义，最终结果类似于{&#34;云原生&#34;:&#34;\&#34;Kubernetes\&#34;&#34;}，否则，该场景下直接拼接的字符串会非法。
-JSON 转义 许多程序设计语言把双引号字符（&#34;）用作字符串的分界符。反斜线（\）转义字符提供了两种方式来把双引号字符置入字符串中，或者是使用转义序列\&#34;表示单个的&#34;字符本身，而不是作为字符串分界符；或者是直接开始字符&#34;的 16 进制编码值的转义序列\x22来表示&#34;，也可以使用 8 进制编码值的转义序列，如\042。
-在 Python 中，下面的代码将会产生语法错误
-1 print &#34;Cloud Navite &#34;Hello World!&#34;.&#34;; 而另一段 Python 代码则会产生符合预期的结果
-1 print &#34;Cloud Navite \&#34;Hello World!\&#34;.&#34;; 在 JSON 中，也是如此：当使用 json 接口解析字符串{&#34;云原生&#34;:&#34;&#34;Kubernetes&#34;&#34;}时会报错，而解析经过转义的 JSON 字符串{&#34;云原生&#34;:&#34;\&#34;Kubernetes\&#34;&#34;}则会解析成功。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2021-01-05 01:21:26 +0800 CST'>January 5, 2021</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;474 words&nbsp;·&nbsp;[厉辉（Yousa）](https://github.com/Miss-you)</footer>
-  <a class="entry-link" aria-label="post link to 为什么 JSON 需要转义" href="http://localhost:1313/posts/json-and-escaping/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
