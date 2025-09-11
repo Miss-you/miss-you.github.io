@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>AI工具 on yousa Blog</title>
-    <link>https://miss-you.github.io/categories/ai%E5%B7%A5%E5%85%B7/</link>
-    <description>Recent content in AI工具 on yousa Blog</description>
+    <title>编程方法论 on yousa Blog</title>
+    <link>https://miss-you.github.io/tags/%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95%E8%AE%BA/</link>
+    <description>Recent content in 编程方法论 on yousa Blog</description>
     <generator>Hugo -- 0.148.1</generator>
     <language>en</language>
     <lastBuildDate>Thu, 11 Sep 2025 11:47:21 +0800</lastBuildDate>
-    <atom:link href="https://miss-you.github.io/categories/ai%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>拆解 ChatGPT“学习模式”Prompt：它为什么如此神奇？</title>
-      <link>https://miss-you.github.io/posts/20250805-study-mode-prompt/</link>
-      <pubDate>Tue, 05 Aug 2025 10:00:00 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20250805-study-mode-prompt/</guid>
-      <description>深度拆解ChatGPT学习模式的系统提示词，揭秘它如何将认知科学原理转化为可执行的AI指令，并动手重构一个属于自己的学习教练Prompt。</description>
-    </item>
+    <atom:link href="https://miss-you.github.io/tags/%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95%E8%AE%BA/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>从副驾驶到架构师：我的AI编程协作方法论</title>
       <link>https://miss-you.github.io/posts/20250830-claude-code-workshop/</link>

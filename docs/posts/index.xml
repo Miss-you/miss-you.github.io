@@ -6,7 +6,7 @@
     <description>Recent content in Posts on yousa Blog</description>
     <generator>Hugo -- 0.148.1</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 06 Aug 2025 00:31:02 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 11 Sep 2025 11:47:21 +0800</lastBuildDate>
     <atom:link href="https://miss-you.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>拆解 ChatGPT“学习模式”Prompt：它为什么如此神奇？</title>
@@ -145,6 +145,13 @@
 &lt;li&gt;如果“typed nil” 现象出现，那么 &lt;code&gt;err != nil&lt;/code&gt; 这个判断就会莫名其妙地通过，从而在日志里打印出“err != nil. err: &amp;lt;nil&amp;gt;”。有时更可怕的是，&lt;strong&gt;实际逻辑会被误判&lt;/strong&gt;，可能执行本不该执行的错误处理分支。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;在某些 Go 版本或特定编译器优化下，你可能发现控制台就输出 &lt;code&gt;err != nil. err: &amp;lt;nil&amp;gt;&lt;/code&gt;，让人“一头雾水”。这就是一个十分典型、却很隐蔽的 &lt;strong&gt;typed nil&lt;/strong&gt; 场景。即使你写 &lt;code&gt;return nil&lt;/code&gt;，对编译器来说：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>从副驾驶到架构师：我的AI编程协作方法论</title>
+      <link>https://miss-you.github.io/posts/20250830-claude-code-workshop/</link>
+      <pubDate>Sat, 11 Jan 2025 15:30:00 +0800</pubDate>
+      <guid>https://miss-you.github.io/posts/20250830-claude-code-workshop/</guid>
+      <description>分享我从使用GPT到Claude Code的AI编程实践历程，以及总结出的结构化协作方法论。包括四要素Prompt框架、四阶段协作流程、四象限决策模型等个人原创和实践总结。</description>
     </item>
     <item>
       <title>畅享 ChatGPT Plus：无需额外支付手段，突破 OpenAI 支付风控</title>
