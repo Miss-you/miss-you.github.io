@@ -9,6 +9,41 @@
     <lastBuildDate>Thu, 11 Sep 2025 11:47:21 +0800</lastBuildDate>
     <atom:link href="https://miss-you.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>AI编程</title>
+      <link>https://miss-you.github.io/tags/ai%E7%BC%96%E7%A8%8B/</link>
+      <pubDate>Sat, 30 Aug 2025 15:30:00 +0800</pubDate>
+      <guid>https://miss-you.github.io/tags/ai%E7%BC%96%E7%A8%8B/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Claude Code</title>
+      <link>https://miss-you.github.io/tags/claude-code/</link>
+      <pubDate>Sat, 30 Aug 2025 15:30:00 +0800</pubDate>
+      <guid>https://miss-you.github.io/tags/claude-code/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>开发效率</title>
+      <link>https://miss-you.github.io/tags/%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87/</link>
+      <pubDate>Sat, 30 Aug 2025 15:30:00 +0800</pubDate>
+      <guid>https://miss-you.github.io/tags/%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>编程方法论</title>
+      <link>https://miss-you.github.io/tags/%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95%E8%AE%BA/</link>
+      <pubDate>Sat, 30 Aug 2025 15:30:00 +0800</pubDate>
+      <guid>https://miss-you.github.io/tags/%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95%E8%AE%BA/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>软件工程</title>
+      <link>https://miss-you.github.io/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/</link>
+      <pubDate>Sat, 30 Aug 2025 15:30:00 +0800</pubDate>
+      <guid>https://miss-you.github.io/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>AI</title>
       <link>https://miss-you.github.io/tags/ai/</link>
       <pubDate>Tue, 05 Aug 2025 10:00:00 +0800</pubDate>
@@ -198,13 +233,6 @@
       <description></description>
     </item>
     <item>
-      <title>AI编程</title>
-      <link>https://miss-you.github.io/tags/ai%E7%BC%96%E7%A8%8B/</link>
-      <pubDate>Thu, 17 Jul 2025 12:16:22 +0800</pubDate>
-      <guid>https://miss-you.github.io/tags/ai%E7%BC%96%E7%A8%8B/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Cursor</title>
       <link>https://miss-you.github.io/tags/cursor/</link>
       <pubDate>Thu, 17 Jul 2025 12:16:22 +0800</pubDate>
@@ -265,34 +293,6 @@
       <link>https://miss-you.github.io/tags/work/</link>
       <pubDate>Thu, 15 May 2025 17:39:47 +0800</pubDate>
       <guid>https://miss-you.github.io/tags/work/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Claude Code</title>
-      <link>https://miss-you.github.io/tags/claude-code/</link>
-      <pubDate>Sat, 11 Jan 2025 15:30:00 +0800</pubDate>
-      <guid>https://miss-you.github.io/tags/claude-code/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>开发效率</title>
-      <link>https://miss-you.github.io/tags/%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87/</link>
-      <pubDate>Sat, 11 Jan 2025 15:30:00 +0800</pubDate>
-      <guid>https://miss-you.github.io/tags/%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>编程方法论</title>
-      <link>https://miss-you.github.io/tags/%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95%E8%AE%BA/</link>
-      <pubDate>Sat, 11 Jan 2025 15:30:00 +0800</pubDate>
-      <guid>https://miss-you.github.io/tags/%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95%E8%AE%BA/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>软件工程</title>
-      <link>https://miss-you.github.io/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/</link>
-      <pubDate>Sat, 11 Jan 2025 15:30:00 +0800</pubDate>
-      <guid>https://miss-you.github.io/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/</guid>
       <description></description>
     </item>
     <item>

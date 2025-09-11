@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/tags/ai/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/categories/ai%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/ai%E7%BC%96%E7%A8%8B/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -21,20 +21,14 @@
                 href="http://localhost:1313/categories/"
                 />
   </url><url>
-    <loc>http://localhost:1313/tags/chatgpt/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
+    <loc>http://localhost:1313/tags/claude-code/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/prompt/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/prompt%E5%B7%A5%E7%A8%8B/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -47,7 +41,7 @@
                 />
   </url><url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -59,23 +53,50 @@
                 href="http://localhost:1313/"
                 />
   </url><url>
+    <loc>http://localhost:1313/posts/20250830-claude-code-workshop/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95%E8%AE%BA/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/ai/</loc>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/chatgpt/</loc>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/prompt/</loc>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/prompt%E5%B7%A5%E7%A8%8B/</loc>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/tags/%E4%B8%BB%E5%8A%A8%E8%B0%83%E7%94%A8/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/20250805-study-mode-prompt/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/%E6%95%99%E5%AD%A6%E6%B3%95/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/%E8%AE%A4%E7%9F%A5%E7%A7%91%E5%AD%A6/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/%E8%B4%B9%E6%9B%BC%E5%AD%A6%E4%B9%A0%E6%B3%95/</loc>
-    <lastmod>2025-08-05T10:00:00+08:00</lastmod>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/paul-graham/</loc>
     <lastmod>2025-07-27T01:36:18+08:00</lastmod>
@@ -163,9 +184,6 @@
   </url><url>
     <loc>http://localhost:1313/tags/%E6%80%9D%E8%80%83%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2025-07-19T17:33:43+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/ai%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2025-07-17T17:22:40+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/cursor/</loc>
     <lastmod>2025-07-17T17:22:40+08:00</lastmod>

@@ -2,26 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://miss-you.github.io/posts/</loc>
-    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
-  </url><url>
-    <loc>https://miss-you.github.io/</loc>
-    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://miss-you.github.io/zh/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://miss-you.github.io/"
-                />
-  </url><url>
-    <loc>https://miss-you.github.io/tags/ai/</loc>
-    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
-  </url><url>
     <loc>https://miss-you.github.io/categories/ai%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
+  </url><url>
+    <loc>https://miss-you.github.io/tags/ai%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2025-09-11T11:47:21+08:00</lastmod>
   </url><url>
     <loc>https://miss-you.github.io/categories/</loc>
@@ -37,14 +21,11 @@
                 href="https://miss-you.github.io/categories/"
                 />
   </url><url>
-    <loc>https://miss-you.github.io/tags/chatgpt/</loc>
-    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
+    <loc>https://miss-you.github.io/tags/claude-code/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/prompt/</loc>
-    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
-  </url><url>
-    <loc>https://miss-you.github.io/categories/prompt%E5%B7%A5%E7%A8%8B/</loc>
-    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
+    <loc>https://miss-you.github.io/posts/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
   </url><url>
     <loc>https://miss-you.github.io/tags/</loc>
     <lastmod>2025-09-11T11:47:21+08:00</lastmod>
@@ -58,6 +39,46 @@
                 hreflang="en"
                 href="https://miss-you.github.io/tags/"
                 />
+  </url><url>
+    <loc>https://miss-you.github.io/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://miss-you.github.io/zh/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://miss-you.github.io/"
+                />
+  </url><url>
+    <loc>https://miss-you.github.io/posts/20250830-claude-code-workshop/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
+  </url><url>
+    <loc>https://miss-you.github.io/categories/%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
+  </url><url>
+    <loc>https://miss-you.github.io/tags/%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
+  </url><url>
+    <loc>https://miss-you.github.io/tags/%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95%E8%AE%BA/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
+  </url><url>
+    <loc>https://miss-you.github.io/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/</loc>
+    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
+  </url><url>
+    <loc>https://miss-you.github.io/tags/ai/</loc>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
+  </url><url>
+    <loc>https://miss-you.github.io/tags/chatgpt/</loc>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
+  </url><url>
+    <loc>https://miss-you.github.io/tags/prompt/</loc>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
+  </url><url>
+    <loc>https://miss-you.github.io/categories/prompt%E5%B7%A5%E7%A8%8B/</loc>
+    <lastmod>2025-08-06T00:31:02+08:00</lastmod>
   </url><url>
     <loc>https://miss-you.github.io/tags/%E4%B8%BB%E5%8A%A8%E8%B0%83%E7%94%A8/</loc>
     <lastmod>2025-08-06T00:31:02+08:00</lastmod>
@@ -164,9 +185,6 @@
     <loc>https://miss-you.github.io/tags/%E6%80%9D%E8%80%83%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2025-07-19T17:33:43+08:00</lastmod>
   </url><url>
-    <loc>https://miss-you.github.io/tags/ai%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
-  </url><url>
     <loc>https://miss-you.github.io/tags/cursor/</loc>
     <lastmod>2025-07-17T17:22:40+08:00</lastmod>
   </url><url>
@@ -205,24 +223,6 @@
   </url><url>
     <loc>https://miss-you.github.io/posts/20250515-go-typed-nil/</loc>
     <lastmod>2025-07-15T20:32:32+08:00</lastmod>
-  </url><url>
-    <loc>https://miss-you.github.io/tags/claude-code/</loc>
-    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
-  </url><url>
-    <loc>https://miss-you.github.io/posts/20250830-claude-code-workshop/</loc>
-    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
-  </url><url>
-    <loc>https://miss-you.github.io/categories/%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/</loc>
-    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
-  </url><url>
-    <loc>https://miss-you.github.io/tags/%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87/</loc>
-    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
-  </url><url>
-    <loc>https://miss-you.github.io/tags/%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95%E8%AE%BA/</loc>
-    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
-  </url><url>
-    <loc>https://miss-you.github.io/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/</loc>
-    <lastmod>2025-09-11T11:47:21+08:00</lastmod>
   </url><url>
     <loc>https://miss-you.github.io/posts/20240423-openai-register/</loc>
     <lastmod>2025-07-15T19:31:16+08:00</lastmod>
