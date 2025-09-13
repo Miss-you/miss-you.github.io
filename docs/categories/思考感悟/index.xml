@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>时间管理 on yousa Blog</title>
-    <link>https://miss-you.github.io/tags/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86/</link>
-    <description>Recent content in 时间管理 on yousa Blog</description>
+    <title>思考感悟 on yousa Blog</title>
+    <link>https://miss-you.github.io/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/</link>
+    <description>Recent content in 思考感悟 on yousa Blog</description>
     <generator>Hugo -- 0.148.1</generator>
     <language>en</language>
     <lastBuildDate>Sat, 13 Sep 2025 21:09:13 +0800</lastBuildDate>
-    <atom:link href="https://miss-you.github.io/tags/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://miss-you.github.io/categories/%E6%80%9D%E8%80%83%E6%84%9F%E6%82%9F/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>我那套混乱的排序算法：从忙碌焦虑到注意力投资</title>
       <link>https://miss-you.github.io/posts/20250913-energy-management/</link>
       <pubDate>Sat, 13 Sep 2025 21:06:22 +0800</pubDate>
       <guid>https://miss-you.github.io/posts/20250913-energy-management/</guid>
       <description>当日程表越满焦虑感越强时，问题的根源不是时间管理技巧，而是内心那套将紧急性等同于重要性、将新奇感等同于价值的混乱排序算法。</description>
-    </item>
-    <item>
-      <title>王者</title>
-      <link>https://miss-you.github.io/posts/20250727-game-art-game-pua/</link>
-      <pubDate>Sun, 27 Jul 2025 00:17:01 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20250727-game-art-game-pua/</guid>
-      <description>从一个王者印记开始的思考：游戏公司要的不是你的钱，而是你的时间</description>
     </item>
   </channel>
 </rss>

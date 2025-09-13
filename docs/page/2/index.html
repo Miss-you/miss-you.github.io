@@ -163,6 +163,27 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">畅享 ChatGPT Plus：无需额外支付手段，突破 OpenAI 支付风控
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 截至 2024 年 2 月 10 日，该教程仍然有效。我已根据此教程重新操作并成功充值。请注意，购买苹果充值卡时应确保从苹果官方网站购买。
+ChatGPT Plus 的优势 GPT-4 的性能非常强大，这是众所周知的事实。 Plus 会员可以使用 ChatGPT 的在线和插件功能，这些功能将极大地增强你的创造力，并为你的个人学习和工作效率提供强大的支持工具。 如何开通 ChatGPT Plus？ 关键步骤 ChatGPT 已在美国 iOS App Store 上架。你只需要使用 iOS 设备续费会员即可。
+目标用户 本教程适用于拥有 iOS 设备（如 iPhone 或 iPad）的用户。
+所需工具 a. iPhone 或 iPad 设备 b. 美国地区的科学上网（可自建或购买） c. 支付宝账户 d. 已注册成功的 chatGPT 账号
+开通步骤 1. 创建美国区 iOS 账号 如果你已拥有美国区账号，或已熟悉注册流程，可跳过此步骤。
+详细的注册流程如下：
+访问网站：在浏览器中访问 https://appleid.apple.com/account 开始创建你的 Apple ID。
+设置国家/地区：在&#34;Country/Region&#34;下拉菜单中选择&#34;United States&#34;。
+输入邮箱和设置密码：在指定字段输入可接收邮件的邮箱地址（作为你的 Apple ID），设定密码并在确认密码字段再次输入。
+输入并验证手机号码：选择&#34;China Mainland&#34;作为电话区域，输入手机号并继续。你将收到验证码，输入以验证。 ...</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-04-23 17:39:47 +0800 CST'>April 23, 2024</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;297 words&nbsp;·&nbsp;[厉辉（Yousa）](https://github.com/Miss-you)</footer>
+  <a class="entry-link" aria-label="post link to 畅享 ChatGPT Plus：无需额外支付手段，突破 OpenAI 支付风控" href="https://miss-you.github.io/posts/20240423-openai-register/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">【译】创业生存手册：如何有效地打造产品、组建团队并筹集资金
     </h2>
   </header>
@@ -365,21 +386,6 @@ windows 版本下载链接
   </div>
   <footer class="entry-footer"><span title='2020-10-10 03:03:29 +0800 CST'>October 10, 2020</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;532 words&nbsp;·&nbsp;[厉辉（Yousa）](https://github.com/Miss-you)</footer>
   <a class="entry-link" aria-label="post link to 使用 Github Pages 和 Hugo 搭建个人博客教程" href="https://miss-you.github.io/posts/how-to-create-blog/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Go 语言：解决数据库中 null 值的问题
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> 本文主要介绍如何使用 go 语言 database/sql 库从数据库中读取 null 值的问题，以及如何向数据库中插入 null 值。本文在这里使用的是 sql.NullString, sql.NullInt64, sql.NullFloat64 等结构体，为了方便书写，它们的泛指我会使用 sql.Null 来表示
-要点 从数据库读取可能为 null 值得值时，可以选择使用 sql.NULL 来读取；或者使用 IFNULL、COALESCE 等命令让数据库查询值返回不为&#34;“或者 NULL 若需要往数据库中插入 null 值，则依然可以使用 sql.NULL 存储所需的值，然后进行插入 NULL 值 直接使用 sql.NULL 类型容易出现 valid 遗漏设置等问题，普通 int、string 与其转换时，请写几个简单的 get、set 函数 本 demo 使用的数据库表以及数据如下
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 mysql&gt; desc person; &#43;------------&#43;--------------&#43;------&#43;-----&#43;---------&#43;----------------&#43; | Field | Type | Null | Key | Default | Extra | &#43;------------&#43;--------------&#43;------&#43;-----&#43;---------&#43;----------------&#43; | id | int(11) | NO | PRI | NULL | auto_increment | | first_name | varchar(100) | NO | | NULL | | | last_name | varchar(40) | YES | | NULL | | | age | int(11) | YES | | NULL | | &#43;------------&#43;--------------&#43;------&#43;-----&#43;---------&#43;----------------&#43; mysql&gt; select * from person; &#43;----&#43;------------&#43;-----------&#43;------&#43; | id | first_name | last_name | age | &#43;----&#43;------------&#43;-----------&#43;------&#43; | 1 | yousa | NULL | NULL | &#43;----&#43;------------&#43;-----------&#43;------&#43; mysql&gt; show create table person; &#43;--------&#43;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&#43; | Table | Create Table | &#43;--------&#43;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&#43; | person | CREATE TABLE `person` ( `id` int(11) NOT NULL AUTO_INCREMENT, `first_name` varchar(100) NOT NULL, `last_name` varchar(40) DEFAULT NULL, `age` int(11) DEFAULT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 | &#43;--------&#43;--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------&#43; 1 row in set (0.00 sec) 从数据库中读取 NULL 值 如果不作处理直接从数据库中读取 NULL 值到 string/int，会发生如下错误错误
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2020-10-08 00:46:23 +0800 CST'>October 8, 2020</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;892 words&nbsp;·&nbsp;[厉辉（Yousa）]</footer>
-  <a class="entry-link" aria-label="post link to Go 语言：解决数据库中 null 值的问题" href="https://miss-you.github.io/posts/go-mysql-null/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
