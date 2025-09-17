@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>ChatGPT on yousa Blog</title>
-    <link>https://miss-you.github.io/tags/chatgpt/</link>
-    <description>Recent content in ChatGPT on yousa Blog</description>
+    <title>用户研究 on yousa Blog</title>
+    <link>https://miss-you.github.io/tags/%E7%94%A8%E6%88%B7%E7%A0%94%E7%A9%B6/</link>
+    <description>Recent content in 用户研究 on yousa Blog</description>
     <generator>Hugo -- 0.148.1</generator>
     <language>en</language>
     <lastBuildDate>Thu, 18 Sep 2025 00:53:37 +0800</lastBuildDate>
-    <atom:link href="https://miss-you.github.io/tags/chatgpt/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://miss-you.github.io/tags/%E7%94%A8%E6%88%B7%E7%A0%94%E7%A9%B6/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>OpenAI研究揭秘：7亿用户如何使用ChatGPT</title>
       <link>https://miss-you.github.io/posts/20250918-openai-how-people-use-chatgpt/</link>
       <pubDate>Thu, 18 Sep 2025 00:53:37 +0800</pubDate>
       <guid>https://miss-you.github.io/posts/20250918-openai-how-people-use-chatgpt/</guid>
       <description>OpenAI最新研究论文深度解析：基于150万次对话分析，揭示全球7亿ChatGPT用户的真实使用模式和行为特征</description>
-    </item>
-    <item>
-      <title>拆解 ChatGPT“学习模式”Prompt：它为什么如此神奇？</title>
-      <link>https://miss-you.github.io/posts/20250805-study-mode-prompt/</link>
-      <pubDate>Tue, 05 Aug 2025 10:00:00 +0800</pubDate>
-      <guid>https://miss-you.github.io/posts/20250805-study-mode-prompt/</guid>
-      <description>深度拆解ChatGPT学习模式的系统提示词，揭秘它如何将认知科学原理转化为可执行的AI指令，并动手重构一个属于自己的学习教练Prompt。</description>
     </item>
   </channel>
 </rss>

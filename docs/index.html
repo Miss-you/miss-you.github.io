@@ -195,6 +195,23 @@
 </article>
 
 <article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">OpenAI研究揭秘：7亿用户如何使用ChatGPT
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>OpenAI研究揭秘：7亿用户如何使用ChatGPT 2025 年 9 月 15 日，美国国家经济研究局（NBER）发布了一份题为《人们如何使用 ChatGPT》的工作论文。这项研究由 OpenAI 的经济研究团队与哈佛大学经济学家 David Deming 联合完成。通过对 150 万次对话进行隐私保护下的大规模分析，该研究首次全面揭示了全球 7 亿用户是如何使用 ChatGPT 的。
+论文要点 主要观点 ChatGPT 的增长是前所未有的：自 2022 年 11 月发布以来，ChatGPT 经历了史无前例的全球性快速增长。到 2025 年 7 月，其周活跃用户（WAU）已超过 7 亿，约占全球成年人口的 10%。用户每日发送的消息量超过 25 亿条。
+使用场景以非工作为主，且增长更快：尽管工作相关的使用在稳定增长，但与工作无关的个人用途增长速度更快。非工作用途的消息占比从 2024 年 6 月的 53%增长到了 2025 年 6 月的 73%。
+核心功能是决策支持和内容生成：用户主要将 ChatGPT 用于三大目的：“实用指导”、“信息查询&#34;和&#34;写作”，这三者合计占所有对话的近 80%（具体为 77%）。尤其在工作场景中，“写作&#34;是最核心的用途，占所有工作相关消息的 40%（截至 2025 年 6 月）。 用户意图从&#34;执行&#34;转向&#34;提问”：用户的使用模式正在变化。寻求信息、建议以辅助决策的&#34;提问&#34;类互动（占比 49%），其增长速度已超过了让 AI 直接完成任务的&#34;执行&#34;类互动（占比 40%）。同时，用户对&#34;提问&#34;类互动的满意度更高。
+用户群体日益多元化：早期的用户以男性为主（约占 80%），但到 2025 年 6 月，拥有典型女性名字的活跃用户比例已略微超过男性，性别差距基本消除。用户群体呈现年轻化趋势，18-25 岁的用户发送了约 46%的消息。此外，在低收入和中等收入国家的增长尤为迅速。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-09-18 00:53:37 +0800 CST'>September 18, 2025</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;141 words&nbsp;·&nbsp;Miss-you</footer>
+  <a class="entry-link" aria-label="post link to OpenAI研究揭秘：7亿用户如何使用ChatGPT" href="https://miss-you.github.io/posts/20250918-openai-how-people-use-chatgpt/"></a>
+</article>
+
+<article class="post-entry"> 
 <figure class="entry-cover">
         <img loading="lazy" src="https://raw.githubusercontent.com/Miss-you/img/master/painting-tutorials/021757768438838215a9313f45ebd1c7cc8e15534cbabccad8e59_0.jpeg" alt="仓鼠轮中的现代人">
 </figure>
@@ -430,20 +447,6 @@ AI 的真正价值，或许不在于它能独立思考，而在于它能放大�
   </div>
   <footer class="entry-footer"><span title='2025-07-15 19:55:00 +0800 CST'>July 15, 2025</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;65 words&nbsp;·&nbsp;Miss-you</footer>
   <a class="entry-link" aria-label="post link to Hugo 文章目录管理教程" href="https://miss-you.github.io/posts/20250715-hugo-tutorial/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">当 nil 不等于 nil？深度剖析 Go 的 typed nil 大坑
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>0. 一个能“悄悄坑你”的真实示例：SError 的故事 先看你提到的这段代码，表面上看非常正常，甚至很多人第一眼不会觉得哪里有问题：
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 package main import ( &#34;log&#34; &#34;sync&#34; ) type SError struct { cause error // Wrapped error which is the root cause. text string // Error text, which is created by New* functions. i18nText string // 本地错误文字，用于客户端显式中文 ignored bool // 能否忽略该错误 info map[string]string infoMutex sync.RWMutex } func (e *SError) Error() string { return e.text } // demoRetSerr 返回 (int32, *SError)。看上去，如果不想返回任何错误，就直接返回 (0, nil) func demoRetSerr() (int32, *SError) { return 0, nil } func main() { var err error // 这里把第二个返回值的 *SError 赋给了 interface{} 类型的 err _, err = demoRetSerr() if err != nil { log.Printf(&#34;err != nil. err: %v&#34;, err) } } 0.1 乍看之下哪里会有问题？ 我们 demoRetSerr 函数直接返回 (0, nil)，而函数签名的第二个参数类型是 *SError。 回到 main 函数中，err 是一个 error 接口，承接了那个 nil 指针。 如果“typed nil” 现象出现，那么 err != nil 这个判断就会莫名其妙地通过，从而在日志里打印出“err != nil. err: &lt;nil&gt;”。有时更可怕的是，实际逻辑会被误判，可能执行本不该执行的错误处理分支。 在某些 Go 版本或特定编译器优化下，你可能发现控制台就输出 err != nil. err: &lt;nil&gt;，让人“一头雾水”。这就是一个十分典型、却很隐蔽的 typed nil 场景。即使你写 return nil，对编译器来说：
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-05-15 17:39:47 +0800 CST'>May 15, 2025</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;687 words&nbsp;·&nbsp;[厉辉（Yousa）](https://github.com/Miss-you)</footer>
-  <a class="entry-link" aria-label="post link to 当 nil 不等于 nil？深度剖析 Go 的 typed nil 大坑" href="https://miss-you.github.io/posts/20250515-go-typed-nil/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
