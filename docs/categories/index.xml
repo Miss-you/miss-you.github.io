@@ -6,7 +6,7 @@
     <description>Recent content in Categories on yousa Blog</description>
     <generator>Hugo -- 0.148.1</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 06 Oct 2025 18:17:07 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 09 Oct 2025 20:32:06 +0800</lastBuildDate>
     <atom:link href="https://miss-you.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>学习笔记</title>
@@ -20,6 +20,20 @@
       <link>https://miss-you.github.io/categories/%E5%B7%A5%E5%85%B7/</link>
       <pubDate>Mon, 06 Oct 2025 17:40:39 +0800</pubDate>
       <guid>https://miss-you.github.io/categories/%E5%B7%A5%E5%85%B7/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>AI工程</title>
+      <link>https://miss-you.github.io/categories/ai%E5%B7%A5%E7%A8%8B/</link>
+      <pubDate>Fri, 03 Oct 2025 17:58:36 +0800</pubDate>
+      <guid>https://miss-you.github.io/categories/ai%E5%B7%A5%E7%A8%8B/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>技术管理</title>
+      <link>https://miss-you.github.io/categories/%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Fri, 03 Oct 2025 17:58:36 +0800</pubDate>
+      <guid>https://miss-you.github.io/categories/%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86/</guid>
       <description></description>
     </item>
     <item>

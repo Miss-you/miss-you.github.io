@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600">
+  <!-- 引入霞鹜文楷字体 -->
+  <defs>
+    <style>
+      @import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css');
+      text {
+        font-family: "LXGW WenKai", sans-serif;
+      }
+    </style>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1200" height="600" fill="#ffffff"/>
+
+  <!-- 标题 -->
+  <text x="600" y="40" font-size="28" font-weight="bold" text-anchor="middle" fill="#2c3e50">
+    GenAI 鸿沟：95% vs 5% 的分界线
+  </text>
+
+  <!-- 饼图 -->
+  <g transform="translate(600, 300)">
+    <!-- 5% 扇形（绿色）从12点位置开始，顺时针18度 -->
+    <!-- 18度 = 0.314 弧度，终点坐标计算：x=120*sin(18°), y=-120*cos(18°) -->
+    <path d="M 0,0 L 0,-120 A 120,120 0 0,1 37.08,-114.19 Z"
+          fill="#27ae60"
+          stroke="#ffffff"
+          stroke-width="3"/>
+
+    <!-- 95% 扇形（灰色）从18度位置开始，顺时针342度 -->
+    <!-- large-arc-flag=1 因为角度>180度 -->
+    <path d="M 0,0 L 37.08,-114.19 A 120,120 0 1,1 0,-120 Z"
+          fill="#95a5a6"
+          stroke="#ffffff"
+          stroke-width="3"/>
+
+    <!-- 5% 标签 -->
+    <text x="25" y="-90" font-size="20" font-weight="bold" text-anchor="middle" fill="#ffffff">
+      5%
+    </text>
+
+    <!-- 95% 标签（放在灰色扇形中心，大约在-90度方向） -->
+    <text x="-60" y="30" font-size="36" font-weight="bold" text-anchor="middle" fill="#ffffff">
+      95%
+    </text>
+  </g>
+
+  <!-- 左侧连线：从95%扇形引出 -->
+  <line x1="520" y1="320" x2="320" y2="240" stroke="#7f8c8d" stroke-width="2" stroke-dasharray="5,5"/>
+
+  <!-- 右侧连线：从5%扇形引出 -->
+  <line x1="620" y1="200" x2="880" y2="240" stroke="#27ae60" stroke-width="2" stroke-dasharray="5,5"/>
+
+  <!-- 左侧信息框：95% 失败特征 -->
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="280" height="310" rx="8" fill="#ecf0f1" stroke="#95a5a6" stroke-width="2"/>
+
+    <text x="140" y="30" font-size="20" font-weight="bold" text-anchor="middle" fill="#e74c3c">
+      ❌ 失败项目特征
+    </text>
+
+    <line x1="20" y1="45" x2="260" y2="45" stroke="#bdc3c7" stroke-width="1"/>
+
+    <!-- 特征列表 -->
+    <g transform="translate(25, 65)">
+      <circle cx="0" cy="0" r="4" fill="#7f8c8d"/>
+      <text x="15" y="5" font-size="15" fill="#2c3e50">静态工具（不会学习）</text>
+    </g>
+
+    <g transform="translate(25, 105)">
+      <circle cx="0" cy="0" r="4" fill="#7f8c8d"/>
+      <text x="15" y="5" font-size="15" fill="#2c3e50">内部自建</text>
+    </g>
+
+    <g transform="translate(25, 145)">
+      <circle cx="0" cy="0" r="4" fill="#7f8c8d"/>
+      <text x="15" y="5" font-size="15" fill="#2c3e50">前台投资（销售/市场）</text>
+    </g>
+
+    <g transform="translate(25, 185)">
+      <circle cx="0" cy="0" r="4" fill="#7f8c8d"/>
+      <text x="15" y="5" font-size="15" fill="#2c3e50">按模型指标评估</text>
+    </g>
+
+    <g transform="translate(25, 225)">
+      <circle cx="0" cy="0" r="4" fill="#7f8c8d"/>
+      <text x="15" y="5" font-size="15" fill="#2c3e50">零回报/试点停滞</text>
+    </g>
+
+    <!-- 底部结果 -->
+    <rect x="30" y="260" width="220" height="30" rx="5" fill="#e74c3c"/>
+    <text x="140" y="281" font-size="15" font-weight="bold" text-anchor="middle" fill="#ffffff">
+      结果：零价值
+    </text>
+  </g>
+
+  <!-- 右侧信息框：5% 成功特征 -->
+  <g transform="translate(880, 100)">
+    <rect x="0" y="0" width="280" height="310" rx="8" fill="#d5f4e6" stroke="#27ae60" stroke-width="2"/>
+
+    <text x="140" y="30" font-size="20" font-weight="bold" text-anchor="middle" fill="#27ae60">
+      ✓ 成功项目特征
+    </text>
+
+    <line x1="20" y1="45" x2="260" y2="45" stroke="#27ae60" stroke-width="1"/>
+
+    <!-- 特征列表 -->
+    <g transform="translate(25, 65)">
+      <circle cx="0" cy="0" r="4" fill="#27ae60"/>
+      <text x="15" y="5" font-size="15" fill="#2c3e50">学习系统（记忆+改进）</text>
+    </g>
+
+    <g transform="translate(25, 105)">
+      <circle cx="0" cy="0" r="4" fill="#27ae60"/>
+      <text x="15" y="5" font-size="15" fill="#2c3e50">外部合作</text>
+    </g>
+
+    <g transform="translate(25, 145)">
+      <circle cx="0" cy="0" r="4" fill="#27ae60"/>
+      <text x="15" y="5" font-size="15" fill="#2c3e50">后台 ROI（运营/财务）</text>
+    </g>
+
+    <g transform="translate(25, 185)">
+      <circle cx="0" cy="0" r="4" fill="#27ae60"/>
+      <text x="15" y="5" font-size="15" fill="#2c3e50">按业务成果评估</text>
+    </g>
+
+    <g transform="translate(25, 225)">
+      <circle cx="0" cy="0" r="4" fill="#27ae60"/>
+      <text x="15" y="5" font-size="15" fill="#2c3e50">百万级价值</text>
+    </g>
+
+    <!-- 底部结果 -->
+    <rect x="30" y="260" width="220" height="30" rx="5" fill="#27ae60"/>
+    <text x="140" y="281" font-size="15" font-weight="bold" text-anchor="middle" fill="#ffffff">
+      结果：百万级回报
+    </text>
+  </g>
+
+  <!-- 中间鸿沟标识 -->
+  <g transform="translate(600, 500)">
+    <line x1="-50" y1="0" x2="-15" y2="0" stroke="#34495e" stroke-width="3"/>
+    <line x1="15" y1="0" x2="50" y2="0" stroke="#34495e" stroke-width="3"/>
+    <text x="0" y="5" font-size="14" font-weight="bold" text-anchor="middle" fill="#34495e">
+      鸿沟
+    </text>
+  </g>
+
+  <!-- 底部说明 -->
+  <text x="600" y="565" font-size="14" text-anchor="middle" fill="#7f8c8d" font-style="italic">
+    差异在于实施方法而非技术
+  </text>
+</svg>
