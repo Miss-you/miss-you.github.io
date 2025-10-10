@@ -175,6 +175,19 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">获取服务器本机 IP 的不同语言实现
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>C/C&#43;&#43; 版本 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 int CNetOperations::GetLocalIp(__be32 *pLocalIp, const char* pIfName) { if (!pLocalIp || !pIfName) { return (-EINVAL); } int iSocket; iSocket = socket(AF_INET, SOCK_DGRAM, 0); if (iSocket &lt; 0) { return (-errno); } struct ifreq stIfr; memset(stIfr.ifr_name, 0x0, sizeof(stIfr.ifr_name)); strcpy(stIfr.ifr_name, pIfName); int iRet; iRet = ioctl(iSocket, SIOCGIFADDR, &amp;stIfr); if (iRet &lt; 0) { close(iSocket); return (-errno); } (*pLocalIp) = ((struct sockaddr_in *)&amp;stIfr.ifr_addr)-&gt;sin_addr.s_addr; close(iSocket); return 0; } golang 版本 shell 版本 最初的想法
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2020-11-25 03:11:02 +0800 CST'>November 25, 2020</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;128 words&nbsp;·&nbsp;[厉辉（Yousa）](https://github.com/Miss-you)</footer>
+  <a class="entry-link" aria-label="post link to 获取服务器本机 IP 的不同语言实现" href="https://miss-you.github.io/posts/how-to-get-localip/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">perf 入门教程（待补充和完善）
     </h2>
   </header>
