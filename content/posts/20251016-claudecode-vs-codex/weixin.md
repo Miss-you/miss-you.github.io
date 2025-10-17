@@ -13,7 +13,6 @@
 * **首字响应速度** → **Claude Code**，Vertex TTFT ≈1.67s
 * **超长上下文支持** → **Claude Code**，多云部署可达 1M 上下文
 * **成本控制与调优** → **Codex**，可调推理深度，灵活控制速度和费用
-* **多云部署灵活性** → **Claude Code**，支持 Anthropic/Bedrock/Vertex/OpenRouter
 * **端到端项目成本** → **Codex**，约 $2.50 vs Claude 约 $10.26
 * **表现稳定性** → **Codex**，运行稳定，调试循环更可靠
 * **文档写作** → **Claude Code**，文档生成质量更高
