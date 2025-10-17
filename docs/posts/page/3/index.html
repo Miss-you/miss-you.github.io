@@ -175,6 +175,30 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">从 nginx 热更新聊一聊 Golang 中的热更新
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>从 nginx 热更新聊一聊 Golang 中的热更新 静态语言在服务器编程时都会遇到这样的问题：如何保证已有的连接服务不中断同时又升级版本？ 最近花了点时间看了下 nginx 热更新代码流程，想了下结合之前的经验一并总结下热更新
+热更新是什么？ 举个例子，你现在在坐卡车，卡车开到了 150KM/H
+然后，有个轮胎，爆了
+然后，司机说，你就直接换吧，我不停车。你小心点换
+嗯。就这个意思
+网关中的热更新 服务程序热更新这个问题在层 7 网关中尤其严重，网关中承载着大量的请求，包括 HTTP/HTTPS 短连接、HTTP/HTTPS 长连接、甚至是 websocket 这种超长连接（websocket 通常连接时间会很长，十几分钟到几天不等）。服务进程热更新是非常有必要的。
+网关作为一个基础组件，需要保证高可用，是很难将其先停下来再更新的；
+有人说可以使用负载均衡将需要更新的组件先隔离，再停机更新，但是如果是一个很小的集群没有负载均衡呢，又或者这样手动一台一台升级也着实麻烦，部分情况下就算隔离了也不过是不会有新的连接过来，旧的连接/请求依旧需要处理完成，否则就会造成部分服务不可用
+不过实际上线上操作是集群隔离加热更新一起操作
+nginx 热更新 (Upgrading Executable on the Fly) nginx [engine x] 是 Igor Sysoev 编写的一个 HTTP 和反向代理服务器，另外它也可以作为邮件代理服务器。 它已经在众多流量很大的俄罗斯网站上使用了很长时间，这些网站包括 Yandex、Mail.Ru、VKontakte，以及 Rambler。据 Netcraft 统计，在 2012 年 8 月份，世界上最繁忙的网站中有 11.48%使用 Nginx 作为其服务器或者代理服务器。
+NginX 采用 Master/Worker 的多进程模型，Master 进程负责整个 NginX 进程的管理。Nginx 的模块化、热更新、Http 处理流程、日志等机制都非常经典。这里将会简要介绍一下热更新的机制
+nginx 热升级流程 步骤 1、升级 nginx 二进制文件，需要先将新的 nginx 可执行文件替换原有旧的 nginx 文件，然后给 nginx master 进程发送 USR2 信号，告知其开始升级可执行文件；nginx master 进程会将老的 pid 文件增加。oldbin 后缀，然后拉起新的 master 和 worker 进程，并写入新的 master 进程的 pid。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2020-12-28 01:23:35 +0800 CST'>December 28, 2020</span>&nbsp;·&nbsp;13 min&nbsp;·&nbsp;2624 words&nbsp;·&nbsp;[厉辉（Yousa）](https://github.com/Miss-you)</footer>
+  <a class="entry-link" aria-label="post link to 从 nginx 热更新聊一聊 Golang 中的热更新" href="https://miss-you.github.io/posts/server-hot-update/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">获取服务器本机 IP 的不同语言实现
     </h2>
   </header>
