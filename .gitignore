@@ -1,5 +1,7 @@
 public/
 public/*
+docs/
+docs/*
 */.DS_Store
 */.idea/*
 */.gitignor

@@ -5,12 +5,11 @@ set -e
 
 printf "\033[0;32mDeploying updates to GitHub...\033[0m\n"
 
-# Build the project.
-hugo -d docs
+# Build the project. GitHub Actions will publish ./public to gh-pages.
+hugo --minify
 
 # Add changes to git.
 git add -u content
-git add docs
 git add config.yaml
 git add themes
 git add .gitmodules
