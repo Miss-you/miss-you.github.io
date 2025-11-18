@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Profile on yousa Blog</title><link>https://miss-you.github.io/tags/profile/</link><description>Recent content in Profile on yousa Blog</description><generator>Hugo -- 0.148.1</generator><language>en</language><lastBuildDate>Wed, 25 Nov 2020 03:09:23 +0800</lastBuildDate><atom:link href="https://miss-you.github.io/tags/profile/index.xml" rel="self" type="application/rss+xml"/><item><title>perf 入门教程（待补充和完善）</title><link>https://miss-you.github.io/posts/perf/</link><pubDate>Wed, 25 Nov 2020 02:54:43 +0800</pubDate><guid>https://miss-you.github.io/posts/perf/</guid><description>&lt;h1 id="perf-使用教程">perf 使用教程&lt;/h1>
+&lt;h2 id="perf-简介">perf 简介&lt;/h2>
+&lt;p>Perf 是 Linux kernel 中的系统性能优化工具，perf 基本原理的话是在 CPU 的 PMU register 中 Get/Set performance counters 来获得诸如 instructions executed，cache-missed suffered，branches mispredicted 等信息。&lt;/p>
+&lt;blockquote>
+&lt;p>perf 本身的工具有很多，这里主要介绍个人在查询程序性能问题时使用的一些工具
+包括 perf list、perf stat、perf record、perf report&lt;/p>&lt;/blockquote>
+&lt;h2 id="perf-list">perf list&lt;/h2>
+&lt;p>使用 perf 之前肯定要知道 perf 能监控哪些性能指标吧？那么就要使用 perf list 进行查看，通常使用的指标是 cpu-clock/task-clock 等，具体要根据需要来判断&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt" id="hl-0-1">&lt;a class="lnlinks" href="#hl-0-1"> 1&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-2">&lt;a class="lnlinks" href="#hl-0-2"> 2&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-3">&lt;a class="lnlinks" href="#hl-0-3"> 3&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-4">&lt;a class="lnlinks" href="#hl-0-4"> 4&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-5">&lt;a class="lnlinks" href="#hl-0-5"> 5&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-6">&lt;a class="lnlinks" href="#hl-0-6"> 6&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-7">&lt;a class="lnlinks" href="#hl-0-7"> 7&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-8">&lt;a class="lnlinks" href="#hl-0-8"> 8&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-9">&lt;a class="lnlinks" href="#hl-0-9"> 9&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-10">&lt;a class="lnlinks" href="#hl-0-10">10&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-11">&lt;a class="lnlinks" href="#hl-0-11">11&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-12">&lt;a class="lnlinks" href="#hl-0-12">12&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-13">&lt;a class="lnlinks" href="#hl-0-13">13&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-14">&lt;a class="lnlinks" href="#hl-0-14">14&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-15">&lt;a class="lnlinks" href="#hl-0-15">15&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-16">&lt;a class="lnlinks" href="#hl-0-16">16&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl"> &lt;span class="o">$&lt;/span> &lt;span class="n">perf&lt;/span> &lt;span class="n">list&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">List&lt;/span> &lt;span class="n">of&lt;/span> &lt;span class="n">pre&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">defined&lt;/span> &lt;span class="n">events&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">to&lt;/span> &lt;span class="n">be&lt;/span> &lt;span class="n">used&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">e&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cpu&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">cycles&lt;/span> &lt;span class="n">OR&lt;/span> &lt;span class="n">cycles&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">Hardware&lt;/span> &lt;span class="n">event&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">instructions&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">Hardware&lt;/span> &lt;span class="n">event&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">…&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cpu&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">clock&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">Software&lt;/span> &lt;span class="n">event&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">task&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">clock&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">Software&lt;/span> &lt;span class="n">event&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">context&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">switches&lt;/span> &lt;span class="n">OR&lt;/span> &lt;span class="n">cs&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">Software&lt;/span> &lt;span class="n">event&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">…&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ext4&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">ext4_allocate_inode&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">Tracepoint&lt;/span> &lt;span class="n">event&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">kmem&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">kmalloc&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">Tracepoint&lt;/span> &lt;span class="n">event&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">module&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">module_load&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">Tracepoint&lt;/span> &lt;span class="n">event&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">workqueue&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">workqueue_execution&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">Tracepoint&lt;/span> &lt;span class="n">event&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">sched&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">sched_&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="n">wakeup&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="k">switch&lt;/span>&lt;span class="p">}&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">Tracepoint&lt;/span> &lt;span class="n">event&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">syscalls&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">sys_&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="n">enter&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">exit&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="n">_epoll_wait&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">Tracepoint&lt;/span> &lt;span class="n">event&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">…&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>不同内核版本列出的结果不一样多。.. 不过基本是够用的，但是无论多少，我们可以基本将其分为三类&lt;/p></description></item><item><title>性能调优利器--火焰图</title><link>https://miss-you.github.io/posts/flame/</link><pubDate>Wed, 25 Nov 2020 02:39:47 +0800</pubDate><guid>https://miss-you.github.io/posts/flame/</guid><description>本文主要分享火焰图使用技巧，介绍 systemtap 的原理机制，如何使用火焰图快速定位性能问题原因，同时加深对 systemtap 的理解。</description></item></channel></rss>

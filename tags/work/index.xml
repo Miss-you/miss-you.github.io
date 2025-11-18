@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Work on yousa Blog</title><link>https://miss-you.github.io/tags/work/</link><description>Recent content in Work on yousa Blog</description><generator>Hugo -- 0.148.1</generator><language>en</language><lastBuildDate>Tue, 15 Jul 2025 20:32:32 +0800</lastBuildDate><atom:link href="https://miss-you.github.io/tags/work/index.xml" rel="self" type="application/rss+xml"/><item><title>当 nil 不等于 nil？深度剖析 Go 的 typed nil 大坑</title><link>https://miss-you.github.io/posts/20250515-go-typed-nil/</link><pubDate>Thu, 15 May 2025 17:39:47 +0800</pubDate><guid>https://miss-you.github.io/posts/20250515-go-typed-nil/</guid><description>&lt;h2 id="0-一个能悄悄坑你的真实示例serror-的故事">0. 一个能“悄悄坑你”的真实示例：&lt;code>SError&lt;/code> 的故事&lt;/h2>
+&lt;p>先看你提到的这段代码，表面上看非常正常，甚至很多人第一眼不会觉得哪里有问题：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt" id="hl-0-1">&lt;a class="lnlinks" href="#hl-0-1"> 1&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-2">&lt;a class="lnlinks" href="#hl-0-2"> 2&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-3">&lt;a class="lnlinks" href="#hl-0-3"> 3&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-4">&lt;a class="lnlinks" href="#hl-0-4"> 4&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-5">&lt;a class="lnlinks" href="#hl-0-5"> 5&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-6">&lt;a class="lnlinks" href="#hl-0-6"> 6&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-7">&lt;a class="lnlinks" href="#hl-0-7"> 7&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-8">&lt;a class="lnlinks" href="#hl-0-8"> 8&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-9">&lt;a class="lnlinks" href="#hl-0-9"> 9&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-10">&lt;a class="lnlinks" href="#hl-0-10">10&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-11">&lt;a class="lnlinks" href="#hl-0-11">11&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-12">&lt;a class="lnlinks" href="#hl-0-12">12&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-13">&lt;a class="lnlinks" href="#hl-0-13">13&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-14">&lt;a class="lnlinks" href="#hl-0-14">14&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-15">&lt;a class="lnlinks" href="#hl-0-15">15&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-16">&lt;a class="lnlinks" href="#hl-0-16">16&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-17">&lt;a class="lnlinks" href="#hl-0-17">17&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-18">&lt;a class="lnlinks" href="#hl-0-18">18&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-19">&lt;a class="lnlinks" href="#hl-0-19">19&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-20">&lt;a class="lnlinks" href="#hl-0-20">20&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-21">&lt;a class="lnlinks" href="#hl-0-21">21&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-22">&lt;a class="lnlinks" href="#hl-0-22">22&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-23">&lt;a class="lnlinks" href="#hl-0-23">23&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-24">&lt;a class="lnlinks" href="#hl-0-24">24&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-25">&lt;a class="lnlinks" href="#hl-0-25">25&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-26">&lt;a class="lnlinks" href="#hl-0-26">26&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-27">&lt;a class="lnlinks" href="#hl-0-27">27&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-28">&lt;a class="lnlinks" href="#hl-0-28">28&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-29">&lt;a class="lnlinks" href="#hl-0-29">29&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-30">&lt;a class="lnlinks" href="#hl-0-30">30&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-31">&lt;a class="lnlinks" href="#hl-0-31">31&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-32">&lt;a class="lnlinks" href="#hl-0-32">32&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-33">&lt;a class="lnlinks" href="#hl-0-33">33&lt;/a>
+&lt;/span>&lt;span class="lnt" id="hl-0-34">&lt;a class="lnlinks" href="#hl-0-34">34&lt;/a>
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;log&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;sync&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">SError&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">cause&lt;/span> &lt;span class="kt">error&lt;/span> &lt;span class="c1">// Wrapped error which is the root cause.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">text&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="c1">// Error text, which is created by New* functions.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">i18nText&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="c1">// 本地错误文字，用于客户端显式中文&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ignored&lt;/span> &lt;span class="kt">bool&lt;/span> &lt;span class="c1">// 能否忽略该错误&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">info&lt;/span> &lt;span class="kd">map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">infoMutex&lt;/span> &lt;span class="nx">sync&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">RWMutex&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">e&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">SError&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Error&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">e&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">text&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// demoRetSerr 返回 (int32, *SError)。看上去，如果不想返回任何错误，就直接返回 (0, nil)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">demoRetSerr&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int32&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">SError&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">nil&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="kt">error&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 这里把第二个返回值的 *SError 赋给了 interface{} 类型的 err&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">_&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nf">demoRetSerr&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;err != nil. err: %v&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="01-乍看之下哪里会有问题">0.1 乍看之下哪里会有问题？&lt;/h3>
+&lt;ul>
+&lt;li>我们 &lt;code>demoRetSerr&lt;/code> 函数直接返回 &lt;code>(0, nil)&lt;/code>，而函数签名的第二个参数类型是 &lt;code>*SError&lt;/code>。&lt;/li>
+&lt;li>回到 &lt;code>main&lt;/code> 函数中，&lt;code>err&lt;/code> 是一个 &lt;code>error&lt;/code> 接口，承接了那个 &lt;code>nil&lt;/code> 指针。&lt;/li>
+&lt;li>如果“typed nil” 现象出现，那么 &lt;code>err != nil&lt;/code> 这个判断就会莫名其妙地通过，从而在日志里打印出“err != nil. err: &amp;lt;nil&amp;gt;”。有时更可怕的是，&lt;strong>实际逻辑会被误判&lt;/strong>，可能执行本不该执行的错误处理分支。&lt;/li>
+&lt;/ul>
+&lt;p>在某些 Go 版本或特定编译器优化下，你可能发现控制台就输出 &lt;code>err != nil. err: &amp;lt;nil&amp;gt;&lt;/code>，让人“一头雾水”。这就是一个十分典型、却很隐蔽的 &lt;strong>typed nil&lt;/strong> 场景。即使你写 &lt;code>return nil&lt;/code>，对编译器来说：&lt;/p></description></item><item><title>畅享 ChatGPT Plus：无需额外支付手段，突破 OpenAI 支付风控</title><link>https://miss-you.github.io/posts/20240423-openai-register/</link><pubDate>Tue, 23 Apr 2024 17:39:47 +0800</pubDate><guid>https://miss-you.github.io/posts/20240423-openai-register/</guid><description>&lt;blockquote>
+&lt;p>截至 2024 年 2 月 10 日，该教程仍然有效。我已根据此教程重新操作并成功充值。请注意，购买苹果充值卡时应确保从苹果官方网站购买。&lt;/p>&lt;/blockquote>
+&lt;p>&lt;img loading="lazy" src="https://raw.githubusercontent.com/Miss-you/img/master/picgo/20240423-164227-1-28fd8bc46d10a26c0e639aeb5ec9862f.jpg">&lt;/p>
+&lt;h2 id="chatgpt-plus-的优势">ChatGPT Plus 的优势&lt;/h2>
+&lt;ol>
+&lt;li>GPT-4 的性能非常强大，这是众所周知的事实。&lt;/li>
+&lt;li>Plus 会员可以使用 ChatGPT 的在线和插件功能，这些功能将极大地增强你的创造力，并为你的个人学习和工作效率提供强大的支持工具。&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img loading="lazy" src="https://raw.githubusercontent.com/Miss-you/img/master/picgo/20240423-164227-2-dfc46547e57fa80736a6925189a7e577.jpg">&lt;/p>
+&lt;h2 id="如何开通-chatgpt-plus">如何开通 ChatGPT Plus？&lt;/h2>
+&lt;h3 id="关键步骤">关键步骤&lt;/h3>
+&lt;p>ChatGPT 已在美国 iOS App Store 上架。你只需要使用 iOS 设备续费会员即可。&lt;/p>
+&lt;h3 id="目标用户">目标用户&lt;/h3>
+&lt;p>本教程适用于拥有 iOS 设备（如 iPhone 或 iPad）的用户。&lt;/p>
+&lt;h3 id="所需工具">所需工具&lt;/h3>
+&lt;p>a. iPhone 或 iPad 设备
+b. 美国地区的科学上网（可自建或购买）
+c. 支付宝账户
+d. 已注册成功的 chatGPT 账号&lt;/p>
+&lt;h2 id="开通步骤">开通步骤&lt;/h2>
+&lt;h3 id="1-创建美国区-ios-账号">1. 创建美国区 iOS 账号&lt;/h3>
+&lt;blockquote>
+&lt;p>如果你已拥有美国区账号，或已熟悉注册流程，可跳过此步骤。&lt;/p>&lt;/blockquote>
+&lt;p>详细的注册流程如下：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>访问网站&lt;/strong>：在浏览器中访问 &lt;a href="https://appleid.apple.com/account">https://appleid.apple.com/account&lt;/a> 开始创建你的 Apple ID。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>设置国家/地区&lt;/strong>：在&amp;quot;Country/Region&amp;quot;下拉菜单中选择&amp;quot;United States&amp;quot;。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>输入邮箱和设置密码&lt;/strong>：在指定字段输入可接收邮件的邮箱地址（作为你的 Apple ID），设定密码并在确认密码字段再次输入。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>输入并验证手机号码&lt;/strong>：选择&amp;quot;China Mainland&amp;quot;作为电话区域，输入手机号并继续。你将收到验证码，输入以验证。
+&lt;img loading="lazy" src="https://raw.githubusercontent.com/Miss-you/img/master/picgo/20240423-164227-3-d9aedace28daa3b3ca0d65e142f9baa7.jpg">&lt;/p></description></item><item><title>【译】创业生存手册：如何有效地打造产品、组建团队并筹集资金</title><link>https://miss-you.github.io/posts/20230703-startup-playbook/</link><pubDate>Mon, 03 Jul 2023 17:39:47 +0800</pubDate><guid>https://miss-you.github.io/posts/20230703-startup-playbook/</guid><description>个人认为，大公司内的小团队或创新团队与创业公司在诸多方面有着密切的相似性。两者都面临着从零开始，将一个概念或想法转化为可行产品或服务的挑战。他们都需要快速地适应和学习，寻找产品与市场的契合点，同时也要不断地迭代产品，以满足不断变化的市场需求。在这两种环境中，都需要强大的领导力和管理才能以及优秀的团队成员。而且，他们都需要面对并管理风险，同时在有限的资源下取得最大的产出。因此，无论你是处于创业环境还是大公司的创新团队，本文都会为你提供极大的价值。Sam Altman的经验和洞察将帮助你更好地理解如何建立并领导一支成功的团队，如何募集资金，如何处理竞争，以及如何建立持久并能够盈利的公司。</description></item><item><title>提升专注力的七种方法</title><link>https://miss-you.github.io/posts/20230421-7-ways-to-stay-focused/</link><pubDate>Fri, 21 Apr 2023 17:39:47 +0800</pubDate><guid>https://miss-you.github.io/posts/20230421-7-ways-to-stay-focused/</guid><description>让思维更聚焦，让生活更高效</description></item></channel></rss>
