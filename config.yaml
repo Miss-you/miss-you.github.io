@@ -1,6 +1,6 @@
 baseURL: 'https://miss-you.github.io/'
 languageCode: 'en-us'
-title: 'yousa Blog'
+title: 'Yousa Driven Development | YDD'
 theme: PaperMod
 
 languages:
@@ -19,6 +19,9 @@ languages:
         - name: Tags
           url: tags/
           weight: 10
+        - name: Tools
+          url: tools/
+          weight: 15
         - name: Categories
           url: categories/
           weight: 20
@@ -41,6 +44,9 @@ languages:
         - name: 标签
           url: tags/
           weight: 10
+        - name: 工具
+          url: tools/
+          weight: 15
         - name: 分类
           url: categories/
           weight: 20
@@ -50,22 +56,41 @@ languages:
 
 params:
   env: production
-  title: yousa Blog
-  description: "为往圣继绝学，为万世开太平"
+  title: Yousa Driven Development
+  description: "面向 AI 协作编程的实践手记"
   keywords: [Blog, Portfolio, PaperMod]
   author: Miss-you
   
   # Home page settings
   homeInfoParams:
-    Title: "Hi there 👋"
-    Content: >
-      Welcome to my blog! 
-      
-      - 🌈 Currently working at Tencent
-      - 🐳 Learning Golang, K8S, OpenResty, APISIX, Istio, Envoy
-      - 🤔 Thinking about changing the world more or less
-      - 💬 Ask me about API gateway or Cloud Native
-      - 📫 How to reach me: yousa@apache.org
+    Title: "Yousa Driven Development (YDD)"
+    Eyebrow: "Agent-first Engineering OS"
+    Subtitle: "面向 AI 协作编程的实践手记"
+    Description: |
+      把自己在腾讯的一线工程经验 + AI 协作实验都放进一册「YDD」。不卖课，只是把真实的工程笔记、踩坑、工具链迭代写清楚。
+    Highlights:
+      - label: "Infra Notes"
+        detail: "Golang、K8S、OpenResty、APISIX、Istio、Envoy 的落地记录"
+      - label: "AI Pairing"
+        detail: "让模型当队友的 Prompt/Agent/工具链实验手记"
+      - label: "Personal Stack"
+        detail: "写作、知识管理、Dev Workflow 的自定义脚本与仪式感"
+    Buttons:
+      - text: "最新文章 ↗"
+        href: "/archives"
+        variant: "primary"
+      - text: "GitHub · Side Project"
+        href: "https://github.com/Miss-you"
+        variant: "ghost"
+        external: true
+    Spotlight:
+      tag: "YDD Sprint"
+      title: "最近在写些什么"
+      description: "聚焦「AI 协作编程」&「云原生基础设施」的真实进展。"
+      items:
+        - "APISIX / Envoy 的插件实践 & 边车策略"
+        - "把 LLM 接入工作流：Prompt 合同、工具协议、回放机制"
+        - "如何把写作、产品、工程节奏融合成一个长期栈"
 
   socialIcons:
     - name: github

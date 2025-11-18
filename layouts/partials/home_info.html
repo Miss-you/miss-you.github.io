@@ -1,0 +1,67 @@
+{{- $params := site.Params.homeInfoParams -}}
+{{- if $params }}
+<section class="ydd-hero">
+  <div class="ydd-hero__text">
+    {{ with $params.Eyebrow }}<p class="hero-eyebrow">{{ . }}</p>{{ end }}
+    {{ with $params.Title }}<h1>{{ . | markdownify }}</h1>{{ end }}
+    {{ with $params.Subtitle }}<p class="hero-subtitle">{{ . }}</p>{{ end }}
+    {{ with $params.Description }}<p class="hero-description">{{ . | markdownify }}</p>{{ end }}
+
+    {{ with $params.Highlights }}
+    <ul class="hero-highlights">
+      {{ range . }}
+      <li>
+        {{ with .label }}<span>{{ . }}</span>{{ end }}
+        {{ with .detail }}<p>{{ . }}</p>{{ end }}
+      </li>
+      {{ end }}
+    </ul>
+    {{ end }}
+
+    {{ with $params.Buttons }}
+    <div class="cursor-actions">
+      {{ range . }}
+      <a class="cursor-btn{{ if or (eq .variant "ghost") (eq .variant "secondary") }} cursor-btn--ghost{{ end }}"
+        href="{{ .href }}"
+        {{ if .external }}target="_blank" rel="noopener"{{ end }}>
+        {{ .text }}
+      </a>
+      {{ end }}
+    </div>
+    {{ end }}
+  </div>
+  {{ with $params.Spotlight }}
+  <div class="ydd-hero__card">
+    {{ with .tag }}<span class="tag-pill">{{ . }}</span>{{ end }}
+    {{ with .title }}<h3>{{ . }}</h3>{{ end }}
+    {{ with .description }}<p>{{ . }}</p>{{ end }}
+    {{ with .items }}
+    <ul class="spotlight-stack">
+      {{ range . }}
+      <li>{{ . }}</li>
+      {{ end }}
+    </ul>
+    {{ end }}
+  </div>
+  {{ end }}
+</section>
+
+{{ with $params.Tiles }}
+<section class="ydd-grid">
+  {{ range . }}
+  <article class="ydd-tile">
+    {{ with .tag }}<span class="tag-pill">{{ . }}</span>{{ end }}
+    {{ with .title }}<h3>{{ . }}</h3>{{ end }}
+    {{ with .description }}<p>{{ . }}</p>{{ end }}
+    {{ with .bullets }}
+    <ul>
+      {{ range . }}
+      <li>{{ . }}</li>
+      {{ end }}
+    </ul>
+    {{ end }}
+  </article>
+  {{ end }}
+</section>
+{{ end }}
+{{- end -}}
