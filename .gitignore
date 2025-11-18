@@ -1,5 +1,5 @@
-#public
-#public/*
+public/
+public/*
 */.DS_Store
 */.idea/*
 */.gitignor
