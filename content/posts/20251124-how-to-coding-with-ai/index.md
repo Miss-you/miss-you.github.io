@@ -1,5 +1,5 @@
 ---
-title: "20251124 How to Coding With Ai"
+title: "从「写代码」到「验代码」：我和 AI 搭档写了三年代码之后"
 date: 2025-11-24T12:29:36+08:00
 draft: false
 tags: []
@@ -534,3 +534,22 @@ AI 的能力上限，很大程度上取决于你给它的上下文。
 * **55.8% 受控实验效率提升**：微软研究院论文《The Impact of AI on Developer Productivity》里，仅对照「有 Copilot vs 无 Copilot」，试验组完成任务速度快 55.8%（[Microsoft Research](https://www.microsoft.com/en-us/research/publication/the-impact-of-ai-on-developer-productivity-evidence-from-github-copilot/)).
 
 这组数字只覆盖「AI 采纳率 / 建议接受率 / Copilot 单变量提升」。我在文中提到的 /spec;/design;/api;/tests 之类的「spec-kit」做法，是用来提升上下文质量的工程实践，**不在上述受控实验的变量里**，但在实战中通常能让 AI 生成的命中率和可维护性进一步提高。
+
+---
+
+## 版权声明
+
+**ai-coding-handbook © 2025 by Miss-you**
+
+本作品采用 [知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-sa/4.0/)（CC BY-NC-SA 4.0）进行许可。
+
+您可以自由地：
+- **共享**：在任何媒介以任何形式复制、发行本作品
+- **演绎**：修改、转换或以本作品为基础进行创作
+
+惟须遵守下列条件：
+- **署名**：您必须给出适当的署名，提供指向本许可协议的链接，同时标明是否（对原始作品）作了修改。您可以用任何合理的方式来署名，但是不得以任何方式暗示许可人为您或您的使用背书。
+- **非商业性使用**：您不得将本作品用于商业目的。
+- **相同方式共享**：如果您再混合、转换或者基于本作品进行创作，您必须基于与原先许可协议相同的许可协议分发您贡献的作品。
+
+详情请参见：https://creativecommons.org/licenses/by-nc-sa/4.0/
