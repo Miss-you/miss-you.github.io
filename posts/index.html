@@ -2,17 +2,25 @@
 <svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
 <svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button><ul class=lang-switch><li>|</li><li><a href=https://miss-you.github.io/zh/ title=中文 aria-label=中文>Zh</a></li></ul></div></div><ul id=menu><li><a href=https://miss-you.github.io/archives title=Archive><span>Archive</span></a></li><li><a href=https://miss-you.github.io/tags/ title=Tags><span>Tags</span></a></li><li><a href=https://miss-you.github.io/tools/ title=Tools><span>Tools</span></a></li><li><a href=https://miss-you.github.io/categories/ title=Categories><span>Categories</span></a></li><li><a href=https://github.com/Miss-you title=GitHub><span>GitHub</span>&nbsp;
 <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><header class=page-header><div class=breadcrumbs><a href=https://miss-you.github.io/>Home</a></div><h1>Posts
-<a href=/posts/index.xml title=RSS aria-label=RSS><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" height="23"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></h1></header><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>从「写代码」到「验代码」：我和 AI 搭档写了三年代码之后</h2></header><div class=entry-content><p>从「写代码」到「验代码」：我和 AI 搭档写了三年代码之后 我叫厉辉，网名 yousa。 在大厂写了很多年后端，也在开源社区混了几年（比如曾是 Apache 项目贡献者和 CNCF Ambassador）。这三年，我还有一个新身份：被各种 AI Coding 工具轮流「教育」的程序员。
-从 2022 年开始，我几乎每天都在用 AI 写代码。 最早是 VS Code 里的 Copilot，后来换到 Cursor、Windsurf 和各种 IDE 插件、聊天模型。 最近又在折腾 Codex、Trae SOLO 这一类更「重」的 Agent 工具。
-工具一直在变： 去年你还在研究 Tab 补全的各种小技巧，今年可能已经没人这么用 IDE 了。
-所以这篇文章不是在教你「某个按钮在哪里」「这个模型该用什么 prompt」，因为这些东西很快会过时； 我更想聊的是：在真实生产项目里，和 AI 一起写代码，这三年我心态上的变化。
-如果非要用大厂黑话总结，就是： 一些我自己踩坑踩出来的「方法论」，希望对已经上手、或者准备上手 AI Coding 的开发者和技术管理者，有一点点参考价值。
-一、两种声音，和我自己走过的弯路 围绕 AI 编程，大家常听到两种极端的声音。
-一边是布道者：
-「太强了！我 5 分钟生成了 10 个单元测试，AI 是 10 倍效率工具，你不用是思想没跟上。」
-另一边是怀疑论者：
-「就是个玩具。我花半小时 debug 它写的 Bug，还不如自己写。」
-...</p></div><footer class=entry-footer><span title='2025-11-24 12:29:36 +0800 +0800'>November 24, 2025</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;754 words&nbsp;·&nbsp;Miss-you</footer><a class=entry-link aria-label="post link to 从「写代码」到「验代码」：我和 AI 搭档写了三年代码之后" href=https://miss-you.github.io/posts/20251124-how-to-coding-with-ai/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>Claude Code 还是 Codex？贵但强 vs 便宜但稳</h2></header><div class=entry-content><p>纠结 Claude Code 还是 Codex？一个贵 4 倍但 SWE-bench 高 3%，一个便宜但社区说"更稳定"。这里有最短路径：同一仓库、同一任务的端到端实测——从 UI 克隆到推荐管线，看清每一分钱花在哪。
+<a href=/posts/index.xml title=RSS aria-label=RSS><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" height="23"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></h1></header><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>从「写代码」到「验代码」：AI 搭档写走 3 年，我踩出来的协作路线图</h2></header><div class=entry-content><p>当 30% 代码都由 AI 写出来，我们该把时间花在哪？ 从「写代码」到「验代码」的三年实战笔记
+2022 年，我第一次在生产项目里认真用上 VS Code 里的 Copilot。
+一个再普通不过的后端接口：登录、校验、打点日志。
+我刚给函数写好名字、入参和返回值，函数体还一行没写，编辑器底部就灰出来一整段候选代码——参数校验、错误码、日志风格，甚至连变量命名都和我平时写得差不多。
+那一刻我心里只有一个念头：
+「完了，这行是不是要变天了？」
+两小时后，测试环境里一个边界条件直接 panic，把服务干崩——罪魁祸首正是这段看起来「标准又优雅」的自动生成代码。那晚我第一次很具体地意识到：
+AI 写代码最危险的地方，不是它写不出来，而是它写得「看起来对，其实不对」。
+三年过去，到 2025 年，各大厂公开的数据和访谈里不断提到类似的数字：
+工程师新写的代码里，大约 20%–30% 已经是 AI 生成的，一些激进团队甚至做到 50%。
+你打开任何一款主流 IDE，灰着的补全大概率都不是你敲的。
+但很多已经上手 AI Coding 的工程师——包括当时的我自己——却有很相似的感受：
+写的代码变多了，背的责任更重了，人反而更累。
+我叫厉辉，网名 yousa。
+在大厂写了很多年后端，也在开源社区混过几轮（当过 Apache 项目贡献者和 CNCF Ambassador）。
+从 2022 年开始，我几乎每天都在和各种 AI Coding 工具打交道：从 VS Code 里的 Copilot，到 Cursor、Windsurf，再到 Codex、Trae SOLO 这一类更「重」的 Agent。
+这篇文章写给已经在或准备在真实生产项目里用 AI Coding 的后端 / 全栈工程师和技术管理者。
+它不会教你「按钮在哪里」「哪个 prompt 最神」，而是想在大约 15 分钟里，帮你搞清楚三件事：
+...</p></div><footer class=entry-footer><span title='2025-11-24 12:29:36 +0800 +0800'>November 24, 2025</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;800 words&nbsp;·&nbsp;Miss-you</footer><a class=entry-link aria-label="post link to 从「写代码」到「验代码」：AI 搭档写走 3 年，我踩出来的协作路线图" href=https://miss-you.github.io/posts/20251124-how-to-coding-with-ai/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>Claude Code 还是 Codex？贵但强 vs 便宜但稳</h2></header><div class=entry-content><p>纠结 Claude Code 还是 Codex？一个贵 4 倍但 SWE-bench 高 3%，一个便宜但社区说"更稳定"。这里有最短路径：同一仓库、同一任务的端到端实测——从 UI 克隆到推荐管线，看清每一分钱花在哪。
 摘要 同样预算写更多代码 → Codex 更完整不敷衍 → Codex，更倾向完成整个 PR 并补测试 数据分析与快速原型 → Codex，更便宜，开发循环更稳定 代码质量 → Codex，代码质量和规范性更好 前端 UI 还原度 → Claude Code，UI 保真度更高 大规模重构 → Claude Code，更擅长大规模架构调整 复杂任务与系统操作 → Claude Code，SWE-bench 77.2，OSWorld 61.4 首字响应速度 → Claude Code，Vertex TTFT ≈1.67s 超长上下文支持 → Claude Code，多云部署可达 1M 上下文 成本控制与调优 → Codex，可调推理深度，灵活控制速度和费用 端到端项目成本 → Codex，约 $2.50 vs Claude 约 $10.26 表现稳定性 → Codex，运行稳定，调试循环更可靠 文档写作 → Claude Code，文档生成质量更高 图表生成（XML/PlantUML） → Claude Code，结构化图表生成更擅长 端到端开发成本对比 Composio 在同一仓库、同一 MCP 环境下做了实测对比，汇总了不同场景的 Token 与成本差异：
 ...</p></div><footer class=entry-footer><span title='2025-10-16 13:34:27 +0800 +0800'>October 16, 2025</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;679 words&nbsp;·&nbsp;Miss-you</footer><a class=entry-link aria-label="post link to Claude Code 还是 Codex？贵但强 vs 便宜但稳" href=https://miss-you.github.io/posts/20251016-claudecode-vs-codex/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>为什么所有产品最后都要长出社交？</h2></header><div class=entry-content><p>为什么想聊这个 最近在听极客公园关于 Sora/Cameo 的对谈，听到 Lovart 创始人陈冕说的这句话「最大的 ToC 应用就是社交」。
 这让我想起来，过去阿里一直想做社交——不论是支付宝、淘宝、闲鱼，都曾经尝试过很多次社交功能。
