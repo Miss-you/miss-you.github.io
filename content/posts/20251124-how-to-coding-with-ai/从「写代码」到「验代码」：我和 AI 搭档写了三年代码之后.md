@@ -1,5 +1,5 @@
 ---
-title: "20251124 How to Coding With Ai"
+title: "从「写代码」到「验代码」：AI 搭档写走 3 年，我踩出来的协作路线图"
 date: 2025-11-24T12:29:36+08:00
 draft: false
 tags: []
@@ -12,23 +12,44 @@ cover:
     relative: true
 ---
 
-## 从「写代码」到「验代码」：我和 AI 搭档写了三年代码之后
+## 当 30% 代码都由 AI 写出来，我们该把时间花在哪？
+> *从「写代码」到「验代码」的三年实战笔记*
 
-我叫厉辉，网名 yousa。
-在大厂写了很多年后端，也在开源社区混了几年（比如曾是 Apache 项目贡献者和 CNCF Ambassador）。这三年，我还有一个新身份：**被各种 AI Coding 工具轮流「教育」的程序员**。
+2022 年，我第一次在生产项目里认真用上 VS Code 里的 Copilot。
 
-从 2022 年开始，我几乎每天都在用 AI 写代码。
-最早是 VS Code 里的 Copilot，后来换到 Cursor、Windsurf 和各种 IDE 插件、聊天模型。
-最近又在折腾 Codex、Trae SOLO 这一类更「重」的 Agent 工具。
+一个再普通不过的后端接口：登录、校验、打点日志。  
+我刚给函数写好名字、入参和返回值，函数体还一行没写，编辑器底部就灰出来一整段候选代码——参数校验、错误码、日志风格，甚至连变量命名都和我平时写得差不多。
 
-工具一直在变：
-去年你还在研究 Tab 补全的各种小技巧，今年可能已经没人这么用 IDE 了。
+那一刻我心里只有一个念头：
 
-所以这篇文章**不是**在教你「某个按钮在哪里」「这个模型该用什么 prompt」，因为这些东西很快会过时；
-我更想聊的是：**在真实生产项目里，和 AI 一起写代码，这三年我心态上的变化**。
+> **「完了，这行是不是要变天了？」**
 
-如果非要用大厂黑话总结，就是：
-一些我自己踩坑踩出来的「方法论」，希望对已经上手、或者准备上手 AI Coding 的开发者和技术管理者，有一点点参考价值。
+两小时后，测试环境里一个边界条件直接 panic，把服务干崩——罪魁祸首正是这段看起来「标准又优雅」的自动生成代码。那晚我第一次很具体地意识到：
+
+> **AI 写代码最危险的地方，不是它写不出来，而是它写得「看起来对，其实不对」。**
+
+三年过去，到 2025 年，各大厂公开的数据和访谈里不断提到类似的数字：  
+工程师新写的代码里，大约 20%–30% 已经是 AI 生成的，一些激进团队甚至做到 50%。  
+你打开任何一款主流 IDE，灰着的补全大概率都不是你敲的。
+
+但很多已经上手 AI Coding 的工程师——包括当时的我自己——却有很相似的感受：
+
+> **写的代码变多了，背的责任更重了，人反而更累。**
+
+我叫厉辉，网名 yousa。  
+在大厂写了很多年后端，也在开源社区混过几轮（当过 Apache 项目贡献者和 CNCF Ambassador）。  
+从 2022 年开始，我几乎每天都在和各种 AI Coding 工具打交道：从 VS Code 里的 Copilot，到 Cursor、Windsurf，再到 Codex、Trae SOLO 这一类更「重」的 Agent。
+
+这篇文章写给已经在或准备在**真实生产项目**里用 AI Coding 的后端 / 全栈工程师和技术管理者。  
+它不会教你「按钮在哪里」「哪个 prompt 最神」，而是想在大约 15 分钟里，帮你搞清楚三件事：
+
+1. **哪些任务交给 AI 最「划算」；**  
+2. **怎么让项目本身变得更「AI 友好」，提高一次命中率；**  
+3. **当生成不再是瓶颈时，工程师应该如何设计验证流程，把时间花在真正值钱的地方。**
+
+文中的例子主要来自互联网业务后端，但你可以类比到自己的技术栈。
+
+从下一节开始，我们就从这三年里我听到的两种极端声音讲起，看一看这场「从写代码到验代码」的角色变化，是怎么一步步发生的。
 
 ---
 
@@ -528,9 +549,51 @@ AI 的能力上限，很大程度上取决于你给它的上下文。
 
 ### 公开引用对应关系
 
-* **20%–30% 微软 / 谷歌占比**：Satya Nadella 在 2025 年 Meta LlamaCon 对谈提到微软代码中约 20%–30% 由 AI 生成；Pichai 在 Alphabet 2024 Q3 电话会上说谷歌「超过四分之一」的新代码由 AI 生成，工程师评审后接受（[Business Insider](https://www.businessinsider.com/ai-code-meta-microsoft-google-llamacon-engineers-2025-4)；[Alphabet Q3 Call](https://abc.xyz/investor/events/event-details/2024/2024-q3-earnings-call/)).
-* **24% 平均值 vs 50% 激进团队**：Aikido Security 报告显示生产环境代码平均约 24% 由 AI 生成，且约 1/5 的严重事故与 AI 代码相关；Robinhood CEO 在 20VC 播客提到激进团队约 50% 新代码来自 AI（[DevOps.com](https://devops.com/survey-surfaces-rising-tide-of-vulnerabilities-in-code-generated-by-ai/)；[eFinancialCareers](https://www.efinancialcareers.com/news/robinhood-ai-coding)).
-* **30% IDE 建议接受率**：GitHub×Accenture 研究显示企业场景下约 30% 的 Copilot 建议被接受，保留字符占 88%（[GitHub Blog](https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-in-the-enterprise-with-accenture/)).
-* **55.8% 受控实验效率提升**：微软研究院论文《The Impact of AI on Developer Productivity》里，仅对照「有 Copilot vs 无 Copilot」，试验组完成任务速度快 55.8%（[Microsoft Research](https://www.microsoft.com/en-us/research/publication/the-impact-of-ai-on-developer-productivity-evidence-from-github-copilot/)).
+这几组数字大致是这样来的：
 
-这组数字只覆盖「AI 采纳率 / 建议接受率 / Copilot 单变量提升」。我在文中提到的 /spec;/design;/api;/tests 之类的「spec-kit」做法，是用来提升上下文质量的工程实践，**不在上述受控实验的变量里**，但在实战中通常能让 AI 生成的命中率和可维护性进一步提高。
+* **20%–30% 微软 / 谷歌占比**  
+  Satya Nadella 在 2025 年 Meta LlamaCon 的对谈里提到，微软内部大约有 20%–30% 的新代码已经由 AI 生成；  
+  Sundar Pichai 则在 Alphabet 2024 Q3 财报电话会上说，谷歌这边「超过四分之一」的新代码来自 AI，最后都会经过工程师评审  
+  （见 [Business Insider](https://www.businessinsider.com/ai-code-meta-microsoft-google-llamacon-engineers-2025-4)、[Alphabet Q3 Call](https://abc.xyz/investor/events/event-details/2024/2024-q3-earnings-call/)）。
+
+* **24% 平均值 vs 50% 激进团队**  
+  Aikido Security 的报告给了一个「全行业平均」的刻度：生产环境代码里，大约 24% 是 AI 写的，约 1/5 的严重事故和 AI 代码有关；  
+  在另一端，Robinhood CEO 在 20VC 播客里提到，内部一些比较激进的团队，差不多已经做到「一半新代码来自 AI」  
+  （见 [DevOps.com](https://devops.com/survey-surfaces-rising-tide-of-vulnerabilities-in-code-generated-by-ai/)、[eFinancialCareers](https://www.efinancialcareers.com/news/robinhood-ai-coding)）。
+
+* **30% IDE 建议接受率**  
+  GitHub × Accenture 的联合研究里提到，在企业场景下，开发者大约会接受 30% 左右的 Copilot 建议，  
+  而被接受的建议中，大约 88% 的字符会保留到最终版本  
+  （见 [GitHub Blog](https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-in-the-enterprise-with-accenture/)）。
+
+* **55.8% 受控实验效率提升**  
+  微软研究院在论文《The Impact of AI on Developer Productivity》里做过一个比较干净的对照实验：  
+  只引入「有 Copilot vs 无 Copilot」这一项变量，试验组完成任务的速度快了约 55.8%  
+  （见 [Microsoft Research](https://www.microsoft.com/en-us/research/publication/the-impact-of-ai-on-developer-productivity-evidence-from-github-copilot/)）。
+
+---
+
+上面这些数字，主要是在标一个量级：  
+它们回答的是「AI 写了多少代码」「建议被采纳的比例」「只上 Copilot 一项带来的效率提升」这类问题。
+
+文中我提到的 `/spec`、`/design`、`/api`、`/tests` 等「spec‑kit」做法，本质是把项目的上下文打磨干净一些。  
+这些工程实践**不在上述受控实验的变量里**，所以论文里看不到它们的名字；但在真实项目里，通常会让 AI 生成的命中率和长期可维护性再往上抬一截。
+
+---
+
+## 版权声明
+
+**ai-coding-handbook © 2025 by Miss-you**
+
+本作品采用 [知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-sa/4.0/)（CC BY-NC-SA 4.0）进行许可。
+
+您可以自由地：
+- **共享**：在任何媒介以任何形式复制、发行本作品
+- **演绎**：修改、转换或以本作品为基础进行创作
+
+惟须遵守下列条件：
+- **署名**：您必须给出适当的署名，提供指向本许可协议的链接，同时标明是否（对原始作品）作了修改。您可以用任何合理的方式来署名，但是不得以任何方式暗示许可人为您或您的使用背书。
+- **非商业性使用**：您不得将本作品用于商业目的。
+- **相同方式共享**：如果您再混合、转换或者基于本作品进行创作，您必须基于与原先许可协议相同的许可协议分发您贡献的作品。
+
+详情请参见：https://creativecommons.org/licenses/by-nc-sa/4.0/
