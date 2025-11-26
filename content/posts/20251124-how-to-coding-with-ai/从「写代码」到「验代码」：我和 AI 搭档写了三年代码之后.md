@@ -365,18 +365,18 @@ AI 的能力上限，很大程度上取决于你给它的上下文。
 ## 延伸阅读与参考引用
 
 * Codex 官方最佳实践文档（OpenAI Prompt Engineering 指南）：https://platform.openai.com/docs/guides/prompt-engineering
-* Claude Code 官方最佳实践文档：https://docs.anthropic.com/claude/docs/claude-code
-* yage.ai 博客（AI Coding 实战案例）：https://yage.ai/blog
-* Spec-kit（GitHub 开源规格模板集）：https://github.com/spec-kit/spec-kit
-* OpenSpec 项目（开放式规格与工具链）：https://github.com/OpenSpec/OpenSpec
+* Claude Code 官方最佳实践文档（Best practices for agentic coding）：https://www.anthropic.com/engineering/claude-code-best-practices
+* yage.ai 博客（AI Coding 实战案例）：https://yage.ai/
+* Spec Kit（GitHub 开源规格模板集）：https://github.com/github/spec-kit
+* OpenSpec 项目（开放式规格与工具链）：https://github.com/Fission-AI/OpenSpec
 * 微软 20%–30% AI 代码占比访谈（Satya×Zuck）：https://www.businessinsider.com/ai-code-meta-microsoft-google-llamacon-engineers-2025-4
-* 谷歌「>25% 新代码 AI 生成」财报电话会：https://abc.xyz/investor/events/event-details/2024/2024-q3-earnings-call/
+* 谷歌「>25% 新代码 AI 生成」财报电话会（Alphabet 2024 Q3 Earnings Call）：https://abc.xyz/investor/events/event-details/2024/2024-q3-earnings-call/
 * Aikido 报告与 DevOps.com 解读（全球生产代码约 24% 为 AI 生成）：https://devops.com/survey-surfaces-rising-tide-of-vulnerabilities-in-code-generated-by-ai/
 * Robinhood 约 50% 新代码由 AI 生成（20VC 访谈转引）：https://www.efinancialcareers.com/news/robinhood-ai-coding
 * GitHub×Accenture 企业研究（Copilot 建议接受率约 30%）：https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-in-the-enterprise-with-accenture/
 * 微软研究院论文：The Impact of AI on Developer Productivity（受控实验 55.8% 提升）：https://www.microsoft.com/en-us/research/publication/the-impact-of-ai-on-developer-productivity-evidence-from-github-copilot/
 * 《深度工作》作者主页：https://www.calnewport.com/books/deep-work/
-* 番茄工作法官网：https://francescocirillo.com/pages/pomodoro-technique
+* 番茄工作法官网（The Pomodoro® Technique）：https://www.pomodorotechnique.com/
 * Getting Things Done 官网：https://gettingthingsdone.com/
 
 ### 公开引用对应关系
@@ -384,23 +384,23 @@ AI 的能力上限，很大程度上取决于你给它的上下文。
 这几组数字大致是这样来的：
 
 * **20%–30% 微软 / 谷歌占比**  
-  Satya Nadella 在 2025 年 Meta LlamaCon 的对谈里提到，微软内部大约有 20%–30% 的新代码已经由 AI 生成  
-  Sundar Pichai 则在 Alphabet 2024 Q3 财报电话会上说，谷歌这边「超过四分之一」的新代码来自 AI，最后都会经过工程师评审  
+  Satya Nadella 在 2025 年 Meta LlamaCon 的对谈里提到，微软内部大约有 20%–30% 的新代码已经由 AI 生成。  
+  Sundar Pichai 则在 Alphabet 2024 Q3 财报电话会上说，谷歌这边「超过四分之一」的新代码来自 AI，最后都会经过工程师评审。  
   （见 [Business Insider](https://www.businessinsider.com/ai-code-meta-microsoft-google-llamacon-engineers-2025-4)、[Alphabet Q3 Call](https://abc.xyz/investor/events/event-details/2024/2024-q3-earnings-call/)）。
 
 * **24% 平均值 vs 50% 激进团队**  
-  Aikido Security 的报告给了一个「全行业平均」的刻度：生产环境代码里，大约 24% 是 AI 写的，约 1/5 的严重事故和 AI 代码有关  
-  在另一端，Robinhood CEO 在 20VC 播客里提到，内部一些比较激进的团队，差不多已经做到「一半新代码来自 AI」  
+  Aikido Security 的报告给了一个「全行业平均」的刻度：生产环境代码里，大约 24% 是 AI 写的，约 1/5 的严重事故和 AI 代码有关。  
+  在另一端，Robinhood CEO 在 20VC 播客里提到，内部一些比较激进的团队，差不多已经做到「一半新代码来自 AI」。  
   （见 [DevOps.com](https://devops.com/survey-surfaces-rising-tide-of-vulnerabilities-in-code-generated-by-ai/)、[eFinancialCareers](https://www.efinancialcareers.com/news/robinhood-ai-coding)）。
 
 * **30% IDE 建议接受率**  
   GitHub × Accenture 的联合研究里提到，在企业场景下，开发者大约会接受 30% 左右的 Copilot 建议，  
-  而被接受的建议中，大约 88% 的字符会保留到最终版本  
+  而被接受的建议中，大约 88% 的字符会保留到最终版本。  
   （见 [GitHub Blog](https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-in-the-enterprise-with-accenture/)）。
 
 * **55.8% 受控实验效率提升**  
   微软研究院在论文《The Impact of AI on Developer Productivity》里做过一个比较干净的对照实验：  
-  只引入「有 Copilot vs 无 Copilot」这一项变量，试验组完成任务的速度快了约 55.8%  
+  只引入「有 Copilot vs 无 Copilot」这一项变量，试验组完成任务的速度快了约 55.8%。  
   （见 [Microsoft Research](https://www.microsoft.com/en-us/research/publication/the-impact-of-ai-on-developer-productivity-evidence-from-github-copilot/)）。
 
 ---
