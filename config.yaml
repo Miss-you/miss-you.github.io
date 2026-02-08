@@ -55,6 +55,7 @@ languages:
           weight: 30
 
 params:
+  defaultTheme: light
   env: production
   title: Yousa Driven Development
   description: "面向 AI 协作编程的实践手记"
@@ -117,6 +118,7 @@ params:
 
   # Assets
   assets:
+    theme_color: "#f4f3ee"
     disableHLJS: false
     disableFingerprinting: false
     favicon: "/favicon.ico"

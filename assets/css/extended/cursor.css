@@ -1,126 +1,157 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+/* ==========================================================================
+   Industrial + Apple UI — Design System for PaperMod
+   Replaces cyberpunk dark theme with black/white minimalist aesthetic
+   ========================================================================== */
 
-:root,
-.dark {
-    --theme: rgba(1, 3, 18, 0.92);
-    --entry: rgba(9, 14, 32, 0.8);
-    --primary: #e2e8f0;
-    --secondary: rgba(148, 163, 184, 0.85);
-    --tertiary: rgba(100, 116, 139, 0.6);
-    --content: #f8fafc;
-    --code-block-bg: rgba(2, 6, 23, 0.9);
-    --code-bg: rgba(15, 23, 42, 0.7);
-    --border: rgba(99, 102, 241, 0.35);
-    --glow-primary: rgba(14, 165, 233, 0.45);
-    --glow-secondary: rgba(124, 58, 237, 0.35);
-    --accent: #00f5ff;
-    --accent-strong: #7c3aed;
+/* --------------------------------------------------------------------------
+   1. Light-mode tokens (default)
+   -------------------------------------------------------------------------- */
+:root {
+    --theme: #f4f3ee;
+    --paper: #fffef9;
+    --entry: #ffffff;
+    --primary: #1a1a1a;
+    --secondary: #8a8a85;
+    --tertiary: #b0b0a8;
+    --content: #3d3d3d;
+    --code-block-bg: #2d2d2d;
+    --code-bg: #eae9e4;
+    --border: #d4d4cf;
+    --radius: 4px;
+    --accent: #c45d3e;
+    --accent-hover: #a84d33;
+    --gap: 24px;
+
+    /* Font stacks */
+    --font-serif: "Noto Serif SC", "Georgia", "Times New Roman", serif;
+    --font-sans: "Noto Sans SC", "SF Pro Text", "Helvetica Neue", "PingFang SC", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
 }
 
+/* --------------------------------------------------------------------------
+   2. Dark-mode tokens
+   -------------------------------------------------------------------------- */
+.dark {
+    --theme: #1a1a1a;
+    --paper: #222222;
+    --entry: #2a2a2a;
+    --primary: #e8e8e3;
+    --secondary: #9a9a95;
+    --tertiary: #6a6a65;
+    --content: #d0d0cb;
+    --code-block-bg: #161616;
+    --code-bg: #2a2a2a;
+    --border: #3d3d38;
+    --accent: #d97b5e;
+    --accent-hover: #e89070;
+}
+
+/* --------------------------------------------------------------------------
+   3. Body base — clean paper background, no gradients/grids/glows
+   -------------------------------------------------------------------------- */
 body,
 .dark,
 body.list,
 .dark.list {
-    font-family: "Space Grotesk", "SF Pro Display", "Inter", system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-    background: radial-gradient(circle at top, rgba(124, 58, 237, 0.12), transparent 45%),
-        radial-gradient(circle at 20% 20%, rgba(0, 245, 255, 0.1), transparent 30%),
-        radial-gradient(circle at 80% 10%, rgba(14, 165, 233, 0.08), transparent 40%),
-        #01030f;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    background: var(--theme);
     color: var(--primary);
     min-height: 100vh;
 }
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-    background-size: 120px 120px;
-    opacity: 0.35;
-    mask-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.55), transparent 60%);
-    pointer-events: none;
-    z-index: 0;
-}
-
+/* Remove all cyberpunk pseudo-elements */
+body::before,
 body::after {
-    content: "";
-    position: fixed;
-    inset: 10% auto auto 50%;
-    width: 420px;
-    height: 420px;
-    background: radial-gradient(circle, rgba(0, 245, 255, 0.35), transparent 65%);
-    filter: blur(40px);
-    opacity: 0.6;
-    transform: translateX(-50%);
-    pointer-events: none;
-    z-index: 0;
+    content: none;
+    display: none;
 }
 
 .main {
-    max-width: 900px;
+    max-width: 820px;
     position: relative;
     z-index: 1;
 }
 
-.page-header,
-.page-header h1,
-.post-title {
-    font-weight: 600;
-    letter-spacing: -0.01em;
-}
-
+/* --------------------------------------------------------------------------
+   4. Header / Nav — clean bottom border, monospace nav links
+   -------------------------------------------------------------------------- */
 .header,
 .nav {
-    backdrop-filter: saturate(150%) blur(24px);
-    background: rgba(3, 6, 23, 0.72);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    border-radius: 18px;
-    margin-top: 16px;
+    background: var(--theme);
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    margin-top: 0;
+    backdrop-filter: none;
 }
 
 .header .logo a {
-    font-weight: 600;
-    color: var(--accent);
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--primary);
+    letter-spacing: -0.01em;
 }
 
 .menu a {
-    color: var(--secondary);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
     font-weight: 500;
-    transition: color 0.25s ease, transform 0.25s ease;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--secondary);
+    transition: color 0.2s ease;
 }
 
 .menu a:hover,
 .menu a:focus-visible {
     color: var(--accent);
-    transform: translateY(-1px);
+    transform: none;
 }
 
+/* --------------------------------------------------------------------------
+   5. Post entry cards — sharp corners, thin border, Apple hover lift
+   -------------------------------------------------------------------------- */
 .first-entry,
 .post-entry,
 .post-single,
 .archive-entry,
 .archive-post {
     position: relative;
-    border-radius: 26px;
-    padding: clamp(24px, 4vw, 32px);
-    background: rgba(3, 7, 18, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    box-shadow: 0 20px 60px rgba(2, 8, 20, 0.8), 0 0 40px rgba(14, 165, 233, 0.08);
-    backdrop-filter: blur(24px);
+    border-radius: var(--radius);
+    padding: clamp(20px, 3vw, 28px);
+    background: var(--entry);
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    backdrop-filter: none;
 }
 
 .post-entry {
-    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .post-entry:hover {
-    transform: translateY(-6px);
-    border-color: rgba(0, 245, 255, 0.45);
-    box-shadow: 0 25px 70px rgba(2, 8, 20, 0.65), 0 0 60px rgba(0, 245, 255, 0.15);
+    transform: translateY(-4px);
+    border-color: var(--border);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
+.post-entry .entry-header h2 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+}
+
+.post-entry .entry-content,
+.post-entry .entry-footer {
+    font-family: var(--font-sans);
+    color: var(--secondary);
+}
+
+/* --------------------------------------------------------------------------
+   6. Home info / hero section — serif title, corner accents
+   -------------------------------------------------------------------------- */
 .home-info {
     display: flex;
     flex-direction: column;
@@ -129,30 +160,38 @@ body::after {
 }
 
 .home-info .entry-header h1 {
-    font-size: clamp(2.4rem, 3.2vw, 3.4rem);
-    color: #f4f7ff;
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 900;
+    color: var(--primary);
     margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
 }
 
 .hero-description {
+    font-family: var(--font-sans);
     font-size: 1rem;
-    color: rgba(233, 238, 255, 0.85);
+    color: var(--content);
     margin-bottom: 18px;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .hero-subtitle {
-    font-size: clamp(1.1rem, 1.4vw, 1.4rem);
-    color: rgba(190, 196, 255, 0.8);
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: var(--secondary);
     margin-bottom: 18px;
-    font-weight: 500;
+    font-weight: 400;
 }
 
+/* Eyebrow — monospace tag style */
 .hero-eyebrow {
-    font-size: 0.95rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.3em;
-    color: rgba(148, 163, 184, 0.9);
+    letter-spacing: 3px;
+    color: var(--secondary);
     margin-bottom: 12px;
     display: inline-flex;
     align-items: center;
@@ -162,12 +201,12 @@ body::after {
 .hero-eyebrow::before {
     content: "";
     display: inline-block;
-    width: 36px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent));
-    border-radius: 999px;
+    width: 28px;
+    height: 1px;
+    background: var(--secondary);
 }
 
+/* Highlights grid — card with corner accent */
 .hero-highlights {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -178,78 +217,50 @@ body::after {
 }
 
 .hero-highlights li {
-    padding: 16px 18px;
-    border-radius: 16px;
-    background: rgba(15, 23, 42, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    color: rgba(226, 232, 255, 0.9);
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    background: var(--entry);
+    border: 1px solid var(--border);
+    color: var(--content);
     display: flex;
     flex-direction: column;
     gap: 6px;
+    position: relative;
+}
+
+/* Corner accent — top-left L-bracket */
+.hero-highlights li::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 16px;
+    height: 16px;
+    border-top: 2px solid var(--primary);
+    border-left: 2px solid var(--primary);
 }
 
 .hero-highlights li span {
-    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
     text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: rgba(125, 211, 252, 0.9);
+    letter-spacing: 2px;
+    color: var(--secondary);
 }
 
 .hero-highlights li p {
     margin: 0;
-    font-size: 0.95rem;
-    color: rgba(248, 250, 255, 0.85);
+    font-size: 0.92rem;
+    color: var(--content);
+    font-family: var(--font-sans);
 }
 
-.cursor-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 8px;
-}
-
-.cursor-btn {
-    --btn-bg: linear-gradient(120deg, #00f5ff, #00c3ff 40%, #7c3aed);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 26px;
-    border-radius: 999px;
-    background: var(--btn-bg);
-    color: #030712 !important;
-    font-weight: 600;
-    font-size: 0.95rem;
-    box-shadow: 0 12px 30px rgba(0, 245, 255, 0.35);
-    border: none;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
-}
-
-.cursor-btn svg {
-    width: 16px;
-    height: 16px;
-}
-
-.cursor-btn:hover {
-    transform: translateY(-2px) scale(1.01);
-    box-shadow: 0 20px 40px rgba(0, 245, 255, 0.4);
-    opacity: 0.9;
-}
-
-.cursor-btn--ghost {
-    background: rgba(7, 15, 43, 0.6);
-    color: var(--accent) !important;
-    border: 1px solid rgba(0, 245, 255, 0.4);
-    box-shadow: inset 0 0 12px rgba(0, 245, 255, 0.25);
-}
-
-.cursor-btn--ghost:hover {
-    background: rgba(7, 15, 43, 0.8);
-    color: #e0f2ff !important;
-}
-
+/* --------------------------------------------------------------------------
+   7. Hero layout — ydd-hero 2-column grid
+   -------------------------------------------------------------------------- */
 .ydd-hero {
     display: grid;
-    grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
+    grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
     gap: clamp(24px, 4vw, 48px);
     margin-bottom: 48px;
     align-items: stretch;
@@ -261,29 +272,72 @@ body::after {
     gap: 12px;
 }
 
+/* Spotlight card — with corner brackets */
 .ydd-hero__card {
-    border-radius: 28px;
+    border-radius: var(--radius);
     padding: 28px;
-    background: radial-gradient(circle at top, rgba(0, 245, 255, 0.2), rgba(7, 15, 43, 0.8));
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 25px 80px rgba(2, 8, 20, 0.7), inset 0 0 60px rgba(124, 58, 237, 0.12);
+    background: var(--entry);
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     display: flex;
     flex-direction: column;
     gap: 14px;
+    position: relative;
 }
 
+/* Corner brackets on spotlight card */
+.ydd-hero__card::before,
+.ydd-hero__card::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+}
+
+.ydd-hero__card::before {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid var(--primary);
+    border-left: 2px solid var(--primary);
+}
+
+.ydd-hero__card::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid var(--primary);
+    border-right: 2px solid var(--primary);
+}
+
+.ydd-hero__card h3 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--primary);
+    margin: 0;
+}
+
+.ydd-hero__card p {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--content);
+    line-height: 1.6;
+}
+
+/* Tag pill — monospace flat style */
 .tag-pill {
     align-self: flex-start;
+    font-family: var(--font-mono);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    font-size: 0.75rem;
-    padding: 6px 14px;
-    border-radius: 999px;
-    border: 1px solid rgba(0, 245, 255, 0.4);
-    color: rgba(190, 230, 255, 0.95);
-    background: rgba(7, 15, 43, 0.6);
+    letter-spacing: 2px;
+    font-size: 0.68rem;
+    padding: 4px 10px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    color: var(--secondary);
+    background: transparent;
 }
 
+/* Spotlight stack — square bullets */
 .spotlight-stack {
     list-style: none;
     margin: 0;
@@ -297,19 +351,77 @@ body::after {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: rgba(234, 244, 255, 0.9);
-    font-size: 0.95rem;
+    color: var(--content);
+    font-size: 0.92rem;
+    font-family: var(--font-sans);
 }
 
 .spotlight-stack li::before {
     content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: linear-gradient(120deg, #00f5ff, #7c3aed);
-    box-shadow: 0 0 10px rgba(0, 245, 255, 0.6);
+    flex-shrink: 0;
+    width: 4px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 0;
 }
 
+/* --------------------------------------------------------------------------
+   8. Buttons — flat, monospace, uppercase
+   -------------------------------------------------------------------------- */
+.cursor-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.cursor-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 2px;
+    background: var(--primary);
+    color: var(--theme) !important;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border: 1px solid var(--primary);
+    box-shadow: none;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.cursor-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.cursor-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+}
+
+.cursor-btn--ghost {
+    background: transparent;
+    color: var(--primary) !important;
+    border: 1px solid var(--border);
+    box-shadow: none;
+}
+
+.cursor-btn--ghost:hover {
+    background: transparent;
+    color: var(--accent) !important;
+    border-color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   9. YDD grid tiles
+   -------------------------------------------------------------------------- */
 .ydd-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -318,10 +430,10 @@ body::after {
 
 .ydd-tile {
     padding: 22px;
-    border-radius: 22px;
-    background: rgba(6, 11, 30, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    box-shadow: 0 20px 50px rgba(2, 8, 20, 0.6);
+    border-radius: var(--radius);
+    background: var(--entry);
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -329,39 +441,47 @@ body::after {
 
 .ydd-tile h3 {
     margin: 0;
-    font-size: 1.2rem;
-    color: #f3f5ff;
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
 }
 
 .ydd-tile p {
     margin: 0;
-    color: rgba(226, 232, 255, 0.8);
-    font-size: 0.95rem;
+    color: var(--content);
+    font-size: 0.92rem;
 }
 
 .ydd-tile ul {
     margin: 0;
     padding-left: 18px;
-    color: rgba(226, 232, 255, 0.8);
+    color: var(--content);
 }
 
 .ydd-tile li {
     margin-bottom: 6px;
 }
 
+/* --------------------------------------------------------------------------
+   10. Page header / Terms tags — dashed separators, square markers
+   -------------------------------------------------------------------------- */
 .page-header {
     margin: 32px 0 24px;
-    padding: 28px;
-    border-radius: 26px;
-    background: rgba(6, 12, 33, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    box-shadow: 0 25px 70px rgba(2, 8, 20, 0.65);
+    padding: 0 0 20px 0;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--border);
+    box-shadow: none;
 }
 
 .page-header h1 {
     margin: 0 0 12px 0;
-    font-size: clamp(2rem, 2.8vw, 2.6rem);
-    color: #f3f5ff;
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+    font-weight: 900;
+    color: var(--primary);
     display: flex;
     align-items: center;
     gap: 12px;
@@ -372,9 +492,10 @@ body::after {
 }
 
 .page-header .post-description {
-    font-size: 1rem;
-    color: rgba(226, 232, 255, 0.82);
+    font-size: 0.95rem;
+    color: var(--secondary);
     line-height: 1.6;
+    font-family: var(--font-sans);
 }
 
 .terms-tags {
@@ -382,40 +503,48 @@ body::after {
     margin: 0 0 40px;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
 }
 
 .terms-tags li a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 18px;
-    border-radius: 18px;
-    background: rgba(8, 14, 36, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    color: rgba(236, 243, 255, 0.9);
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    background: var(--entry);
+    border: 1px solid var(--border);
+    color: var(--primary);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
     font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .terms-tags li a:hover {
     transform: translateY(-2px);
-    border-color: rgba(0, 245, 255, 0.35);
+    border-color: var(--accent);
+    color: var(--accent);
 }
 
 .terms-tags sup {
-    color: rgba(148, 163, 184, 0.9);
-    font-size: 0.85rem;
+    color: var(--secondary);
+    font-size: 0.78rem;
 }
 
+/* --------------------------------------------------------------------------
+   11. Archive — left border accent, terracotta square markers
+   -------------------------------------------------------------------------- */
 .archive-year {
     margin-bottom: 32px;
-    padding: 24px;
-    border-radius: 26px;
-    background: rgba(5, 10, 28, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.25);
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
 
 .archive-year-header,
@@ -423,34 +552,183 @@ body::after {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-weight: 600;
+    font-family: var(--font-serif);
+    font-weight: 700;
     margin: 0 0 12px;
-    color: #eaf2ff;
+    color: var(--primary);
+}
+
+.archive-year-header {
+    font-size: 1.5rem;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border);
+}
+
+.archive-month-header {
+    font-size: 1rem;
+}
+
+/* Terracotta square marker for months */
+.archive-month-header::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    flex-shrink: 0;
 }
 
 .archive-month {
     margin-bottom: 18px;
-    padding-left: 8px;
-    border-left: 2px solid rgba(0, 245, 255, 0.25);
+    padding-left: 12px;
+    border-left: 2px solid var(--border);
 }
 
 .archive-posts {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .archive-entry {
-    padding: 16px 18px;
+    padding: 12px 16px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--border);
+    border-radius: 0;
+    box-shadow: none;
 }
 
+.archive-entry:last-child {
+    border-bottom: none;
+}
+
+.archive-entry .entry-header h2,
+.archive-entry .entry-title {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--primary);
+}
+
+.archive-entry .entry-hint {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--secondary);
+}
+
+/* --------------------------------------------------------------------------
+   12. Post single / Post content — serif headings, dashed dividers
+   -------------------------------------------------------------------------- */
+.post-single {
+    background: var(--paper);
+}
+
+.post-header .post-title {
+    font-family: var(--font-serif);
+    font-weight: 900;
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    color: var(--primary);
+}
+
+.post-header .post-meta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.post-content {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--content);
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+    font-family: var(--font-serif);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.post-content h2 {
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border);
+    margin-top: 2em;
+}
+
+.post-content blockquote {
+    border-left: 2px solid var(--accent);
+    padding-left: 16px;
+    color: var(--secondary);
+    font-style: italic;
+}
+
+.post-content a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.post-content a:hover {
+    color: var(--accent-hover);
+}
+
+/* Code blocks */
+.post-content code,
+pre code {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+}
+
+.post-content pre {
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.post-content :not(pre) > code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-size: 0.88em;
+    color: var(--accent);
+}
+
+/* Post tags */
+.post-tags a {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--secondary);
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.post-tags a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   13. Tool card section
+   -------------------------------------------------------------------------- */
 .tool-card {
     margin-top: 32px;
     padding: 28px;
-    border-radius: 26px;
-    background: rgba(4, 8, 26, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    box-shadow: 0 25px 80px rgba(2, 8, 20, 0.6);
+    border-radius: var(--radius);
+    background: var(--entry);
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -458,8 +736,10 @@ body::after {
 
 .tool-card h2 {
     margin: 0;
-    font-size: 1.4rem;
-    color: #f8fbff;
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary);
 }
 
 .tool-grid {
@@ -472,24 +752,27 @@ body::after {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    font-size: 0.9rem;
-    color: rgba(226, 232, 255, 0.85);
+    font-size: 0.88rem;
+    font-family: var(--font-mono);
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .tool-grid input {
-    padding: 12px 14px;
-    border-radius: 16px;
-    border: 1px solid rgba(0, 245, 255, 0.25);
-    background: rgba(12, 18, 40, 0.85);
-    color: #f8fbff;
-    font-size: 1rem;
-    font-family: "Space Grotesk", system-ui, sans-serif;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--entry);
+    color: var(--primary);
+    font-size: 0.95rem;
+    font-family: var(--font-mono);
 }
 
 .tool-grid input:focus {
     outline: none;
-    border-color: rgba(0, 245, 255, 0.6);
-    box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.15);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(196, 93, 62, 0.15);
 }
 
 .tool-actions {
@@ -499,48 +782,102 @@ body::after {
 }
 
 .tool-result {
-    background: rgba(10, 18, 38, 0.75);
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: var(--entry);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
     padding: 18px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 12px;
-    font-size: 0.95rem;
-    color: rgba(226, 232, 255, 0.9);
+    font-size: 0.92rem;
+    color: var(--content);
 }
 
 .tool-result span {
     display: block;
     margin-top: 4px;
-    color: rgba(248, 250, 255, 0.9);
-    font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+    color: var(--primary);
+    font-family: var(--font-mono);
     word-break: break-all;
 }
 
-.post-content code,
-pre code {
-    font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
-}
-
-.post-content pre {
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
-}
-
+/* --------------------------------------------------------------------------
+   14. Footer — monospace, uppercase, dashed top border
+   -------------------------------------------------------------------------- */
 .footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    border-top: 1px dashed var(--border);
     margin-top: 60px;
     padding-top: 24px;
     color: var(--secondary);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   15. Selection & links — terracotta accent
+   -------------------------------------------------------------------------- */
+::selection {
+    background: rgba(196, 93, 62, 0.2);
+    color: var(--primary);
+}
+
+a {
+    color: var(--accent);
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--accent-hover);
+}
+
+/* Override PaperMod breadcrumb styles */
+.breadcrumbs a {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--secondary);
+}
+
+.breadcrumbs a:hover {
+    color: var(--accent);
+}
+
+/* Pagination */
+.pagination a,
+.pagination .page-num {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    border-radius: var(--radius);
+}
+
+/* Table of contents */
+.toc a {
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    color: var(--secondary);
+}
+
+.toc a:hover {
+    color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   16. Responsive breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .ydd-hero {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 640px) {
     .first-entry,
     .post-entry,
     .post-single {
-        padding: 22px;
+        padding: 18px;
     }
 
     .hero-highlights {
@@ -549,5 +886,15 @@ pre code {
 
     .ydd-hero {
         grid-template-columns: 1fr;
+    }
+
+    .terms-tags {
+        grid-template-columns: 1fr;
+    }
+
+    .ydd-hero__card::before,
+    .ydd-hero__card::after {
+        width: 14px;
+        height: 14px;
     }
 }
