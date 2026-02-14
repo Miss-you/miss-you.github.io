@@ -1,0 +1,131 @@
+<!doctype html><html lang=zh dir=auto><head><meta name=generator content="Hugo 0.148.1"><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Yousa Driven Development | YDD</title><meta name=keywords content="Blog,Portfolio,PaperMod"><meta name=description content="面向 AI 协作编程的实践手记"><meta name=author content="Miss-you"><link rel=canonical href=https://miss-you.github.io/zh/><link crossorigin=anonymous href=/assets/css/stylesheet.90ccfe940c2ebacfe29cf6c094281c8c148bd718511cde00be68d330109118be.css integrity="sha256-kMz+lAwuus/inPbAlCgcjBSL1xhRHN4AvmjTMBCRGL4=" rel="preload stylesheet" as=style><link rel=icon href=https://miss-you.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://miss-you.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://miss-you.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://miss-you.github.io/apple-touch-icon.png><link rel=mask-icon href=https://miss-you.github.io/safari-pinned-tab.svg><meta name=theme-color content="#f4f3ee"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate type=application/rss+xml href=https://miss-you.github.io/zh/index.xml><link rel=alternate type=application/json href=https://miss-you.github.io/zh/index.json><link rel=alternate hreflang=en href=https://miss-you.github.io/><link rel=alternate hreflang=zh href=https://miss-you.github.io/zh/><noscript><style>#theme-toggle,.top-link{display:none}</style></noscript><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel=stylesheet><meta property="og:url" content="https://miss-you.github.io/zh/"><meta property="og:site_name" content="Yousa Driven Development | YDD"><meta property="og:title" content="Yousa Driven Development | YDD"><meta property="og:description" content="面向 AI 协作编程的实践手记"><meta property="og:locale" content="zh"><meta property="og:type" content="website"><meta name=twitter:card content="summary"><meta name=twitter:title content="Yousa Driven Development | YDD"><meta name=twitter:description content="面向 AI 协作编程的实践手记"><script type=application/ld+json>{"@context":"https://schema.org","@type":"Organization","name":"Yousa Driven Development | YDD","url":"https://miss-you.github.io/zh/","description":"面向 AI 协作编程的实践手记","logo":"https://miss-you.github.io/favicon.ico","sameAs":["https://github.com/Miss-you","mailto:yousa@apache.org"]}</script></head><body class=list id=top><script>localStorage.getItem("pref-theme")==="dark"&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://miss-you.github.io/zh/ accesskey=h title="Yousa Driven Development | YDD (Alt + H)">Yousa Driven Development | YDD</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button><ul class=lang-switch><li>|</li><li><a href=https://miss-you.github.io/ title=English aria-label=English>En</a></li></ul></div></div><ul id=menu><li><a href=https://miss-you.github.io/zh/archives title=归档><span>归档</span></a></li><li><a href=https://miss-you.github.io/zh/tags/ title=标签><span>标签</span></a></li><li><a href=https://miss-you.github.io/zh/tools/ title=工具><span>工具</span></a></li><li><a href=https://miss-you.github.io/zh/categories/ title=分类><span>分类</span></a></li><li><a href=https://github.com/Miss-you title=GitHub><span>GitHub</span>&nbsp;
+<svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>OpenAI研究揭秘：7亿用户如何使用ChatGPT</h2></header><div class=entry-content><p>OpenAI研究揭秘：7亿用户如何使用ChatGPT 2025 年 9 月 15 日，美国国家经济研究局（NBER）发布了一份题为《人们如何使用 ChatGPT》的工作论文。这项研究由 OpenAI 的经济研究团队与哈佛大学经济学家 David Deming 联合完成。通过对 150 万次对话进行隐私保护下的大规模分析，该研究首次全面揭示了全球 7 亿用户是如何使用 ChatGPT 的。
+论文要点 主要观点 ChatGPT 的增长是前所未有的：自 2022 年 11 月发布以来，ChatGPT 经历了史无前例的全球性快速增长。到 2025 年 7 月，其周活跃用户（WAU）已超过 7 亿，约占全球成年人口的 10%。用户每日发送的消息量超过 25 亿条。
+使用场景以非工作为主，且增长更快：尽管工作相关的使用在稳定增长，但与工作无关的个人用途增长速度更快。非工作用途的消息占比从 2024 年 6 月的 53%增长到了 2025 年 6 月的 73%。
+核心功能是决策支持和内容生成：用户主要将 ChatGPT 用于三大目的：“实用指导”、“信息查询"和"写作”，这三者合计占所有对话的近 80%（具体为 77%）。尤其在工作场景中，“写作"是最核心的用途，占所有工作相关消息的 40%（截至 2025 年 6 月）。 用户意图从"执行"转向"提问”：用户的使用模式正在变化。寻求信息、建议以辅助决策的"提问"类互动（占比 49%），其增长速度已超过了让 AI 直接完成任务的"执行"类互动（占比 40%）。同时，用户对"提问"类互动的满意度更高。
+用户群体日益多元化：早期的用户以男性为主（约占 80%），但到 2025 年 6 月，拥有典型女性名字的活跃用户比例已略微超过男性，性别差距基本消除。用户群体呈现年轻化趋势，18-25 岁的用户发送了约 46%的消息。此外，在低收入和中等收入国家的增长尤为迅速。
+...</p></div><footer class=entry-footer><span title='2025-09-18 00:53:37 +0800 +0800'>九月 18, 2025</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;2084 字&nbsp;·&nbsp;Miss-you</footer><a class=entry-link aria-label="post link to OpenAI研究揭秘：7亿用户如何使用ChatGPT" href=https://miss-you.github.io/zh/posts/20250918-openai-how-people-use-chatgpt/></a></article><article class=post-entry><figure class=entry-cover><img loading=lazy src=https://raw.githubusercontent.com/Miss-you/img/master/painting-tutorials/021757768438838215a9313f45ebd1c7cc8e15534cbabccad8e59_0.jpeg alt=仓鼠轮中的现代人></figure><header class=entry-header><h2 class=entry-hint-parent>我那套混乱的排序算法：从忙碌焦虑到注意力投资</h2></header><div class=entry-content><p>我那套混乱的排序算法 我忙碌却焦虑的根源，是内心那套将“紧急性”等同于“重要性”，将“新奇感”等同于“价值”的排序算法。
+我最近发现一个现象：我的日程表越满，一种深层的焦虑感就越强。无论是在工作日还是在业余时间，我似乎总在忙碌，却感觉在原地踏步。
+今天，我意识到，问题的根源并不在于时间管理技巧，而在于我内心深处那套混乱不堪的排序算法。
+一个算法，两种 Bug 在工作中，这个算法的 bug 表现为：将“紧急性”等同于“重要性”。
+一个临时的会议、一封需要马上回复的邮件，它们就像操作系统里的最高优先级中断，不断抢占我的 CPU 时间。我疲于应对这些信号，却忘了真正驱动长期价值的，是那些需要深度思考、不会大声嚷嚷的“重要不紧急”的任务。我以为在解决问题，其实只是在响应请求。
+到了业余时间，这个 bug 换了一种形式：将“新奇感”等同于“价值”。
+一个有趣的新工具、一个听起来很棒的副业点子，都轻易地俘获了我的注意力。我像一个收藏家，热衷于收集各种“开始”，却很少有项目能走到“完成”。每个点子在刚萌芽时都很有吸引力，但它们和工作中的“紧急”事务一样，缺乏一个统一的、指向长期目标的衡量标准。它们只是看起来有趣，而非真正重要。
+这两种表现，本质上是同一个错误：我的时间和精力，被动地分配给了外部的、即时的刺激，而不是由内在的、长期的目标来主动调度。
+重写算法：重要性优先 想清楚这点后，解决方案就变得异常清晰了。我需要为我的工作和生活，重新编写一套决策系统。它的核心原则只有一个：重要性永远优先。
+工作端补-丁：防御性日程 划定核心时区：每天必须有 1-2 小时不容侵犯，专门留给那些“重要不紧急”的任务。这段时间，邮件通知关闭，即时通讯静音。这是为未来投资，而不是为今天救火。 建立批处理机制：对于那些“紧急不重要”的杂事，把它们圈养起来，每天在固定的时间段集中处理。就像处理垃圾邮件一样，而不是让它们每隔十分钟就弹出来一次。 业余端补-丁：战略性专注 面对无数个“想做”的念头，我会用三个筛子来过滤：
+它能否构筑我的核心壁垒？ 这件事是让我变得更无可取代，还是只是另一个无关痛痒的爱好？ 它能否被杠杆放大？ 我投入的时间，能否利用媒体（写作、视频）、代码或资本，产生超越线性时间的回报？ 如果答案是否，能否自动化或放弃？ 对于那些通不过筛选的想法，果断放弃。精力是最稀缺的资源，不能慷慨地浪费在低回报的尝试上。 结语：做注意力的价值投资者 说到底，这不仅仅是关于时间管理，而是关于“注意力”的投资策略。过去，我像一个没有明确目标的散户，被市场上的各种噪音牵着鼻子走。从现在开始，我希望成为一个价值投资者，把每一份宝贵的注意力，都投给我确信在未来能产生最高复利的事情上。
+图片Prompt：一个人在仓鼠轮里奋力奔跑，但这个轮子不是由铁丝构成的，而是由一圈圈发光的App图标（邮件、微信、Slack、日历提醒、社交媒体通知）组成。他跑得越快，这些图标闪烁得越频繁。而在轮子正前方不远处，有一扇敞开的门，门外是宁静的风景（代表真正的目标或深度工作），但他因为要维持轮子的转动，永远也无法踏出轮子到达那扇门。</p></div><footer class=entry-footer><span title='2025-09-13 21:06:22 +0800 +0800'>九月 13, 2025</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;1502 字&nbsp;·&nbsp;Miss-you</footer><a class=entry-link aria-label="post link to 我那套混乱的排序算法：从忙碌焦虑到注意力投资" href=https://miss-you.github.io/zh/posts/20250913-energy-management/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>从副驾驶到架构师：我的AI编程协作方法论</h2></header><div class=entry-content><p>从副驾驶到架构师：我的AI编程协作方法论 在过去几年里，我更换AI编程工具的频率，几乎赶上了前端框架的迭代速度。
+一开始，我像许多人一样，让GPT帮我写一个孤立的函数，感觉很神奇。后来，GitHub Copilot成了我的标配，它总能猜到我接下来要写的几行代码，尤其是在写那些重复的样板文件时。再之后，Cursor出现了，它将对话和编码更紧密地集成在编辑器里，我开始尝试让它帮我完成更复杂的任务。
+我一度认为，找到那个“最强”的工具，就能一劳永逸。
+然而，真正的改变，发生在我停止寻找“更好”的工具，转而开始思考如何“更好”地与它协作的那一刻。契机很偶然，只是因为Cursor的定价策略调整，我切换到了Claude Code。但我发现，尽管工具换了，我遇到的核心挑战没变，而我之前摸索出的有效工作模式，依然有效。
+这让我意识到一个更根本性的问题：我们中的许多人，包括过去的我，都可能用错了力气。我们痴迷于比较不同AI的编码能力，就像在争论锤子A和锤子B哪个敲钉子更快，却忽略了我们真正要做的，是建造一座房子。
+关键不在于单次挥锤的力量，而在于你是否有一张清晰的蓝图和一套高效的施工流程。
+这篇文章的目的，就是分享我提炼出的这套“施工流程”——一套通用的、结构化的AI编程协作方法论。它无关乎你用的是Claude Code、Cursor，还是未来任何可能出现的新工具。它的核心是改变你与AI的协作模式：从一个偶尔寻求帮助的“使用者”，转变为一个能系统性地引导AI、共同交付高质量工作的“架构师”。
+让我们从一个几乎所有开发者都会遇到的场景开始：接手一个陌生的代码库。
+第一幕：AI，迷宫中的导航员 任何一个有经验的开发者都熟悉那种感觉：你被空降到一个陌生的代码库，像被扔进了一座没有地图的迷宫。文档要么不存在，要么早已过时。你只能靠着零星的注释和直觉，在成千上万行代码中摸索，试图在脑中重建一个脆弱的模型。这个过程不仅痛苦，而且极其低效，它消耗的是我们最宝贵的资源：认知带宽。
+过去，这是无法避免的“功课”。但现在，我认为这是一种时间的浪费。
+在与AI协作的初期，我发现它的第一个、也是最被低估的能力，不是写代码，而是读代码。与其把它看成一个初级程序员，不如把它看成一个顶级的代码分析师，一个能帮你快速绘制出迷宫地图的导航员。
+让我用一个例子来说明。最近，我需要理解一个名为eino的Go语言AI框架中的ReAct机制。这是一个架构复杂的项目，如果按照传统方式，我预估需要一到两天的时间，才能理清它的核心脉络。
+这一次，我没有直接一头扎进代码里。我做的第一件事，是为我的AI导航员写一份清晰的"任务简报"。我发现，一个结构化的指令远比一句模糊的"帮我看看这个项目"要有效得多。
+角色 (Role): 你是谁？我告诉它：“你是一位精通Go和AI Agent的资深软件架构师。” 这为我们的对话设定了专业的基调和视角。 任务 (Task): 你要做什么？我明确指出：“你的任务是分析ReAct Agent的核心实现逻辑，并生成一份技术梳理文档。” 这定义了成功的标准。 背景 (Context): 你为什么要做这件事？我补充道：“这份文档将作为内部知识库的核心内容，帮助团队快速上手。” 这让AI理解了最终的价值。 约束 (Constraints): 你要如何交付？我给出了具体的格式要求：“文档必须包含流程梳理、接口文档和Mermaid流程图三个部分。” 这确保了输出结果是我想要的，而不是一堆无用的闲聊。 📚 借鉴总结：四要素框架是基于Google Prompt工程最佳实践等资料，结合个人理解总结提炼而成：
+我把包含这四个要素的Prompt和项目代码一起交给了AI。结果是惊人的。
+不到一个小时，我得到了一份完整的分析报告。它不仅精准地定位了核心入口函数（NewAgent()）、剖析了核心循环的每一步（推理、工具调用、观察、再推理），还为我生成了一张清晰的Mermaid流程图，将整个复杂的调用链路可视化。
+一天的工作，一小时完成。这已经不是量级的提升，而是工作范式的改变。
+这背后是什么原理？我认为关键在于两点。第一，AI拥有近乎无限的“工作记忆”，它可以同时扫描和关联成百上千个文件，在我们的大脑还在费力地跟踪两三个函数跳转时，它已经构建起了完整的调用图。第二，它强大的模式识别能力，使其能迅速识别出代码中隐藏的设计模式和架构意图，就像一个经验丰富的建筑师能从几根柱子的布局看出整栋建筑的风格。
+这种导航能力，一旦掌握，可以延伸到许多场景：用它审查代码中潜在的风险，用它快速熟悉一个开源项目并参与贡献，或者用它来评估一个新技术框架的可行性。
+至此，我们解决了“读”的问题。AI为我们绘制了地图，指明了方向。但真正的旅程才刚刚开始。接下来，我们需要在这张地图上建造新的东西——也就是“写”代码。
+而这，恰恰是最多人掉进陷阱的地方。它引出了我们的第二个话题：如何避免随性而至的“感觉式编程”，并与AI建立一个结构化的协作流程。
+第二幕：告别感觉，拥抱结构 当我们拥有了一张由AI绘制的清晰地图后，真正的建造工作开始了。也正是在这里，我们最容易走上一条歧路。
+这条歧路，大家称之为“感觉式编程”（Vibe Coding）。它的诱惑力极大，因为它看起来就像是通往效率的捷径。你只需要向AI许愿：“帮我写个登录功能”，然后复制代码，粘贴，运行。如果出错了，就再许一个愿：“修复这个bug”。
+这个过程，就像是雇佣了一个极其聪明但毫无经验的实习生，然后你蒙上眼睛，让他随心所欲地盖房子。你得到的是一连串的忙乱、看似进展神速的假象，以及最终一个摇摇欲坠、没人能维护的烂摊子。更糟糕的是，在这个过程中，你把最重要的思考环节外包了出去，自己的能力没有丝毫长进。
+我曾掉进过这个陷阱。一次又一次的失败让我明白，问题不在于AI的能力，而在于我的协作方式。我不是在引导它，而是在放任它。
+于是，我开始寻找一种更有序、更可靠的方法。
+这套流程的本质，是将软件开发的经典工程原则，应用到与AI的协作中。你不再是一个简单的"使用者"，而是一个项目的"总建筑师"。
+第一阶段：勘探 (Explore) 在动工之前，建筑师必须勘探地形。同样，在写任何代码之前，我和AI必须就问题和现有环境达成共识。我不会直接下令，而是会提出要求，比如：“阅读这些文件，理解当前用户认证的逻辑，但先不要写任何代码。”
+这个阶段的目标，是在我和AI之间建立一个共享的、准确的上下文。这是后续所有工作的基础。
+第二阶段：规划 (Plan) 这是整个流程中最关键的一步，也是最能体现开发者价值的一步。当地形勘探清楚后，我们需要一张蓝图。
+我会要求AI提出一个详细的实现计划，并鼓励它思考不同方案的优劣。有时，我甚至会把同一个问题抛给不同的AI模型，像是在听取多个技术顾问的建议。最终，我会选择并敲定一个最优方案，让AI把它整理成一份清晰的、步骤化的任务列表。
+一个有效的技巧是，让这份计划以技术文档或GitHub Issue的格式输出。它就像一个检查点，如果后续的“建造”阶段偏离了轨道，我们随时可以回到这份蓝图，重新校准方向。
+第三阶段：建造 (Code) 有了蓝图，建造工作就变得有条不紊。这里的核心原则是：小批量、可验证。
+🌟 个人改进：在基础的"小批量、可验证"原则上，我进一步增加了"自动化"和"并行化"两个维度——拆分任务后，可以启动多个AI实例并发处理独立模块，大幅提升效率；部分重复度高的任务，比如Codereview则可以集成到CI中自动化review，开发者则只需要介入AI提炼出的风险点代码。
+...</p></div><footer class=entry-footer><span title='2025-08-30 15:30:00 +0800 +0800'>八月 30, 2025</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;8953 字&nbsp;·&nbsp;Miss-you</footer><a class=entry-link aria-label="post link to 从副驾驶到架构师：我的AI编程协作方法论" href=https://miss-you.github.io/zh/posts/20250830-claude-code-workshop/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>拆解 ChatGPT“学习模式”Prompt：它为什么如此神奇？</h2></header><div class=entry-content><p>用了几天ChatGPT学习模式后我被震到了。拿到系统提示词，发现里面设计相当有门道——它把认知科学理论变成了可执行规则。本文完整拆解官方Prompt，分析背后的学习科学原理，并动手重构自己的版本。</p></div><footer class=entry-footer><span title='2025-08-05 10:00:00 +0800 +0800'>八月 5, 2025</span>&nbsp;·&nbsp;5 分钟&nbsp;·&nbsp;7209 字&nbsp;·&nbsp;lihui</footer><a class=entry-link aria-label="post link to 拆解 ChatGPT“学习模式”Prompt：它为什么如此神奇？" href=https://miss-you.github.io/zh/posts/20250805-study-mode-prompt/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>王者</h2></header><div class=entry-content><p>每两个月，我都要在《王者荣耀》里打够一定局数，才能保住那个王者印记。
+这个印记没有任何用处。它不能换钱，不能当简历，朋友见面时也不会说"哇你王者好厉害"。但我还是要去保它。
+昨天我突然意识到一件事：这就是陷阱的本质。
+大多数人以为游戏公司想要的是你的钱。实际上，他们要的是你的时间。钱只是副产品。
+两种游戏 虽然都叫游戏，但《王者荣耀》和《博德之门3》根本就是两种不同的东西。
+《博德之门3》是产品。你买了它，玩完了，故事结束。就像一本书或一部电影。
+《王者荣耀》是服务。它没有结束。永远有下一个赛季，下一个活动，下一个要保住的东西。
+大多数人没有意识到这个区别。他们以为"游戏就是游戏"。但这就像把餐厅和毒品混为一谈，因为它们都能让你获得快感。
+免费的陷阱 免费游戏可能是21世纪最大的商业骗局。
+大多数人以为免费就是不花钱。实际上，你在付一种更昂贵的货币：时间。
+假设你月薪8000，每天玩2小时王者。一个月60小时，相当于半个月工资。问题是，你得到了什么？一堆数字，一些虚拟道具，几个段位标识。
+这些东西在现实世界里值多少钱？对于大部分来说，基本为零。
+更糟糕的是机会成本。这60小时，你本可以学一门技能，可以读书，可以锻炼，可以和朋友聊天。任何一样都比在游戏里获得的"成就"更有价值。
+但大多数人算不清这笔账。因为时间看起来是免费的。
+注意力经济 这不仅仅是游戏的问题。
+短视频、社交媒体、爽文小说、短剧——它们都在做同一件事：收割注意力。
+它们用的是同一套方法：
+即时反馈 无限滚动 算法推荐 社交压力 王者荣耀的"再来一局"，抖音的"下滑看更精彩"，爽文的"下一章要装逼了"——这些都是同一个按钮。
+大多数人以为这是娱乐。实际上，这是一场争夺人类注意力的战争。而你是战场。
+真正的成本 我开始用一个简单的测试来判断任何娱乐活动：
+如果这个游戏/视频/内容收费每小时20元，我还会用吗？
+大多数时候答案是否定的。这说明什么？说明我其实并不真正喜欢它。我只是被它的心理触发器操控了。
+当我意识到这一点后，我的行为发生了变化。我卸载了一些App，取消了一些订阅。我开始把刷手机的时间，换成10分钟的冥想或20分钟的阅读。我开始为时间定价，像一个吝啬的商人一样，盘算着每一笔’时间支出’是否值得。我发现，我并没有失去什么，反而找回了生活的掌控感。
+品味的腐蚀 对于想做游戏的人来说，这还有另一个危险：品味的腐蚀。
+如果你天天玩设计粗糙但成瘾性强的游戏，你会开始相信"让人上瘾就是好设计"。
+这就像一个想当厨师的人天天吃垃圾食品。你的味觉会退化。你会忘记什么叫好。
+最好的游戏设计师都有一个共同点：他们知道什么是真正的好游戏。不是最赚钱的，不是最上瘾的，而是最值得玩的。
+反击 意识到问题是第一步。第二步是行动。
+对于学生来说，物理隔离最有效。把游戏设备放远一点。设置时间限制。主动寻求帮助。
+对于成年人来说，关键是重新定义"免费"。没有什么是免费的。每一分钟都有价格。
+对于父母来说，不要禁止，要引导。让孩子理解设计的逻辑，从玩家变成观察者。
+未来 我预测，未来会出现两种人。
+一种人的注意力完全被算法控制。他们以为自己在选择，实际上是在被选择。他们消费内容，但不创造价值。
+另一种人会保护自己的注意力，像保护金钱一样。他们知道什么值得投入时间，什么不值得。他们是创造者。
+这两种人之间的差距会越来越大。
+真正的问题 但这还不是最重要的问题。
+最重要的问题是：当一整代人把最好的年华献给虚拟世界时，现实世界会发生什么？
+当年轻人花更多时间在游戏里"成长"，而不是在现实中成长时，会发生什么？
+当人们习惯了即时满足，失去了延迟满足的能力时，会发生什么？
+我不知道答案。但我知道这是人类历史上第一次面临这样的实验。
+而每个沉迷于手机的人，都是这场实验的小白鼠。
+问题是：你想当小白鼠，还是想当实验员？</p></div><footer class=entry-footer><span title='2025-07-27 00:17:01 +0800 +0800'>七月 27, 2025</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;1567 字&nbsp;·&nbsp;Miss-you</footer><a class=entry-link aria-label="post link to 王者" href=https://miss-you.github.io/zh/posts/20250727-game-art-game-pua/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>30分钟解决Claude封号问题：程序员的终极自救指南</h2></header><div class=entry-content><p>“又被封号了？”
+如果你因为使用不稳定的公共代理（机场/VPN）而频繁遭遇 Claude 封号、网络中断的困扰，那么这份指南将彻底解决你的问题。我们将一步步搭建一套专属于你的、稳定且干净的网络环境。
+【你是否需要这份指南？快速诊断】 在开始之前，请先回答以下几个问题：
+[ ] 我的 Claude 账号被封过，或者朋友的账号被封过。 [ ] Claude Code/Gemini CLI 非常好用，很想用，又怕被封号 [ ] 试过多个代理客户端，被规则配置搞晕了 [ ] 用公共机场/VPN，总是不稳定或突然失效 如果你勾选了任何一项，那么请继续阅读。这套方案就是为你量身定制的。
+💰 预期成本 本方案需要购买一台云服务器（VPS）。 每月成本约 ￥30-60 元，大致相当于一个王者荣耀的普通皮肤，或两张抽卡游戏的月卡。这是一笔为稳定生产力工具支付的、高性价比的投资。
+本指南分为两部分：
+第一部分【快速上手操作手册】：如果你想立刻解决问题，请直接跟随这部分的三个步骤操作。 第二部分【原理解析与进阶】：如果你想了解“为什么这么做”，可以阅读这部分。 第一部分：快速上手操作手册 (三步走) 目标： 通过以下三步，搭建一套稳定、私人的网络环境，从此告别封号烦恼。
+▶︎ 第一步：在你的电脑上安装“指挥官” (本地代理客户端) 这个工具负责智能分流网络请求。
+下载并安装 Clash 客户端。 Windows 用户：搜索 Clash for Windows 或 Clash Verge。 macOS 用户：搜索 ClashX Pro 或 Clash Verge。 为什么选 Clash？ 说实话，我试过 Shadowsocks 客户端（规则太难配）、最后选了 Clash，因为规则配置直观，一看就懂。 目的：先把它装好，我们稍后会来配置它。 ▶︎ 第二步：搭建你的专属“高速通道” (自建 VPS) 这是整个流程的核心，目的是获得一个干净、固定的 IP 地址。
+...</p></div><footer class=entry-footer><span title='2025-07-25 15:15:25 +0800 +0800'>七月 25, 2025</span>&nbsp;·&nbsp;3 分钟&nbsp;·&nbsp;4445 字&nbsp;·&nbsp;Miss-you</footer><a class=entry-link aria-label="post link to 30分钟解决Claude封号问题：程序员的终极自救指南" href=https://miss-you.github.io/zh/posts/20250715-how-to-pick-and-build-the-vps-svc/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>与 AI 共事，或，思考的放大器</h2></header><div class=entry-content><p>最近，我需要为一个画画教程写一段推荐语。这件小事让我面对一个根本问题：好的推荐必须诚实，它需要同时呈现优点和局限。任何只剩吹捧的推荐，都是一种欺骗。
+大多数人遇到这种情况，可能会直接对 AI 说：“写一段真诚的推荐文案。”
+这是一个错误。
+你很可能会得到一段"看起来真诚"的文字，充满了恰到好处的赞美和无伤大雅的缺点。这种产出是平庸的垃圾，因为它从一开始就误解了 AI 的本质。
+我们习惯于将 AI 视为一个聪明的执行者，一个奴隶。我们沿用与计算机交互了几十年的"命令-响应"模式。但这套模式在与真正的智能体协作时，效率最低。
+我用了另一种方法，分为两步。
+第一，同步上下文。
+我没有让 AI 直接动笔。我先让它搜集关于这本书的一切客观事实：优点、缺点、内容、价格、作者背景，甚至网上的负面评价。我把它当成一个研究助理，不是作者。
+这一步的目的，不是为了让它"了解情况"，而是为了和它锚定在同一个信息基座上。在任何有效的讨论开始前，参与者必须共享上下文。你不会让一个对项目一无所知的人直接提建议，你会先把项目文档发给他。
+对 AI 也应如此。
+第二，外部化思考。
+有了共享的上下文后，我把我自己的思考——我的分析表格、目标读者、期望的语气——全部给了 AI。
+这表面上是提供了一个详尽的指令，但本质并非如此。它的本质是将我自己的思考过程彻底外部化。为了让 AI 理解我的意图，我被迫将自己脑中模糊的想法和零散的判断，预先整理成清晰、有逻辑的语言。
+在这个过程中，最有价值的，不是 AI 最终写出了什么，而是为了让 AI 理解我，我被迫先彻底理解了我自己。
+AI 随后给出的草稿质量很高，这毫不意外。一个掌握了全部信息、清晰理解了目标、并看过你完整思路的助理，当然能写出不错的初稿。我挑选、修改，得到了满意的成品。
+这件事揭示了一个更深层的规律。
+AI 的真正价值，或许不在于它能独立思考，而在于它能放大和加速我们的思考。它是一个完美的"回音壁"（Sounding Board）。你向它投掷一个粗糙的想法，它会以更结构化的形式反射回来。而为了得到更精准的回响，你被迫把投掷出去的想法本身打磨得更清晰、更有力。这是一个正向的思考循环。
+所以，我们正在进入一个新时代：思考的质量变得前所未有的重要。
+过去，许多工作考验的是执行效率。未来，当你拥有一个能无限执行的 AI 助理时，工作的优劣，将几乎完全取决于你提出问题、定义问题和解构问题的能力。你思考的深度，就是你能力的上限。
+从这个角度看，“提示词工程”（Prompt Engineering）这个词本身就具有极强的误导性。它暗示着存在某种可以操控 AI 的神秘咒语。事实并非如此。唯一有效的咒语，就是清晰的思考本身。
+因此，别再问：“我该如何向 AI 下达指令？”
+你应该问：“我该如何更好地思考，才能让 AI 成为我思考的延伸？”</p></div><footer class=entry-footer><span title='2025-07-19 17:24:45 +0800 +0800'>七月 19, 2025</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;1172 字&nbsp;·&nbsp;Miss-you</footer><a class=entry-link aria-label="post link to 与 AI 共事，或，思考的放大器" href=https://miss-you.github.io/zh/posts/20250719--ai-/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>解决Cursor AI编程助手「地区不可用」错误：完整的VPN代理配置指南</h2></header><div class=entry-content><p>解决Cursor AI编程助手"地区不可用"错误：完整的VPN代理配置指南 文章摘要：Cursor AI编程助手显示"Model not available"或"地区不可用"？本文提供详细的代理配置解决方案，包括Clash、V2Ray等工具的具体设置步骤，让你重新使用AI编程功能。
+解决方案总览 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 flowchart TD A[Cursor连接问题] --> B{问题诊断} B --> C[IP地址被封锁] B --> D[应用直连问题] C --> E[配置代理路由规则] D --> F[修改Cursor设置] E --> G[添加域名规则到Clash/V2Ray] F --> H[配置settings.json] G --> I[验证配置] H --> I I --> J{测试连接} J -->|成功| K[✅ 正常使用AI功能] J -->|失败| L[故障排查] L --> M[检查代理软件状态] L --> N[验证端口号] L --> O[确认三行配置] M --> I N --> I O --> I style A fill:#ffcccc style K fill:#ccffcc style L fill:#ffffcc 1. 问题背景 常见的Cursor网络错误现象 如果你在使用Cursor AI编程助手时看到以下错误提示：
+...</p></div><footer class=entry-footer><span title='2025-07-17 12:16:22 +0800 +0800'>七月 17, 2025</span>&nbsp;·&nbsp;6 分钟&nbsp;·&nbsp;9142 字&nbsp;·&nbsp;Miss-you</footer><a class=entry-link aria-label="post link to 解决Cursor AI编程助手「地区不可用」错误：完整的VPN代理配置指南" href=https://miss-you.github.io/zh/posts/20250717-fix-cursor-unavailable-region/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://miss-you.github.io/zh/>«&nbsp;上一页&nbsp;</a></nav></footer></main><footer class=footer><span>&copy; 2026 <a href=https://miss-you.github.io/zh/>Yousa Driven Development | YDD</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script></body></html>
