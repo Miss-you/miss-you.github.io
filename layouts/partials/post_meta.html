@@ -9,7 +9,16 @@
 {{- end }}
 
 {{- if (.Param "ShowWordCount") -}}
-{{- $scratch.Add "meta" (slice (i18n "words" .CountWords | default (printf "%d words" .CountWords))) }}
+{{- $lang := .Lang | default "en" -}}
+{{- if eq $lang "zh" -}}
+  {{- $content := .RawContent -}}
+  {{- $content = replaceRE "(?s)^---.*?---" "" $content -}}
+  {{- $content = replaceRE "\\s+" "" $content -}}
+  {{- $runeCount := strings.RuneCount $content -}}
+  {{- $scratch.Add "meta" (slice (printf "%d 字" $runeCount)) }}
+{{- else -}}
+  {{- $scratch.Add "meta" (slice (printf "%d words" .WordCount)) }}
+{{- end -}}
 {{- end }}
 
 {{- if not (.Param "hideAuthor") -}}
