@@ -12,6 +12,19 @@
 - `hugo --minify` — production build into `public/`; matches the CI workflow output.
 - `./deploy.sh "msg"` — optional helper that runs `hugo --minify`, stages content/config/theme updates, commits, and pushes `main`.
 
+### Pre-deployment Checks
+Before pushing changes, run the following checks to ensure correct configuration:
+
+```bash
+# Check all posts have correct lang parameter and word count estimates
+python3 check-posts.py
+
+# Verify Hugo can build and display correct word counts (requires hugo installed)
+./check-wordcount.sh
+```
+
+These scripts help catch common issues like missing `lang` parameters which cause incorrect word count display (e.g., showing "131 words" for a 6000-character Chinese article).
+
 ## Coding Style & Naming Conventions
 - Follow Hugo/PaperMod conventions: partials use Go templates with two-space indentation; SCSS/CSS files prefer 2-space indents and kebab-case class names (e.g., `.ydd-hero`).
 - Keep front matter keys lowercase kebab-case (`title`, `date`, `tags`), and name post directories `YYYYMMDD-slug/` so permalinks remain stable.

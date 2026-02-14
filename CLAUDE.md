@@ -65,6 +65,30 @@ hugo --minify
 ./deploy.sh "commit message"
 ```
 
+## 发布前检查
+
+在提交新文章前，务必运行以下检查：
+
+```bash
+# 1. 检查所有文章的 lang 参数是否正确
+python3 check-posts.py
+
+# 2. 验证 Hugo 实际渲染的字数统计（需要安装 hugo）
+./check-wordcount.sh
+```
+
+**`check-posts.py`** 会输出：
+- 是否有文章缺少 `lang` 参数
+- 预估的中文字符数
+- 建议的字数显示格式
+
+**`check-wordcount.sh`** 会：
+- 构建 Hugo 站点
+- 提取每篇文章实际渲染的字数统计
+- 对比 `lang` 参数与显示格式是否匹配
+
+如果看到 `lang=zh` 但显示 "XXX words"，或 `lang=en` 但显示 "XXX 字"，说明模板可能有问题。
+
 ## 覆盖的文件
 
 - `layouts/partials/post_meta.html` — 覆盖主题默认，使用 `.CountWords` 优化 CJK 字数统计
