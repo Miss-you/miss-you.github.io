@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" width="1000" height="800">
+  <!-- 引入霞鹜文楷字体 -->
+  <defs>
+    <style>
+      @import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css');
+      text {
+        font-family: "LXGW WenKai", sans-serif;
+      }
+    </style>
+
+    <!-- 优化后的渐变定义 -->
+    <!-- 定制AI工具：蓝灰色系 → 橙红色 -->
+    <linearGradient id="evalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#5dade2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3498db;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="pilotGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f39c12;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e67e22;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="prodGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e74c3c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c0392b;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 通用LLM：绿色系 -->
+    <linearGradient id="evalGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#52c4a1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16a085;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="pilotGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#27ae60;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#229954;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="prodGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1e8449;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#186a3b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1000" height="800" fill="#ffffff"/>
+
+  <!-- 标题 -->
+  <text x="500" y="40" font-size="26" font-weight="bold" text-anchor="middle" fill="#2c3e50">
+    企业 AI 工具的"死亡漏斗"
+  </text>
+  <text x="500" y="68" font-size="16" text-anchor="middle" fill="#7f8c8d">
+    60%评估 → 20%试点 → 5%生产，95%在半路阵亡
+  </text>
+
+  <!-- 左侧：定制 AI 工具漏斗（连续倒梯形） -->
+  <g id="customAI">
+    <text x="250" y="110" font-size="18" font-weight="bold" text-anchor="middle" fill="#e74c3c">
+      ❌ 定制 AI 工具
+    </text>
+
+    <!-- 连续漏斗 - 第一层：评估阶段 60% -->
+    <path d="M 100 140 L 400 140 L 360 240 L 140 240 Z" fill="url(#evalGrad)" stroke="#2980b9" stroke-width="2"/>
+    <text x="250" y="175" font-size="18" font-weight="bold" text-anchor="middle" fill="#ffffff">评估阶段</text>
+    <text x="250" y="210" font-size="32" font-weight="bold" text-anchor="middle" fill="#ffffff">60%</text>
+
+    <!-- 连续漏斗 - 第二层：试点阶段 20% -->
+    <path d="M 140 240 L 360 240 L 310 360 L 190 360 Z" fill="url(#pilotGrad)" stroke="#d68910" stroke-width="2"/>
+    <text x="250" y="285" font-size="18" font-weight="bold" text-anchor="middle" fill="#ffffff">试点阶段</text>
+    <text x="250" y="320" font-size="28" font-weight="bold" text-anchor="middle" fill="#ffffff">20%</text>
+
+    <!-- 连续漏斗 - 第三层：生产部署 5% -->
+    <path d="M 190 360 L 310 360 L 285 490 L 215 490 Z" fill="url(#prodGrad)" stroke="#a93226" stroke-width="2"/>
+    <text x="250" y="405" font-size="16" font-weight="bold" text-anchor="middle" fill="#ffffff">生产部署</text>
+    <text x="250" y="435" font-size="24" font-weight="bold" text-anchor="middle" fill="#ffffff">5%</text>
+
+    <!-- 左侧流失箭头和标注 -->
+    <g id="leftArrows">
+      <!-- 箭头1：评估→试点 -->
+      <path d="M 90 190 L 80 210 L 90 230" stroke="#e74c3c" stroke-width="3" fill="none"/>
+      <text x="65" y="210" font-size="12" font-weight="bold" text-anchor="middle" fill="#e74c3c">
+        流失
+      </text>
+      <text x="65" y="225" font-size="12" font-weight="bold" text-anchor="middle" fill="#e74c3c">
+        67%
+      </text>
+
+      <!-- 箭头2：试点→生产 -->
+      <path d="M 90 300 L 80 330 L 90 360" stroke="#e74c3c" stroke-width="3" fill="none"/>
+      <text x="65" y="320" font-size="12" font-weight="bold" text-anchor="middle" fill="#e74c3c">
+        流失
+      </text>
+      <text x="65" y="335" font-size="12" font-weight="bold" text-anchor="middle" fill="#e74c3c">
+        75%
+      </text>
+
+      <!-- 箭头3：成功 -->
+      <path d="M 250 500 L 235 525 L 250 550 L 265 525 Z" fill="#27ae60"/>
+      <text x="250" y="575" font-size="13" font-weight="bold" text-anchor="middle" fill="#27ae60">
+        创造价值
+      </text>
+      <text x="250" y="595" font-size="14" font-weight="bold" text-anchor="middle" fill="#27ae60">
+        💰 百万级 ROI
+      </text>
+    </g>
+  </g>
+
+  <!-- 右侧：通用 LLM 漏斗（连续倒梯形） -->
+  <g id="genericLLM">
+    <text x="750" y="110" font-size="18" font-weight="bold" text-anchor="middle" fill="#27ae60">
+      ✓ 通用 LLM
+    </text>
+
+    <!-- 连续漏斗 - 第一层：评估 80% -->
+    <path d="M 600 140 L 900 140 L 860 240 L 640 240 Z" fill="url(#evalGreen)" stroke="#138d75" stroke-width="2"/>
+    <text x="750" y="185" font-size="18" font-weight="bold" text-anchor="middle" fill="#ffffff">评估阶段</text>
+    <text x="750" y="220" font-size="32" font-weight="bold" text-anchor="middle" fill="#ffffff">80%</text>
+
+    <!-- 连续漏斗 - 第二层：试点 50% -->
+    <path d="M 640 240 L 860 240 L 810 360 L 690 360 Z" fill="url(#pilotGreen)" stroke="#1e8449" stroke-width="2"/>
+    <text x="750" y="285" font-size="18" font-weight="bold" text-anchor="middle" fill="#ffffff">试点阶段</text>
+    <text x="750" y="320" font-size="28" font-weight="bold" text-anchor="middle" fill="#ffffff">50%</text>
+
+    <!-- 连续漏斗 - 第三层：部署 40% -->
+    <path d="M 690 360 L 810 360 L 785 490 L 715 490 Z" fill="url(#prodGreen)" stroke="#145a32" stroke-width="2"/>
+    <text x="750" y="405" font-size="16" font-weight="bold" text-anchor="middle" fill="#ffffff">生产部署</text>
+    <text x="750" y="435" font-size="24" font-weight="bold" text-anchor="middle" fill="#ffffff">40%</text>
+
+    <!-- 右侧转化箭头和标注 -->
+    <g id="rightArrows">
+      <!-- 箭头1：评估→试点 -->
+      <path d="M 910 190 L 920 210 L 910 230" stroke="#27ae60" stroke-width="3" fill="none"/>
+      <text x="935" y="210" font-size="12" font-weight="bold" text-anchor="middle" fill="#27ae60">
+        转化
+      </text>
+      <text x="935" y="225" font-size="12" font-weight="bold" text-anchor="middle" fill="#27ae60">
+        62.5%
+      </text>
+
+      <!-- 箭头2：试点→部署 -->
+      <path d="M 910 300 L 920 330 L 910 360" stroke="#27ae60" stroke-width="3" fill="none"/>
+      <text x="935" y="320" font-size="12" font-weight="bold" text-anchor="middle" fill="#27ae60">
+        转化
+      </text>
+      <text x="935" y="335" font-size="12" font-weight="bold" text-anchor="middle" fill="#27ae60">
+        80%
+      </text>
+    </g>
+
+    <!-- 总转化率标签 -->
+    <rect x="690" y="510" width="120" height="28" rx="5" fill="#27ae60"/>
+    <text x="750" y="530" font-size="13" font-weight="bold" text-anchor="middle" fill="#ffffff">
+      总转化率 50%
+    </text>
+  </g>
+
+  <!-- 中间对比分隔线 -->
+  <line x1="500" y1="140" x2="500" y2="490" stroke="#bdc3c7" stroke-width="2" stroke-dasharray="8,6"/>
+  <text x="500" y="320" font-size="14" font-weight="bold" text-anchor="middle" fill="#7f8c8d"
+        transform="rotate(-90, 500, 320)" dy="20">
+    VS
+  </text>
+
+  <!-- 底部总结 -->
+  <rect x="100" y="630" width="800" height="150" rx="10" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2"/>
+  <text x="500" y="660" font-size="20" font-weight="bold" text-anchor="middle" fill="#2c3e50">
+    关键差异
+  </text>
+
+  <!-- 左侧：定制工具说明 -->
+  <text x="300" y="690" font-size="14" font-weight="bold" text-anchor="middle" fill="#e74c3c">
+    ❌ 定制 AI 工具：60% → 5%（95%失败）
+  </text>
+  <text x="300" y="710" font-size="12" text-anchor="middle" fill="#7f8c8d">
+    内部自建的专用模型或RAG系统
+  </text>
+  <text x="300" y="730" font-size="12" text-anchor="middle" fill="#7f8c8d">
+    例：基于专有数据训练的客服机器人、
+  </text>
+  <text x="300" y="748" font-size="12" text-anchor="middle" fill="#7f8c8d">
+    定制代码生成工具、内部知识库问答系统
+  </text>
+
+  <!-- 右侧：通用工具说明 -->
+  <text x="700" y="690" font-size="14" font-weight="bold" text-anchor="middle" fill="#27ae60">
+    ✓ 通用 LLM：80% → 40%（50%转化）
+  </text>
+  <text x="700" y="710" font-size="12" text-anchor="middle" fill="#7f8c8d">
+    现成的大语言模型产品
+  </text>
+  <text x="700" y="730" font-size="12" text-anchor="middle" fill="#7f8c8d">
+    例：ChatGPT、Claude、Copilot、
+  </text>
+  <text x="700" y="748" font-size="12" text-anchor="middle" fill="#7f8c8d">
+    Notion AI、Jasper 等即开即用工具
+  </text>
+</svg>
