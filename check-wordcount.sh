@@ -36,7 +36,7 @@ fi
 # 构建站点（使用内存文件系统避免污染 public/）
 echo "🔄 构建站点..."
 rm -rf /tmp/hugo-check
-hugo --destination /tmp/hugo-check --quiet
+hugo --destination /tmp/hugo-check --buildFuture --quiet
 
 echo "✅ 构建完成"
 echo ""

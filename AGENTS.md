@@ -11,13 +11,15 @@
 
 ### Quick Start
 ```bash
-./serve.sh          # Start local dev server with drafts (recommended)
+./serve.sh          # Start local dev server with drafts and future posts (recommended)
 ```
 
 ### Manual Commands
-- `hugo server -D` — local preview with drafts; watches `content/`, `layouts/`, and assets for hot reload.
-- `hugo --minify` — production build into `public/`; matches the CI workflow output.
-- `./deploy.sh "msg"` — optional helper that runs `hugo --minify`, stages content/config/theme updates, commits, and pushes `main`.
+- `hugo server -D --buildFuture` — local preview with drafts and future-dated posts; watches `content/`, `layouts/`, and assets for hot reload.
+- `hugo --minify --buildFuture` — production build into `public/`; matches the CI workflow output.
+- `./deploy.sh "msg"` — optional helper that runs `hugo --minify --buildFuture`, stages content/config/theme updates, commits, and pushes `main`.
+
+**Note on `--buildFuture`:** Hugo by default does not build pages with future dates (date > now). Since this blog may have posts dated in the future (e.g., 2026), both local development and CI builds include `--buildFuture` to ensure all posts are rendered.
 
 ### Pre-deployment Checks
 Before pushing changes, run the following checks to ensure correct configuration:

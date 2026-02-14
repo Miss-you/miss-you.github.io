@@ -48,5 +48,5 @@ echo "📁 监视目录: content/, layouts/, assets/"
 echo "🛑 按 Ctrl+C 停止服务器"
 echo ""
 
-# 启动服务器
-hugo server -D --bind 0.0.0.0
+# 启动服务器（-D: 包含草稿, --buildFuture: 包含未来日期文章）
+hugo server -D --buildFuture --bind 0.0.0.0
