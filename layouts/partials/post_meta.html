@@ -9,16 +9,16 @@
 {{- end }}
 
 {{- if (.Param "ShowWordCount") -}}
-{{- $lang := .Lang | default "en" -}}
-{{- if eq $lang "zh" -}}
   {{- $content := .RawContent -}}
   {{- $content = replaceRE "(?s)^---.*?---" "" $content -}}
-  {{- $content = replaceRE "\\s+" "" $content -}}
-  {{- $runeCount := strings.RuneCount $content -}}
-  {{- $scratch.Add "meta" (slice (printf "%d 字" $runeCount)) }}
-{{- else -}}
-  {{- $scratch.Add "meta" (slice (printf "%d words" .WordCount)) }}
-{{- end -}}
+  {{- $contentNoSpace := replaceRE "\\s+" "" $content -}}
+  {{- $runeCount := strings.RuneCount $contentNoSpace -}}
+  {{- $asciiCount := strings.RuneCount (replaceRE "[^a-zA-Z0-9]" "" $content) -}}
+  {{- if gt $runeCount $asciiCount -}}
+    {{- $scratch.Add "meta" (slice (printf "%d 字" $runeCount)) }}
+  {{- else -}}
+    {{- $scratch.Add "meta" (slice (printf "%d words" .WordCount)) }}
+  {{- end -}}
 {{- end }}
 
 {{- if not (.Param "hideAuthor") -}}
