@@ -8,6 +8,13 @@
 - The PaperMod theme is vendored inside `themes/` via submodules; run `git submodule update --init --recursive` after cloning.
 
 ## Build, Test, and Development Commands
+
+### Quick Start
+```bash
+./serve.sh          # Start local dev server with drafts (recommended)
+```
+
+### Manual Commands
 - `hugo server -D` — local preview with drafts; watches `content/`, `layouts/`, and assets for hot reload.
 - `hugo --minify` — production build into `public/`; matches the CI workflow output.
 - `./deploy.sh "msg"` — optional helper that runs `hugo --minify`, stages content/config/theme updates, commits, and pushes `main`.
