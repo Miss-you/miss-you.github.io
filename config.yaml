@@ -1,5 +1,6 @@
 baseURL: 'https://miss-you.github.io/'
 languageCode: 'zh-cn'
+defaultContentLanguage: 'zh'
 title: 'Yousa Driven Development | YDD'
 theme: PaperMod
 
