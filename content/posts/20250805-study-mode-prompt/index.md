@@ -3,6 +3,7 @@ title: '拆解 ChatGPT“学习模式”Prompt：它为什么如此神奇？'
 date: 2025-08-05T10:00:00+08:00
 lastmod: 2025-08-05T10:00:00+08:00
 draft: false
+lang: zh
 description: "深度拆解ChatGPT学习模式的系统提示词，揭秘它如何将认知科学原理转化为可执行的AI指令，并动手重构一个属于自己的学习教练Prompt。"
 summary: "用了几天ChatGPT学习模式后我被震到了。拿到系统提示词，发现里面设计相当有门道——它把认知科学理论变成了可执行规则。本文完整拆解官方Prompt，分析背后的学习科学原理，并动手重构自己的版本。"
 author: "lihui"

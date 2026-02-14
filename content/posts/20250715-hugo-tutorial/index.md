@@ -2,6 +2,7 @@
 title: "Hugo 文章目录管理教程"
 date: 2025-07-15T19:55:00+08:00
 draft: false
+lang: en
 tags: ["hugo", "blog", "tutorial"]
 categories: ["技术"]
 description: "演示如何为每个Hugo文章创建独立目录，便于管理文章相关的图片和资源"

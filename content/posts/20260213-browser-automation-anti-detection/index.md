@@ -2,6 +2,7 @@
 title: "当浏览器自动化遇上平台风控：一次小红书发布工具的反检测实战"
 date: 2026-02-13T10:00:00+08:00
 draft: false
+lang: zh
 tags: ["浏览器自动化", "CDP", "反检测", "Patchright", "小红书", "Python"]
 categories: ["技术实战", "自动化"]
 description: "国内内容平台没有开放API，浏览器自动化是唯一出路。但平台风控会检测自动化痕迹。本文记录了一次完整的反检测实战：从 Playwright 被封到 Patchright + CDP 模式的调试全过程，踩过 7 个具体的坑，提炼出可复用的原则。"

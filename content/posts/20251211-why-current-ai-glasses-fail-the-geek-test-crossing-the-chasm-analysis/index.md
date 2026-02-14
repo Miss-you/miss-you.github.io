@@ -2,6 +2,7 @@
 title: "我，一个重度极客用户，为什么觉得这代 AI 眼镜不适合我"
 date: 2025-12-11T01:14:15+08:00
 draft: false
+lang: zh
 tags:
   - AI眼镜
   - 夸克AI眼镜

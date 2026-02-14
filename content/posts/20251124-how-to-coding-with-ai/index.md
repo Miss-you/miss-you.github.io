@@ -2,6 +2,7 @@
 title: "从「写代码」到「验代码」：AI 搭档写走 3 年，我踩出来的协作路线图"
 date: 2025-11-24T12:29:36+08:00
 draft: false
+lang: zh
 tags: []
 categories: []
 description: ""

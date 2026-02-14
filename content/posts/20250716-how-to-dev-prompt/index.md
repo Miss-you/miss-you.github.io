@@ -2,6 +2,7 @@
 title: "20250716 How to Dev Prompt"
 date: 2025-07-16T15:00:06+08:00
 draft: true
+lang: en
 tags: []
 categories: []
 description: ""

@@ -2,6 +2,7 @@
 title: "王者"
 date: 2025-07-27T00:17:01+08:00
 draft: false
+lang: zh
 tags: ["游戏设计", "注意力经济", "时间管理", "Paul Graham"]
 categories: ["思考", "游戏", "个人成长"]
 description: "从一个王者印记开始的思考：游戏公司要的不是你的钱，而是你的时间"

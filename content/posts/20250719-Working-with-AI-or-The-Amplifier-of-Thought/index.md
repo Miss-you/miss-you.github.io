@@ -2,6 +2,7 @@
 title: "Working with AI, or, The Amplifier of Thought"
 date: 2025-07-19T17:40:37+08:00
 draft: false
+lang: en
 tags: ["AI", "Artificial Intelligence", "Thinking Methods", "Work Methods", "Collaboration"]
 categories: ["Thinking"]
 description: "The true value of AI isn't in its ability to think independently, but in how it amplifies and accelerates our own thinking. This article explores proper AI collaboration through a real example of writing a recommendation, and discusses the importance of thinking quality in the AI era."

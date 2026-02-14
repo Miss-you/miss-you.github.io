@@ -2,6 +2,7 @@
 title: "20250728 the Horror of Tibetan Buddhism"
 date: 2025-07-28T10:14:29+08:00
 draft: true
+lang: en
 tags: []
 categories: []
 description: ""

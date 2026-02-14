@@ -2,6 +2,7 @@
 title: "解决Cursor AI编程助手「地区不可用」错误：完整的VPN代理配置指南"
 date: 2025-07-17T12:16:22+08:00
 draft: false
+lang: zh
 tags: ["Cursor", "AI编程", "代理配置", "VPN", "翻墙", "网络问题"]
 categories: ["技术教程"]
 description: "Cursor AI编程助手显示「Model not available」或「地区不可用」？本文提供详细的代理配置解决方案，包括Clash、V2Ray等工具的具体设置步骤，让你重新使用AI编程功能。"

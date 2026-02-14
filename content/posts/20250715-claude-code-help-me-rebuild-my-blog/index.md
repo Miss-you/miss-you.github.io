@@ -2,6 +2,7 @@
 title: "20250715 Claude Code Help Me Rebuild My Blog"
 date: 2025-07-15T20:25:02+08:00
 draft: true
+lang: en
 tags: []
 categories: []
 description: ""

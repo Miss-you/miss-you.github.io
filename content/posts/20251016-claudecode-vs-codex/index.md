@@ -2,6 +2,7 @@
 title: "Claude Code 还是 Codex？贵但强 vs 便宜但稳"
 date: 2025-10-16T13:34:27+08:00
 draft: false
+lang: zh
 tags: ["AI编程工具", "Claude Code", "GPT-5 Codex", "成本对比", "开发效率"]
 categories: ["开发实践", "工具评测"]
 description: "Claude Code 每次任务花 $10，Codex 只要 $2.5——但贵4倍能换来什么？基于同一仓库的端到端实测：14维度对比、10项基准测试、真实项目成本拆解，看清每一分钱花在哪。"

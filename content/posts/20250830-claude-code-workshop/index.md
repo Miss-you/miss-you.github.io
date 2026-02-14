@@ -2,6 +2,7 @@
 title: "从副驾驶到架构师：我的AI编程协作方法论"
 date: 2025-08-30T15:30:00+08:00
 draft: false
+lang: zh
 tags: ["AI编程", "Claude Code", "编程方法论", "开发效率", "软件工程"]
 categories: ["AI工具", "开发实践"]
 description: "分享我从使用GPT到Claude Code的AI编程实践历程，以及总结出的结构化协作方法论。包括四要素Prompt框架、四阶段协作流程、四象限决策模型等个人原创和实践总结。"

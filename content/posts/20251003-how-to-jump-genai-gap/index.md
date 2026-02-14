@@ -2,6 +2,7 @@
 title: "GenAI 工具选购和决策指南"
 date: 2025-10-03T17:58:36+08:00
 draft: false
+lang: zh
 tags: ["GenAI", "AI落地", "技术决策", "Buy vs Build", "ROI分析"]
 categories: ["AI工程", "技术管理"]
 keywords: ["GenAI工具选购", "AI采购决策", "Buy vs Build", "企业AI落地", "MIT报告"]

@@ -2,6 +2,7 @@
 title: "30分钟解决Claude封号问题：程序员的终极自救指南"
 date: 2025-07-25T15:15:25+08:00
 draft: false
+lang: zh
 tags: ["Claude", "VPS", "代理", "Shadowsocks", "开发工具", "网络配置", "AI工具"]
 categories: ["技术教程", "开发工具"]
 description: "详细介绍如何通过自建VPS解决Claude封号问题，包含完整的服务器搭建、客户端配置和开发工具设置步骤，让你稳定使用Claude Code等AI开发工具"

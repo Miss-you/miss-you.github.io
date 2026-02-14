@@ -2,6 +2,7 @@
 title: "OpenAI研究揭秘：7亿用户如何使用ChatGPT"
 date: 2025-09-18T00:53:37+08:00
 draft: false
+lang: zh
 tags: ["ChatGPT", "AI应用", "用户研究", "OpenAI"]
 categories: ["AI研究"]
 description: "OpenAI最新研究论文深度解析：基于150万次对话分析，揭示全球7亿ChatGPT用户的真实使用模式和行为特征"
