@@ -396,10 +396,12 @@ Kimi CLI 从 v1.6（2026-02-03）起引入了基于 Token 的认证和访问控�
 | `--allowed-origins <origins>` | 限制允许的请求来源（CORS 白名单） |
 | `--restrict-sensitive-apis` | 限制敏感 API（文件操作、命令执行等） |
 
+一条原则：**远程访问默认最小权限**。Agent 能读写文件、跑命令、调用工具，暴露控制面等于把 Mac 的操作权交出去。`--restrict-sensitive-apis` 会禁掉文件写入、命令执行等高危 API，`--network` 场景下建议始终开启，只在明确需要时关闭。
+
 推荐的部署姿势：
 
 - **仅本机调试**：默认 `kimi web`，服务只绑定 `127.0.0.1`，不出本机
-- **局域网真机**：`kimi web --network --auth-token <你的token>`，加 Token 认证
+- **局域网真机**：`kimi web --network --auth-token <强随机token> --lan-only --restrict-sensitive-apis`
 - **不要在不可信网络暴露服务**，即使加了 Token，当前方案走的是 HTTP 明文，同网段可被嗅探
 
 详见 [Kimi CLI 变更记录](https://moonshotai.github.io/kimi-cli/zh/release-notes/changelog.html) 中 v1.6 的安全更新。
@@ -433,11 +435,15 @@ Kimi CLI 从 v1.6（2026-02-03）起引入了基于 Token 的认证和访问控�
 
 当前方案有几个值得正视的限制：
 
-**网络边界**：手机和 Mac 必须在同一局域网。离开咖啡馆的 Wi-Fi，连接就断了。如果需要远程访问，可以考虑通过 Cloudflare Tunnel 或 ngrok 把本地服务暴露到公网，但这会引入额外的延迟和安全配置。
+**网络边界**：手机和 Mac 必须在同一局域网。离开咖啡馆的 Wi-Fi，连接就断了。跨网访问有几条路：VPN 组网（Tailscale、WireGuard 等把两台设备拉到同一虚拟私网，加密且不暴露公网端口，个人自用推荐）、反向隧道（Cloudflare Tunnel、ngrok，省事但引入第三方中转）、公网部署 + 域名 + TLS（工程最完整，但你得把它当一个互联网服务来做安全）。注意 VPN + WebSocket 偶尔有兼容问题（某些组网工具会出现 WebSocket 403），真跑之前需要验收。
 
-**传输安全**：当前方案走 HTTP 明文，局域网内理论上可被同网段设备嗅探。对于个人开发场景风险可控，但如果 Agent 处理敏感代码或执行高权限操作，建议配合 `--auth-token` 使用，或在前端加一层 TLS（比如用 mkcert 生成本地证书）。
+**传输安全**：当前方案走 HTTP/WS 明文，局域网内可被同网段设备嗅探。个人开发场景风险可控，但如果 Agent 处理敏感代码或执行高权限操作，应当升级到 HTTPS/WSS。最直接的做法是在 Kimi Web 前面加一个反向代理（Caddy、nginx）做 TLS 终止，本地证书用 mkcert 生成即可。
 
-**通信模型**：Kimi Web UI 的通信是 WebSocket 全双工，不是传统的 HTTP 请求-响应。这其实是正确的选择。Agent 的输出是持续的流式推送（每秒几十个 `ContentPart` 事件），HTTP 轮询在这个场景下延迟高、开销大。WebSocket 保持一条长连接，服务端可以随时推送，客户端也能随时发送取消或审批，双向实时。如果未来需要处理离线场景（比如手机断网后重连），可以在 WebSocket 之上加消息队列和断点续传，形成 WebSocket（实时）+ HTTP（补偿）的混合架构。
+**连接稳定性**：WebSocket 长连接在移动端有天然脆弱性。手机切后台时 iOS 会挂起网络，回前台后连接已断。生产可用需要至少两件事：断线重连策略（指数退避 + 恢复到正确 session），以及回前台时的状态检测和自动恢复。如果需要离线可读，可以在本地缓存历史消息，形成 WebSocket（实时）+ HTTP（补偿）+ 本地缓存（离线）的三层架构。
+
+**通信模型**：Kimi Web UI 的通信是 WebSocket 全双工，不是传统的 HTTP 请求-响应。这其实是正确的选择。Agent 的输出是持续的流式推送（每秒几十个 `ContentPart` 事件），HTTP 轮询在这个场景下延迟高、开销大。WebSocket 保持一条长连接，服务端可以随时推送，客户端也能随时发送取消或审批，双向实时。
+
+**服务端运维**：Demo 阶段手动跑 `kimi web` 没问题，长期使用需要考虑：开机自启（launchd plist 或 systemd service）、日志（至少记录访问和认证失败）、Token 轮换策略（定期更换 `--auth-token`）。
 
 **可复用的工程模式**：「本地 Web 服务 + WebView」适用于任何提供 Web 界面的 CLI 工具。后端有 HTTP 接口就能跨平台复用，代价是性能和体验不如原生。对于 AI Agent 这种交互密度不高的场景，WebView 够用。当交互复杂度上升（比如需要原生手势、离线缓存、推送通知），就需要考虑原生 UI + Wire 协议直连的方案了。
 
@@ -451,7 +457,7 @@ Kimi CLI 从 v1.6（2026-02-03）起引入了基于 Token 的认证和访问控�
 
 **30 分钟部署清单**：
 
-1. 启动服务：`kimi web --network --auth-token mytoken`
+1. 启动服务：`kimi web --network --auth-token mytoken --lan-only --restrict-sensitive-apis`
 2. 获取 Mac 局域网 IP：`ipconfig getifaddr en0`
 3. 用 Xcode 新建 iOS 项目，将本文第 4、5 节的代码添加进去
 4. 在 `ContentView.swift` 中修改 `serverAddress` 为 `http://<Mac-IP>:5494`
@@ -462,7 +468,7 @@ Kimi CLI 从 v1.6（2026-02-03）起引入了基于 Token 的认证和访问控�
 | 场景 | 命令 |
 |------|------|
 | 默认启动（仅本机） | `kimi web` |
-| 局域网 + Token 认证 | `kimi web --network --auth-token <token>` |
+| 局域网 + 认证 + 最小权限 | `kimi web --network --auth-token <token> --lan-only --restrict-sensitive-apis` |
 | 指定端口 | `kimi web --port 8080` |
 | 获取 Mac IP | `ipconfig getifaddr en0` |
 | 查找 Kimi Web 端口 | `lsof -i -P \| grep python \| grep LISTEN` |
