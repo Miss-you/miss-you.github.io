@@ -5,45 +5,52 @@ draft: false
 lang: zh
 tags: ["AI", "WebSocket", "架构", "CLI", "Kimi", "Happy", "架构设计"]
 categories: ["技术", "架构"]
-description: "从最简方案开始，每遇到一个绕不过去的约束，就加一个组件。四层方案逐层淘汰，最终发现四组件是五个硬约束逐层叠加的必然结果。"
+description: "从最简方案开始，每遇到一个绕不过去的约束就加一个组件。四层方案逐层淘汰，最终发现四组件是五个硬约束逐层叠加的必然结果。"
 ---
 
 # 从一个 WebSocket 到四个组件：多端操控 AI Coding CLI 的架构演化
 
-手机远程操控电脑上的 AI Coding CLI，直觉上只需要一个 WebSocket 连接。CLI 在电脑上跑着，手机连上去，发消息，收输出，结束。
+手机远程操控电脑上的 AI Coding CLI，直觉上只需一个 WebSocket。CLI 在电脑上跑着，手机连上去，发消息，收输出，结束。
 
-Kimi CLI 的 Web UI 做到了这一步。执行 `kimi web`，本地起一个 HTTP + WebSocket 服务，浏览器打开就能用。底层的 Wire 协议（JSON-RPC 2.0）支持多个 WebSocket 客户端同时接入，消息通过 `BroadcastQueue` 广播给所有订阅者。手机套个 WebView 就行了？
+Kimi CLI 的 Web UI 做到了这一步。执行 `kimi web`，本地起一个 HTTP + WebSocket 服务，浏览器打开就能用。底层 Wire 协议（JSON-RPC 2.0）支持多个 WebSocket 客户端同时接入，消息通过 `BroadcastQueue` 广播给所有订阅者。手机套个 WebView 就行了？
 
-但 Happy 项目把同样的需求拆成了四个独立组件：CLI、Daemon、Server、App。四个进程，三种 Socket 连接类型，一套 RPC 转发机制，外加端到端加密（E2EE, End-to-End Encryption）。
+但 Happy 项目把同样的需求拆成了四个独立组件：CLI、Daemon、Server、App。四个进程，三种 Socket 连接类型，一套 RPC 转发机制，外加端到端加密（E2EE）。
 
 为什么？
 
-这篇文章用两个真实项目的源码来回答。从最简单的直连方案开始，每遇到一个绕不过去的约束，就加一个组件。四层方案逐层淘汰，最终会发现：四组件不是过度设计，而是五个硬约束逐层叠加的必然结果。
+这篇文章用两个真实项目的源码回答。从最简的直连方案开始，每遇到一个绕不过去的约束就加一个组件。四层方案逐层淘汰，最终会发现：四组件不是过度设计，而是五个硬约束逐层叠加的必然结果。
 
-读完后能得到四样东西：
+读完后能得到：
 
 1. 每个组件存在的「不可替代的理由」，以及没有它会怎样
 2. Happy 和 Kimi CLI 在消息路由、进程管理、控制权协调上的关键设计细节
 3. 一棵决策树，根据自己的场景判断需要几个组件、哪些可以省
 4. 现有 Wire 协议哪些能复用、哪些必须新增的分层分析
 
+**阅读路线**：
+
+- 只想知道为什么不是一个 WebSocket → 第 1 节 + 小结
+- 想理解 Happy 的核心机制 → 第 4 节（scope / RPC / 租约 / E2EE）+ 第 5 节（Daemon）
+- 想设计自己的远程操控系统 → 第 6.3 节（五维度扫描）+ 小结决策树
+- 想做协议复用 / 迁移评估 → 第 7 节
+
 ---
 
 ## 1. 五个硬约束
 
-在拆解方案之前，先定义检验标准。「手机远程操控电脑上的 AI Coding CLI」这个需求拆成五个约束：
+拆解方案之前，先定义检验标准。「手机远程操控电脑上的 AI Coding CLI」拆成五个约束：
 
 | # | 约束 | 含义 |
 |---|------|------|
 | C1 | 跨网可达 | 手机在 4G/5G，开发机在 NAT 后面，两者能通信 |
 | C2 | 多端一致 | 手机和电脑看到的会话状态完全一致 |
-| C3 | 控制权互斥 | 同一时刻只有一个终端在控制 Agent |
+| C3 | 控制权互斥 | 同一时刻只有一个终端控制 Agent |
 | C4 | 会话独立于前端 | 关掉手机或终端，Agent 继续跑，重新打开能接上 |
-| C5 | 安全 | 至少有认证，理想情况下端到端加密 |
+| C5 | 安全 | 至少有认证，理想情况下 E2EE |
 
 ### 为什么是这五个
 
-这张表不是头脑风暴列出来的，而是**逐步证伪**得到的——从最简方案开始，每一步找一个打破它的具体场景，被迫加一个组件，直到没有场景能打破：
+这张表是**逐步证伪**得到的，从最简方案开始，每一步找一个打破它的场景，被迫加一个组件，直到没有场景能打破：
 
 ```
 起点：手机直连电脑（一个 WebSocket）
@@ -61,11 +68,11 @@ Kimi CLI 的 Web UI 做到了这一步。执行 `kimi web`，本地起一个 HTT
 
 这个拆解有三个性质：
 
-1. **每个约束都有反例**。删掉任何一个，都能构造一个具体的故障场景——后面四节逐一展示。
-2. **约束之间有依赖序**。讨论「控制权互斥」的前提是「多端已经连上」，讨论「多端连接」的前提是「网络可达」。链条是：网络可达 → 多端共存 → 多端冲突 → 进程生命周期 → 交互模式分离。每一层的问题，只有在前一层被解决后才会暴露。
+1. **每个约束都有反例**。删掉任何一个，都能构造一个具体的故障场景，后面四节逐一展示。
+2. **约束之间有依赖序**。讨论「控制权互斥」的前提是「多端已连上」，讨论「多端连接」的前提是「网络可达」。链条是：网络可达 → 多端共存 → 多端冲突 → 进程生命周期 → 交互模式分离。每一层的问题，只有前一层解决后才会暴露。
 3. **每个约束恰好淘汰一种方案**。没有两个约束淘汰同一种方案，没有冗余。
 
-这套「从最简开始，被失败逼着加组件」的方法有一个跨越八百年的同构案例：英国普通法。不是某位国王召集法学家写出完美法典，而是从亨利二世时期最简单的「派巡回法官解决纠纷」开始，每次新型案件暴露旧规则的不足，法官被迫创造一条新判例。每条规则都指向一次真实的失败——和我们的每个组件指向一个具体的约束是同一套逻辑。更贴身的版本：搬进新家，第一天只有一个行李箱。没有晾衣架就买晾衣架，地板湿滑就买防滑垫。三个月后家里每件东西都对应一个真实的不便，没有一件多余。如果你的架构中某个组件说不出它对应的失败场景，它大概率是过度设计。
+「从最简开始，被失败逼着加组件」的方法有一个跨越八百年的同构案例：英国普通法。不是一次性写出完美法典，而是每次新型案件暴露旧规则的不足，法官被迫创造新判例。每条规则指向一次真实的失败，和每个组件指向一个具体的约束是同一套逻辑。更贴身的版本：搬进新家三个月，家里每件东西都对应一个真实的不便，没有一件多余。
 
 后面每种方案都用这五个约束打分。
 
@@ -75,7 +82,7 @@ Kimi CLI 的 Web UI 做到了这一步。执行 `kimi web`，本地起一个 HTT
 
 ### 2.1 Kimi CLI 的现有能力
 
-Kimi CLI 已经具备外部 UI 接入的基础设施。执行 `kimi web`，本地起一个 FastAPI 服务，浏览器通过 WebSocket 连接 Wire 协议与 Agent 内核交互。
+Kimi CLI 已具备外部 UI 接入的基础设施。执行 `kimi web`，本地起一个 FastAPI 服务，浏览器通过 WebSocket 连接 Wire 协议与 Agent 内核交互。
 
 底层消息分发采用 SPMC（Single Producer, Multiple Consumer）广播队列：
 
@@ -114,15 +121,13 @@ async def _broadcast(self, message: str) -> None:
         await ws.send_text(message)
 ```
 
-正在回放 `wire.jsonl` 历史的客户端，实时消息暂存到 `_replay_buffers`。回放结束后 flush 缓冲区，无缝切换到实时流，解决了「中途加入不丢消息」的问题。
+正在回放 `wire.jsonl` 历史的客户端，实时消息暂存到 `_replay_buffers`。回放结束后 flush 缓冲区，无缝切到实时流，保证中途加入不丢消息。
 
 ### 2.2 卡在哪里
 
-用五个约束检验这个方案：
+**C1 跨网失败**。Web 服务默认绑定 `127.0.0.1`，加 `--network` 后绑 `0.0.0.0`，但开发机仍在 NAT 后面。手机在 4G 网络上找不到这台机器。用户需要自己搞 Tailscale 或 ngrok，不是产品化方案。
 
-**C1 跨网失败**。Web 服务默认绑定 `127.0.0.1`，加 `--network` 后绑定 `0.0.0.0`，但开发机仍然在 NAT 后面。手机在 4G 网络上找不到这台机器。用户需要自己搞 Tailscale 或 ngrok，不是产品化方案。
-
-**C3 控制权失败**。Wire 协议的请求响应是 1:1 的。Agent 发出 `ApprovalRequest`（请求用户批准某个工具调用）时，请求放进一个全局字典：
+**C3 控制权失败**。Wire 协议的请求响应是 1:1 的。Agent 发出 `ApprovalRequest` 时，请求放进一个全局字典：
 
 ```python
 # kimi-cli/src/kimi_cli/wire/server.py:75-76
@@ -130,9 +135,9 @@ self._pending_requests: dict[str, Request] = {}
 """Maps JSON RPC message IDs to pending Requests."""
 ```
 
-这个字典没有客户端隔离。两个 WebSocket 同时连接时，都能看到同一个 `ApprovalRequest`，都能响应它，谁先回复谁生效。两个客户端还可以在 session 空闲时同时发 prompt，`is_busy` 检查在 session 空闲时不起作用。
+这正是 C3 失败的根源：字典没有客户端隔离。两个 WebSocket 同时连接时，都能看到同一个 `ApprovalRequest`，都能响应，谁先回复谁生效。两个客户端还可以在会话空闲时同时发 prompt，`is_busy` 检查不起作用。
 
-**C4 会话独立失败**。Worker 子进程的生命周期绑定在 FastAPI Web 服务器上：
+**C4 会话独立失败**。Worker 子进程的生命周期绑定在 FastAPI 服务上：
 
 ```python
 # kimi-cli/src/kimi_cli/web/app.py:168-186
@@ -149,8 +154,6 @@ async def lifespan(app: FastAPI):
 
 关掉终端窗口，Web 服务退出，`runner.stop()` 杀死所有 Worker 子进程，会话丢失。
 
-打分：
-
 | 约束 | 直连方案 |
 |------|:---:|
 | C1 跨网 | ❌ |
@@ -159,25 +162,50 @@ async def lifespan(app: FastAPI):
 | C4 会话独立 | ❌ |
 | C5 安全 | ⚠️ Token，无 E2EE |
 
-直连方案适合「同一张桌子上多开一个屏幕看输出」。要跨网、要多端、要产品化，得继续往上叠。
-
 ---
 
 ## 3. 第二层：Web UI + Gateway
 
-最直觉的补救：在 Web UI 前面加一层反向代理（Caddy、nginx、Cloudflare Tunnel），解决网络可达和 TLS 终止。
+最直觉的补救：在 Web UI 前加一层反向代理（Caddy、nginx、Cloudflare Tunnel），解决网络可达和 TLS 终止。
 
 ```
 iPhone ──HTTPS/WSS──▶ Gateway（公网） ──HTTP/WS──▶ 开发机 kimi web
 ```
 
-C1 跨网解决了，C5 传输层加密有了。但 Gateway 只是一根管道，不理解 Wire 协议的语义：
+C1 跨网解决了，C5 传输层加密有了。但 Gateway 只是管道，不理解 Wire 协议语义：
 
-- **C2 多端一致**：Gateway 透明转发，两个客户端各自和 Web UI 通信，没有人协调消息顺序
-- **C3 控制权**：Gateway 不知道谁是控制端，两个客户端仍然可以同时发 prompt
-- **C4 会话独立**：Worker 仍然绑在 Web 服务进程上，Gateway 管不了进程生命周期
+- **C2 多端一致**：Gateway 透明转发，没有人协调消息顺序
+- **C3 控制权**：Gateway 不知道谁是控制端，两个客户端仍可同时发 prompt
+- **C4 会话独立**：Worker 仍绑在 Web 服务进程上，Gateway 管不了进程生命周期
 
-如果 Gateway 部署在第三方（比如 Cloudflare），它作为中间人能看到所有明文，代码、对话、工具调用参数对第三方完全透明。
+两个客户端通过 Gateway 同时连接时的冲突场景：
+
+```mermaid
+sequenceDiagram
+    participant 手机 as 手机
+    participant GW as Gateway
+    participant Agent as Agent
+
+    Agent->>GW: ApprovalRequest (rm -rf /tmp/build)
+    GW->>手机: ApprovalRequest
+    GW->>终端: ApprovalRequest
+
+    手机->>GW: approve ✓
+    终端->>GW: approve ✓ (晚 200ms)
+    GW->>Agent: approve (手机的先到，生效)
+    GW->>Agent: approve (终端的后到，被丢弃)
+    Note over 手机,终端: 两个用户都以为是自己批准的
+
+    Note over Agent: session 变为空闲
+    手机->>GW: prompt "run tests"
+    终端->>GW: prompt "deploy to prod"
+    GW->>Agent: 两个 prompt 同时到达
+    Note over Agent: 都通过 is_busy 检查<br/>先到的执行，后到的被忽略<br/>→ 一个用户：我发了命令，为什么没反应？
+```
+
+Gateway 忠实转发了每条消息，但它不知道谁该说话、谁该等待。
+
+Gateway 部署在第三方时，它作为中间人能看到所有明文，代码、对话、工具调用参数对第三方完全透明。
 
 | 约束 | 直连 | +Gateway |
 |------|:---:|:---:|
@@ -187,7 +215,15 @@ C1 跨网解决了，C5 传输层加密有了。但 Gateway 只是一根管道�
 | C4 会话独立 | ❌ | ❌ |
 | C5 安全 | ⚠️ | ⚠️ TLS only |
 
-Gateway 解决了「网络管道」，但「谁说了算」需要一个理解协议的中间层。
+**常见替代方案为什么不够**：
+
+| 方案 | 解决了什么 | 没解决什么 | 代价 |
+|------|-----------|-----------|------|
+| SSH 隧道 + tmux | C1 跨网、C4 会话独立 | C2 多端协调、C3 控制权仲裁 | 手机上没有 SSH 终端体验；需暴露 SSH 端口 |
+| VPN（Tailscale） | C1 跨网 | C2-C5 全部 | 退回直连方案，只解决网络层 |
+| WebRTC P2P | C1 跨网（打洞） | C4 无常驻进程管理 | 打洞成功率不稳定；TURN fallback 等于回到 Server 方案 |
+
+每种方案都只解决约束链的一两环，剩下的约束不会消失，只是被推迟。
 
 ---
 
@@ -197,7 +233,7 @@ Gateway 解决了「网络管道」，但「谁说了算」需要一个理解协
 
 ### 4.1 三种 Socket Scope
 
-Happy Server 不是简单地广播消息给所有连接。每个 Socket.IO 连接在握手时声明自己的类型，Server 按类型分发：
+Happy Server 不是简单地广播消息给所有连接。每个 Socket.IO 连接在握手时声明类型，Server 按类型分发：
 
 ```typescript
 // happy-server/sources/app/api/socket.ts:37-40
@@ -207,7 +243,7 @@ const sessionId = socket.handshake.auth.sessionId as string | undefined;
 const machineId = socket.handshake.auth.machineId as string | undefined;
 ```
 
-验证通过后，Server 根据 `clientType` 构建连接对象并注册到 `eventRouter`：
+验证通过后，Server 按 `clientType` 构建连接对象并注册到 `eventRouter`：
 
 ```typescript
 // happy-server/sources/app/api/socket.ts:78-100
@@ -229,13 +265,13 @@ eventRouter.addConnection(userId, connection);
 | session-scoped | CLI 会话进程 | 特定会话的消息更新 | 消息、状态变更 |
 | machine-scoped | Daemon | 机器级指令、RPC 请求 | 心跳、在线状态 |
 
-手机打开某个 session 时只订阅该 session 的流，不会收到其他 session 的消息。这比 Kimi Web UI 的「所有消息广播给所有客户端」精细得多。
+手机打开某个会话时只订阅该会话的流，不会收到其他会话的消息。比 Kimi Web UI 的「所有消息广播给所有客户端」精细得多。
 
 ### 4.2 RPC：为什么消息流不够
 
-仅靠消息广播做不了交互式操作。消息流是 fire-and-forget 的，Server 推 update 给订阅者，不等回复。但有些操作需要同步等待响应：中止当前 turn、批准权限请求、在远程执行 bash 命令并拿到输出。
+消息流是 fire-and-forget 的，Server 推 update 给订阅者，不等回复。但有些操作需要同步等待响应：中止当前 turn、批准权限请求、远程执行 bash 命令并拿到输出。
 
-Happy 在 Socket.IO 上实现了一套 RPC 转发，核心链路分三步：
+Happy 在 Socket.IO 上实现了一套 RPC 转发，核心链路三步：
 
 ```mermaid
 sequenceDiagram
@@ -256,7 +292,7 @@ sequenceDiagram
     Server->>App: callback({ok: true, result: encrypted})
 ```
 
-Server 全程只做 socket 到 socket 的盲转发，看不到 params 和 result 的明文。
+Server 全程只做 socket 到 socket 的盲转发，看不到 `params` 和 `result` 的明文。
 
 **注册**。CLI 会话启动时，通过 `RpcHandlerManager` 向 Server 注册能处理的方法：
 
@@ -273,9 +309,9 @@ registerHandler<TRequest, TResponse>(
 }
 ```
 
-方法名带 `sessionId` 前缀（如 `session-abc:bash`），Server 用这个前缀做路由。
+方法名带 `sessionId` 前缀（如 `session-abc:bash`），Server 用它路由。
 
-**转发**。App 发送 `rpc-call`，Server 查找目标 socket 并转发：
+**转发**。App 发 `rpc-call`，Server 查找目标 socket 并转发：
 
 ```typescript
 // happy-server/sources/app/api/socket/rpcHandler.ts:67-114（简化）
@@ -310,7 +346,17 @@ async handleRequest(request: RpcRequest): Promise<any> {
 }
 ```
 
-`params` 和返回值都是加密的 base64 字符串。Server 只做 socket 到 socket 的盲转发，看不到明文。即使 Server 被攻破，攻击者拿到的也只是密文。
+`params` 和返回值都是加密的 base64 字符串，即使 Server 被攻破，攻击者拿到的也只是密文。
+
+**E2EE 的保护边界**：
+
+| | 被保护 | 未被保护 |
+|---|--------|---------|
+| 内容 | 对话文本、代码、工具调用参数、Agent 输出 | — |
+| 元数据 | — | 谁连了谁、`session` ID、消息时间戳和大小 |
+| 前提 | 密钥由客户端生成，不经过 Server | 设备被入侵后密钥泄露；登录凭证被盗后的会话劫持 |
+
+E2EE 保护的是「Server 被攻破时的内容机密性」，不保护客户端本身被攻破的场景，也不隐藏流量模式。
 
 ### 4.3 乐观并发控制
 
@@ -330,14 +376,48 @@ if (answer.result === 'version-mismatch') {
 }
 ```
 
-客户端发送更新时带上 `expectedVersion`，Server 检查版本是否一致，不一致就拒绝。客户端拿到最新版本后重试。
+客户端更新时带上 `expectedVersion`，Server 检查版本一致性，不一致就拒绝，客户端拿到最新版本后重试。
 
-### 4.4 Server 还缺什么
+Happy 追求**观察一致**（observational consistency）：所有端在任意时刻查询同一个会话，看到的 `agentState` 相同。不是最终一致（不容忍短暂不一致窗口），也不是强一致（不需要分布式事务）。OCC 的 `expectedVersion` 是实现手段，写操作带版本号，Server 做单点仲裁，冲突时拒绝而非合并。选观察一致而非最终一致，是因为 AI Coding 场景下，两个用户看到不同的 Agent 状态会直接导致操作冲突。
+
+### 4.4 控制权租约
+
+多端连上 Server 后，谁发 prompt、谁批准 `ApprovalRequest`？Happy 用控制权租约解决。
+
+**状态机**：
+
+```mermaid
+stateDiagram-v2
+    [*] --> idle
+    idle --> leased: acquire_lease（成功）
+    idle --> idle: acquire_lease（被拒绝，已有控制端）
+    leased --> leased: renew_lease（续租）
+    leased --> idle: release_lease / lease_expired
+```
+
+**规则**：
+
+- 同一会话同一时刻只有一个 `lease` 控制端
+- `lease` 有超时，靠心跳续租。控制端断线后自动过期
+- 非控制端只能观看输出，不能发 prompt 或响应 `ApprovalRequest`
+- 控制端可主动释放，让另一个客户端获取控制权
+
+**客户端行为**：
+
+| 场景 | 控制端 | 非控制端 |
+|------|--------|-----------|
+| Agent 输出 | 正常显示 | 正常显示 |
+| ApprovalRequest | 弹出批准 UI | 显示「等待控制端批准」 |
+| 想发 prompt | 正常发送 | 提示「先获取控制权」 |
+| 断线 | `lease` 超时后自动释放 | 不影响 |
+
+**边界情况：split-brain**。网络分区时，控制端和 Server 断连，但本地仍认为自己持有 `lease`。Server 侧 `lease` 超时后释放，另一个客户端可以获取。原控制端重连后发现 `lease` 已失效，需重新获取。关键原则：**Server 是唯一仲裁者**，客户端本地的 `lease` 状态只是缓存，Server 的判定才算数。
+
+### 4.5 Server 还缺什么
 
 Server 解决了 C1（跨网）、C2（单一数据源 + 版本化）、C3（控制权租约）、C5（E2EE + 盲转发）。
 
-但 C4 仍然失败。问题出在开发机那端：谁来管 Agent 进程？用户关掉终端窗口，CLI 进程退出，会话断了。Server 协调了多端通信，但管不了远端机器上的进程生命周期。需要一个在开发机上**常驻**的进程。
-
+但 C4 仍然失败。问题在开发机那端：谁管 Agent 进程？用户关掉终端窗口，CLI 退出，会话断了。Server 协调了多端通信，但管不了远端机器上的进程生命周期。需要一个在开发机上**常驻**的进程。
 
 ---
 
@@ -347,9 +427,11 @@ Server 解决了 C1（跨网）、C2（单一数据源 + 版本化）、C3（控
 
 Daemon 是 Happy 在开发机上的常驻后台进程，不做 AI 推理，只做三件事：
 
-1. **管理 Session 子进程**。维护一个 `pidToTrackedSession` Map，跟踪每个会话的 PID、`sessionId`、启动方式。
+1. **管理会话子进程**。维护 `pidToTrackedSession` Map，跟踪每个会话的 PID、`sessionId`、启动方式。
 2. **接收远程 spawn**。手机点「新建会话」，Server 转发，Daemon 启动 CLI 子进程。
 3. **维护机器身份**。通过 machine-scoped Socket 保持心跳，上报在线状态。
+
+Daemon 启动时的初始化逻辑体现了这三个职责：
 
 ```typescript
 // happy-cli/src/daemon/run.ts:145-168
@@ -360,6 +442,8 @@ if (!daemonLockHandle) {
 const { credentials, machineId } = await authAndSetupMachineIfNeeded();
 const pidToTrackedSession = new Map<number, TrackedSession>();
 ```
+
+先获取排他锁（唯一性），再建立机器身份（职责 3），最后初始化会话跟踪表（职责 1）。
 
 ### 5.2 排他锁
 
@@ -391,7 +475,7 @@ async function acquireDaemonLock(maxAttempts, delayIncrementMs) {
 }
 ```
 
-`O_CREAT | O_EXCL` 在文件系统层面是原子的，不存在 TOCTOU 竞态。锁文件里写 PID，用 `kill(pid, 0)` 检测死进程，信号 0 不杀进程，只验证进程是否存在。
+`O_CREAT | O_EXCL` 在文件系统层面原子，不存在 TOCTOU 竞态。锁文件写 PID，用 `kill(pid, 0)` 检测死进程，信号 0 不杀进程，只验证是否存在。
 
 ### 5.3 Control Server：本地 IPC
 
@@ -404,11 +488,11 @@ Daemon 在 `127.0.0.1` 上起一个 HTTP 服务，端口号写入 `daemon.state.
 | `POST /spawn-session` | 创建新会话（手机远程触发） |
 | `POST /stop` | 优雅关闭 Daemon |
 
-CLI 和 Daemon 通过 HTTP 解耦：CLI 不需要知道 Daemon 的内部状态，不共享内存，不做进程间的直接调用。
+CLI 和 Daemon 通过 HTTP 解耦，不共享内存，不做进程间直接调用。
 
 ### 5.4 为什么 CLI 和 Daemon 不能合并
 
-这是最容易引发困惑的拆分。答案在于进程模型不兼容：
+这是最容易引发困惑的拆分。根源在于进程模型不兼容：
 
 | 特征 | CLI | Daemon |
 |------|-----|--------|
@@ -418,7 +502,7 @@ CLI 和 Daemon 通过 HTTP 解耦：CLI 不需要知道 Daemon 的内部状态�
 | 启动方式 | 用户手动执行 | 自动启动（launchd / systemd） |
 | Socket scope | session-scoped | machine-scoped |
 
-让 CLI 常驻意味着放弃 TTY，但本地交互模式需要 TTY 来读键盘、渲染 UI。让 CLI 后台 fork 自己，stdin/stdout 断裂，本地交互无法继续。
+让 CLI 常驻意味着放弃 TTY，但本地交互需要 TTY 读键盘、渲染 UI。让 CLI 后台 fork 自己，stdin/stdout 断裂，本地交互无法继续。
 
 Happy 让 CLI 首次运行时自动 spawn Daemon：
 
@@ -434,7 +518,7 @@ if (!(await isDaemonRunningCurrentlyInstalledHappyVersion())) {
 }
 ```
 
-`detached: true` + `stdio: 'ignore'` + `unref()`：三行配置把 Daemon 变成独立后台进程。CLI 保持了「敲一次命令跑完就退」的 Unix 哲学。
+`detached: true` + `stdio: 'ignore'` + `unref()`：三行配置把 Daemon 变成独立后台进程。CLI 保持「敲一次命令跑完就退」的 Unix 哲学。
 
 ### 5.5 全部满足
 
@@ -445,8 +529,6 @@ if (!(await isDaemonRunningCurrentlyInstalledHappyVersion())) {
 | C3 控制权 | ❌ | ❌ | ✅ | ✅ |
 | C4 会话独立 | ❌ | ❌ | ❌ | ✅ |
 | C5 安全 | ⚠️ | ⚠️ | ✅ | ✅ |
-
-每多加一个组件，恰好解决上一层遗留的那一个不可绕过的约束。
 
 四组件的完整拓扑：
 
@@ -474,7 +556,7 @@ graph TB
     Daemon ---|"HTTP 127.0.0.1"| CLI2
 ```
 
-三种 Socket scope 各走各的通道：App 通过 user-scoped 看全局、发 RPC，CLI 通过 session-scoped 收发会话消息，Daemon 通过 machine-scoped 维持心跳和接收远程 spawn 指令。CLI 和 Daemon 之间通过本地 HTTP 解耦。
+三种 Socket scope 各走各的通道：App 通过 user-scoped 看全局、发 RPC，CLI 通过 session-scoped 收发会话消息，Daemon 通过 machine-scoped 维持心跳和接收远程 spawn。CLI 和 Daemon 之间通过本地 HTTP 解耦。
 
 ---
 
@@ -482,7 +564,7 @@ graph TB
 
 ### 6.1 三组件方案
 
-如果只针对 Kimi CLI（单一 Provider），四组件可以缩减为三个：
+只针对 Kimi CLI（单一 Provider）时，四组件可以缩减为三个：
 
 ```
 Client（iOS / Web）
@@ -503,8 +585,8 @@ Happy 拆出独立 CLI 是因为要统一封装 Claude Code、Codex、Gemini 三
 
 无论怎么简化：
 
-- **Server 不可省**。它解决的是物理约束：NAT 穿透和多端一致性。只要手机和开发机不在同一网络，就需要一个双方都能访问的中继。
-- **Daemon 不可省**。它解决的是进程约束：会话生命周期独立于前端。只要「关掉终端后 Agent 继续跑」是需求，就需要常驻进程。
+- **Server 不可省**。它解决物理约束：NAT 穿透和多端一致性。只要手机和开发机不在同一网络，就需要双方都能访问的中继。
+- **Daemon 不可省**。它解决进程约束：会话生命周期独立于前端。只要「关掉终端后 Agent 继续跑」是需求，就需要常驻进程。
 
 组件数量是约束数量的函数。放宽约束可以减少组件：
 
@@ -517,9 +599,9 @@ Happy 拆出独立 CLI 是因为要统一封装 Claude Code、Codex、Gemini 三
 
 ### 6.3 约束推导方法：五维度扫描
 
-上面的约束列表是怎么推导出来的？不是靠经验枚举，而是靠一个固定的扫描清单。
+上面的约束列表怎么推导出来的？靠一个固定的扫描清单。
 
-面对任何远程操控场景，画出最简架构（两个节点之间一条线），然后按五个维度依次提问：
+面对任何远程操控场景，画出最简架构（两个节点一条线），按五个维度依次提问：
 
 | 维度 | 问的问题 | 答案为「是」时产生的约束 |
 |------|---------|----------------------|
@@ -529,32 +611,32 @@ Happy 拆出独立 CLI 是因为要统一封装 Claude Code、Codex、Gemini 三
 | 生命周期 | UI 挂了，后台任务也死吗？ | 会话独立于前端 |
 | 交互模式 | 所有用户用同一种界面吗？ | CLI / Daemon 分离 |
 
-这五个维度的顺序对应从物理层到应用层的分层——和 OSI 模型的思路一样，先解决低层问题，再考虑高层。每个维度用同一个问题检验：**不处理的话，能构造出什么灾难场景？** 能构造出来 → 硬约束，必须解决。构造不出来 → 软偏好，可以延后。
+五个维度从物理层到应用层排列，先解决低层问题再考虑高层。每个维度用同一个问题检验：**不处理的话，能构造出什么灾难场景？** 能构造出来 → 硬约束。构造不出来 → 软偏好，可以延后。
 
-以「控制权互斥」为例：多端连上后，能不能不做互斥，让用户先后操控？可以，lease 机制本质上就是在实现「先后操控」。但问题是**谁来保证先后**——如果没有 Server 维护 lease，两个客户端都认为自己是当前控制者，同时发 prompt，Agent 收到矛盾指令。约束不是「要不要互斥」，而是「谁来仲裁」。
+以「控制权互斥」为例：多端连上后，能不能不做互斥，让用户先后操控？可以，`lease` 机制本质上就在实现「先后操控」。但**谁来保证先后**？没有 Server 维护 `lease`，两个客户端都认为自己是控制端，同时发 prompt，Agent 收到矛盾指令。约束不是「要不要互斥」，而是「谁来仲裁」。
 
-这个方法的原型是航空业的起飞前检查清单。1935 年，波音 Model 299（B-17 轰炸机原型）试飞坠毁，原因是首席试飞员忘记释放升降舵锁——飞机太复杂，超出了一个人的记忆力极限。波音的应对不是简化飞机，而是发明了一张清单：从燃油到襟翼到升降舵到仪表，逐层检查。五维度扫描法和它解决的是同一个问题：不是给新手用的拐杖，是给专家用的认知外骨骼。B-17 的试飞员是波音首席试飞员，不是菜鸟。
+这个方法的原型是航空业的起飞前检查清单。1935 年，波音 Model 299（B-17 原型）试飞坠毁，原因是试飞员忘记释放升降舵锁，飞机太复杂，超出了一个人的记忆力极限。波音发明了检查清单。五维度扫描解决同一个问题：不是给新手用的拐杖，是给专家用的认知外骨骼。
 
-日常版本：旅行前拍脑袋收拾行李，你会带三件外套却忘充电器。衣服是「看得见的维度」，充电器是「用到才想起的维度」。架构设计中「WebSocket 能不能连上」是衣服，「关掉终端后会话还在不在」是充电器。
+日常版本：旅行前拍脑袋收拾行李，带三件外套却忘充电器。架构设计中「WebSocket 能不能连上」是外套，「关掉终端后会话还在不在」是充电器。
 
 ### 延伸练习
 
-把这个方法用在一个新场景上：**设计一个「手机远程操控家里电脑 Docker 容器」的系统**——手机上启动/停止容器、查看日志、执行命令。
+把这个方法用在一个新场景上：**设计一个「手机远程操控家里电脑 Docker 容器」的系统**，手机上启动/停止容器、查看日志、执行命令。
 
 1. 画出最简架构
 2. 按五个维度扫描，每个维度构造一个灾难场景
 3. 对每个灾难场景决定加什么组件
 4. 和 Happy 的四组件对比：哪些一样？哪些不需要？为什么？
 
-关键不是答案对不对，而是每个维度能不能写出具体场景。写不出来的维度，恰好说明那个约束在这个场景下不存在——这本身就是一个有价值的结论。
+写不出灾难场景的维度，恰好说明那个约束在这个场景下不存在，这本身就是有价值的结论。
 
 ---
 
 ## 7. Wire 协议能复用吗：分层拆解
 
-一个自然的问题：Kimi CLI 的 Web UI 已经有了 Wire 协议（JSON-RPC 2.0）和 BroadcastQueue，远程方案能直接复用吗？还是推翻重来设计一套新协议？
+Kimi CLI 的 Web UI 已有 Wire 协议（JSON-RPC 2.0）和 `BroadcastQueue`，远程方案能直接复用还是推翻重来？
 
-答案不是「能」或「不能」，而是**按层看**。
+答案是**按层看**。
 
 ### 7.1 三层拆解
 
@@ -566,13 +648,13 @@ Happy 拆出独立 CLI 是因为要统一封装 Claude Code、Codex、Gemini 三
 | 会话管理层 | 客户端身份、消息排序、请求匹配、控制权、心跳 | ❌ 需要新增 | 本地方案没有这一层 |
 | 传输层 | stdio 管道、localhost WebSocket | ⚠️ 替换 | 从本地换成公网 WSS + 中继 |
 
-关键发现：Wire 协议目前**只有两层**（应用语义 + 传输），中间的会话管理层是空的。这不是设计缺陷——本地场景不需要。但远程场景必须补上。
+关键发现：Wire 协议目前**只有两层**（应用语义 + 传输），会话管理层是空的。这不是设计缺陷，本地场景不需要，但远程场景必须补上。
 
 ### 7.2 应用语义层：直接搬
 
-Wire 定义的事件类型是纯业务语义，不绑定传输假设：`TurnBegin`/`TurnEnd` 标记对话边界，`ContentPart` 承载流式输出，`ToolCall`/`ToolResult` 处理工具调用，`ApprovalRequest` 请求用户批准。这些消息的格式和含义，无论走 stdio、localhost WebSocket 还是公网 WSS 中继，都不需要改。
+Wire 定义的事件类型是纯业务语义，不绑定传输假设：`TurnBegin`/`TurnEnd` 标记对话边界，`ContentPart` 承载流式输出，`ToolCall`/`ToolResult` 处理工具调用，`ApprovalRequest` 请求用户批准。无论走 stdio、localhost WebSocket 还是公网 WSS 中继，这些消息格式都不需要改。
 
-BroadcastQueue 的 SPMC 模式也可以复用——Server 中继收到 Agent 的消息后，用同样的「一个生产者、多个消费者」模式广播给同一个 session 的所有订阅者。
+`BroadcastQueue` 的 SPMC 模式也可复用。Server 收到 Agent 消息后，用同样的「一个生产者、多个消费者」模式广播给同一会话的所有订阅者。
 
 ### 7.3 会话管理层：必须新增
 
@@ -585,22 +667,26 @@ BroadcastQueue 的 SPMC 模式也可以复用——Server 中继收到 Agent 的
 self._pending_requests: dict[str, Request] = {}
 ```
 
-远程场景需要按 session 隔离，并且同一个 `ApprovalRequest` 只能由当前 controller 响应，不能所有客户端都能回复。
+远程场景需要按会话隔离，同一个 `ApprovalRequest` 只能由当前控制端响应。
 
-**假设 2：消息天然有序**。stdio 是单流，消息到达顺序就是发送顺序。公网 WebSocket 经过中继后，可能乱序到达。需要在每条消息上加 seq：
+**假设 2：消息天然有序**。stdio 是单流，到达顺序就是发送顺序。公网 WebSocket 经中继后可能乱序。需要在每条消息上加 `seq`：
 
 ```python
 # 远程方案需要
 {"seq": 42, "session_id": "abc", "message": {...}}
 ```
 
-Happy 的 `CoreUpdateContainer` 正是这样做的——每条 update 带 `id`（用于去重）和 `seq`（用于排序）。
+Happy 的 `CoreUpdateContainer` 正是这样做的，每条 update 带 `id`（去重）和 `seq`（排序）。
 
-**假设 3：连接不会断**。stdio 管道在进程活着时永远不断。公网连接随时可能断，需要心跳检测和断线重连后的状态同步。Wire 文件格式（JSONL）本身可以作为重连后的回放源——这部分 Kimi CLI 的 `_replay_buffers` 机制可以直接复用。
+**假设 3：连接不会断**。stdio 管道在进程活着时永远不断。公网连接随时可能断（WebSocket 断开、App 后台挂起、Server 重启），需要心跳检测和断线重连后的状态同步。
+
+**最小可用的重连策略**：客户端维护 `lastSeenSeq`，重连后发送 `{"resume": true, "lastSeenSeq": 41}`，Server 从事件日志中找到 `seq` > 41 的消息重放。事件日志已滚动时，回退到全量快照 + 从快照版本订阅增量。去重靠 `seq` 单调递增，客户端忽略 `seq` ≤ `lastSeenSeq` 的消息。Wire 的 JSONL 文件格式可以作为回放源，Kimi CLI 的 `_replay_buffers` 机制可以复用。
+
+「会话管理层」工作量最大的原因在此：不只是加几个字段，而是一套完整的断线恢复协议。
 
 ### 7.4 传输层：整体替换
 
-从 stdio 管道换成 WSS + 中继 Server，这是基础设施变更。另外 `asyncio.Future`（用于本地等待请求响应）不能跨网络传递，需要替换为带超时的回调机制——Happy 的 `emitWithAck` + 30 秒超时就是一种实现。
+从 stdio 管道换成 WSS + 中继 Server，这是基础设施变更。`asyncio.Future`（本地等待请求响应）不能跨网络传递，需要替换为带超时的回调机制。Happy 的 `emitWithAck` + 30 秒超时就是一种实现。
 
 ### 7.5 结论：六成复用，四成新增
 
@@ -608,7 +694,7 @@ Happy 的 `CoreUpdateContainer` 正是这样做的——每条 update 带 `id`�
 |--------|--------|--------|
 | 消息类型定义（17 + 2） | 零 | 100% |
 | 序列化格式（JSON-RPC 2.0） | 零 | 100% |
-| BroadcastQueue / 回放机制 | 小 | 80% |
+| `BroadcastQueue` / 回放机制 | 小 | 80% |
 | 会话管理（身份 / 排序 / 心跳） | 大 | 0%（新增） |
 | 控制权租约 | 中 | 0%（新增） |
 | 传输层替换（stdio → WSS） | 中 | 0%（替换） |
@@ -617,11 +703,11 @@ Happy 的 `CoreUpdateContainer` 正是这样做的——每条 update 带 `id`�
 
 ### 7.6 分层复用的 mindset
 
-上面的分析用的思维方式是：**按层拆解，逐层判断**。面对「现有系统迁移到新环境」，不陷入「推翻重来」和「原样复用」的二元争论，而是拆成层，每一层独立评估。
+上面的分析用的思维方式是**按层拆解，逐层判断**。面对「现有系统迁移到新环境」，不陷入「推翻重来」和「原样复用」的二元争论，而是拆成层，每层独立评估。
 
-这个方法有一个跨越 150 年的同构案例：明治维新。不是全盘西化，也不是完全拒绝。伊藤博文按层拆解：军事技术层→全面引进西方模式（传输层替换）；行政制度层→选择性改造，学普鲁士而非英法，因为普鲁士的君主立宪更兼容天皇制（会话管理层重新设计）；文化认同层→保留天皇制和神道教（应用语义层复用）。同期清朝洋务运动的失败恰恰是层次判断错误：只换了传输层（买军舰），没动会话管理层（制度），甲午战争被「分层正确」的日本击败。
+这个方法有一个跨越 150 年的同构案例：明治维新。不是全盘西化，也不是完全拒绝。伊藤博文按层拆解：军事技术层→全面引进西方模式（传输层替换）。行政制度层→选择性改造，学普鲁士而非英法，因为普鲁士的君主立宪更兼容天皇制（会话管理层重新设计）。文化认同层→保留天皇制和神道教（应用语义层复用）。
 
-日常版本：你换了城市工作。衣服直接搬过去——它们不绑定城市。健身房重新办卡——会员绑定了旧的地理位置，原样照搬毫无意义。朋友关系继续维护，但方式从线下聚餐扩展为线上联系——复用关系本身，替换承载关系的渠道。你不会因为换了城市就换掉所有朋友，也不会继续用旧城市的健身房卡。把这个直觉显式化，就是分层复用分析法。
+日常版本：换城市工作。衣服直接搬，不绑定城市。健身房重新办卡，会员绑定旧的地理位置。朋友关系继续维护，但方式从线下聚餐变为线上联系，复用关系本身，替换承载渠道。
 
 ---
 
@@ -629,29 +715,36 @@ Happy 的 `CoreUpdateContainer` 正是这样做的——每条 update 带 `id`�
 
 回到开篇：手机远程操控 AI Coding CLI，为什么不是「一个 WebSocket」就能搞定？
 
-五个约束逐层叠加，每个约束淘汰一种更简单的方案：
+五个约束逐层叠加，每个淘汰一种更简单的方案：
 
 1. **NAT 穿透**淘汰了直连。手机找不到 NAT 后面的开发机，必须有公网中继（Server）
-2. **多端一致性**淘汰了无状态 Gateway。Gateway 只转发不协调，两端看到的状态可能不一致
+2. **多端一致性**淘汰了无状态 Gateway。Gateway 只转发不协调，两端状态可能不一致
 3. **控制权互斥**要求 Server 理解协议语义。Gateway 不知道谁是控制端
 4. **会话独立于前端**要求常驻进程。关掉终端不能杀死 Agent（Daemon）
-5. **本地 + 远程并存**让 CLI 和 Daemon 无法合并。TTY 需求和 detached 后台进程的模型冲突
+5. **本地 + 远程并存**让 CLI 和 Daemon 无法合并。TTY 需求和 detached 后台进程模型冲突
 
-Happy 的四组件恰好对应这五个约束。如果场景更简单（单 Provider、不需要本地终端交互），可以缩减到三组件。但 Server 和 Daemon 无论如何不可省，它们解决的是物理约束，不是设计偏好。
+Happy 的四组件恰好对应这五个约束。场景更简单时可以缩减到三组件，但 Server 和 Daemon 不可省，它们解决的是物理约束，不是设计偏好。
 
 **判断自己需要几个组件**：
 
-- 手机和开发机在同一网络？是：不需要 Server
-- 关掉终端后 Agent 要继续跑？否：不需要 Daemon
-- 电脑端也要交互式操控？否：CLI 可并入 Daemon
-- 支持多种 AI Provider？否：封装层可内嵌
-- Server 自己部署？是：可不做 E2EE
+```mermaid
+flowchart TD
+    A{"手机和开发机<br/>在同一网络？"} -->|是| B["不需要 Server<br/>直连即可"]
+    A -->|否| C["需要 Server"]
+    C --> D{"关掉终端后<br/>Agent 要继续跑？"}
+    D -->|否| E["不需要 Daemon<br/>Web 服务进程管理够用"]
+    D -->|是| F["需要 Daemon"]
+    F --> G{"电脑端也要<br/>交互式操控？"}
+    G -->|否| H["CLI 合并到 Daemon"]
+    G -->|是| I["CLI + Daemon 分离"]
+    I --> J{"支持多种<br/>AI Provider？"}
+    J -->|是| K["CLI 做统一封装层"]
+    J -->|否| L["封装层内嵌"]
+```
 
-每个「否」省掉一个组件。每个「是」加回来一个不可替代的齿轮。
+协议层面，Wire 协议不需要推翻：应用语义层 100% 复用，会话管理层从零新增，传输层整体替换。
 
-协议层面，Kimi CLI 的 Wire 协议不需要推翻——应用语义层（消息类型和格式）100% 复用，会话管理层（身份、排序、租约）从零新增，传输层整体替换。
-
-文章中用了三个可迁移的思维方法：
+文章用了三个可迁移的思维方法：
 
 | 方法 | 核心动作 | 远镜类比 | 近镜类比 |
 |------|---------|---------|---------|
