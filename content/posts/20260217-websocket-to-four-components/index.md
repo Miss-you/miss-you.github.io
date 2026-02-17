@@ -581,6 +581,10 @@ Agent（开发机常驻 = Daemon + Provider Wrapper）
 
 Happy 拆出独立 CLI 是因为要统一封装 Claude Code、Codex、Gemini 三种 Provider，每种输出格式不同，需要映射层转成统一的 9 种事件。Kimi CLI 只有一个 Provider，这层封装可以内嵌。
 
+但三组件方案还有一个更根本的问题：**实际使用中，开发者在一台机器上同时开很多个 CLI，一个 task 一个 CLI**。重构一个模块、跑测试、写文档，三件事并行，三个终端窗口各跑一个会话。合并后的 Agent 二进制要么只能同时处理一个任务（不可接受），要么需要在内部管理 N 个并发会话子进程——本质上重新实现了 Daemon 的进程管理职责。`kimi-remote agent attach` 也需要找到正确的会话再接入，这和 CLI 通过 `daemon.state.json` 找 Daemon 是同一套机制。
+
+换句话说，即使解决了 Provider 统一封装的问题，多实例并发的使用习惯仍然会把「合并后的 Agent」逼回 Daemon + CLI 的分离结构。Happy 的四组件不只是因为多 Provider 才拆分，而是因为 CLI 的生命周期（一个任务一个进程，用完即走）和 Daemon 的生命周期（常驻，管理所有活跃会话）在本质上不同。
+
 ### 6.2 不可省略的部分
 
 无论怎么简化：
@@ -721,26 +725,11 @@ Happy 的 `CoreUpdateContainer` 正是这样做的，每条 update 带 `id`（�
 2. **多端一致性**淘汰了无状态 Gateway。Gateway 只转发不协调，两端状态可能不一致
 3. **控制权互斥**要求 Server 理解协议语义。Gateway 不知道谁是控制端
 4. **会话独立于前端**要求常驻进程。关掉终端不能杀死 Agent（Daemon）
-5. **本地 + 远程并存**让 CLI 和 Daemon 无法合并。TTY 需求和 detached 后台进程模型冲突
+5. **本地 + 远程并存**让 CLI 和 Daemon 无法合并。TTY 需求和 detached 后台进程模型冲突，且实际使用中一台机器同时跑多个 CLI（一个任务一个进程），Daemon 必须作为独立进程管理这些并发会话
 
 Happy 的四组件恰好对应这五个约束。场景更简单时可以缩减到三组件，但 Server 和 Daemon 不可省，它们解决的是物理约束，不是设计偏好。
 
-**判断自己需要几个组件**：
-
-```mermaid
-flowchart TD
-    A{"手机和开发机<br/>在同一网络？"} -->|是| B["不需要 Server<br/>直连即可"]
-    A -->|否| C["需要 Server"]
-    C --> D{"关掉终端后<br/>Agent 要继续跑？"}
-    D -->|否| E["不需要 Daemon<br/>Web 服务进程管理够用"]
-    D -->|是| F["需要 Daemon"]
-    F --> G{"电脑端也要<br/>交互式操控？"}
-    G -->|否| H["CLI 合并到 Daemon"]
-    G -->|是| I["CLI + Daemon 分离"]
-    I --> J{"支持多种<br/>AI Provider？"}
-    J -->|是| K["CLI 做统一封装层"]
-    J -->|否| L["封装层内嵌"]
-```
+**判断自己需要几个组件**（Mermaid 图略，同前文）
 
 协议层面，Wire 协议不需要推翻：应用语义层 100% 复用，会话管理层从零新增，传输层整体替换。
 
