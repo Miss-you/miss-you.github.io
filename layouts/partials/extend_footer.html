@@ -1,6 +1,6 @@
 {{/* Mermaid.js 支持 - 与博客风格一致的配置 */}}
 <script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
   
   // 检测主题
   const isDarkMode = () => {
@@ -53,6 +53,20 @@
     };
   };
   
+  // 加载 Excalidraw Virgil 手写字体
+  if (!document.getElementById('mermaid-virgil-font')) {
+    const style = document.createElement('style');
+    style.id = 'mermaid-virgil-font';
+    style.textContent = `
+      @font-face {
+        font-family: "Virgil";
+        src: url("https://excalidraw.nyc3.cdn.digitaloceanspaces.com/fonts/Virgil.woff2") format("woff2");
+        font-display: swap;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   const initMermaid = () => {
     const c = getColors();
     
@@ -61,7 +75,7 @@
       theme: 'base',
       themeVariables: {
         // ===== 字体设置 - 增大字号 =====
-        fontFamily: '"Noto Serif SC", Georgia, serif',
+        fontFamily: '"Virgil", "Noto Serif SC", Georgia, serif',
         fontSize: '16px',           // 基础字体增大
         
         // ===== 背景色 =====
@@ -254,7 +268,7 @@
 <style>
   /* 图表容器样式 */
   .mermaid-diagram {
-    font-family: "Noto Serif SC", Georgia, serif;
+    font-family: "Virgil", "Noto Serif SC", Georgia, serif;
   }
   
   .mermaid-diagram .mermaid {
@@ -266,7 +280,7 @@
   .mermaid-diagram svg {
     max-width: 100% !important;
     height: auto !important;
-    font-family: "Noto Serif SC", Georgia, serif !important;
+    font-family: "Virgil", "Noto Serif SC", Georgia, serif !important;
   }
   
   /* 强制所有文字为深色（亮色模式） */
@@ -278,7 +292,7 @@
   .mermaid-diagram svg .actor text,
   .mermaid-diagram svg .participant text {
     fill: #1f1f1f !important;
-    font-family: "Noto Serif SC", Georgia, serif !important;
+    font-family: "Virgil", "Noto Serif SC", Georgia, serif !important;
     font-size: 15px !important;
     font-weight: 500 !important;
   }
