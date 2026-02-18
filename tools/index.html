@@ -11,7 +11,7 @@
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
 <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
 </a><script type=module>
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
   
   
   const isDarkMode = () => {
@@ -64,6 +64,20 @@
     };
   };
   
+  
+  if (!document.getElementById('mermaid-virgil-font')) {
+    const style = document.createElement('style');
+    style.id = 'mermaid-virgil-font';
+    style.textContent = `
+      @font-face {
+        font-family: "Virgil";
+        src: url("https://excalidraw.nyc3.cdn.digitaloceanspaces.com/fonts/Virgil.woff2") format("woff2");
+        font-display: swap;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   const initMermaid = () => {
     const c = getColors();
     
@@ -72,7 +86,7 @@
       theme: 'base',
       themeVariables: {
         
-        fontFamily: '"Noto Serif SC", Georgia, serif',
+        fontFamily: '"Virgil", "Noto Serif SC", Georgia, serif',
         fontSize: '16px',           
         
         
@@ -260,4 +274,4 @@
     });
   });
   observer.observe(document.body, { attributes: true });
-</script><style>.mermaid-diagram{font-family:noto serif sc,Georgia,serif}.mermaid-diagram .mermaid{display:flex;justify-content:center}.mermaid-diagram svg{max-width:100% !important;height:auto !important;font-family:noto serif sc,Georgia,serif !important}.mermaid-diagram svg text,.mermaid-diagram svg .label,.mermaid-diagram svg .nodeLabel,.mermaid-diagram svg .edgeLabel,.mermaid-diagram svg .messageText,.mermaid-diagram svg .actor text,.mermaid-diagram svg .participant text{fill:#1f1f1f !important;font-family:noto serif sc,Georgia,serif !important;font-size:15px !important;font-weight:500 !important}.dark .mermaid-diagram svg text,.dark .mermaid-diagram svg .label,.dark .mermaid-diagram svg .nodeLabel,.dark .mermaid-diagram svg .edgeLabel,.dark .mermaid-diagram svg .messageText,.dark .mermaid-diagram svg .actor text,.dark .mermaid-diagram svg .participant text{fill:#dadaeb !important}.mermaid-diagram svg .sequenceDiagram text{font-size:16px !important}.mermaid-diagram svg .actor{font-size:16px !important}.mermaid-diagram svg .messageText{font-size:15px !important}.mermaid-diagram svg .node rect,.mermaid-diagram svg .node circle,.mermaid-diagram svg .node ellipse,.mermaid-diagram svg .node polygon{stroke-width:2px !important}.mermaid-diagram svg{filter:drop-shadow(0 1px 3px rgba(0,0,0,8%))}.dark .mermaid-diagram{background:#1d1e20 !important;border-color:#444 !important;box-shadow:0 2px 8px rgba(0,0,0,.2) !important}@media(max-width:768px){.mermaid-diagram{padding:16px !important;margin:1.5em 0 !important}.mermaid-diagram svg text{font-size:14px !important}}.mermaid-diagram{opacity:0;animation:fadeIn .4s ease-out forwards}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}</style><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script></body></html>
+</script><style>.mermaid-diagram{font-family:virgil,noto serif sc,Georgia,serif}.mermaid-diagram .mermaid{display:flex;justify-content:center}.mermaid-diagram svg{max-width:100% !important;height:auto !important;font-family:virgil,noto serif sc,Georgia,serif !important}.mermaid-diagram svg text,.mermaid-diagram svg .label,.mermaid-diagram svg .nodeLabel,.mermaid-diagram svg .edgeLabel,.mermaid-diagram svg .messageText,.mermaid-diagram svg .actor text,.mermaid-diagram svg .participant text{fill:#1f1f1f !important;font-family:virgil,noto serif sc,Georgia,serif !important;font-size:15px !important;font-weight:500 !important}.dark .mermaid-diagram svg text,.dark .mermaid-diagram svg .label,.dark .mermaid-diagram svg .nodeLabel,.dark .mermaid-diagram svg .edgeLabel,.dark .mermaid-diagram svg .messageText,.dark .mermaid-diagram svg .actor text,.dark .mermaid-diagram svg .participant text{fill:#dadaeb !important}.mermaid-diagram svg .sequenceDiagram text{font-size:16px !important}.mermaid-diagram svg .actor{font-size:16px !important}.mermaid-diagram svg .messageText{font-size:15px !important}.mermaid-diagram svg .node rect,.mermaid-diagram svg .node circle,.mermaid-diagram svg .node ellipse,.mermaid-diagram svg .node polygon{stroke-width:2px !important}.mermaid-diagram svg{filter:drop-shadow(0 1px 3px rgba(0,0,0,8%))}.dark .mermaid-diagram{background:#1d1e20 !important;border-color:#444 !important;box-shadow:0 2px 8px rgba(0,0,0,.2) !important}@media(max-width:768px){.mermaid-diagram{padding:16px !important;margin:1.5em 0 !important}.mermaid-diagram svg text{font-size:14px !important}}.mermaid-diagram{opacity:0;animation:fadeIn .4s ease-out forwards}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}</style><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script></body></html>
