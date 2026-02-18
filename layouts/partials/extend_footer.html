@@ -1,0 +1,352 @@
+{{/* Mermaid.js 支持 - 与博客风格一致的配置 */}}
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  
+  // 检测主题
+  const isDarkMode = () => {
+    return document.body.classList.contains('dark');
+  };
+  
+  // Mermaid 关键字
+  const mermaidKeywords = [
+    'graph ', 'graph TB', 'graph TD', 'graph LR', 'graph RL', 'graph BT',
+    'flowchart ', 'flowchart TB', 'flowchart TD', 'flowchart LR', 'flowchart RL', 'flowchart BT',
+    'sequenceDiagram', 'classDiagram', 'stateDiagram', 'stateDiagram-v2',
+    'erDiagram', 'journey', 'gantt', 'pie', 'requirementDiagram',
+    'gitGraph', 'mindmap', 'timeline', 'sankey'
+  ];
+  
+  const isMermaidCode = (code) => {
+    const trimmed = code.trim();
+    return mermaidKeywords.some(keyword => trimmed.startsWith(keyword));
+  };
+  
+  // 与博客风格一致的配色
+  const getColors = () => {
+    if (isDarkMode()) {
+      return {
+        // 暗色模式
+        bg: '#1d1e20',
+        surface: '#2d2e30',
+        border: '#444',
+        text: '#dadaeb',
+        secondary: '#9c9d9e',
+        line: '#9c9d9e',
+        // 强调色（柔和的手绘风格）
+        accent1: '#5a7a96',  // 柔和的蓝
+        accent2: '#6b8e6b',  // 柔和的绿色
+        accent3: '#b8a87c',  // 柔和的黄褐
+      };
+    }
+    // 亮色模式 - 与博客浅米色风格一致
+    return {
+      bg: '#f4f3ee',        // 博客主题色：浅米色
+      surface: '#faf9f5',   // 稍浅的米色
+      border: '#2c2c2c',    // 深色边框
+      text: '#1f1f1f',      // 深色文字（与博客 content 色一致）
+      secondary: '#6c6c6c', // 次要文字
+      line: '#4a4a4a',      // 线条颜色
+      // 强调色（柔和复古）
+      accent1: '#8fb8d4',   // 柔和的蓝
+      accent2: '#a8c6a8',   // 柔和的绿色
+      accent3: '#d4c59a',   // 柔和的黄褐
+    };
+  };
+  
+  const initMermaid = () => {
+    const c = getColors();
+    
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      themeVariables: {
+        // ===== 字体设置 - 增大字号 =====
+        fontFamily: '"Noto Serif SC", Georgia, serif',
+        fontSize: '16px',           // 基础字体增大
+        
+        // ===== 背景色 =====
+        background: c.bg,
+        mainBkg: c.surface,
+        
+        // ===== 节点样式 =====
+        primaryColor: c.surface,
+        primaryTextColor: c.text,
+        primaryBorderColor: c.border,
+        
+        // 次要颜色
+        secondaryColor: c.accent1,
+        tertiaryColor: c.accent2,
+        
+        // 边框和线条
+        lineColor: c.line,
+        nodeBorder: c.border,
+        clusterBkg: c.bg,
+        clusterBorder: c.border,
+        
+        // 文字颜色 - 确保深色
+        textColor: c.text,
+        titleColor: c.text,
+        nodeTextColor: c.text,
+        labelColor: c.text,
+        
+        // 标签背景
+        edgeLabelBackground: c.bg,
+        
+        // ===== 时序图专用 - 增大字号 =====
+        actorBorder: c.border,
+        actorBkg: c.surface,
+        actorTextColor: c.text,
+        actorLineColor: c.border,
+        signalColor: c.line,
+        signalTextColor: c.text,
+        
+        // ===== 状态图 =====
+        stateBorder: c.border,
+        stateBkg: c.surface,
+        
+        // ===== 特殊节点颜色序列 =====
+        cScale0: c.surface,
+        cScale1: c.accent1,
+        cScale2: c.accent2,
+        cScale3: c.accent3,
+        cScale4: c.surface,
+        cScale5: c.accent1,
+      },
+      
+      // ===== 流程图配置 =====
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        curve: 'basis',
+        padding: 20,
+        nodeSpacing: 50,
+        rankSpacing: 60,
+      },
+      
+      // ===== 时序图配置 - 增大尺寸和字体 =====
+      sequence: {
+        useMaxWidth: true,
+        diagramMarginX: 50,
+        diagramMarginY: 20,
+        actorMargin: 60,
+        width: 160,
+        height: 70,
+        boxMargin: 15,
+        boxTextMargin: 8,
+        noteMargin: 15,
+        messageMargin: 40,
+        mirrorActors: true,
+        bottomMarginAdj: 1,
+        rightAngles: false,
+        showSequenceNumbers: false,
+        // 时序图专用字体大小
+        actorFontSize: '16px',
+        noteFontSize: '15px',
+        messageFontSize: '15px',
+      },
+      
+      // ===== 状态图配置 =====
+      state: {
+        useMaxWidth: true,
+        padding: 15,
+        fontSize: '16px',
+      },
+      
+      // ===== 类图配置 =====
+      class: {
+        useMaxWidth: true,
+        fontSize: '15px',
+      },
+      
+      // ===== ER图配置 =====
+      er: {
+        useMaxWidth: true,
+        fontSize: '15px',
+      },
+      
+      // ===== 甘特图配置 =====
+      gantt: {
+        useMaxWidth: true,
+        fontSize: '14px',
+      },
+      
+      // ===== 手绘风格（但保持清晰可读） =====
+      look: 'handDrawn',
+    });
+  };
+  
+  const renderMermaidDiagrams = async () => {
+    const allCodeBlocks = document.querySelectorAll('pre code');
+    const mermaidBlocks = [];
+    
+    allCodeBlocks.forEach(block => {
+      const code = block.textContent;
+      if (isMermaidCode(code)) {
+        mermaidBlocks.push(block);
+      }
+    });
+    
+    if (mermaidBlocks.length === 0) return;
+    
+    initMermaid();
+    const c = getColors();
+    
+    for (const block of mermaidBlocks) {
+      const pre = block.parentElement;
+      const code = block.textContent.trim();
+      
+      // 创建与博客风格一致的容器
+      const wrapper = document.createElement('div');
+      wrapper.className = 'mermaid-diagram';
+      wrapper.style.cssText = `
+        margin: 2em 0;
+        padding: 24px;
+        background: ${c.bg};
+        border: 1px solid ${c.border}30;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        overflow-x: auto;
+      `;
+      
+      // 图表容器
+      const container = document.createElement('div');
+      container.style.cssText = `
+        display: flex;
+        justify-content: center;
+        min-width: fit-content;
+      `;
+      
+      const mermaidDiv = document.createElement('div');
+      mermaidDiv.className = 'mermaid';
+      mermaidDiv.textContent = code;
+      container.appendChild(mermaidDiv);
+      wrapper.appendChild(container);
+      
+      pre.parentNode.replaceChild(wrapper, pre);
+      
+      try {
+        await mermaid.run({ querySelector: '.mermaid' });
+      } catch (error) {
+        console.error('Mermaid error:', error);
+      }
+    }
+  };
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderMermaidDiagrams);
+  } else {
+    renderMermaidDiagrams();
+  }
+  
+  // 主题切换监听
+  let timeout;
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'class') {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => location.reload(), 300);
+      }
+    });
+  });
+  observer.observe(document.body, { attributes: true });
+</script>
+
+<style>
+  /* 图表容器样式 */
+  .mermaid-diagram {
+    font-family: "Noto Serif SC", Georgia, serif;
+  }
+  
+  .mermaid-diagram .mermaid {
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* SVG 基础样式 */
+  .mermaid-diagram svg {
+    max-width: 100% !important;
+    height: auto !important;
+    font-family: "Noto Serif SC", Georgia, serif !important;
+  }
+  
+  /* 强制所有文字为深色（亮色模式） */
+  .mermaid-diagram svg text,
+  .mermaid-diagram svg .label,
+  .mermaid-diagram svg .nodeLabel,
+  .mermaid-diagram svg .edgeLabel,
+  .mermaid-diagram svg .messageText,
+  .mermaid-diagram svg .actor text,
+  .mermaid-diagram svg .participant text {
+    fill: #1f1f1f !important;
+    font-family: "Noto Serif SC", Georgia, serif !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+  }
+  
+  /* 暗色模式文字为浅色 */
+  .dark .mermaid-diagram svg text,
+  .dark .mermaid-diagram svg .label,
+  .dark .mermaid-diagram svg .nodeLabel,
+  .dark .mermaid-diagram svg .edgeLabel,
+  .dark .mermaid-diagram svg .messageText,
+  .dark .mermaid-diagram svg .actor text,
+  .dark .mermaid-diagram svg .participant text {
+    fill: #dadaeb !important;
+  }
+  
+  /* 时序图特殊样式 - 增大字体 */
+  .mermaid-diagram svg .sequenceDiagram text {
+    font-size: 16px !important;
+  }
+  
+  .mermaid-diagram svg .actor {
+    font-size: 16px !important;
+  }
+  
+  .mermaid-diagram svg .messageText {
+    font-size: 15px !important;
+  }
+  
+  /* 节点样式 */
+  .mermaid-diagram svg .node rect,
+  .mermaid-diagram svg .node circle,
+  .mermaid-diagram svg .node ellipse,
+  .mermaid-diagram svg .node polygon {
+    stroke-width: 2px !important;
+  }
+  
+  /* 手绘风格的柔和阴影 */
+  .mermaid-diagram svg {
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.08));
+  }
+  
+  /* 暗色模式调整 */
+  .dark .mermaid-diagram {
+    background: #1d1e20 !important;
+    border-color: #444 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+  }
+  
+  /* 移动端适配 */
+  @media (max-width: 768px) {
+    .mermaid-diagram {
+      padding: 16px !important;
+      margin: 1.5em 0 !important;
+    }
+    
+    .mermaid-diagram svg text {
+      font-size: 14px !important;
+    }
+  }
+  
+  /* 淡入动画 */
+  .mermaid-diagram {
+    opacity: 0;
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
