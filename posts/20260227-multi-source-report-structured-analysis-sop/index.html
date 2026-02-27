@@ -1,0 +1,550 @@
+<!doctype html><html lang=zh dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>多源报告结构化分析 SOP | Yousa Driven Development | YDD</title><meta name=keywords content="SOP,方法论,报告分析,AI 协作,知识管理"><meta name=description content="一套可复用的方法论，用于从 N 份异质来源报告中系统性提取、分析、对比某一维度信息，并产出结构化交叉分析文档。"><meta name=author content="Miss-you"><link rel=canonical href=https://miss-you.github.io/posts/20260227-multi-source-report-structured-analysis-sop/><link crossorigin=anonymous href=/assets/css/stylesheet.90ccfe940c2ebacfe29cf6c094281c8c148bd718511cde00be68d330109118be.css integrity="sha256-kMz+lAwuus/inPbAlCgcjBSL1xhRHN4AvmjTMBCRGL4=" rel="preload stylesheet" as=style><link rel=icon href=https://miss-you.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://miss-you.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://miss-you.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://miss-you.github.io/apple-touch-icon.png><link rel=mask-icon href=https://miss-you.github.io/safari-pinned-tab.svg><meta name=theme-color content="#f4f3ee"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=zh href=https://miss-you.github.io/posts/20260227-multi-source-report-structured-analysis-sop/><noscript><style>#theme-toggle,.top-link{display:none}</style></noscript><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel=stylesheet><meta property="og:url" content="https://miss-you.github.io/posts/20260227-multi-source-report-structured-analysis-sop/"><meta property="og:site_name" content="Yousa Driven Development | YDD"><meta property="og:title" content="多源报告结构化分析 SOP"><meta property="og:description" content="一套可复用的方法论，用于从 N 份异质来源报告中系统性提取、分析、对比某一维度信息，并产出结构化交叉分析文档。"><meta property="og:locale" content="zh"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-02-27T10:00:00+08:00"><meta property="article:modified_time" content="2026-02-27T16:34:27+08:00"><meta property="article:tag" content="SOP"><meta property="article:tag" content="方法论"><meta property="article:tag" content="报告分析"><meta property="article:tag" content="AI 协作"><meta property="article:tag" content="知识管理"><meta name=twitter:card content="summary"><meta name=twitter:title content="多源报告结构化分析 SOP"><meta name=twitter:description content="一套可复用的方法论，用于从 N 份异质来源报告中系统性提取、分析、对比某一维度信息，并产出结构化交叉分析文档。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://miss-you.github.io/posts/"},{"@type":"ListItem","position":2,"name":"多源报告结构化分析 SOP","item":"https://miss-you.github.io/posts/20260227-multi-source-report-structured-analysis-sop/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"多源报告结构化分析 SOP","name":"多源报告结构化分析 SOP","description":"一套可复用的方法论，用于从 N 份异质来源报告中系统性提取、分析、对比某一维度信息，并产出结构化交叉分析文档。","keywords":["SOP","方法论","报告分析","AI 协作","知识管理"],"articleBody":"多源报告结构化分析 SOP 定位: 一套可复用的方法论，用于从 N 份异质来源报告中，系统性地提取、分析、对比某一维度的信息，并产出结构化的交叉分析文档。\n抽象自: 2026-02-27「AI Coding 报告测量方法论分析」项目实践。该项目从 10 份 AI Coding 研效报告中分析了测量方法论，产出了 10 份 per-report 分析 + 1 份聚合对比分析。\n适用工具: Claude Code + Agent Team（并行调度）\n一、这套 SOP 解决什么问题 1.1 核心问题 当你面对 N 份关于同一主题的报告/论文/调研时，常见痛点：\n痛点 表现 信息过载 每份报告几十页，10 份就是几百页，人工逐一精读不现实 结论冲突 不同报告对同一问题给出相反结论，不知道该信谁 比较困难 各报告结构不同、术语不同、测量口径不同，无法直接对比 深层原因不可见 表面结论容易获取，但「为什么得出这个结论」（方法论、样本、统计方法）藏在细节中 提炼效率低 手动整理笔记 → 对比 → 写报告，链路长、易遗漏 1.2 核心思路 不是「读 N 份报告然后写总结」，而是「用统一的分析框架逐一拆解，再系统性聚合」。\n关键设计：\n统一模板：所有报告用相同的 8 章结构分析，确保可比性 先拆后合：Phase 1 独立分析每份报告（并行），Phase 2 聚合交叉对比（串行） 报告特定问题：在统一模板之上，每份报告有定制的「重点追问」，抓住该报告独特的方法论特征 方法论聚焦：不只看「说了什么」，更看「怎么得出这个结论的」——后者才是判断可信度和可复用性的基础 1.3 产出价值 产出物 价值 N 份 per-report 结构化分析 每份报告的「方法论透视」，快速理解其证据基础和局限 1 份交叉对比分析 解释冲突结论的方法论根源，提取可复用的最佳实践 分析框架本身 团队建立自己的度量/评估体系的参考模板 二、适用场景 2.1 直接适用 场景 示例 行业报告对标 收集 N 份同主题行业报告，系统性提取和对比 技术选型调研 N 份技术方案/框架的评测报告，对比其评测方法论 竞品分析 N 份关于竞品的分析/报告，统一维度对比 学术文献综述 N 篇论文的研究方法和发现的系统性比较 度量体系设计 分析「别人怎么测量的」，为团队设计自己的度量方案 2.2 核心适用条件 N ≥ 3：少于 3 份来源时交叉对比价值有限，手动处理即可 异质来源：来源越多样（不同机构、不同方法），交叉分析越有价值 有对比需求：不只是「分别了解每份报告」，而是需要「跨报告比较」 有某个分析维度：需要一个明确的分析视角（如「测量方法论」「数据质量」「适用条件」） 2.3 不适用 仅 1-2 份报告：直接精读即可，不需要这套流程 来源高度同质（如同一机构的系列报告）：交叉对比价值低 无明确分析维度：如果只是「帮我看看这几份报告」，先明确你想分析什么 三、前置准备 3.1 输入物清单 输入物 必需? 说明 N 份原始报告（或结构化摘要） 必需 可以是 PDF、网页、或已有的结构化分析文档（ver1/ver2） 分析维度定义 必需 明确「你想从什么角度分析这些报告」——如方法论、数据质量、适用场景等 来源索引 推荐 每份报告的元信息（发布机构、时间、可信度、偏见方向）。如果已有就复用，没有就在 Phase 1 中顺便产出 已有交叉分析（如有） 可选 如果之前已做过内容层面的分析，方法论分析可以解释其中的冲突 3.2 分析框架设计 这是整个 SOP 中最需要人工判断的环节。 在执行前，你需要定义：\nPer-report 分析模板：统一的 N 章结构，每章要回答什么问题 Per-report 特定问题：每份报告的独特方法论特征，需要额外追问的点 聚合分析模板：交叉对比的 M 章结构 设计原则 原则 说明 统一是前提 所有报告必须用相同的模板，才能在聚合阶段对比 粒度要适中 章节太粗（如「研究方法」一章全包）→ 对比太泛；太细（20+章节）→ Agent 产出散乱 定制是补充 统一模板覆盖共性问题，per-report 特定问题捕捉个性 聚合要有洞察 聚合不是 N 份分析的拼接，而是要回答「同一现象为何有不同结论」 四、执行流程 4.1 整体架构 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 前置准备 ├── 确定分析维度 ├── 设计 per-report 模板（统一 + 定制） └── 设计聚合模板 │ ▼ Phase 1：并行分析（N 个 Agent，每 Agent 负责 1 份报告） ├── Agent-1 → 报告1 分析.md ├── Agent-2 → 报告2 分析.md ├── ... └── Agent-N → 报告N 分析.md │ ▼ （全部完成后） Phase 2：串行聚合（主 Agent，读取全部 Phase 1 产出） └── 主 Agent → 交叉对比分析.md │ ▼ 验证 ├── 结构完整性检查 ├── 核心问题回答检查 └── 实操价值检查 4.2 Phase 1：并行 Per-Report 分析 执行方式 使用 Claude Code 的 Task 工具，以 general-purpose 类型启动 N 个 Agent，最大化并发。\n每个 Agent 的输入 1 2 3 4 5 1. 该报告的原始内容（或 ver1.md + ver2.md 结构化摘要） 2. 统一分析模板（8 章结构 + 每章要回答的问题） 3. 该报告的特定重点问题（2-5 个针对性追问） 4. 上下文文件（如来源索引，帮助 Agent 理解报告的可信度和偏见方向） 5. 输出路径和格式要求 Agent Prompt 结构（模板） 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 你是一名研究方法论分析师。请对以下报告进行[分析维度]分析。 ## 报告信息 - 名称：[报告名] - 发布机构：[机构名] - 可信度：[A/B/C/D] - 潜在偏见：[描述] ## 输入文件 请阅读以下文件： - [文件路径1]（报告分析 ver1） - [文件路径2]（报告分析 ver2） - [来源索引路径]（了解该报告在全部 N 份报告中的定位） ## 分析要求 请按以下 8 章结构产出分析文档： [粘贴统一模板的章节定义] ## 本报告的特定重点问题 除统一模板外，请特别关注： 1. [特定问题1] 2. [特定问题2] ... ## 输出 将分析结果写入：[输出文件路径] Phase 1 质量要点 要点 说明 Agent 独立性 每个 Agent 只负责一份报告，不需要了解其他报告 模板一致性 所有 Agent 使用完全相同的模板，确保输出可比 不越权 Agent 只分析分配给它的报告，不做跨报告判断（那是 Phase 2 的事） 引用原文 分析中的关键结论必须引用报告原文，不自行创造观点 4.3 Phase 2：串行聚合分析 触发条件 Phase 1 全部 N 个 Agent 完成后才能开始。\n执行方式 由主 Agent（或人工）读取全部 Phase 1 产出，加上已有的索引/矩阵文件，产出聚合分析。\n主 Agent 的输入 1 2 3 4 1. N 份 per-report 分析文档（Phase 1 产出） 2. 来源索引（了解每份报告的可信度和偏见） 3. 已有的内容层面分析（如 SDLC 数据矩阵，了解「冲突在哪里」） 4. 聚合分析模板（7 章结构） Phase 2 质量要点 要点 说明 读完再写 必须读完全部 N 份分析后再开始写，不能边读边写 对比而非拼接 聚合的价值在于发现 pattern、解释冲突、提炼教训 方法论溯因 核心任务：当两份报告结论矛盾时，用方法论差异来解释 可操作性 「经验教训」章节要能指导团队的实际决策 4.4 验证 验证项 检查方法 结构完整性 每份 per-report 分析是否覆盖了模板的所有章节 核心问题回答 聚合分析是否回答了「同一现象不同结论能否用方法论差异解释」 实操价值 「经验教训」章节是否对团队的实际决策有指导意义 引用准确性 抽查分析中的引用是否与原始报告一致 五、分析模板（实例） 以下是本次项目实际使用的模板。复用时需根据分析维度调整，但结构设计原则通用。\n5.1 Per-Report 分析模板（8 章） 本次分析维度是「测量方法论」，因此 8 章围绕「研究是怎么做的」展开：\n章节 回答的问题 设计意图 一、研究设计概述 什么范式？因果推断能力多强？是否预注册/同行评审？ 定位报告在「证据金字塔」中的位置 二、数据收集方法 数据从哪来？样本多大/怎么抽的/什么特征？ 理解数据基础——结论只能和数据一样可靠 三、测量指标与操作化定义 测了什么？「效率」具体指什么？覆盖 SDLC 哪些阶段？ 发现「同一个词不同含义」的问题 四、统计/分析方法 用了什么统计方法？有没有对照组？怎么控制偏差？ 评估分析的严谨程度 五、效度与信度评估 因果推断可信吗？结论可推广吗？ 这是方法论评估的核心 六、方法论局限性 报告自己承认了什么局限？外部评估还有哪些？ 区分「报告知道的局限」和「报告不知道的局限」 七、与「R\u0026D效率测量」的关联 对团队建立度量体系有什么启发？ 桥接「学术分析」与「实操价值」 八、一句话方法论总结 核心特征、最大优势、最大局限各一句 速览用 5.2 Per-Report 特定问题（示例） 每份报告有 3-5 个定制追问，抓住该报告的独特方法论特征：\n报告类型 特定问题示例 设计意图 RCT 实验（METR） 随机化单元是什么？聚类处理如何？编码者信度？认知偏差量化方法？ RCT 的核心质量取决于随机化和测量的精确性 遥测数据（Faros） 遥测系统接入粒度？高/低 AI 采纳的分组标准？DORA 指标计算口径？ 遥测数据的质量取决于定义的精确性和分组的合理性 代码分析（GitClear） 变更操作检测算法？重复块匹配方法？AI/非AI 代码区分能力？ 代码分析的价值取决于分类算法的可靠性 大规模调查（JetBrains） 路由策略？权重校正依据？年际可比性？ 调查的质量取决于抽样设计和校正方法 厂商报告（Anthropic） 内部调查设计？客户案例选择标准？效率基线定义？ 厂商报告需要特别审视利益冲突和方法论透明度 5.3 聚合分析模板（7 章） 章节 回答的问题 设计意图 一、方法论类型学矩阵 10 份报告分别属于什么研究范式？形成什么光谱？ 建立全局视图——「我们的证据基础长什么样」 二、数据收集方法比较 主观-客观光谱、样本设计比较、时间覆盖 理解每份报告「看到的是什么切面」 三、效率测量维度对比 「效率」有几种定义？共同/独有/遗漏了什么维度？ 核心洞察：「同一个词有 7 种含义」——冲突的根源 四、效度与信度交叉评估 内部效度排名、外部效度矩阵、主观-客观偏差分析 建立可信度排序——该信谁？ 五、方法论冲突解析 同一现象不同结论 → 方法论差异能否解释？ 这是聚合分析的核心价值所在 六、经验教训与最佳实践 最有洞察力/最可复制/固有局限最大的方法是什么？ 桥接分析与行动——「对我们有什么用」 七、附录 速查表、来源清单 快速索引 六、Agent 编排策略 6.1 为什么用并行 Agent 因素 并行 Agent 串行单 Agent 速度 N 份报告同时分析，总时间≈单份时间 N 份依次分析，总时间 = N × 单份时间 上下文窗口 每个 Agent 只需装载 1 份报告的内容 单 Agent 需在上下文中同时持有 N 份报告 质量 每个 Agent 专注一份报告，分析更深入 后期报告分析质量可能因上下文耗尽而下降 独立性 Phase 1 的分析天然独立——报告 A 的方法论分析不依赖报告 B - 6.2 并行调度实践 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 Claude Code 中的操作方式： 1. 用 TaskCreate 创建两个 Task： - Task 1: \"Phase 1: 并行分析 N 份报告\" - Task 2: \"Phase 2: 聚合分析\"（blocked by Task 1） 2. 用 Task 工具一次性启动 N 个 Agent（单条消息中包含 N 个 Task 调用） - subagent_type: \"general-purpose\" - 每个 Agent 的 prompt 包含：报告路径 + 统一模板 + 特定问题 + 输出路径 3. 等待全部 Agent 返回 4. 验证 N 份输出文件全部存在（用 Glob） 5. 启动 Phase 2：主 Agent 读取全部产出 + 上下文文件，写聚合分析 6.3 Agent 数量上限 实测经验：\n10 个并行 Agent：运行正常，全部成功完成 每个 Agent 的输入约为 2 个文件（ver1 + ver2，合计约 3-5 万字）+ 1 个索引文件 每个 Agent 的输出约为 3000-5000 字的结构化分析 6.4 失败处理 场景 处理方式 某个 Agent 失败/输出不完整 单独重跑该 Agent，不影响其他已完成的 输出质量不达标（如缺少章节） 给该 Agent 追加 prompt 补充，或重新启动 Phase 2 输出不理想 Phase 2 可反复迭代，不需要重跑 Phase 1 七、本次项目的关键发现（作为 SOP 效果示例） 本次项目通过上述 SOP，从 10 份 AI Coding 报告中发现了以下关键方法论洞察——这些洞察是手动逐一阅读难以系统性获得的：\n7.1 方法论解释了结论冲突 冲突 方法论解释 METR 说「慢 19%」，DORA/JetBrains 说「85-90% 认为更快」 METR 用 RCT 客观测量，后者用自报调查。METR 发现主观-客观偏差达 39 个百分点 GitClear 说「代码质量下降」，DORA 说「59% 认为质量改善」 GitClear 用客观代码分析，DORA 用自报。问「质量好不好」和分析实际代码得到不同答案 Faros 说「个体+21%」但「组织 DORA 无改善」 这不是矛盾而是多层级测量的必然——微观指标提升被下游成本（PR 膨胀、评审负荷、Bug 密度）抵消 7.2 「测量什么就得到什么」 这是本次分析最核心的发现：\n1 2 3 4 5 你测量开发者自报感受 → 得到 85% 正面 你测量个体活动量 → 得到 +21% 增长 你测量组织交付指标 → 得到无显著改善 你测量实验任务时间 → 得到可能更慢 你测量代码结构健康度 → 得到结构性退化 启示：选择度量指标本身就是一个价值判断。在建立度量体系之前，必须先回答「我们到底想测量什么」。**\n7.3 三大系统性遗漏 10 份报告都没有测量：\n成本/ROI：没有一份报告测量了 AI 工具的总拥有成本 端到端交付周期：所有报告聚焦编码阶段局部指标 业务价值映射：没有报告建立「代码产出」与「用户/业务价值交付」的关联 八、复用指南 8.1 快速复用路径 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 Step 1：明确分析维度 \"我想从什么角度分析这 N 份报告？\" 例：方法论 / 数据质量 / 适用条件 / 技术架构对比 / 商业模式对比 Step 2：设计 per-report 模板 - 统一结构：6-10 章，每章一个核心问题 - 特定问题：每份报告 3-5 个针对性追问 - 参考本文 §5.1 和 §5.2 的设计原则 Step 3：设计聚合模板 - 5-8 章，重点在\"跨源对比\"和\"冲突解析\" - 必须包含一章\"经验教训 / 可操作建议\" - 参考本文 §5.3 的设计原则 Step 4：准备输入文件 - 原始报告或结构化摘要 - 来源索引（可信度、偏见方向） Step 5：执行 - Phase 1：并行启动 N 个 Agent - Phase 2：串行聚合 - 验证 Step 6：迭代 - 第一遍产出后，根据实际效果调整模板，必要时重跑 8.2 模板调整指南 如果分析维度是… per-report 模板重点调整 聚合模板重点调整 技术架构对比 章节改为：架构模式、组件设计、性能特征、扩展性、运维复杂度等 聚合增加：架构模式分类矩阵、权衡对照表 商业模式对比 章节改为：价值主张、收入模型、客户获取、护城河、财务数据等 聚合增加：竞争格局矩阵、可持续性评估 用户研究对比 章节改为：研究方法、用户画像、行为数据、痛点发现、改进建议等 聚合增加：共同痛点 vs 特有痛点、用户旅程对照 技术选型评测 章节改为：功能覆盖、性能基准、生态系统、学习曲线、社区活跃度等 聚合增加：决策矩阵、适用场景匹配 8.3 关键经验 经验 说明 模板设计决定产出质量 花在 Step 2-3 上的时间远比执行时间有价值。模板不好，Agent 再聪明也产不出好分析 特定问题不能省 统一模板保证可比性，特定问题保证深度。只有统一模板会导致「千篇一律的泛泛分析」 聚合分析是人工价值最高的环节 Phase 1 的 Agent 是「结构化提取」，Phase 2 才是「洞察产生」。如果时间有限，Phase 2 值得人工参与/审校 来源索引是信任基础 没有可信度和偏见评估，交叉对比就没有权重依据——你不知道该信谁多一点 先有内容分析，再做方法论分析 本次项目的顺序是：先做 SDLC 数据矩阵（内容层面），再做测量方法论分析（方法论层面）。方法论分析解释了内容分析中的冲突。这个「先内容后方法论」的顺序很有效 九、项目全景回顾 9.1 整体项目结构 本次「AI Coding 梳理分析」项目实际上分三轮完成：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 Round 1：内容提取 输入：10 份原始报告 处理：10 个 Agent 并行 → 每份报告产出 ver1.md + ver2.md（结构化摘要） 产出：20 个文件 Round 2：内容聚合 输入：20 个 ver1/ver2 文件 处理：并行提取 → 串行聚合（使用 00-综合矩阵生成SOP.md） 产出： - 01-报告来源索引.md（元信息、可信度、偏见评估） - 02-SDLC×报告数据矩阵.md（按 SDLC 阶段的数据矩阵 + 交叉验证） Round 3：方法论分析（本轮） 输入：20 个 ver1/ver2 文件 + 01 索引 + 02 矩阵 处理：10 个 Agent 并行 → 主 Agent 串行聚合 产出： - 10 份 per-report 测量方法论分析.md - 03-测量方法论对比分析.md 9.2 三轮之间的关系 1 2 3 4 5 6 7 8 Round 1（结构化摘要） ↓ 提供内容基础 Round 2（SDLC 数据矩阵） ↓ 暴露了结论冲突（如\"快 vs 慢\"） ↓ 提出了\"为什么冲突\"的问题 Round 3（方法论分析） ↓ 回答了\"冲突源于方法论差异\" ↓ 提炼了\"如何正确测量\"的经验 9.3 SOP 复用关系 SOP 用途 文件 综合矩阵生成 SOP 从 N 份报告中提取数据、交叉验证、生成综合矩阵 reports/00-综合矩阵生成SOP.md 多源报告结构化分析 SOP 从 N 份报告中分析某一维度（如方法论），交叉对比 本文件 两份 SOP 的核心模式一致：并行提取 → 串行聚合。区别在于分析维度和模板设计。\n十、附录 10.1 本次项目文件清单 1 2 3 4 5 6 7 8 9 10 11 12 ref/ ├── 01-报告来源索引.md ← Round 2 产出 ├── 02-SDLC×报告数据矩阵.md ← Round 2 产出 ├── 03-测量方法论对比分析.md ← Round 3 产出（聚合） ├── [10个报告目录]/ │ ├── *-ver1.md ← Round 1 产出 │ ├── *-ver2.md ← Round 1 产出 │ └── 测量方法论分析.md ← Round 3 产出（per-report） │ reports/ ├── 00-综合矩阵生成SOP.md ← Round 2 的 SOP └── 04-多源报告结构化分析SOP.md ← 本文件 10.2 执行统计 指标 数值 输入报告数 10 份 Phase 1 并行 Agent 数 10 个 Phase 1 每 Agent 产出 约 3,000-5,000 字 Phase 2 聚合产出 约 12,000 字（7 章） 总产出 约 50,000-60,000 字 Phase 1 Agent 成功率 10/10（100%） 10.3 版本记录 版本 日期 变更说明 v1.0 2026-02-27 初版，基于「AI Coding 报告测量方法论分析」项目实践抽象而成 ","wordCount":"1217","inLanguage":"zh","datePublished":"2026-02-27T10:00:00+08:00","dateModified":"2026-02-27T16:34:27+08:00","author":{"@type":"Person","name":"Miss-you"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://miss-you.github.io/posts/20260227-multi-source-report-structured-analysis-sop/"},"publisher":{"@type":"Organization","name":"Yousa Driven Development | YDD","logo":{"@type":"ImageObject","url":"https://miss-you.github.io/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://miss-you.github.io/ accesskey=h title="Yousa Driven Development | YDD (Alt + H)">Yousa Driven Development | YDD</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button><ul class=lang-switch><li>|</li><li><a href=https://miss-you.github.io/en/ title=English aria-label=English>En</a></li></ul></div></div><ul id=menu><li><a href=https://miss-you.github.io/archives title=归档><span>归档</span></a></li><li><a href=https://miss-you.github.io/tags/ title=标签><span>标签</span></a></li><li><a href=https://miss-you.github.io/tools/ title=工具><span>工具</span></a></li><li><a href=https://miss-you.github.io/categories/ title=分类><span>分类</span></a></li><li><a href=https://github.com/Miss-you title=GitHub><span>GitHub</span>&nbsp;
+<svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://miss-you.github.io/>主页</a>&nbsp;»&nbsp;<a href=https://miss-you.github.io/posts/>Posts</a></div><h1 class="post-title entry-hint-parent">多源报告结构化分析 SOP</h1><div class=post-description>一套可复用的方法论，用于从 N 份异质来源报告中系统性提取、分析、对比某一维度信息，并产出结构化交叉分析文档。</div><div class=post-meta><span title='2026-02-27 10:00:00 +0800 +0800'>二月 27, 2026</span>&nbsp;·&nbsp;6 分钟&nbsp;·&nbsp;8763 字&nbsp;·&nbsp;Miss-you&nbsp;|&nbsp;<a href=https://github.com/Miss-you/miss-you.github.io/tree/main/content/posts/20260227-multi-source-report-structured-analysis-sop/index.md rel="noopener noreferrer edit" target=_blank>Suggest Changes</a></div></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>目录</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#一这套-sop-解决什么问题>一、这套 SOP 解决什么问题</a><ul><li><a href=#11-核心问题>1.1 核心问题</a></li><li><a href=#12-核心思路>1.2 核心思路</a></li><li><a href=#13-产出价值>1.3 产出价值</a></li></ul></li><li><a href=#二适用场景>二、适用场景</a><ul><li><a href=#21-直接适用>2.1 直接适用</a></li><li><a href=#22-核心适用条件>2.2 核心适用条件</a></li><li><a href=#23-不适用>2.3 不适用</a></li></ul></li><li><a href=#三前置准备>三、前置准备</a><ul><li><a href=#31-输入物清单>3.1 输入物清单</a></li><li><a href=#32-分析框架设计>3.2 分析框架设计</a></li></ul></li><li><a href=#四执行流程>四、执行流程</a><ul><li><a href=#41-整体架构>4.1 整体架构</a></li><li><a href=#42-phase-1并行-per-report-分析>4.2 Phase 1：并行 Per-Report 分析</a></li><li><a href=#43-phase-2串行聚合分析>4.3 Phase 2：串行聚合分析</a></li><li><a href=#44-验证>4.4 验证</a></li></ul></li><li><a href=#五分析模板实例>五、分析模板（实例）</a><ul><li><a href=#51-per-report-分析模板8-章>5.1 Per-Report 分析模板（8 章）</a></li><li><a href=#52-per-report-特定问题示例>5.2 Per-Report 特定问题（示例）</a></li><li><a href=#53-聚合分析模板7-章>5.3 聚合分析模板（7 章）</a></li></ul></li><li><a href=#六agent-编排策略>六、Agent 编排策略</a><ul><li><a href=#61-为什么用并行-agent>6.1 为什么用并行 Agent</a></li><li><a href=#62-并行调度实践>6.2 并行调度实践</a></li><li><a href=#63-agent-数量上限>6.3 Agent 数量上限</a></li><li><a href=#64-失败处理>6.4 失败处理</a></li></ul></li><li><a href=#七本次项目的关键发现作为-sop-效果示例>七、本次项目的关键发现（作为 SOP 效果示例）</a><ul><li><a href=#71-方法论解释了结论冲突>7.1 方法论解释了结论冲突</a></li><li><a href=#72-测量什么就得到什么>7.2 「测量什么就得到什么」</a></li><li><a href=#73-三大系统性遗漏>7.3 三大系统性遗漏</a></li></ul></li><li><a href=#八复用指南>八、复用指南</a><ul><li><a href=#81-快速复用路径>8.1 快速复用路径</a></li><li><a href=#82-模板调整指南>8.2 模板调整指南</a></li><li><a href=#83-关键经验>8.3 关键经验</a></li></ul></li><li><a href=#九项目全景回顾>九、项目全景回顾</a><ul><li><a href=#91-整体项目结构>9.1 整体项目结构</a></li><li><a href=#92-三轮之间的关系>9.2 三轮之间的关系</a></li><li><a href=#93-sop-复用关系>9.3 SOP 复用关系</a></li></ul></li><li><a href=#十附录>十、附录</a><ul><li><a href=#101-本次项目文件清单>10.1 本次项目文件清单</a></li><li><a href=#102-执行统计>10.2 执行统计</a></li><li><a href=#103-版本记录>10.3 版本记录</a></li></ul></li></ul></nav></div></details></div><div class=post-content><h1 id=多源报告结构化分析-sop>多源报告结构化分析 SOP<a hidden class=anchor aria-hidden=true href=#多源报告结构化分析-sop>#</a></h1><blockquote><p><strong>定位</strong>: 一套可复用的方法论，用于从 N 份异质来源报告中，系统性地提取、分析、对比某一维度的信息，并产出结构化的交叉分析文档。</p><p><strong>抽象自</strong>: 2026-02-27「AI Coding 报告测量方法论分析」项目实践。该项目从 10 份 AI Coding 研效报告中分析了测量方法论，产出了 10 份 per-report 分析 + 1 份聚合对比分析。</p><p><strong>适用工具</strong>: Claude Code + Agent Team（并行调度）</p></blockquote><hr><h2 id=一这套-sop-解决什么问题>一、这套 SOP 解决什么问题<a hidden class=anchor aria-hidden=true href=#一这套-sop-解决什么问题>#</a></h2><h3 id=11-核心问题>1.1 核心问题<a hidden class=anchor aria-hidden=true href=#11-核心问题>#</a></h3><p>当你面对 N 份关于同一主题的报告/论文/调研时，常见痛点：</p><table><thead><tr><th>痛点</th><th>表现</th></tr></thead><tbody><tr><td><strong>信息过载</strong></td><td>每份报告几十页，10 份就是几百页，人工逐一精读不现实</td></tr><tr><td><strong>结论冲突</strong></td><td>不同报告对同一问题给出相反结论，不知道该信谁</td></tr><tr><td><strong>比较困难</strong></td><td>各报告结构不同、术语不同、测量口径不同，无法直接对比</td></tr><tr><td><strong>深层原因不可见</strong></td><td>表面结论容易获取，但「为什么得出这个结论」（方法论、样本、统计方法）藏在细节中</td></tr><tr><td><strong>提炼效率低</strong></td><td>手动整理笔记 → 对比 → 写报告，链路长、易遗漏</td></tr></tbody></table><h3 id=12-核心思路>1.2 核心思路<a hidden class=anchor aria-hidden=true href=#12-核心思路>#</a></h3><p><strong>不是「读 N 份报告然后写总结」，而是「用统一的分析框架逐一拆解，再系统性聚合」。</strong></p><p>关键设计：</p><ol><li><strong>统一模板</strong>：所有报告用相同的 8 章结构分析，确保可比性</li><li><strong>先拆后合</strong>：Phase 1 独立分析每份报告（并行），Phase 2 聚合交叉对比（串行）</li><li><strong>报告特定问题</strong>：在统一模板之上，每份报告有定制的「重点追问」，抓住该报告独特的方法论特征</li><li><strong>方法论聚焦</strong>：不只看「说了什么」，更看「怎么得出这个结论的」——后者才是判断可信度和可复用性的基础</li></ol><h3 id=13-产出价值>1.3 产出价值<a hidden class=anchor aria-hidden=true href=#13-产出价值>#</a></h3><table><thead><tr><th>产出物</th><th>价值</th></tr></thead><tbody><tr><td>N 份 per-report 结构化分析</td><td>每份报告的「方法论透视」，快速理解其证据基础和局限</td></tr><tr><td>1 份交叉对比分析</td><td>解释冲突结论的方法论根源，提取可复用的最佳实践</td></tr><tr><td>分析框架本身</td><td>团队建立自己的度量/评估体系的参考模板</td></tr></tbody></table><hr><h2 id=二适用场景>二、适用场景<a hidden class=anchor aria-hidden=true href=#二适用场景>#</a></h2><h3 id=21-直接适用>2.1 直接适用<a hidden class=anchor aria-hidden=true href=#21-直接适用>#</a></h3><table><thead><tr><th>场景</th><th>示例</th></tr></thead><tbody><tr><td><strong>行业报告对标</strong></td><td>收集 N 份同主题行业报告，系统性提取和对比</td></tr><tr><td><strong>技术选型调研</strong></td><td>N 份技术方案/框架的评测报告，对比其评测方法论</td></tr><tr><td><strong>竞品分析</strong></td><td>N 份关于竞品的分析/报告，统一维度对比</td></tr><tr><td><strong>学术文献综述</strong></td><td>N 篇论文的研究方法和发现的系统性比较</td></tr><tr><td><strong>度量体系设计</strong></td><td>分析「别人怎么测量的」，为团队设计自己的度量方案</td></tr></tbody></table><h3 id=22-核心适用条件>2.2 核心适用条件<a hidden class=anchor aria-hidden=true href=#22-核心适用条件>#</a></h3><ul><li><strong>N ≥ 3</strong>：少于 3 份来源时交叉对比价值有限，手动处理即可</li><li><strong>异质来源</strong>：来源越多样（不同机构、不同方法），交叉分析越有价值</li><li><strong>有对比需求</strong>：不只是「分别了解每份报告」，而是需要「跨报告比较」</li><li><strong>有某个分析维度</strong>：需要一个明确的分析视角（如「测量方法论」「数据质量」「适用条件」）</li></ul><h3 id=23-不适用>2.3 不适用<a hidden class=anchor aria-hidden=true href=#23-不适用>#</a></h3><ul><li>仅 1-2 份报告：直接精读即可，不需要这套流程</li><li>来源高度同质（如同一机构的系列报告）：交叉对比价值低</li><li>无明确分析维度：如果只是「帮我看看这几份报告」，先明确你想分析什么</li></ul><hr><h2 id=三前置准备>三、前置准备<a hidden class=anchor aria-hidden=true href=#三前置准备>#</a></h2><h3 id=31-输入物清单>3.1 输入物清单<a hidden class=anchor aria-hidden=true href=#31-输入物清单>#</a></h3><table><thead><tr><th>输入物</th><th>必需?</th><th>说明</th></tr></thead><tbody><tr><td>N 份原始报告（或结构化摘要）</td><td>必需</td><td>可以是 PDF、网页、或已有的结构化分析文档（ver1/ver2）</td></tr><tr><td>分析维度定义</td><td>必需</td><td>明确「你想从什么角度分析这些报告」——如方法论、数据质量、适用场景等</td></tr><tr><td>来源索引</td><td>推荐</td><td>每份报告的元信息（发布机构、时间、可信度、偏见方向）。如果已有就复用，没有就在 Phase 1 中顺便产出</td></tr><tr><td>已有交叉分析（如有）</td><td>可选</td><td>如果之前已做过内容层面的分析，方法论分析可以解释其中的冲突</td></tr></tbody></table><h3 id=32-分析框架设计>3.2 分析框架设计<a hidden class=anchor aria-hidden=true href=#32-分析框架设计>#</a></h3><p><strong>这是整个 SOP 中最需要人工判断的环节。</strong> 在执行前，你需要定义：</p><ol><li><strong>Per-report 分析模板</strong>：统一的 N 章结构，每章要回答什么问题</li><li><strong>Per-report 特定问题</strong>：每份报告的独特方法论特征，需要额外追问的点</li><li><strong>聚合分析模板</strong>：交叉对比的 M 章结构</li></ol><h4 id=设计原则>设计原则<a hidden class=anchor aria-hidden=true href=#设计原则>#</a></h4><table><thead><tr><th>原则</th><th>说明</th></tr></thead><tbody><tr><td><strong>统一是前提</strong></td><td>所有报告必须用相同的模板，才能在聚合阶段对比</td></tr><tr><td><strong>粒度要适中</strong></td><td>章节太粗（如「研究方法」一章全包）→ 对比太泛；太细（20+章节）→ Agent 产出散乱</td></tr><tr><td><strong>定制是补充</strong></td><td>统一模板覆盖共性问题，per-report 特定问题捕捉个性</td></tr><tr><td><strong>聚合要有洞察</strong></td><td>聚合不是 N 份分析的拼接，而是要回答「同一现象为何有不同结论」</td></tr></tbody></table><hr><h2 id=四执行流程>四、执行流程<a hidden class=anchor aria-hidden=true href=#四执行流程>#</a></h2><h3 id=41-整体架构>4.1 整体架构<a hidden class=anchor aria-hidden=true href=#41-整体架构>#</a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt id=hl-0-1><a class=lnlinks href=#hl-0-1> 1</a>
+</span><span class=lnt id=hl-0-2><a class=lnlinks href=#hl-0-2> 2</a>
+</span><span class=lnt id=hl-0-3><a class=lnlinks href=#hl-0-3> 3</a>
+</span><span class=lnt id=hl-0-4><a class=lnlinks href=#hl-0-4> 4</a>
+</span><span class=lnt id=hl-0-5><a class=lnlinks href=#hl-0-5> 5</a>
+</span><span class=lnt id=hl-0-6><a class=lnlinks href=#hl-0-6> 6</a>
+</span><span class=lnt id=hl-0-7><a class=lnlinks href=#hl-0-7> 7</a>
+</span><span class=lnt id=hl-0-8><a class=lnlinks href=#hl-0-8> 8</a>
+</span><span class=lnt id=hl-0-9><a class=lnlinks href=#hl-0-9> 9</a>
+</span><span class=lnt id=hl-0-10><a class=lnlinks href=#hl-0-10>10</a>
+</span><span class=lnt id=hl-0-11><a class=lnlinks href=#hl-0-11>11</a>
+</span><span class=lnt id=hl-0-12><a class=lnlinks href=#hl-0-12>12</a>
+</span><span class=lnt id=hl-0-13><a class=lnlinks href=#hl-0-13>13</a>
+</span><span class=lnt id=hl-0-14><a class=lnlinks href=#hl-0-14>14</a>
+</span><span class=lnt id=hl-0-15><a class=lnlinks href=#hl-0-15>15</a>
+</span><span class=lnt id=hl-0-16><a class=lnlinks href=#hl-0-16>16</a>
+</span><span class=lnt id=hl-0-17><a class=lnlinks href=#hl-0-17>17</a>
+</span><span class=lnt id=hl-0-18><a class=lnlinks href=#hl-0-18>18</a>
+</span><span class=lnt id=hl-0-19><a class=lnlinks href=#hl-0-19>19</a>
+</span><span class=lnt id=hl-0-20><a class=lnlinks href=#hl-0-20>20</a>
+</span><span class=lnt id=hl-0-21><a class=lnlinks href=#hl-0-21>21</a>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>前置准备
+</span></span><span class=line><span class=cl>  ├── 确定分析维度
+</span></span><span class=line><span class=cl>  ├── 设计 per-report 模板（统一 + 定制）
+</span></span><span class=line><span class=cl>  └── 设计聚合模板
+</span></span><span class=line><span class=cl>      │
+</span></span><span class=line><span class=cl>      ▼
+</span></span><span class=line><span class=cl>Phase 1：并行分析（N 个 Agent，每 Agent 负责 1 份报告）
+</span></span><span class=line><span class=cl>  ├── Agent-1 → 报告1 分析.md
+</span></span><span class=line><span class=cl>  ├── Agent-2 → 报告2 分析.md
+</span></span><span class=line><span class=cl>  ├── ...
+</span></span><span class=line><span class=cl>  └── Agent-N → 报告N 分析.md
+</span></span><span class=line><span class=cl>      │
+</span></span><span class=line><span class=cl>      ▼ （全部完成后）
+</span></span><span class=line><span class=cl>Phase 2：串行聚合（主 Agent，读取全部 Phase 1 产出）
+</span></span><span class=line><span class=cl>  └── 主 Agent → 交叉对比分析.md
+</span></span><span class=line><span class=cl>      │
+</span></span><span class=line><span class=cl>      ▼
+</span></span><span class=line><span class=cl>验证
+</span></span><span class=line><span class=cl>  ├── 结构完整性检查
+</span></span><span class=line><span class=cl>  ├── 核心问题回答检查
+</span></span><span class=line><span class=cl>  └── 实操价值检查
+</span></span></code></pre></td></tr></table></div></div><h3 id=42-phase-1并行-per-report-分析>4.2 Phase 1：并行 Per-Report 分析<a hidden class=anchor aria-hidden=true href=#42-phase-1并行-per-report-分析>#</a></h3><h4 id=执行方式>执行方式<a hidden class=anchor aria-hidden=true href=#执行方式>#</a></h4><p>使用 Claude Code 的 Task 工具，以 <code>general-purpose</code> 类型启动 N 个 Agent，最大化并发。</p><h4 id=每个-agent-的输入>每个 Agent 的输入<a hidden class=anchor aria-hidden=true href=#每个-agent-的输入>#</a></h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt id=hl-1-1><a class=lnlinks href=#hl-1-1>1</a>
+</span><span class=lnt id=hl-1-2><a class=lnlinks href=#hl-1-2>2</a>
+</span><span class=lnt id=hl-1-3><a class=lnlinks href=#hl-1-3>3</a>
+</span><span class=lnt id=hl-1-4><a class=lnlinks href=#hl-1-4>4</a>
+</span><span class=lnt id=hl-1-5><a class=lnlinks href=#hl-1-5>5</a>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>1. 该报告的原始内容（或 ver1.md + ver2.md 结构化摘要）
+</span></span><span class=line><span class=cl>2. 统一分析模板（8 章结构 + 每章要回答的问题）
+</span></span><span class=line><span class=cl>3. 该报告的特定重点问题（2-5 个针对性追问）
+</span></span><span class=line><span class=cl>4. 上下文文件（如来源索引，帮助 Agent 理解报告的可信度和偏见方向）
+</span></span><span class=line><span class=cl>5. 输出路径和格式要求
+</span></span></code></pre></td></tr></table></div></div><h4 id=agent-prompt-结构模板>Agent Prompt 结构（模板）<a hidden class=anchor aria-hidden=true href=#agent-prompt-结构模板>#</a></h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt id=hl-2-1><a class=lnlinks href=#hl-2-1> 1</a>
+</span><span class=lnt id=hl-2-2><a class=lnlinks href=#hl-2-2> 2</a>
+</span><span class=lnt id=hl-2-3><a class=lnlinks href=#hl-2-3> 3</a>
+</span><span class=lnt id=hl-2-4><a class=lnlinks href=#hl-2-4> 4</a>
+</span><span class=lnt id=hl-2-5><a class=lnlinks href=#hl-2-5> 5</a>
+</span><span class=lnt id=hl-2-6><a class=lnlinks href=#hl-2-6> 6</a>
+</span><span class=lnt id=hl-2-7><a class=lnlinks href=#hl-2-7> 7</a>
+</span><span class=lnt id=hl-2-8><a class=lnlinks href=#hl-2-8> 8</a>
+</span><span class=lnt id=hl-2-9><a class=lnlinks href=#hl-2-9> 9</a>
+</span><span class=lnt id=hl-2-10><a class=lnlinks href=#hl-2-10>10</a>
+</span><span class=lnt id=hl-2-11><a class=lnlinks href=#hl-2-11>11</a>
+</span><span class=lnt id=hl-2-12><a class=lnlinks href=#hl-2-12>12</a>
+</span><span class=lnt id=hl-2-13><a class=lnlinks href=#hl-2-13>13</a>
+</span><span class=lnt id=hl-2-14><a class=lnlinks href=#hl-2-14>14</a>
+</span><span class=lnt id=hl-2-15><a class=lnlinks href=#hl-2-15>15</a>
+</span><span class=lnt id=hl-2-16><a class=lnlinks href=#hl-2-16>16</a>
+</span><span class=lnt id=hl-2-17><a class=lnlinks href=#hl-2-17>17</a>
+</span><span class=lnt id=hl-2-18><a class=lnlinks href=#hl-2-18>18</a>
+</span><span class=lnt id=hl-2-19><a class=lnlinks href=#hl-2-19>19</a>
+</span><span class=lnt id=hl-2-20><a class=lnlinks href=#hl-2-20>20</a>
+</span><span class=lnt id=hl-2-21><a class=lnlinks href=#hl-2-21>21</a>
+</span><span class=lnt id=hl-2-22><a class=lnlinks href=#hl-2-22>22</a>
+</span><span class=lnt id=hl-2-23><a class=lnlinks href=#hl-2-23>23</a>
+</span><span class=lnt id=hl-2-24><a class=lnlinks href=#hl-2-24>24</a>
+</span><span class=lnt id=hl-2-25><a class=lnlinks href=#hl-2-25>25</a>
+</span><span class=lnt id=hl-2-26><a class=lnlinks href=#hl-2-26>26</a>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-markdown data-lang=markdown><span class=line><span class=cl>你是一名研究方法论分析师。请对以下报告进行[分析维度]分析。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=gu>## 报告信息
+</span></span></span><span class=line><span class=cl><span class=gu></span><span class=k>-</span> 名称：[报告名]
+</span></span><span class=line><span class=cl><span class=k>-</span> 发布机构：[机构名]
+</span></span><span class=line><span class=cl><span class=k>-</span> 可信度：[A/B/C/D]
+</span></span><span class=line><span class=cl><span class=k>-</span> 潜在偏见：[描述]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=gu>## 输入文件
+</span></span></span><span class=line><span class=cl><span class=gu></span>请阅读以下文件：
+</span></span><span class=line><span class=cl><span class=k>-</span> [文件路径1]（报告分析 ver1）
+</span></span><span class=line><span class=cl><span class=k>-</span> [文件路径2]（报告分析 ver2）
+</span></span><span class=line><span class=cl><span class=k>-</span> [来源索引路径]（了解该报告在全部 N 份报告中的定位）
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=gu>## 分析要求
+</span></span></span><span class=line><span class=cl><span class=gu></span>请按以下 8 章结构产出分析文档：
+</span></span><span class=line><span class=cl>[粘贴统一模板的章节定义]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=gu>## 本报告的特定重点问题
+</span></span></span><span class=line><span class=cl><span class=gu></span>除统一模板外，请特别关注：
+</span></span><span class=line><span class=cl><span class=k>1.</span> [特定问题1]
+</span></span><span class=line><span class=cl><span class=k>2.</span> [特定问题2]
+</span></span><span class=line><span class=cl>...
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=gu>## 输出
+</span></span></span><span class=line><span class=cl><span class=gu></span>将分析结果写入：[输出文件路径]
+</span></span></code></pre></td></tr></table></div></div><h4 id=phase-1-质量要点>Phase 1 质量要点<a hidden class=anchor aria-hidden=true href=#phase-1-质量要点>#</a></h4><table><thead><tr><th>要点</th><th>说明</th></tr></thead><tbody><tr><td><strong>Agent 独立性</strong></td><td>每个 Agent 只负责一份报告，不需要了解其他报告</td></tr><tr><td><strong>模板一致性</strong></td><td>所有 Agent 使用完全相同的模板，确保输出可比</td></tr><tr><td><strong>不越权</strong></td><td>Agent 只分析分配给它的报告，不做跨报告判断（那是 Phase 2 的事）</td></tr><tr><td><strong>引用原文</strong></td><td>分析中的关键结论必须引用报告原文，不自行创造观点</td></tr></tbody></table><h3 id=43-phase-2串行聚合分析>4.3 Phase 2：串行聚合分析<a hidden class=anchor aria-hidden=true href=#43-phase-2串行聚合分析>#</a></h3><h4 id=触发条件>触发条件<a hidden class=anchor aria-hidden=true href=#触发条件>#</a></h4><p>Phase 1 全部 N 个 Agent 完成后才能开始。</p><h4 id=执行方式-1>执行方式<a hidden class=anchor aria-hidden=true href=#执行方式-1>#</a></h4><p>由主 Agent（或人工）读取全部 Phase 1 产出，加上已有的索引/矩阵文件，产出聚合分析。</p><h4 id=主-agent-的输入>主 Agent 的输入<a hidden class=anchor aria-hidden=true href=#主-agent-的输入>#</a></h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt id=hl-3-1><a class=lnlinks href=#hl-3-1>1</a>
+</span><span class=lnt id=hl-3-2><a class=lnlinks href=#hl-3-2>2</a>
+</span><span class=lnt id=hl-3-3><a class=lnlinks href=#hl-3-3>3</a>
+</span><span class=lnt id=hl-3-4><a class=lnlinks href=#hl-3-4>4</a>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>1. N 份 per-report 分析文档（Phase 1 产出）
+</span></span><span class=line><span class=cl>2. 来源索引（了解每份报告的可信度和偏见）
+</span></span><span class=line><span class=cl>3. 已有的内容层面分析（如 SDLC 数据矩阵，了解「冲突在哪里」）
+</span></span><span class=line><span class=cl>4. 聚合分析模板（7 章结构）
+</span></span></code></pre></td></tr></table></div></div><h4 id=phase-2-质量要点>Phase 2 质量要点<a hidden class=anchor aria-hidden=true href=#phase-2-质量要点>#</a></h4><table><thead><tr><th>要点</th><th>说明</th></tr></thead><tbody><tr><td><strong>读完再写</strong></td><td>必须读完全部 N 份分析后再开始写，不能边读边写</td></tr><tr><td><strong>对比而非拼接</strong></td><td>聚合的价值在于发现 pattern、解释冲突、提炼教训</td></tr><tr><td><strong>方法论溯因</strong></td><td>核心任务：当两份报告结论矛盾时，用方法论差异来解释</td></tr><tr><td><strong>可操作性</strong></td><td>「经验教训」章节要能指导团队的实际决策</td></tr></tbody></table><h3 id=44-验证>4.4 验证<a hidden class=anchor aria-hidden=true href=#44-验证>#</a></h3><table><thead><tr><th>验证项</th><th>检查方法</th></tr></thead><tbody><tr><td>结构完整性</td><td>每份 per-report 分析是否覆盖了模板的所有章节</td></tr><tr><td>核心问题回答</td><td>聚合分析是否回答了「同一现象不同结论能否用方法论差异解释」</td></tr><tr><td>实操价值</td><td>「经验教训」章节是否对团队的实际决策有指导意义</td></tr><tr><td>引用准确性</td><td>抽查分析中的引用是否与原始报告一致</td></tr></tbody></table><hr><h2 id=五分析模板实例>五、分析模板（实例）<a hidden class=anchor aria-hidden=true href=#五分析模板实例>#</a></h2><p>以下是本次项目实际使用的模板。<strong>复用时需根据分析维度调整</strong>，但结构设计原则通用。</p><h3 id=51-per-report-分析模板8-章>5.1 Per-Report 分析模板（8 章）<a hidden class=anchor aria-hidden=true href=#51-per-report-分析模板8-章>#</a></h3><p>本次分析维度是「测量方法论」，因此 8 章围绕「研究是怎么做的」展开：</p><table><thead><tr><th>章节</th><th>回答的问题</th><th>设计意图</th></tr></thead><tbody><tr><td><strong>一、研究设计概述</strong></td><td>什么范式？因果推断能力多强？是否预注册/同行评审？</td><td>定位报告在「证据金字塔」中的位置</td></tr><tr><td><strong>二、数据收集方法</strong></td><td>数据从哪来？样本多大/怎么抽的/什么特征？</td><td>理解数据基础——结论只能和数据一样可靠</td></tr><tr><td><strong>三、测量指标与操作化定义</strong></td><td>测了什么？「效率」具体指什么？覆盖 SDLC 哪些阶段？</td><td>发现「同一个词不同含义」的问题</td></tr><tr><td><strong>四、统计/分析方法</strong></td><td>用了什么统计方法？有没有对照组？怎么控制偏差？</td><td>评估分析的严谨程度</td></tr><tr><td><strong>五、效度与信度评估</strong></td><td>因果推断可信吗？结论可推广吗？</td><td>这是方法论评估的核心</td></tr><tr><td><strong>六、方法论局限性</strong></td><td>报告自己承认了什么局限？外部评估还有哪些？</td><td>区分「报告知道的局限」和「报告不知道的局限」</td></tr><tr><td><strong>七、与「R&amp;D效率测量」的关联</strong></td><td>对团队建立度量体系有什么启发？</td><td>桥接「学术分析」与「实操价值」</td></tr><tr><td><strong>八、一句话方法论总结</strong></td><td>核心特征、最大优势、最大局限各一句</td><td>速览用</td></tr></tbody></table><h3 id=52-per-report-特定问题示例>5.2 Per-Report 特定问题（示例）<a hidden class=anchor aria-hidden=true href=#52-per-report-特定问题示例>#</a></h3><p>每份报告有 3-5 个定制追问，抓住该报告的独特方法论特征：</p><table><thead><tr><th>报告类型</th><th>特定问题示例</th><th>设计意图</th></tr></thead><tbody><tr><td>RCT 实验（METR）</td><td>随机化单元是什么？聚类处理如何？编码者信度？认知偏差量化方法？</td><td>RCT 的核心质量取决于随机化和测量的精确性</td></tr><tr><td>遥测数据（Faros）</td><td>遥测系统接入粒度？高/低 AI 采纳的分组标准？DORA 指标计算口径？</td><td>遥测数据的质量取决于定义的精确性和分组的合理性</td></tr><tr><td>代码分析（GitClear）</td><td>变更操作检测算法？重复块匹配方法？AI/非AI 代码区分能力？</td><td>代码分析的价值取决于分类算法的可靠性</td></tr><tr><td>大规模调查（JetBrains）</td><td>路由策略？权重校正依据？年际可比性？</td><td>调查的质量取决于抽样设计和校正方法</td></tr><tr><td>厂商报告（Anthropic）</td><td>内部调查设计？客户案例选择标准？效率基线定义？</td><td>厂商报告需要特别审视利益冲突和方法论透明度</td></tr></tbody></table><h3 id=53-聚合分析模板7-章>5.3 聚合分析模板（7 章）<a hidden class=anchor aria-hidden=true href=#53-聚合分析模板7-章>#</a></h3><table><thead><tr><th>章节</th><th>回答的问题</th><th>设计意图</th></tr></thead><tbody><tr><td><strong>一、方法论类型学矩阵</strong></td><td>10 份报告分别属于什么研究范式？形成什么光谱？</td><td>建立全局视图——「我们的证据基础长什么样」</td></tr><tr><td><strong>二、数据收集方法比较</strong></td><td>主观-客观光谱、样本设计比较、时间覆盖</td><td>理解每份报告「看到的是什么切面」</td></tr><tr><td><strong>三、效率测量维度对比</strong></td><td>「效率」有几种定义？共同/独有/遗漏了什么维度？</td><td>核心洞察：「同一个词有 7 种含义」——冲突的根源</td></tr><tr><td><strong>四、效度与信度交叉评估</strong></td><td>内部效度排名、外部效度矩阵、主观-客观偏差分析</td><td>建立可信度排序——该信谁？</td></tr><tr><td><strong>五、方法论冲突解析</strong></td><td>同一现象不同结论 → 方法论差异能否解释？</td><td><strong>这是聚合分析的核心价值所在</strong></td></tr><tr><td><strong>六、经验教训与最佳实践</strong></td><td>最有洞察力/最可复制/固有局限最大的方法是什么？</td><td>桥接分析与行动——「对我们有什么用」</td></tr><tr><td><strong>七、附录</strong></td><td>速查表、来源清单</td><td>快速索引</td></tr></tbody></table><hr><h2 id=六agent-编排策略>六、Agent 编排策略<a hidden class=anchor aria-hidden=true href=#六agent-编排策略>#</a></h2><h3 id=61-为什么用并行-agent>6.1 为什么用并行 Agent<a hidden class=anchor aria-hidden=true href=#61-为什么用并行-agent>#</a></h3><table><thead><tr><th>因素</th><th>并行 Agent</th><th>串行单 Agent</th></tr></thead><tbody><tr><td><strong>速度</strong></td><td>N 份报告同时分析，总时间≈单份时间</td><td>N 份依次分析，总时间 = N × 单份时间</td></tr><tr><td><strong>上下文窗口</strong></td><td>每个 Agent 只需装载 1 份报告的内容</td><td>单 Agent 需在上下文中同时持有 N 份报告</td></tr><tr><td><strong>质量</strong></td><td>每个 Agent 专注一份报告，分析更深入</td><td>后期报告分析质量可能因上下文耗尽而下降</td></tr><tr><td><strong>独立性</strong></td><td>Phase 1 的分析天然独立——报告 A 的方法论分析不依赖报告 B</td><td>-</td></tr></tbody></table><h3 id=62-并行调度实践>6.2 并行调度实践<a hidden class=anchor aria-hidden=true href=#62-并行调度实践>#</a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt id=hl-4-1><a class=lnlinks href=#hl-4-1> 1</a>
+</span><span class=lnt id=hl-4-2><a class=lnlinks href=#hl-4-2> 2</a>
+</span><span class=lnt id=hl-4-3><a class=lnlinks href=#hl-4-3> 3</a>
+</span><span class=lnt id=hl-4-4><a class=lnlinks href=#hl-4-4> 4</a>
+</span><span class=lnt id=hl-4-5><a class=lnlinks href=#hl-4-5> 5</a>
+</span><span class=lnt id=hl-4-6><a class=lnlinks href=#hl-4-6> 6</a>
+</span><span class=lnt id=hl-4-7><a class=lnlinks href=#hl-4-7> 7</a>
+</span><span class=lnt id=hl-4-8><a class=lnlinks href=#hl-4-8> 8</a>
+</span><span class=lnt id=hl-4-9><a class=lnlinks href=#hl-4-9> 9</a>
+</span><span class=lnt id=hl-4-10><a class=lnlinks href=#hl-4-10>10</a>
+</span><span class=lnt id=hl-4-11><a class=lnlinks href=#hl-4-11>11</a>
+</span><span class=lnt id=hl-4-12><a class=lnlinks href=#hl-4-12>12</a>
+</span><span class=lnt id=hl-4-13><a class=lnlinks href=#hl-4-13>13</a>
+</span><span class=lnt id=hl-4-14><a class=lnlinks href=#hl-4-14>14</a>
+</span><span class=lnt id=hl-4-15><a class=lnlinks href=#hl-4-15>15</a>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Claude Code 中的操作方式：
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>1. 用 TaskCreate 创建两个 Task：
+</span></span><span class=line><span class=cl>   - Task 1: &#34;Phase 1: 并行分析 N 份报告&#34;
+</span></span><span class=line><span class=cl>   - Task 2: &#34;Phase 2: 聚合分析&#34;（blocked by Task 1）
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>2. 用 Task 工具一次性启动 N 个 Agent（单条消息中包含 N 个 Task 调用）
+</span></span><span class=line><span class=cl>   - subagent_type: &#34;general-purpose&#34;
+</span></span><span class=line><span class=cl>   - 每个 Agent 的 prompt 包含：报告路径 + 统一模板 + 特定问题 + 输出路径
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>3. 等待全部 Agent 返回
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>4. 验证 N 份输出文件全部存在（用 Glob）
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>5. 启动 Phase 2：主 Agent 读取全部产出 + 上下文文件，写聚合分析
+</span></span></code></pre></td></tr></table></div></div><h3 id=63-agent-数量上限>6.3 Agent 数量上限<a hidden class=anchor aria-hidden=true href=#63-agent-数量上限>#</a></h3><p>实测经验：</p><ul><li><strong>10 个并行 Agent</strong>：运行正常，全部成功完成</li><li>每个 Agent 的输入约为 2 个文件（ver1 + ver2，合计约 3-5 万字）+ 1 个索引文件</li><li>每个 Agent 的输出约为 3000-5000 字的结构化分析</li></ul><h3 id=64-失败处理>6.4 失败处理<a hidden class=anchor aria-hidden=true href=#64-失败处理>#</a></h3><table><thead><tr><th>场景</th><th>处理方式</th></tr></thead><tbody><tr><td>某个 Agent 失败/输出不完整</td><td>单独重跑该 Agent，不影响其他已完成的</td></tr><tr><td>输出质量不达标（如缺少章节）</td><td>给该 Agent 追加 prompt 补充，或重新启动</td></tr><tr><td>Phase 2 输出不理想</td><td>Phase 2 可反复迭代，不需要重跑 Phase 1</td></tr></tbody></table><hr><h2 id=七本次项目的关键发现作为-sop-效果示例>七、本次项目的关键发现（作为 SOP 效果示例）<a hidden class=anchor aria-hidden=true href=#七本次项目的关键发现作为-sop-效果示例>#</a></h2><p>本次项目通过上述 SOP，从 10 份 AI Coding 报告中发现了以下关键方法论洞察——这些洞察是手动逐一阅读难以系统性获得的：</p><h3 id=71-方法论解释了结论冲突>7.1 方法论解释了结论冲突<a hidden class=anchor aria-hidden=true href=#71-方法论解释了结论冲突>#</a></h3><table><thead><tr><th>冲突</th><th>方法论解释</th></tr></thead><tbody><tr><td>METR 说「慢 19%」，DORA/JetBrains 说「85-90% 认为更快」</td><td>METR 用 RCT 客观测量，后者用自报调查。METR 发现主观-客观偏差达 39 个百分点</td></tr><tr><td>GitClear 说「代码质量下降」，DORA 说「59% 认为质量改善」</td><td>GitClear 用客观代码分析，DORA 用自报。问「质量好不好」和分析实际代码得到不同答案</td></tr><tr><td>Faros 说「个体+21%」但「组织 DORA 无改善」</td><td>这不是矛盾而是多层级测量的必然——微观指标提升被下游成本（PR 膨胀、评审负荷、Bug 密度）抵消</td></tr></tbody></table><h3 id=72-测量什么就得到什么>7.2 「测量什么就得到什么」<a hidden class=anchor aria-hidden=true href=#72-测量什么就得到什么>#</a></h3><p>这是本次分析最核心的发现：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt id=hl-5-1><a class=lnlinks href=#hl-5-1>1</a>
+</span><span class=lnt id=hl-5-2><a class=lnlinks href=#hl-5-2>2</a>
+</span><span class=lnt id=hl-5-3><a class=lnlinks href=#hl-5-3>3</a>
+</span><span class=lnt id=hl-5-4><a class=lnlinks href=#hl-5-4>4</a>
+</span><span class=lnt id=hl-5-5><a class=lnlinks href=#hl-5-5>5</a>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>你测量开发者自报感受  → 得到 85% 正面
+</span></span><span class=line><span class=cl>你测量个体活动量      → 得到 +21% 增长
+</span></span><span class=line><span class=cl>你测量组织交付指标    → 得到无显著改善
+</span></span><span class=line><span class=cl>你测量实验任务时间    → 得到可能更慢
+</span></span><span class=line><span class=cl>你测量代码结构健康度  → 得到结构性退化
+</span></span></code></pre></td></tr></table></div></div><p><strong>启示</strong>：选择度量指标本身就是一个价值判断。在建立度量体系之前，必须先回答「我们到底想测量什么」。**</p><h3 id=73-三大系统性遗漏>7.3 三大系统性遗漏<a hidden class=anchor aria-hidden=true href=#73-三大系统性遗漏>#</a></h3><p>10 份报告都没有测量：</p><ol><li><strong>成本/ROI</strong>：没有一份报告测量了 AI 工具的总拥有成本</li><li><strong>端到端交付周期</strong>：所有报告聚焦编码阶段局部指标</li><li><strong>业务价值映射</strong>：没有报告建立「代码产出」与「用户/业务价值交付」的关联</li></ol><hr><h2 id=八复用指南>八、复用指南<a hidden class=anchor aria-hidden=true href=#八复用指南>#</a></h2><h3 id=81-快速复用路径>8.1 快速复用路径<a hidden class=anchor aria-hidden=true href=#81-快速复用路径>#</a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt id=hl-6-1><a class=lnlinks href=#hl-6-1> 1</a>
+</span><span class=lnt id=hl-6-2><a class=lnlinks href=#hl-6-2> 2</a>
+</span><span class=lnt id=hl-6-3><a class=lnlinks href=#hl-6-3> 3</a>
+</span><span class=lnt id=hl-6-4><a class=lnlinks href=#hl-6-4> 4</a>
+</span><span class=lnt id=hl-6-5><a class=lnlinks href=#hl-6-5> 5</a>
+</span><span class=lnt id=hl-6-6><a class=lnlinks href=#hl-6-6> 6</a>
+</span><span class=lnt id=hl-6-7><a class=lnlinks href=#hl-6-7> 7</a>
+</span><span class=lnt id=hl-6-8><a class=lnlinks href=#hl-6-8> 8</a>
+</span><span class=lnt id=hl-6-9><a class=lnlinks href=#hl-6-9> 9</a>
+</span><span class=lnt id=hl-6-10><a class=lnlinks href=#hl-6-10>10</a>
+</span><span class=lnt id=hl-6-11><a class=lnlinks href=#hl-6-11>11</a>
+</span><span class=lnt id=hl-6-12><a class=lnlinks href=#hl-6-12>12</a>
+</span><span class=lnt id=hl-6-13><a class=lnlinks href=#hl-6-13>13</a>
+</span><span class=lnt id=hl-6-14><a class=lnlinks href=#hl-6-14>14</a>
+</span><span class=lnt id=hl-6-15><a class=lnlinks href=#hl-6-15>15</a>
+</span><span class=lnt id=hl-6-16><a class=lnlinks href=#hl-6-16>16</a>
+</span><span class=lnt id=hl-6-17><a class=lnlinks href=#hl-6-17>17</a>
+</span><span class=lnt id=hl-6-18><a class=lnlinks href=#hl-6-18>18</a>
+</span><span class=lnt id=hl-6-19><a class=lnlinks href=#hl-6-19>19</a>
+</span><span class=lnt id=hl-6-20><a class=lnlinks href=#hl-6-20>20</a>
+</span><span class=lnt id=hl-6-21><a class=lnlinks href=#hl-6-21>21</a>
+</span><span class=lnt id=hl-6-22><a class=lnlinks href=#hl-6-22>22</a>
+</span><span class=lnt id=hl-6-23><a class=lnlinks href=#hl-6-23>23</a>
+</span><span class=lnt id=hl-6-24><a class=lnlinks href=#hl-6-24>24</a>
+</span><span class=lnt id=hl-6-25><a class=lnlinks href=#hl-6-25>25</a>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Step 1：明确分析维度
+</span></span><span class=line><span class=cl>  &#34;我想从什么角度分析这 N 份报告？&#34;
+</span></span><span class=line><span class=cl>  例：方法论 / 数据质量 / 适用条件 / 技术架构对比 / 商业模式对比
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Step 2：设计 per-report 模板
+</span></span><span class=line><span class=cl>  - 统一结构：6-10 章，每章一个核心问题
+</span></span><span class=line><span class=cl>  - 特定问题：每份报告 3-5 个针对性追问
+</span></span><span class=line><span class=cl>  - 参考本文 §5.1 和 §5.2 的设计原则
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Step 3：设计聚合模板
+</span></span><span class=line><span class=cl>  - 5-8 章，重点在&#34;跨源对比&#34;和&#34;冲突解析&#34;
+</span></span><span class=line><span class=cl>  - 必须包含一章&#34;经验教训 / 可操作建议&#34;
+</span></span><span class=line><span class=cl>  - 参考本文 §5.3 的设计原则
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Step 4：准备输入文件
+</span></span><span class=line><span class=cl>  - 原始报告或结构化摘要
+</span></span><span class=line><span class=cl>  - 来源索引（可信度、偏见方向）
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Step 5：执行
+</span></span><span class=line><span class=cl>  - Phase 1：并行启动 N 个 Agent
+</span></span><span class=line><span class=cl>  - Phase 2：串行聚合
+</span></span><span class=line><span class=cl>  - 验证
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Step 6：迭代
+</span></span><span class=line><span class=cl>  - 第一遍产出后，根据实际效果调整模板，必要时重跑
+</span></span></code></pre></td></tr></table></div></div><h3 id=82-模板调整指南>8.2 模板调整指南<a hidden class=anchor aria-hidden=true href=#82-模板调整指南>#</a></h3><table><thead><tr><th>如果分析维度是…</th><th>per-report 模板重点调整</th><th>聚合模板重点调整</th></tr></thead><tbody><tr><td><strong>技术架构对比</strong></td><td>章节改为：架构模式、组件设计、性能特征、扩展性、运维复杂度等</td><td>聚合增加：架构模式分类矩阵、权衡对照表</td></tr><tr><td><strong>商业模式对比</strong></td><td>章节改为：价值主张、收入模型、客户获取、护城河、财务数据等</td><td>聚合增加：竞争格局矩阵、可持续性评估</td></tr><tr><td><strong>用户研究对比</strong></td><td>章节改为：研究方法、用户画像、行为数据、痛点发现、改进建议等</td><td>聚合增加：共同痛点 vs 特有痛点、用户旅程对照</td></tr><tr><td><strong>技术选型评测</strong></td><td>章节改为：功能覆盖、性能基准、生态系统、学习曲线、社区活跃度等</td><td>聚合增加：决策矩阵、适用场景匹配</td></tr></tbody></table><h3 id=83-关键经验>8.3 关键经验<a hidden class=anchor aria-hidden=true href=#83-关键经验>#</a></h3><table><thead><tr><th>经验</th><th>说明</th></tr></thead><tbody><tr><td><strong>模板设计决定产出质量</strong></td><td>花在 Step 2-3 上的时间远比执行时间有价值。模板不好，Agent 再聪明也产不出好分析</td></tr><tr><td><strong>特定问题不能省</strong></td><td>统一模板保证可比性，特定问题保证深度。只有统一模板会导致「千篇一律的泛泛分析」</td></tr><tr><td><strong>聚合分析是人工价值最高的环节</strong></td><td>Phase 1 的 Agent 是「结构化提取」，Phase 2 才是「洞察产生」。如果时间有限，Phase 2 值得人工参与/审校</td></tr><tr><td><strong>来源索引是信任基础</strong></td><td>没有可信度和偏见评估，交叉对比就没有权重依据——你不知道该信谁多一点</td></tr><tr><td><strong>先有内容分析，再做方法论分析</strong></td><td>本次项目的顺序是：先做 SDLC 数据矩阵（内容层面），再做测量方法论分析（方法论层面）。方法论分析解释了内容分析中的冲突。这个「先内容后方法论」的顺序很有效</td></tr></tbody></table><hr><h2 id=九项目全景回顾>九、项目全景回顾<a hidden class=anchor aria-hidden=true href=#九项目全景回顾>#</a></h2><h3 id=91-整体项目结构>9.1 整体项目结构<a hidden class=anchor aria-hidden=true href=#91-整体项目结构>#</a></h3><p>本次「AI Coding 梳理分析」项目实际上分三轮完成：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt id=hl-7-1><a class=lnlinks href=#hl-7-1> 1</a>
+</span><span class=lnt id=hl-7-2><a class=lnlinks href=#hl-7-2> 2</a>
+</span><span class=lnt id=hl-7-3><a class=lnlinks href=#hl-7-3> 3</a>
+</span><span class=lnt id=hl-7-4><a class=lnlinks href=#hl-7-4> 4</a>
+</span><span class=lnt id=hl-7-5><a class=lnlinks href=#hl-7-5> 5</a>
+</span><span class=lnt id=hl-7-6><a class=lnlinks href=#hl-7-6> 6</a>
+</span><span class=lnt id=hl-7-7><a class=lnlinks href=#hl-7-7> 7</a>
+</span><span class=lnt id=hl-7-8><a class=lnlinks href=#hl-7-8> 8</a>
+</span><span class=lnt id=hl-7-9><a class=lnlinks href=#hl-7-9> 9</a>
+</span><span class=lnt id=hl-7-10><a class=lnlinks href=#hl-7-10>10</a>
+</span><span class=lnt id=hl-7-11><a class=lnlinks href=#hl-7-11>11</a>
+</span><span class=lnt id=hl-7-12><a class=lnlinks href=#hl-7-12>12</a>
+</span><span class=lnt id=hl-7-13><a class=lnlinks href=#hl-7-13>13</a>
+</span><span class=lnt id=hl-7-14><a class=lnlinks href=#hl-7-14>14</a>
+</span><span class=lnt id=hl-7-15><a class=lnlinks href=#hl-7-15>15</a>
+</span><span class=lnt id=hl-7-16><a class=lnlinks href=#hl-7-16>16</a>
+</span><span class=lnt id=hl-7-17><a class=lnlinks href=#hl-7-17>17</a>
+</span><span class=lnt id=hl-7-18><a class=lnlinks href=#hl-7-18>18</a>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Round 1：内容提取
+</span></span><span class=line><span class=cl>  输入：10 份原始报告
+</span></span><span class=line><span class=cl>  处理：10 个 Agent 并行 → 每份报告产出 ver1.md + ver2.md（结构化摘要）
+</span></span><span class=line><span class=cl>  产出：20 个文件
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Round 2：内容聚合
+</span></span><span class=line><span class=cl>  输入：20 个 ver1/ver2 文件
+</span></span><span class=line><span class=cl>  处理：并行提取 → 串行聚合（使用 00-综合矩阵生成SOP.md）
+</span></span><span class=line><span class=cl>  产出：
+</span></span><span class=line><span class=cl>    - 01-报告来源索引.md（元信息、可信度、偏见评估）
+</span></span><span class=line><span class=cl>    - 02-SDLC×报告数据矩阵.md（按 SDLC 阶段的数据矩阵 + 交叉验证）
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Round 3：方法论分析（本轮）
+</span></span><span class=line><span class=cl>  输入：20 个 ver1/ver2 文件 + 01 索引 + 02 矩阵
+</span></span><span class=line><span class=cl>  处理：10 个 Agent 并行 → 主 Agent 串行聚合
+</span></span><span class=line><span class=cl>  产出：
+</span></span><span class=line><span class=cl>    - 10 份 per-report 测量方法论分析.md
+</span></span><span class=line><span class=cl>    - 03-测量方法论对比分析.md
+</span></span></code></pre></td></tr></table></div></div><h3 id=92-三轮之间的关系>9.2 三轮之间的关系<a hidden class=anchor aria-hidden=true href=#92-三轮之间的关系>#</a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt id=hl-8-1><a class=lnlinks href=#hl-8-1>1</a>
+</span><span class=lnt id=hl-8-2><a class=lnlinks href=#hl-8-2>2</a>
+</span><span class=lnt id=hl-8-3><a class=lnlinks href=#hl-8-3>3</a>
+</span><span class=lnt id=hl-8-4><a class=lnlinks href=#hl-8-4>4</a>
+</span><span class=lnt id=hl-8-5><a class=lnlinks href=#hl-8-5>5</a>
+</span><span class=lnt id=hl-8-6><a class=lnlinks href=#hl-8-6>6</a>
+</span><span class=lnt id=hl-8-7><a class=lnlinks href=#hl-8-7>7</a>
+</span><span class=lnt id=hl-8-8><a class=lnlinks href=#hl-8-8>8</a>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>Round 1（结构化摘要）
+</span></span><span class=line><span class=cl>  ↓ 提供内容基础
+</span></span><span class=line><span class=cl>Round 2（SDLC 数据矩阵）
+</span></span><span class=line><span class=cl>  ↓ 暴露了结论冲突（如&#34;快 vs 慢&#34;）
+</span></span><span class=line><span class=cl>  ↓ 提出了&#34;为什么冲突&#34;的问题
+</span></span><span class=line><span class=cl>Round 3（方法论分析）
+</span></span><span class=line><span class=cl>  ↓ 回答了&#34;冲突源于方法论差异&#34;
+</span></span><span class=line><span class=cl>  ↓ 提炼了&#34;如何正确测量&#34;的经验
+</span></span></code></pre></td></tr></table></div></div><h3 id=93-sop-复用关系>9.3 SOP 复用关系<a hidden class=anchor aria-hidden=true href=#93-sop-复用关系>#</a></h3><table><thead><tr><th>SOP</th><th>用途</th><th>文件</th></tr></thead><tbody><tr><td>综合矩阵生成 SOP</td><td>从 N 份报告中提取数据、交叉验证、生成综合矩阵</td><td><code>reports/00-综合矩阵生成SOP.md</code></td></tr><tr><td><strong>多源报告结构化分析 SOP</strong></td><td>从 N 份报告中分析某一维度（如方法论），交叉对比</td><td><strong>本文件</strong></td></tr></tbody></table><p>两份 SOP 的核心模式一致：<strong>并行提取 → 串行聚合</strong>。区别在于分析维度和模板设计。</p><hr><h2 id=十附录>十、附录<a hidden class=anchor aria-hidden=true href=#十附录>#</a></h2><h3 id=101-本次项目文件清单>10.1 本次项目文件清单<a hidden class=anchor aria-hidden=true href=#101-本次项目文件清单>#</a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt id=hl-9-1><a class=lnlinks href=#hl-9-1> 1</a>
+</span><span class=lnt id=hl-9-2><a class=lnlinks href=#hl-9-2> 2</a>
+</span><span class=lnt id=hl-9-3><a class=lnlinks href=#hl-9-3> 3</a>
+</span><span class=lnt id=hl-9-4><a class=lnlinks href=#hl-9-4> 4</a>
+</span><span class=lnt id=hl-9-5><a class=lnlinks href=#hl-9-5> 5</a>
+</span><span class=lnt id=hl-9-6><a class=lnlinks href=#hl-9-6> 6</a>
+</span><span class=lnt id=hl-9-7><a class=lnlinks href=#hl-9-7> 7</a>
+</span><span class=lnt id=hl-9-8><a class=lnlinks href=#hl-9-8> 8</a>
+</span><span class=lnt id=hl-9-9><a class=lnlinks href=#hl-9-9> 9</a>
+</span><span class=lnt id=hl-9-10><a class=lnlinks href=#hl-9-10>10</a>
+</span><span class=lnt id=hl-9-11><a class=lnlinks href=#hl-9-11>11</a>
+</span><span class=lnt id=hl-9-12><a class=lnlinks href=#hl-9-12>12</a>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>ref/
+</span></span><span class=line><span class=cl>├── 01-报告来源索引.md                    ← Round 2 产出
+</span></span><span class=line><span class=cl>├── 02-SDLC×报告数据矩阵.md               ← Round 2 产出
+</span></span><span class=line><span class=cl>├── 03-测量方法论对比分析.md              ← Round 3 产出（聚合）
+</span></span><span class=line><span class=cl>├── [10个报告目录]/
+</span></span><span class=line><span class=cl>│   ├── *-ver1.md                        ← Round 1 产出
+</span></span><span class=line><span class=cl>│   ├── *-ver2.md                        ← Round 1 产出
+</span></span><span class=line><span class=cl>│   └── 测量方法论分析.md                ← Round 3 产出（per-report）
+</span></span><span class=line><span class=cl>│
+</span></span><span class=line><span class=cl>reports/
+</span></span><span class=line><span class=cl>├── 00-综合矩阵生成SOP.md                ← Round 2 的 SOP
+</span></span><span class=line><span class=cl>└── 04-多源报告结构化分析SOP.md           ← 本文件
+</span></span></code></pre></td></tr></table></div></div><h3 id=102-执行统计>10.2 执行统计<a hidden class=anchor aria-hidden=true href=#102-执行统计>#</a></h3><table><thead><tr><th>指标</th><th>数值</th></tr></thead><tbody><tr><td>输入报告数</td><td>10 份</td></tr><tr><td>Phase 1 并行 Agent 数</td><td>10 个</td></tr><tr><td>Phase 1 每 Agent 产出</td><td>约 3,000-5,000 字</td></tr><tr><td>Phase 2 聚合产出</td><td>约 12,000 字（7 章）</td></tr><tr><td>总产出</td><td>约 50,000-60,000 字</td></tr><tr><td>Phase 1 Agent 成功率</td><td>10/10（100%）</td></tr></tbody></table><h3 id=103-版本记录>10.3 版本记录<a hidden class=anchor aria-hidden=true href=#103-版本记录>#</a></h3><table><thead><tr><th>版本</th><th>日期</th><th>变更说明</th></tr></thead><tbody><tr><td>v1.0</td><td>2026-02-27</td><td>初版，基于「AI Coding 报告测量方法论分析」项目实践抽象而成</td></tr></tbody></table></div><footer class=post-footer><ul class=post-tags><li><a href=https://miss-you.github.io/tags/sop/>SOP</a></li><li><a href=https://miss-you.github.io/tags/%E6%96%B9%E6%B3%95%E8%AE%BA/>方法论</a></li><li><a href=https://miss-you.github.io/tags/%E6%8A%A5%E5%91%8A%E5%88%86%E6%9E%90/>报告分析</a></li><li><a href=https://miss-you.github.io/tags/ai-%E5%8D%8F%E4%BD%9C/>AI 协作</a></li><li><a href=https://miss-you.github.io/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/>知识管理</a></li></ul><nav class=paginav><a class=next href=https://miss-you.github.io/posts/20260221-save-10-seconds/><span class=title>下一页 »</span><br><span>省10秒，赔一个早上</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 多源报告结构化分析 SOP on x" href="https://x.com/intent/tweet/?text=%e5%a4%9a%e6%ba%90%e6%8a%a5%e5%91%8a%e7%bb%93%e6%9e%84%e5%8c%96%e5%88%86%e6%9e%90%20SOP&amp;url=https%3a%2f%2fmiss-you.github.io%2fposts%2f20260227-multi-source-report-structured-analysis-sop%2f&amp;hashtags=SOP%2c%e6%96%b9%e6%b3%95%e8%ae%ba%2c%e6%8a%a5%e5%91%8a%e5%88%86%e6%9e%90%2cAI%e5%8d%8f%e4%bd%9c%2c%e7%9f%a5%e8%af%86%e7%ae%a1%e7%90%86"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 多源报告结构化分析 SOP on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fmiss-you.github.io%2fposts%2f20260227-multi-source-report-structured-analysis-sop%2f&amp;title=%e5%a4%9a%e6%ba%90%e6%8a%a5%e5%91%8a%e7%bb%93%e6%9e%84%e5%8c%96%e5%88%86%e6%9e%90%20SOP&amp;summary=%e5%a4%9a%e6%ba%90%e6%8a%a5%e5%91%8a%e7%bb%93%e6%9e%84%e5%8c%96%e5%88%86%e6%9e%90%20SOP&amp;source=https%3a%2f%2fmiss-you.github.io%2fposts%2f20260227-multi-source-report-structured-analysis-sop%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 多源报告结构化分析 SOP on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fmiss-you.github.io%2fposts%2f20260227-multi-source-report-structured-analysis-sop%2f&title=%e5%a4%9a%e6%ba%90%e6%8a%a5%e5%91%8a%e7%bb%93%e6%9e%84%e5%8c%96%e5%88%86%e6%9e%90%20SOP"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 多源报告结构化分析 SOP on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fmiss-you.github.io%2fposts%2f20260227-multi-source-report-structured-analysis-sop%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 多源报告结构化分析 SOP on whatsapp" href="https://api.whatsapp.com/send?text=%e5%a4%9a%e6%ba%90%e6%8a%a5%e5%91%8a%e7%bb%93%e6%9e%84%e5%8c%96%e5%88%86%e6%9e%90%20SOP%20-%20https%3a%2f%2fmiss-you.github.io%2fposts%2f20260227-multi-source-report-structured-analysis-sop%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 多源报告结构化分析 SOP on telegram" href="https://telegram.me/share/url?text=%e5%a4%9a%e6%ba%90%e6%8a%a5%e5%91%8a%e7%bb%93%e6%9e%84%e5%8c%96%e5%88%86%e6%9e%90%20SOP&amp;url=https%3a%2f%2fmiss-you.github.io%2fposts%2f20260227-multi-source-report-structured-analysis-sop%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentColor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 多源报告结构化分析 SOP on ycombinator" href="https://news.ycombinator.com/submitlink?t=%e5%a4%9a%e6%ba%90%e6%8a%a5%e5%91%8a%e7%bb%93%e6%9e%84%e5%8c%96%e5%88%86%e6%9e%90%20SOP&u=https%3a%2f%2fmiss-you.github.io%2fposts%2f20260227-multi-source-report-structured-analysis-sop%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://miss-you.github.io/>Yousa Driven Development | YDD</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script type=module>
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  
+  
+  const isDarkMode = () => {
+    return document.body.classList.contains('dark');
+  };
+  
+  
+  const mermaidKeywords = [
+    'graph ', 'graph TB', 'graph TD', 'graph LR', 'graph RL', 'graph BT',
+    'flowchart ', 'flowchart TB', 'flowchart TD', 'flowchart LR', 'flowchart RL', 'flowchart BT',
+    'sequenceDiagram', 'classDiagram', 'stateDiagram', 'stateDiagram-v2',
+    'erDiagram', 'journey', 'gantt', 'pie', 'requirementDiagram',
+    'gitGraph', 'mindmap', 'timeline', 'sankey'
+  ];
+  
+  const isMermaidCode = (code) => {
+    const trimmed = code.trim();
+    return mermaidKeywords.some(keyword => trimmed.startsWith(keyword));
+  };
+  
+  
+  const getColors = () => {
+    if (isDarkMode()) {
+      return {
+        
+        bg: '#1d1e20',
+        surface: '#2d2e30',
+        border: '#444',
+        text: '#dadaeb',
+        secondary: '#9c9d9e',
+        line: '#9c9d9e',
+        
+        accent1: '#5a7a96',  
+        accent2: '#6b8e6b',  
+        accent3: '#b8a87c',  
+      };
+    }
+    
+    return {
+      bg: '#f4f3ee',        
+      surface: '#faf9f5',   
+      border: '#2c2c2c',    
+      text: '#1f1f1f',      
+      secondary: '#6c6c6c', 
+      line: '#4a4a4a',      
+      
+      accent1: '#8fb8d4',   
+      accent2: '#a8c6a8',   
+      accent3: '#d4c59a',   
+    };
+  };
+  
+  
+  if (!document.getElementById('mermaid-virgil-font')) {
+    const style = document.createElement('style');
+    style.id = 'mermaid-virgil-font';
+    style.textContent = `
+      @font-face {
+        font-family: "Virgil";
+        src: url("https://excalidraw.nyc3.cdn.digitaloceanspaces.com/fonts/Virgil.woff2") format("woff2");
+        font-display: swap;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  const initMermaid = () => {
+    const c = getColors();
+    
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      themeVariables: {
+        
+        fontFamily: '"Virgil", "Noto Serif SC", Georgia, serif',
+        fontSize: '16px',           
+        
+        
+        background: c.bg,
+        mainBkg: c.surface,
+        
+        
+        primaryColor: c.surface,
+        primaryTextColor: c.text,
+        primaryBorderColor: c.border,
+        
+        
+        secondaryColor: c.accent1,
+        tertiaryColor: c.accent2,
+        
+        
+        lineColor: c.line,
+        nodeBorder: c.border,
+        clusterBkg: c.bg,
+        clusterBorder: c.border,
+        
+        
+        textColor: c.text,
+        titleColor: c.text,
+        nodeTextColor: c.text,
+        labelColor: c.text,
+        
+        
+        edgeLabelBackground: c.bg,
+        
+        
+        actorBorder: c.border,
+        actorBkg: c.surface,
+        actorTextColor: c.text,
+        actorLineColor: c.border,
+        signalColor: c.line,
+        signalTextColor: c.text,
+        
+        
+        stateBorder: c.border,
+        stateBkg: c.surface,
+        
+        
+        cScale0: c.surface,
+        cScale1: c.accent1,
+        cScale2: c.accent2,
+        cScale3: c.accent3,
+        cScale4: c.surface,
+        cScale5: c.accent1,
+      },
+      
+      
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        curve: 'basis',
+        padding: 20,
+        nodeSpacing: 50,
+        rankSpacing: 60,
+      },
+      
+      
+      sequence: {
+        useMaxWidth: true,
+        diagramMarginX: 50,
+        diagramMarginY: 20,
+        actorMargin: 60,
+        width: 160,
+        height: 70,
+        boxMargin: 15,
+        boxTextMargin: 8,
+        noteMargin: 15,
+        messageMargin: 40,
+        mirrorActors: true,
+        bottomMarginAdj: 1,
+        rightAngles: false,
+        showSequenceNumbers: false,
+        
+        actorFontSize: '16px',
+        noteFontSize: '15px',
+        messageFontSize: '15px',
+      },
+      
+      
+      state: {
+        useMaxWidth: true,
+        padding: 15,
+        fontSize: '16px',
+      },
+      
+      
+      class: {
+        useMaxWidth: true,
+        fontSize: '15px',
+      },
+      
+      
+      er: {
+        useMaxWidth: true,
+        fontSize: '15px',
+      },
+      
+      
+      gantt: {
+        useMaxWidth: true,
+        fontSize: '14px',
+      },
+      
+      
+      look: 'handDrawn',
+    });
+  };
+  
+  const renderMermaidDiagrams = async () => {
+    const allCodeBlocks = document.querySelectorAll('pre code');
+    const mermaidBlocks = [];
+    
+    allCodeBlocks.forEach(block => {
+      const code = block.textContent;
+      if (isMermaidCode(code)) {
+        mermaidBlocks.push(block);
+      }
+    });
+    
+    if (mermaidBlocks.length === 0) return;
+    
+    initMermaid();
+    const c = getColors();
+    
+    for (const block of mermaidBlocks) {
+      const pre = block.parentElement;
+      const code = block.textContent.trim();
+      
+      
+      const wrapper = document.createElement('div');
+      wrapper.className = 'mermaid-diagram';
+      wrapper.style.cssText = `
+        margin: 2em 0;
+        padding: 24px;
+        background: ${c.bg};
+        border: 1px solid ${c.border}30;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        overflow-x: auto;
+      `;
+      
+      
+      const container = document.createElement('div');
+      container.style.cssText = `
+        display: flex;
+        justify-content: center;
+        min-width: fit-content;
+      `;
+      
+      const mermaidDiv = document.createElement('div');
+      mermaidDiv.className = 'mermaid';
+      mermaidDiv.textContent = code;
+      container.appendChild(mermaidDiv);
+      wrapper.appendChild(container);
+      
+      pre.parentNode.replaceChild(wrapper, pre);
+      
+      try {
+        await mermaid.run({ querySelector: '.mermaid' });
+      } catch (error) {
+        console.error('Mermaid error:', error);
+      }
+    }
+  };
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderMermaidDiagrams);
+  } else {
+    renderMermaidDiagrams();
+  }
+  
+  
+  let timeout;
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'class') {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => location.reload(), 300);
+      }
+    });
+  });
+  observer.observe(document.body, { attributes: true });
+</script><style>.mermaid-diagram{font-family:virgil,noto serif sc,Georgia,serif}.mermaid-diagram .mermaid{display:flex;justify-content:center}.mermaid-diagram svg{max-width:100% !important;height:auto !important;font-family:virgil,noto serif sc,Georgia,serif !important}.mermaid-diagram svg text,.mermaid-diagram svg .label,.mermaid-diagram svg .nodeLabel,.mermaid-diagram svg .edgeLabel,.mermaid-diagram svg .messageText,.mermaid-diagram svg .actor text,.mermaid-diagram svg .participant text{fill:#1f1f1f !important;font-family:virgil,noto serif sc,Georgia,serif !important;font-size:15px !important;font-weight:500 !important}.dark .mermaid-diagram svg text,.dark .mermaid-diagram svg .label,.dark .mermaid-diagram svg .nodeLabel,.dark .mermaid-diagram svg .edgeLabel,.dark .mermaid-diagram svg .messageText,.dark .mermaid-diagram svg .actor text,.dark .mermaid-diagram svg .participant text{fill:#dadaeb !important}.mermaid-diagram svg .sequenceDiagram text{font-size:16px !important}.mermaid-diagram svg .actor{font-size:16px !important}.mermaid-diagram svg .messageText{font-size:15px !important}.mermaid-diagram svg .node rect,.mermaid-diagram svg .node circle,.mermaid-diagram svg .node ellipse,.mermaid-diagram svg .node polygon{stroke-width:2px !important}.mermaid-diagram svg{filter:drop-shadow(0 1px 3px rgba(0,0,0,8%))}.dark .mermaid-diagram{background:#1d1e20 !important;border-color:#444 !important;box-shadow:0 2px 8px rgba(0,0,0,.2) !important}@media(max-width:768px){.mermaid-diagram{padding:16px !important;margin:1.5em 0 !important}.mermaid-diagram svg text{font-size:14px !important}}.mermaid-diagram{opacity:0;animation:fadeIn .4s ease-out forwards}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}</style><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="复制";function s(){t.innerHTML="已复制！",setTimeout(()=>{t.innerHTML="复制"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
