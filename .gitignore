@@ -7,3 +7,4 @@ docs/*
 */.gitignor
 .DS_Store
 .claude
+!.claude/skills/
