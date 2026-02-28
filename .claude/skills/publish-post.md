@@ -1,60 +1,54 @@
 ---
 name: publish-post
-description: 从用户提供的文本创建博客文章，自动生成 front matter、运行检查、commit 并 push。当用户贴一段文字要求发博客/创建文章/发布文章时使用。
+description: 从用户在对话中提供的文本创建 Hugo 博客文章，自动生成 front matter、运行 check-posts.py 检查、git commit 并 push。当用户贴一段文字并要求发博客、创建文章、发布文章、帮我发到博客、把这段文字变成博客、commit and push 这篇文章时使用。
 user_invocable: true
 ---
 
-# Skill: publish-post
+# publish-post
 
-将用户提供的文本内容创建为 Hugo 博客文章，完成从创建到推送的全流程。
-
-## 触发条件
-
-用户贴了一段文字并要求：创建博客、发文章、发布、帮我发到博客、commit and push 等。
+用户在对话中贴出的文本即为文章正文。从中提取元信息，创建 Hugo 博客文章，完成检查、commit、push 全流程。
 
 ## 执行流程
 
 ### Step 1：分析内容
 
-从用户提供的文本中提取：
-- **标题**：取文章的一级标题（`# ...`），如果没有则让用户提供
-- **语言**：根据内容主体语言判断 `zh` 或 `en`
-- **slug**：从标题提炼简洁的英文 kebab-case slug（不超过 5 个词）
-- **tags / categories**：从内容语义推断，中文文章用中文标签，英文文章用英文标签
+从用户对话中提供的文本提取：
+- **标题**：取一级标题（`# ...`），没有则用 AskUserQuestion 询问
+- **语言**：根据正文主体语言判断 `zh` 或 `en`
+- **slug**：从标题提炼简洁英文 kebab-case slug（不超过 5 个词）
+- **tags / categories**：从内容语义推断，中文文章用中文标签，英文用英文
 - **description**：提炼 1-2 句摘要
 
 ### Step 2：确认信息
 
-用 AskUserQuestion 向用户确认以下关键信息（合并为一次提问）：
-- 建议的 slug、tags、categories、description
-- 是否需要调整
+用 AskUserQuestion 向用户确认 slug、tags、categories、description（合并为一次提问）。
 
-如果用户指定了明确的标题/标签等，跳过确认直接使用。
+跳过条件：用户已明确指定这些信息。
 
 ### Step 3：创建文章
 
-1. 目录：`content/posts/YYYYMMDD-slug/index.md`（YYYYMMDD 为当天日期）
-2. Front matter 模板：
+1. 创建目录 `content/posts/YYYYMMDD-slug/`（YYYYMMDD 为当天日期）
+2. 写入 `index.md`，front matter 模板：
 
 ```yaml
 ---
 title: "文章标题"
 date: YYYY-MM-DDTHH:MM:SS+08:00
 draft: false
-lang: zh  # 或 en，根据内容判断
+lang: zh  # 或 en
 tags: ["标签1", "标签2"]
 categories: ["分类"]
 description: "文章摘要"
 ---
 ```
 
-3. 正文：用户提供的文本内容（去掉一级标题，因为 Hugo 会从 title 渲染）
+3. 正文：用户提供的文本（去掉一级标题，Hugo 从 title 渲染）
 
-**注意事项**：
-- `lang` 参数**必须包含**，中文 `zh`，英文 `en`
+**必须遵守**：
+- `lang` 参数不可省略——中文 `zh`，英文 `en`
 - front matter key 全部小写 kebab-case
-- date 使用 +08:00 时区
-- 不要擅自修改用户的正文内容
+- date 使用 `+08:00` 时区
+- 不要修改用户的正文内容
 
 ### Step 4：运行检查
 
@@ -62,11 +56,7 @@ description: "文章摘要"
 python3 check-posts.py
 ```
 
-确认：
-- 新文章的 `lang` 参数正确
-- 字数估算合理（中文文章应显示 "X 字"，英文应显示 "X words"）
-
-如果检查不通过，修复后再继续。
+确认新文章 `lang` 正确、字数估算合理。不通过则修复后再继续。
 
 ### Step 5：Commit
 
@@ -80,10 +70,7 @@ EOF
 )"
 ```
 
-commit message 格式：
-- 前缀 `add post:`
-- 后跟文章标题的简短描述
-- 保持与仓库历史风格一致
+commit message 前缀 `add post:`，保持与仓库历史风格一致。
 
 ### Step 6：Push
 
@@ -93,14 +80,13 @@ git push
 
 ### Step 7：确认完成
 
-输出：
-- 文章路径
-- 预估字数
-- 线上 URL：`https://yousali.com/posts/YYYYMMDD-slug/`
+输出文章路径、预估字数、线上 URL `https://yousali.com/posts/YYYYMMDD-slug/`。
 
-## 用户额外指令处理
+## 用户指令变体
 
-- 如果用户说 **"不要 push"** 或 **"只 commit"**：跳过 Step 6
-- 如果用户说 **"draft"** 或 **"草稿"**：设置 `draft: true`
-- 如果用户提供了**具体的 tags/slug/description**：直接使用，不再确认
-- 如果用户贴的内容中**没有明确标题**：用 AskUserQuestion 询问
+| 用户说 | 行为 |
+|--------|------|
+| "不要 push" / "只 commit" | 跳过 Step 6 |
+| "draft" / "草稿" | 设 `draft: true` |
+| 指定了 tags/slug/description | 直接使用，跳过 Step 2 确认 |
+| 正文没有标题 | AskUserQuestion 询问标题 |
