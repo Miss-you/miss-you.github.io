@@ -6,5 +6,5 @@ docs/*
 */.idea/*
 */.gitignor
 .DS_Store
-.claude
+.claude/*
 !.claude/skills/
