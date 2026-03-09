@@ -1,0 +1,73 @@
+{{- $giscus := site.Params.giscus -}}
+{{- if and $giscus $giscus.repo $giscus.repoId $giscus.category $giscus.categoryId -}}
+<section class="comments-section" id="comments">
+  <h2 class="comments-title">{{- if eq .Lang "en" -}}Comments{{- else -}}评论{{- end -}}</h2>
+  <div
+    class="giscus"
+    data-repo="{{ $giscus.repo }}"
+    data-repo-id="{{ $giscus.repoId }}"
+    data-category="{{ $giscus.category }}"
+    data-category-id="{{ $giscus.categoryId }}"
+    data-mapping="{{ $giscus.mapping | default "pathname" }}"
+    data-strict="{{ $giscus.strict | default "1" }}"
+    data-reactions-enabled="{{ $giscus.reactionsEnabled | default "1" }}"
+    data-input-position="{{ $giscus.inputPosition | default "bottom" }}"
+    data-lang="{{ if eq .Lang "en" }}en{{ else }}zh-CN{{ end }}"
+  ></div>
+</section>
+
+<script>
+  (() => {
+    const container = document.querySelector('.giscus');
+    if (!container || container.dataset.loaded === 'true') return;
+    container.dataset.loaded = 'true';
+
+    const getTheme = () => document.body.classList.contains('dark') ? 'dark' : 'light';
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.setAttribute('data-repo', container.dataset.repo);
+    script.setAttribute('data-repo-id', container.dataset.repoId);
+    script.setAttribute('data-category', container.dataset.category);
+    script.setAttribute('data-category-id', container.dataset.categoryId);
+    script.setAttribute('data-mapping', container.dataset.mapping);
+    script.setAttribute('data-strict', container.dataset.strict);
+    script.setAttribute('data-reactions-enabled', container.dataset.reactionsEnabled);
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', container.dataset.inputPosition);
+    script.setAttribute('data-theme', getTheme());
+    script.setAttribute('data-lang', container.dataset.lang);
+    container.appendChild(script);
+
+    const syncTheme = () => {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      if (!iframe || !iframe.contentWindow) return;
+
+      iframe.contentWindow.postMessage(
+        {
+          giscus: {
+            setConfig: {
+              theme: getTheme(),
+            },
+          },
+        },
+        'https://giscus.app'
+      );
+    };
+
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          syncTheme();
+        }
+      }
+    });
+
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  })();
+</script>
+{{- end -}}

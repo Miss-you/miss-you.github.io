@@ -1,0 +1,12 @@
+.comments-section {
+  margin-top: 3rem;
+}
+
+.comments-title {
+  margin: 0 0 1.25rem;
+  font-size: 1.35rem;
+}
+
+.giscus {
+  min-height: 12rem;
+}
