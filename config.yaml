@@ -27,6 +27,9 @@ languages:
         - name: 分类
           url: categories/
           weight: 20
+        - name: RSS
+          url: /index.xml
+          weight: 25
         - name: GitHub
           url: https://github.com/Miss-you
           weight: 30
@@ -52,6 +55,9 @@ languages:
         - name: 分类
           url: categories/
           weight: 20
+        - name: RSS
+          url: /index.xml
+          weight: 25
         - name: GitHub
           url: https://github.com/Miss-you
           weight: 30
@@ -172,11 +178,19 @@ markup:
     lineNos: true
     style: github
 
+outputFormats:
+  LLMS:
+    mediaType: "text/plain"
+    baseName: "llms"
+    isPlainText: true
+    notAlternative: true
+
 outputs:
   home:
     - HTML
     - RSS
     - JSON
+    - LLMS
 
 enableRobotsTXT: true
 enableGitInfo: true
