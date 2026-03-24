@@ -1,3 +1,118 @@
 User-agent: *
-Disallow:
-Sitemap: https://miss-you.github.io/sitemap.xml
+Allow: /
+Disallow: /404.html
+
+Sitemap: https://yousali.com/sitemap.xml
+
+# =============================================
+# Search Engines
+# =============================================
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# =============================================
+# AI Search / Retrieval Crawlers
+# (fetch content in real-time to answer user queries)
+# =============================================
+
+# OpenAI - ChatGPT search results
+User-agent: OAI-SearchBot
+Allow: /
+
+# OpenAI - user-driven browsing in ChatGPT
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic - Claude web retrieval
+User-agent: Claude-Web
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Perplexity AI search
+User-agent: PerplexityBot
+Allow: /
+
+# Microsoft Copilot (uses Bingbot UA mostly, but also)
+User-agent: CopilotBot
+Allow: /
+
+# Amazon Alexa / AI
+User-agent: Amazonbot
+Allow: /
+
+# You.com search
+User-agent: YouBot
+Allow: /
+
+# =============================================
+# AI Training Crawlers
+# (collect data for model training)
+# =============================================
+
+# OpenAI - GPT model training
+User-agent: GPTBot
+Allow: /
+
+# Google - Gemini / AI training
+User-agent: Google-Extended
+Allow: /
+
+# Anthropic - model training
+User-agent: anthropic-ai
+Allow: /
+
+# Common Crawl (open dataset, used by many LLMs)
+User-agent: CCBot
+Allow: /
+
+# Meta / Facebook AI training
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+# Apple - Siri / AI features
+User-agent: Applebot-Extended
+Allow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+
+# Bytedance / TikTok AI
+User-agent: Bytespider
+Allow: /
+
+# Diffbot - knowledge graph / AI
+User-agent: Diffbot
+Allow: /
+
+# Webz.io / Omgili - AI data
+User-agent: Omgilibot
+Allow: /
+
+User-agent: webzio-extended
+Allow: /
+
+# Firecrawl - web-to-markdown for LLMs
+User-agent: FirecrawlAgent
+Allow: /

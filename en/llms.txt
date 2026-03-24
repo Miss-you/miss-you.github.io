@@ -1,0 +1,14 @@
+# Yousa Driven Development | YDD
+
+> 面向 AI 协作编程的实践手记 涵盖 AI Coding 工具使用、Claude Code 深度实践、Agent 工程、以及软件开发方法论。作者：Yousa Li。网站：https://yousali.com/
+
+## Blog Posts
+
+- [Working with AI, or, The Amplifier of Thought](https://yousali.com/en/posts/20250719-working-with-ai-or-the-amplifier-of-thought/): The true value of AI isn't in its ability to think independently, but in how it amplifies and accelerates our own thinking. This article explores proper AI collaboration through a real example of writing a recommendation, and discusses the importance of thinking quality in the AI era.
+- [Hugo 文章目录管理教程](https://yousali.com/en/posts/20250715-hugo-tutorial/): 演示如何为每个Hugo文章创建独立目录，便于管理文章相关的图片和资源
+
+## Optional
+
+- [RSS Feed](https://yousali.com/index.xml): Full content RSS feed for all posts
+- [Tags](https://yousali.com/tags/): Browse posts by topic
+- [Archives](https://yousali.com/archives/): All posts in chronological order
