@@ -1,46 +1,19 @@
-{{- if .IsHome }}
+{{- if .IsHome -}}
+{{- $author := dict "@type" "Person" "name" "Yousa Li" "url" .Site.BaseURL -}}
+{{- $schema := dict "@context" "https://schema.org" "@type" "WebSite" "name" .Site.Title "url" .Site.BaseURL "description" .Site.Params.description "inLanguage" (cond (eq .Lang "zh") "zh-CN" "en-US") "author" $author -}}
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": {{ .Site.Title | jsonify }},
-  "url": {{ .Site.BaseURL | jsonify }},
-  "description": {{ .Site.Params.description | jsonify }},
-  "inLanguage": {{ cond (eq .Lang "zh") "zh-CN" "en-US" | jsonify }},
-  "author": {
-    "@type": "Person",
-    "name": "Yousa Li",
-    "url": {{ .Site.BaseURL | jsonify }}
-  }
-}
+{{ $schema | jsonify | safeJS }}
 </script>
-{{- else if and .IsPage (eq .Section "posts") }}
+{{- else if and .IsPage (eq .Section "posts") -}}
+{{- $author := dict "@type" "Person" "name" "Yousa Li" "url" .Site.BaseURL -}}
+{{- $publisher := dict "@type" "Person" "name" "Yousa Li" -}}
+{{- $mainEntity := dict "@type" "WebPage" "@id" .Permalink -}}
+{{- $desc := .Description | default (.Summary | plainify | truncate 160) -}}
+{{- $schema := dict "@context" "https://schema.org" "@type" "Article" "headline" .Title "description" $desc "datePublished" (.Date.Format "2006-01-02T15:04:05-07:00") "dateModified" (.Lastmod.Format "2006-01-02T15:04:05-07:00") "author" $author "publisher" $publisher "mainEntityOfPage" $mainEntity "inLanguage" (cond (eq .Lang "zh") "zh-CN" "en-US") "wordCount" .WordCount -}}
+{{- with .Params.tags -}}
+{{- $schema = merge $schema (dict "keywords" .) -}}
+{{- end -}}
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": {{ .Title | jsonify }},
-  "description": {{ .Description | default .Summary | plainify | truncate 160 | jsonify }},
-  "datePublished": {{ .Date.Format "2006-01-02T15:04:05-07:00" | jsonify }},
-  "dateModified": {{ .Lastmod.Format "2006-01-02T15:04:05-07:00" | jsonify }},
-  "author": {
-    "@type": "Person",
-    "name": "Yousa Li",
-    "url": {{ .Site.BaseURL | jsonify }}
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Yousa Li"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": {{ .Permalink | jsonify }}
-  },
-  "inLanguage": {{ cond (eq .Lang "zh") "zh-CN" "en-US" | jsonify }},
-  "wordCount": {{ .WordCount }}
-  {{- with .Params.tags }},
-  "keywords": {{ . | jsonify }}
-  {{- end }}
-}
+{{ $schema | jsonify | safeJS }}
 </script>
-{{- end }}
+{{- end -}}
