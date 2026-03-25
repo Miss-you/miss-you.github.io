@@ -4,6 +4,7 @@
 
 ## Blog Posts
 
+- [你不是在选赛道，你是在选标签](https://yousali.com/posts/20260325-choosing-labels-not-tracks/): To B 还是 To C？这个问题本身就问错了。标签是沟通工具，不该替你做决策。
 - [为什么你读了100本书，生活却没什么变化？](https://yousali.com/posts/20260307-closed-loop-thinking/): 大多数人的努力只有输入没有输出，缺少反馈闭环。闭环不是把事做完，是让判断变准。先执行，再观测，用结果校准下一次判断。
 - [为什么 AI 写代码更快但交付没变，以及我怎么把它扳回来的](https://yousali.com/posts/20260303-ai-coding-efficiency-to-evolution/): METR 实验显示 AI 辅助编码客观慢 19% 但主观觉得快 20%。本文从约束理论、Spec/Rule/Skill 架构、验证闭环、并发策略四个维度拆解效率悖论，论证 AI Coding 的真正红利不在加速，而在能力进化。
 - [AI Coding 融入后台研发全链路：现状、边界与讨论框架](https://yousali.com/posts/20260228-ai-coding-sdlc-status-discussion/): 基于 10 份行业报告的交叉分析，梳理 AI Coding 在 SDLC 各阶段的真实现状、局限与风险，为团队脑暴提供数据驱动的讨论框架。
