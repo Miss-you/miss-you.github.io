@@ -30,7 +30,7 @@
 - [从副驾驶到架构师：我的AI编程协作方法论](https://yousali.com/posts/20250830-claude-code-workshop/): 分享我从使用GPT到Claude Code的AI编程实践历程，以及总结出的结构化协作方法论。包括四要素Prompt框架、四阶段协作流程、四象限决策模型等个人原创和实践总结。
 - [拆解 ChatGPT“学习模式”Prompt：它为什么如此神奇？](https://yousali.com/posts/20250805-study-mode-prompt/): 深度拆解ChatGPT学习模式的系统提示词，揭秘它如何将认知科学原理转化为可执行的AI指令，并动手重构一个属于自己的学习教练Prompt。
 - [王者](https://yousali.com/posts/20250727-game-art-game-pua/): 从一个王者印记开始的思考：游戏公司要的不是你的钱，而是你的时间
-- [30分钟解决Claude封号问题：程序员的终极自救指南](https://yousali.com/posts/20250715-how-to-pick-and-build-the-vps-svc/): 详细介绍如何通过自建VPS解决Claude封号问题，包含完整的服务器搭建、客户端配置和开发工具设置步骤，让你稳定使用Claude Code等AI开发工具
+- [自建 VPS 使用 Claude：sing-box-yg 部署与开发工具代理配置](https://yousali.com/posts/20250715-how-to-pick-and-build-the-vps-svc/): 自建 VPS 方案更新：使用 sing-box-yg 部署 VLESS + REALITY + Vision，配置客户端与开发工具代理，并区分 IP 被墙、连接故障与账号风控。
 - [与 AI 共事，或，思考的放大器](https://yousali.com/posts/20250719--ai-/): AI的真正价值不在于它能独立思考，而在于它能放大和加速我们的思考。这篇文章通过一个写推荐语的实例，探讨了如何正确地与AI协作，以及思考质量在AI时代的重要性。
 - [解决Cursor AI编程助手「地区不可用」错误：完整的VPN代理配置指南](https://yousali.com/posts/20250717-fix-cursor-unavailable-region/): Cursor AI编程助手显示「Model not available」或「地区不可用」？本文提供详细的代理配置解决方案，包括Clash、V2Ray等工具的具体设置步骤，让你重新使用AI编程功能。
 - [当 nil 不等于 nil？深度剖析 Go 的 typed nil 大坑](https://yousali.com/posts/20250515-go-typed-nil/)
