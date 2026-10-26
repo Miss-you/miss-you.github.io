@@ -4,7 +4,6 @@
 
 ## Blog Posts
 
-- [How Much New AI Compute Comes Online in 2027? Backing It Out from NVIDIA's Revenue](https://yousali.com/en/posts/20261026-2027-ai-compute-gw/): About 15 GW of new NVIDIA compute (IT basis, range 13–18 GW; about 18 GW grid-side) powers on in 2027, equal to about 23 GW of GB200 or 20 GW of GB300. Derived from NVIDIA's revenue and revenue per GW, cross-checked against TSMC capacity, the supply chain and analyst forecasts.
 - [Working with AI, or, The Amplifier of Thought](https://yousali.com/en/posts/20250719-working-with-ai-or-the-amplifier-of-thought/): The true value of AI isn't in its ability to think independently, but in how it amplifies and accelerates our own thinking. This article explores proper AI collaboration through a real example of writing a recommendation, and discusses the importance of thinking quality in the AI era.
 - [Hugo 文章目录管理教程](https://yousali.com/en/posts/20250715-hugo-tutorial/): 演示如何为每个Hugo文章创建独立目录，便于管理文章相关的图片和资源
 
