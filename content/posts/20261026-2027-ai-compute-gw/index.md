@@ -2,7 +2,9 @@
 title: "How Much New AI Compute Comes Online in 2027? Backing It Out from NVIDIA's Revenue"
 date: 2026-10-26T13:00:00+08:00
 draft: false
-lang: en
+lang: zh
+isCJKLanguage: false
+aliases: ["/en/posts/20261026-2027-ai-compute-gw/"]
 tags: ["NVIDIA", "AI Compute", "Data Center", "GPU", "Investing"]
 categories: ["Investing"]
 description: "About 15 GW of new NVIDIA compute (IT basis, range 13–18 GW; about 18 GW grid-side) powers on in 2027, equal to about 23 GW of GB200 or 20 GW of GB300. Derived from NVIDIA's revenue and revenue per GW, cross-checked against TSMC capacity, the supply chain and analyst forecasts."
