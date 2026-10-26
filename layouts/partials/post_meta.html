@@ -13,8 +13,9 @@
   {{- $content = replaceRE "(?s)^---.*?---" "" $content -}}
   {{- $contentNoSpace := replaceRE "\\s+" "" $content -}}
   {{- $runeCount := strings.RuneCount $contentNoSpace -}}
-  {{- $asciiCount := strings.RuneCount (replaceRE "[^a-zA-Z0-9]" "" $content) -}}
-  {{- if gt $runeCount $asciiCount -}}
+  {{- $hanCount := strings.RuneCount (replaceRE "[^\\p{Han}]" "" $content) -}}
+  {{- $latinWords := len (findRE "[A-Za-z]+" $content) -}}
+  {{- if gt $hanCount $latinWords -}}
     {{- $scratch.Add "meta" (slice (printf "%d 字" $runeCount)) }}
   {{- else -}}
     {{- $scratch.Add "meta" (slice (printf "%d words" .WordCount)) }}
