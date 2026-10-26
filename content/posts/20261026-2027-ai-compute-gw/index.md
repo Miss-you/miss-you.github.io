@@ -14,6 +14,8 @@ cover:
     relative: false
 ---
 
+> 中文版：[2027 年到底新增多少 GW 算力：从英伟达收入倒推](/posts/20261026-2027-ai-compute-gw-zh/)
+
 *Estimate as of October 26, 2026. NVIDIA reports its next quarter (fiscal Q3 FY27, roughly August–October 2026) in mid-to-late November.*
 
 ## Bottom line
