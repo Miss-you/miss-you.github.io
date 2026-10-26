@@ -4,6 +4,7 @@
 
 ## Blog Posts
 
+- [2027 年到底新增多少 GW 算力：从英伟达收入倒推](https://yousali.com/posts/20261026-2027-ai-compute-gw-zh/): 2027 年新增并真正通电的英伟达算力约 15 GW（IT 口径，合理区间 13–18 GW；电网侧约 18 GW），折合约 23 GW GB200 或 20 GW GB300。从英伟达收入和每 GW 价值量倒推，并用台积电产能、供应链和分析师预测交叉验证。
 - [How Much New AI Compute Comes Online in 2027? Backing It Out from NVIDIA's Revenue](https://yousali.com/posts/20261026-2027-ai-compute-gw/): About 15 GW of new NVIDIA compute (IT basis, range 13–18 GW; about 18 GW grid-side) powers on in 2027, equal to about 23 GW of GB200 or 20 GW of GB300. Derived from NVIDIA's revenue and revenue per GW, cross-checked against TSMC capacity, the supply chain and analyst forecasts.
 - [一文读懂 Harness Engineering：从 14 篇工程文章中，寻找那个让 AI 不再离经叛道的壳](https://yousali.com/posts/20260405-harness-engineering-guide/): 从 Anthropic、OpenAI、Cursor 三家头部公司的 14 篇工程文章出发，拆解 Harness Engineering 的三层架构：流程管控、并发调度、验证对抗，以及模型进步后的减法逻辑。
 - [你不是在选赛道，你是在选标签](https://yousali.com/posts/20260325-choosing-labels-not-tracks/): To B 还是 To C？这个问题本身就问错了。标签是沟通工具，不该替你做决策。
