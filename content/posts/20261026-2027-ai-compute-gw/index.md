@@ -460,6 +460,10 @@ All figures in the text come from the final version (v3). The table records earl
 | v2 | Added the missing shipments, sensitivity analysis and a Rubin-slip scenario | 14.9 GW | A second-opinion review found five serious problems: the same revenue was deducted twice; "9 GW" contradicted the lag assumption; some cross-checks were circular; Rubin's performance-per-watt floor was too high; the slip scenario held revenue constant |
 | v3 | Aligned the basis of revenue per GW and the deduction; Rubin floor lowered to 1.3; FY28 growth floor lowered to 50%; slip scenario can also cut revenue; NVIDIA share floor lowered to 55%; revenue per GW can be overridden for low/high cases | **15.2 GW** | Final version. Two rounds each of correctness and reader review then corrected the direction of the grid-side reading and removed data-center-basis evidence from the ↑ rows in 4.1 |
 
+## Reproduce the numbers
+
+The model is public at [Miss-you/nvidia-2027-gw-model](https://github.com/Miss-you/nvidia-2027-gw-model) (Python, Apache 2.0). `python3 model.py` reproduces the headline figures, `python3 scenarios.py` the scenarios in 4.6 and 5.2, and `python3 derived_tables.py` the tables in 2.2, 3.1, 3.3 and 5.1. The repository also lists what to check after the next earnings report.
+
 ## Sources
 
 **Primary documents and data (original pages read):**
