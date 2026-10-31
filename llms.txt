@@ -4,6 +4,7 @@
 
 ## Blog Posts
 
+- [我把安卓手机插上电脑，让 AI 帮我科学上网](https://yousali.com/posts/20261031-ai-sets-up-android-proxy/): 安卓代理没弄过，想到就觉得麻烦。我把 Galaxy S25 连上 Mac，试着问 Codex 能不能直接帮我弄。软件它都备好了，我却卡在找一个开关。
 - [人定义「对」，AI 跑到「对」：用 AI 写需求三个月的复盘](https://yousali.com/posts/20261030-human-defines-right/): 一次线下分享的公开版：这一步的「对」，机器能不能自己检查？
 - [2027 年到底新增多少 GW 算力：从英伟达收入倒推](https://yousali.com/posts/20261026-2027-ai-compute-gw-zh/): 2027 年新增并真正通电的英伟达算力约 15 GW（IT 口径，合理区间 13–18 GW；电网侧约 18 GW），折合约 23 GW GB200 或 20 GW GB300。从英伟达收入和每 GW 价值量倒推，并用台积电产能、供应链和分析师预测交叉验证。
 - [How Much New AI Compute Comes Online in 2027? Backing It Out from NVIDIA's Revenue](https://yousali.com/posts/20261026-2027-ai-compute-gw/): About 15 GW of new NVIDIA compute (IT basis, range 13–18 GW; about 18 GW grid-side) powers on in 2027, equal to about 23 GW of GB200 or 20 GW of GB300. Derived from NVIDIA's revenue and revenue per GW, cross-checked against TSMC capacity, the supply chain and analyst forecasts.
