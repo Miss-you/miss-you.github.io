@@ -12,6 +12,8 @@ cover:
     relative: true
 ---
 
+> English version: [Sounding Right Proves Nothing Now](/posts/20261102-ai-slop-attention-en/)
+
 推特上的 AI slop（没人审过就往外发的 AI 内容）越来越多，我一直在想怎么筛。前几天读到一段话，让我发现自己的筛子有问题：读着顺，我就信了。
 
 那段话讲 AI 团队。作者参观了一些 AI 用得很成熟的团队，说抄最佳实践经常失效，原因是违反了 Gall 定律：能运行的复杂系统，都是从能运行的简单系统长出来的。
