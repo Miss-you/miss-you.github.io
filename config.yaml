@@ -21,6 +21,9 @@ languages:
         - name: 标签
           url: tags/
           weight: 10
+        - name: 实验室
+          url: lab/
+          weight: 12
         - name: 工具
           url: tools/
           weight: 15
@@ -49,6 +52,9 @@ languages:
         - name: 标签
           url: tags/
           weight: 10
+        - name: 实验室
+          url: lab/
+          weight: 12
         - name: 工具
           url: tools/
           weight: 15

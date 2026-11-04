@@ -1,0 +1,51 @@
+{{- define "main" }}
+{{- /* Lab index: entries come from data/lab.json; pages live in static/lab/<group>/<slug>.html. See lab/README.md. */}}
+{{- $groups := site.Data.lab.groups }}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  {{- with .Description }}
+  <div class="post-description">{{ . }}</div>
+  {{- end }}
+</header>
+
+<div class="lab">
+  <div class="lab-intro post-content">{{ .Content }}</div>
+
+  {{- if gt (len $groups) 1 }}
+  <nav class="lab-toc" aria-label="分组">
+    {{- range $groups }}
+    <a href="#{{ .id }}">{{ .title }} <span>{{ len .items }}</span></a>
+    {{- end }}
+  </nav>
+  {{- end }}
+
+  {{- range $groups }}
+  {{- $gid := .id }}
+  <section class="lab-group" id="{{ $gid }}">
+    <h2 class="lab-group-title"><a href="#{{ $gid }}">{{ .title }}</a> <span class="lab-count">{{ len .items }} 条</span></h2>
+    <p class="lab-group-summary">{{ .summary }}</p>
+    <ol class="lab-grid">
+      {{- range .items }}
+      {{- $href := printf "/lab/%s/%s.html" $gid .slug | relURL }}
+      <li class="lab-card" id="{{ .slug }}">
+        <a class="lab-thumb" href="{{ $href }}" aria-label="全屏打开：{{ .title }}">
+          <img src="{{ printf "/lab/%s/thumbs/%s.jpg" $gid .slug | relURL }}" alt="{{ .title }} 截图" width="960" height="540" loading="lazy" decoding="async">
+          <span class="lab-play">▶ 全屏播放</span>
+        </a>
+        <div class="lab-body">
+          <h3><a href="{{ $href }}">{{ .title }}</a></h3>
+          <p>{{ .summary }}</p>
+          <div class="lab-meta">
+            {{- with .length }}<span class="lab-length">{{ . }}</span>{{ end }}
+            {{- range .keywords }}<span class="lab-tag">{{ . }}</span>{{ end }}
+          </div>
+        </div>
+      </li>
+      {{- end }}
+    </ol>
+    {{- with .note }}<p class="lab-note">{{ . }}</p>{{ end }}
+  </section>
+  {{- end }}
+</div>
+{{- end }}
