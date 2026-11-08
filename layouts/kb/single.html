@@ -1,0 +1,44 @@
+{{ define "main" }}
+{{- $current := . -}}
+{{- $root := site.GetPage "/kb" -}}
+<div class="kb-shell">
+  {{ partial "kb/sidebar.html" . }}
+  <div class="kb-reader">
+    <a class="kb-back" href="{{ $root.RelPermalink }}">← {{ i18n "kb_back" }}</a>
+    {{ partial "breadcrumbs.html" . }}
+    <header class="kb-article-header">
+      <p class="kb-eyebrow">{{ partial "kb/topic.html" . }}</p>
+      <h1>{{ .Title }}</h1>
+      <div class="kb-entry-meta">
+        {{- if not .Lastmod.IsZero }}<span>{{ i18n "kb_updated" }} <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006-01-02" }}</time></span>{{ end }}
+        <span>{{ if eq .Lang "zh" }}{{ strings.RuneCount (replaceRE "\\s+" "" .Plain) }}{{ else }}{{ .WordCount }}{{ end }} {{ i18n "kb_words" }}</span>
+        {{ partial "translation_list.html" . }}
+      </div>
+    </header>
+    <div class="kb-article-layout">
+      <article class="kb-article">
+        {{ with .Params.takeaway }}
+        <aside class="kb-takeaway"><h2>{{ i18n "kb_takeaway" }}</h2><p>{{ . | markdownify }}</p></aside>
+        {{ end }}
+        <div class="post-content">{{ partial "anchored_headings.html" .Content }}</div>
+        {{- $related := slice -}}
+        {{- range partial "kb/pages.html" . -}}
+          {{- if and (ne .RelPermalink $current.RelPermalink) (eq (partial "kb/topic.html" .) (partial "kb/topic.html" $current)) -}}
+            {{- $related = $related | append . -}}
+          {{- end -}}
+        {{- end -}}
+        {{- with first 3 $related }}
+        <nav class="kb-related" aria-label="{{ i18n "kb_related" }}"><h2>{{ i18n "kb_related" }}</h2><ul>{{ range . }}<li><a href="{{ .RelPermalink }}">{{ .Title }} →</a></li>{{ end }}</ul></nav>
+        {{- end }}
+        <footer class="kb-article-footer">
+          <div class="kb-entry-meta">{{ range .Params.tags }}<span class="kb-tag">{{ . }}</span>{{ end }}</div>
+          {{ partial "edit_post.html" . }}
+        </footer>
+      </article>
+      {{- if .Fragments.Headings }}
+      <aside class="kb-page-toc" aria-label="{{ i18n "kb_contents" }}"><h2>{{ i18n "kb_contents" }}</h2>{{ .TableOfContents }}</aside>
+      {{- end }}
+    </div>
+  </div>
+</div>
+{{ end }}

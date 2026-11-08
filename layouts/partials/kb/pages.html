@@ -1,0 +1,5 @@
+{{- $pages := slice -}}
+{{- with site.GetPage "/kb" -}}
+  {{- $pages = .RegularPagesRecursive.ByLastmod.Reverse -}}
+{{- end -}}
+{{- return $pages -}}

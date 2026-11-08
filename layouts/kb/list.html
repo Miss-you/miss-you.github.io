@@ -1,0 +1,42 @@
+{{ define "main" }}
+{{- $pages := partial "kb/pages.html" . -}}
+<div class="kb-shell" data-kb-index>
+  {{ partial "kb/sidebar.html" . }}
+  <div class="kb-index-main">
+    {{ partial "breadcrumbs.html" . }}
+    <header class="kb-heading">
+      <p class="kb-eyebrow">A PERSONAL KNOWLEDGE BASE</p>
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="kb-description">{{ . }}</p>{{ end }}
+      {{ with .Content }}<div class="kb-intro">{{ . }}</div>{{ end }}
+    </header>
+    <div class="kb-search-panel">
+      <label class="kb-search-label" for="kb-search">{{ i18n "kb_search" }}</label>
+      <input id="kb-search" type="search" placeholder="{{ i18n "kb_placeholder" }}" autocomplete="off" aria-describedby="kb-search-hint">
+      <p id="kb-search-hint" class="kb-search-hint">{{ i18n "kb_search_hint" }}</p>
+    </div>
+    <noscript><p class="kb-search-hint">{{ i18n "kb_nojs" }}</p></noscript>
+    <div class="kb-list-heading">
+      <p id="kb-result-count" role="status" aria-live="polite" data-template="{{ replace (i18n "kb_results" (dict "Count" 0)) "0" "{count}" }}" data-singular="{{ i18n "kb_results" (dict "Count" 1) }}">{{ i18n "kb_count" (dict "Count" (len $pages)) }}</p>
+      <span>{{ i18n "kb_recent" }}</span>
+    </div>
+    <div class="kb-note-list">
+      {{- range $pages }}
+      {{- $summary := .Params.summary | default .Description | default (.Summary | plainify | truncate 140) -}}
+      <article class="kb-entry" data-kb-url="{{ .RelPermalink }}" data-kb-entry-topic="{{ partial "kb/topic.html" . }}">
+        <h2><a href="{{ .RelPermalink }}">{{ .Title }}<span aria-hidden="true">↗</span></a></h2>
+        <p class="kb-entry-summary">{{ $summary | plainify }}</p>
+        <div class="kb-entry-meta">
+          <span>{{ partial "kb/topic.html" . }}</span>
+          {{- range .Params.tags }}<span class="kb-tag">{{ . }}</span>{{ end }}
+          {{- if not .Lastmod.IsZero }}<span>{{ i18n "kb_updated" }} <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2006-01-02" }}</time></span>{{ end }}
+        </div>
+      </article>
+      {{- end }}
+    </div>
+    <div class="kb-empty" id="kb-empty"{{ if $pages }} hidden{{ end }}><p>{{ i18n "kb_empty" }}</p></div>
+    <button class="kb-reset" id="kb-reset" type="button" hidden>{{ i18n "kb_reset" }} ↗</button>
+    <script type="application/json" id="kb-search-data">{{ partial "kb/data.html" . | jsonify | safeJS }}</script>
+  </div>
+</div>
+{{ end }}

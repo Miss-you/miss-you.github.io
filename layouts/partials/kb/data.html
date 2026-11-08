@@ -1,0 +1,6 @@
+{{- $entries := slice -}}
+{{- range partial "kb/pages.html" . -}}
+  {{- $summary := .Params.summary | default .Description | default (.Summary | plainify | truncate 140) -}}
+  {{- $entries = $entries | append (dict "title" .Title "url" .RelPermalink "summary" ($summary | plainify) "topic" (partial "kb/topic.html" .) "tags" (.Params.tags | default slice) "content" .Plain) -}}
+{{- end -}}
+{{- return $entries -}}

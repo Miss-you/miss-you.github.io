@@ -1,0 +1,40 @@
+kb_directory:
+  other: 知识目录
+kb_all:
+  other: 全部笔记
+kb_search:
+  other: 搜索知识库
+kb_placeholder:
+  other: 搜索标题、关键词或正文…
+kb_updated:
+  other: 更新于
+kb_recent:
+  other: 按最近更新排列
+kb_count:
+  other: '{{ .Count }} 条笔记'
+kb_results:
+  other: '找到 {{ .Count }} 条笔记'
+kb_empty:
+  other: 没有找到匹配的笔记
+kb_reset:
+  other: 清空搜索与筛选
+kb_takeaway:
+  other: 一句话记住
+kb_contents:
+  other: 本页目录
+kb_back:
+  other: 返回知识库
+kb_related:
+  other: 相关知识
+kb_untitled_topic:
+  other: 未分类
+kb_sidebar_note:
+  other: 一条笔记，一个小问题。在使用中补充，在查阅中修订。
+kb_search_hint:
+  other: 标题、标签和正文均可搜索
+kb_nojs:
+  other: 启用 JavaScript 可以搜索和筛选；也可以直接浏览下方全部笔记。
+kb_feed:
+  other: 订阅知识更新
+kb_words:
+  other: 字

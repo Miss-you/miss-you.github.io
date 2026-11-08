@@ -1,5 +1,7 @@
 ### Hi there 👋
 
+知识库入口：[/kb/](https://yousali.com/kb/)。新增小知识或经验只需在 `content/kb/` 添加 Markdown；写法、草稿、图片与发布说明见 [知识库维护指南](kb/README.md)。
+
 <!--
 **Miss-you/miss-you** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 

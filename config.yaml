@@ -21,6 +21,9 @@ languages:
         - name: 标签
           url: tags/
           weight: 10
+        - name: 知识库
+          url: kb/
+          weight: 11
         - name: 实验室
           url: lab/
           weight: 12
@@ -52,6 +55,9 @@ languages:
         - name: 标签
           url: tags/
           weight: 10
+        - name: Knowledge
+          url: kb/
+          weight: 11
         - name: 实验室
           url: lab/
           weight: 12
@@ -69,6 +75,7 @@ languages:
           weight: 30
 
 params:
+  mainSections: [posts]
   defaultTheme: light
   env: production
   title: Yousa Driven Development

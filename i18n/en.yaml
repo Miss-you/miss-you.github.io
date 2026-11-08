@@ -1,0 +1,42 @@
+kb_directory:
+  other: Knowledge directory
+kb_all:
+  other: All notes
+kb_search:
+  other: Search knowledge base
+kb_placeholder:
+  other: Search titles, keywords or full text…
+kb_updated:
+  other: Updated
+kb_recent:
+  other: Recently updated first
+kb_count:
+  one: '1 note'
+  other: '{{ .Count }} notes'
+kb_results:
+  one: '1 note found'
+  other: '{{ .Count }} notes found'
+kb_empty:
+  other: No matching notes
+kb_reset:
+  other: Clear search and filters
+kb_takeaway:
+  other: In one sentence
+kb_contents:
+  other: On this page
+kb_back:
+  other: Back to knowledge base
+kb_related:
+  other: Related notes
+kb_untitled_topic:
+  other: Uncategorized
+kb_sidebar_note:
+  other: One note, one small question. Refine it as you use it.
+kb_search_hint:
+  other: Search includes titles, tags and full text
+kb_nojs:
+  other: Enable JavaScript to search and filter, or browse all notes below.
+kb_feed:
+  other: Subscribe to updates
+kb_words:
+  other: words

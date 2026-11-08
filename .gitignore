@@ -1,5 +1,7 @@
 public/
 public/*
+resources/_gen/images/
+__pycache__/
 docs/
 docs/*
 */.DS_Store
