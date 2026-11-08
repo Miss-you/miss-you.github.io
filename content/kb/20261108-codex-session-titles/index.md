@@ -1,13 +1,13 @@
 ---
-title: "让 Codex 自动给新会话命名"
+title: "给 Claude Code 和 Codex 的新会话统一命名"
 slug: codex-session-titles
 date: 2026-11-08
 lastmod: 2026-11-08
 lang: zh
 topic: "AI 协作"
-summary: "在全局 AGENTS.md 中写一条命名规则，让新会话以分类、事项和日期呈现。"
-takeaway: "让 Agent 在新主会话开始时统一命名，回头找任务时就能先看懂列表。"
-tags: [Codex, Agent, 工作流]
+summary: "把命名规则写进各自的全局指令文件；能否自动改名，取决于当前客户端提供的工具。"
+takeaway: "用分类、事项和日期命名会话，回头找任务时就能先看懂列表。"
+tags: [Claude Code, Codex, Agent, 工作流]
 draft: false
 ---
 
@@ -23,26 +23,32 @@ draft: false
 
 比如 `[设计] 个人知识库原型｜261108`，分类和事项都写在标题里，`261108` 是北京时间的发起日期。
 
-## 配置到全局 AGENTS.md
+Claude Code 和 Codex 都可以保存这条命名规则。能否让 Agent 自动改名，还要看当前会话有没有提供改名工具。
 
-以 Codex 为例，全局指令文件默认为 `~/.codex/AGENTS.md`。如果设置了 `CODEX_HOME`，则使用对应目录中的 `AGENTS.md`。新启动的会话会读取这些指令，具体顺序见 [OpenAI 的 AGENTS.md 文档](https://learn.chatgpt.com/docs/agent-configuration/agents-md)。
+## 写进各自的全局指令文件
 
-可以自己编辑文件，也可以把下面这段话交给 Codex 检查并配置。
+Claude Code 的个人全局指令文件默认为 `~/.claude/CLAUDE.md`，适用于这台机器上的各个项目，见 [Claude Code 的记忆与指令文档](https://code.claude.com/docs/en/memory#choose-where-to-put-claudemd-files)。
+
+Codex 默认为 `~/.codex/AGENTS.md`。如果设置了 `CODEX_HOME`，则使用对应目录中的指令文件。Codex 优先读取全局目录里非空的 `AGENTS.override.md`，这时同目录的 `AGENTS.md` 不会生效。项目里更具体的指令也可能影响行为，读取顺序见 [OpenAI 的 AGENTS.md 文档](https://learn.chatgpt.com/docs/agent-configuration/agents-md)。
+
+可以自己编辑对应文件，也可以把下面这段话交给正在使用的 Claude Code 或 Codex 检查并配置。
 
 ```text
-请检查 Codex 的全局 AGENTS.md，保留其中已有的所有内容。
+请检查当前工具实际加载的全局指令文件，保留其中已有的所有内容。
+Claude Code 默认为 ~/.claude/CLAUDE.md，Codex 默认为 ~/.codex/AGENTS.md。
 如果已经有下面这条规则，就不要重复添加；否则追加进去。
 完成后告诉我配置文件路径，并验证新会话能读取到这条规则。
+请分别说明规则是否已写入、当前会话是否有可调用的改名工具，不要把配置完成当成自动改名已生效。
 
 仅在新主会话首次明确任务时，用改名工具设标题为「[分类] 简短事项｜YYMMDD」，日期取北京时间的发起日期。只命名一次，尊重用户指定标题；不检查完成状态、不自动增删状态标签。改名不可用时继续任务。
 ```
 
-自己配置的话，把最后一段规则追加到全局 `AGENTS.md`，保留文件里已有的内容。再新开一个会话，给出明确任务，看看标题是否符合约定。
+自己配置的话，把最后一段规则追加到对应文件，保留已有内容。再新开一个会话，给出明确任务，检查规则是否加载、标题是否按约定改变。
 
-## 命名规则的边界
+## 有改名命令，还要看 Agent 能否调用
 
-标题能帮你找回会话，想起当时在做什么。任务是否完成，仍要看会话内容。规则只在新主会话首次明确任务时命名，不会检查完成状态，也不会自动增删「已完成」之类的标签。
+Codex 在本次使用的桌面环境中提供了 `set_thread_title` 改名工具，Agent 可以按规则调用。Codex CLI 的官方文档也支持用户输入 `/rename <标题>`，见 [Codex 的改名命令](https://learn.chatgpt.com/docs/developer-commands?surface=cli#rename-the-current-chat-with-rename)。CLI 有这个命令，并不能说明所有客户端都会向 Agent 开放同样的工具。
 
-`AGENTS.md` 是给 Agent 的指令。能不能改名，还取决于当前客户端是否提供改名工具。其他 Code Agent 的全局指令文件和工具可能不同，需要按实际情况调整。
+Claude Code 官方支持用户在会话中输入 `/rename <标题>`，也支持启动时用 `claude -n "标题"` 命名，见 [Claude Code 的会话命名文档](https://code.claude.com/docs/en/sessions#name-your-sessions)。这些是用户可用的命名入口，不能据此保证 Claude 会按 `CLAUDE.md` 自动改名。当前会话没有向 Agent 开放改名工具时，可以让它按规则拟好标题，再自己输入 `/rename` 命令。
 
-Codex 优先读取全局目录里的 `AGENTS.override.md`。如果这个文件非空，就不会读取同目录的 `AGENTS.md`。项目里的更具体指令也可能影响行为。
+标题能帮你找回会话，想起当时在做什么。任务是否完成，仍要看会话内容。规则只在新主会话首次明确任务时命名，不会检查完成状态，也不会自动增删「已完成」之类的标签。客户端自带的标题生成功能，也不代表它会遵守这条自定义规则。
