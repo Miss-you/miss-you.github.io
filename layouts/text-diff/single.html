@@ -1,6 +1,6 @@
 {{- $en := eq .Lang "en" -}}
 {{- $t := dict
-  "tools" "工具" "home" "首页" "theme" "切换明暗主题" "eyebrow" "LOCAL TEXT DIFF"
+  "eyebrow" "LOCAL TEXT DIFF"
   "lead" "两份文本，变化一目了然。" "private" "本地处理 · 不上传 · 不自动保存"
   "original" "原始文本" "modified" "更改后文本" "copy" "复制" "pasteLeft" "在这里粘贴原始文本…"
   "pasteRight" "在这里粘贴更改后的文本…" "compare" "查找差异" "cancel" "取消计算" "swap" "交换文本"
@@ -13,7 +13,7 @@
   "loading" "正在初始化本地对比器…" "back" "返回工具台" -}}
 {{- if $en -}}
   {{- $t = dict
-    "tools" "Tools" "home" "Home" "theme" "Toggle light/dark theme" "eyebrow" "LOCAL TEXT DIFF"
+    "eyebrow" "LOCAL TEXT DIFF"
     "lead" "Two texts. Every change in view." "private" "Local processing · No uploads · No autosave"
     "original" "Original text" "modified" "Modified text" "copy" "Copy" "pasteLeft" "Paste your original text here…"
     "pasteRight" "Paste your modified text here…" "compare" "Find differences" "cancel" "Cancel comparison" "swap" "Swap texts"
@@ -39,18 +39,12 @@
   <title>{{ .Title }} | {{ site.Title }}</title>
   <link rel="canonical" href="{{ .Permalink }}">
   <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">
+  {{ partial "site-header-assets.html" (dict "page" . "isolated" true) }}
   <script type="module" src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" crossorigin="anonymous"></script>
 </head>
 <body>
   <a class="skip-link" href="#workspace">{{ .Title }}</a>
-  <header class="site-header">
-    <a class="site-title" href="{{ "" | absLangURL }}">Yousa Driven Development <span>| YDD</span></a>
-    <nav aria-label="{{ index $t "home" }}">
-      <a href="{{ "tools/" | absLangURL }}" aria-current="page">{{ index $t "tools" }}</a>
-      {{ range .Translations }}<a href="{{ .RelPermalink }}" lang="{{ .Lang }}">{{ cond (eq .Lang "en") "En" "中文" }}</a>{{ end }}
-      <button type="button" id="theme-toggle" aria-label="{{ index $t "theme" }}" title="{{ index $t "theme" }}" disabled>◐</button>
-    </nav>
-  </header>
+  {{ partial "site-header.html" (dict "page" . "isolated" true) }}
   <main id="workspace" data-lang="{{ .Lang }}" data-worker="{{ $worker.RelPermalink }}">
     <div class="intro">
       <div>

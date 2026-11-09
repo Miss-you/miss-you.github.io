@@ -45,12 +45,6 @@ button:disabled { opacity: .45; cursor: default; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 .skip-link { position: absolute; top: -80px; left: 16px; z-index: 5; padding: 8px; background: var(--surface); }
 .skip-link:focus { top: 8px; }
-.site-header { min-height: 66px; padding: 12px clamp(18px, 4vw, 56px); border-top: 4px solid #2d3929; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.site-title { font: 700 19px/1.4 Georgia, "Songti SC", serif; }
-.site-header nav { display: flex; align-items: center; gap: 22px; white-space: nowrap; }
-.site-header nav a { font-size: 14px; }
-.site-header [aria-current] { color: var(--accent); }
-#theme-toggle { padding: 3px 9px; font-size: 22px; background: transparent; border-color: transparent; }
 main { max-width: 1328px; margin: 0 auto; padding: 36px 36px 20px; }
 .intro { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 26px; }
 .eyebrow { margin: 0 0 8px; color: var(--muted); font: 11px/1.5 var(--mono); letter-spacing: 2.5px; }
@@ -117,10 +111,6 @@ h2 { margin: 0; font-size: 15px; font-weight: 600; }
 footer { border-top: 1px solid var(--border); padding: 18px 0; display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; }
 footer span { font: 10px var(--mono); letter-spacing: 1px; }
 @media (max-width: 760px) {
-  .site-header { padding: 12px 18px; gap: 10px; }
-  .site-title { font-size: 15px; }
-  .site-title span { display: none; }
-  .site-header nav { gap: 12px; }
   main { padding: 26px 16px 12px; }
   .intro { align-items: flex-start; flex-direction: column; gap: 14px; margin-bottom: 22px; }
   .privacy-badge { white-space: normal; }

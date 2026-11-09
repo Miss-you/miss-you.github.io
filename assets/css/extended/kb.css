@@ -155,11 +155,6 @@
   .kb-page .kb-page-toc li { margin: 0; }
 }
 @media (max-width: 760px) {
-  .kb-page .nav { padding-inline: 20px; }
-  .kb-page .logo { width: 100%; flex-wrap: nowrap; align-items: center; gap: 8px; margin: 14px 0 8px; }
-  .kb-page .logo > a { min-width: 0; font-size: 16px; line-height: 1.5; }
-  .kb-page .logo-switches { flex-wrap: nowrap; flex-shrink: 0; line-height: 1.5; }
-  .kb-page #menu { width: 100%; margin: 0; line-height: 48px; }
   .kb-page .kb-main { margin-top: 22px; }
   .kb-page .kb-shell { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .kb-page .kb-sidebar { border-right: 0; padding: 0 0 16px; border-bottom: 1px solid var(--border); }

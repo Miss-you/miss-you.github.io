@@ -1,0 +1,5 @@
+{{- $css := resources.Get "css/site-header.css" | resources.Minify | fingerprint "sha384" -}}
+{{- $script := resources.Get "js/site-header.js" | resources.Minify | fingerprint "sha384" -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">
+{{/* Deferred local bootstrap initializes without waiting for unrelated module imports. */}}
+<script defer src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" crossorigin="anonymous" data-site-header data-default-theme="{{ .page.Site.Params.defaultTheme | default "auto" }}"{{ if .isolated }} data-isolated="true"{{ end }}></script>

@@ -37,6 +37,7 @@ languages:
           url: categories/
           weight: 20
         - name: RSS
+          identifier: rss
           url: /index.xml
           weight: 25
         - name: GitHub
@@ -52,25 +53,26 @@ languages:
       series: series
     menu:
       main:
-        - name: 归档
+        - name: Archives
           url: archives
           weight: 5
-        - name: 标签
+        - name: Tags
           url: tags/
           weight: 10
         - name: Knowledge
           url: kb/
           weight: 11
-        - name: 实验室
+        - name: Lab
           url: lab/
           weight: 12
-        - name: 工具
+        - name: Tools
           url: tools/
           weight: 15
-        - name: 分类
+        - name: Categories
           url: categories/
           weight: 20
         - name: RSS
+          identifier: rss
           url: /index.xml
           weight: 25
         - name: GitHub

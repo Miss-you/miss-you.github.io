@@ -298,9 +298,6 @@ function initialize() {
       }
     });
   }
-  document.getElementById('theme-toggle').addEventListener('click', () => {
-    document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-  });
   // Clear memory and DOM on navigation, including pages retained in the back/forward cache.
   window.addEventListener('pagehide', clearTexts);
   window.addEventListener('pageshow', event => { if (event.persisted) clearTexts(); });

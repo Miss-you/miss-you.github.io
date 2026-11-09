@@ -52,11 +52,16 @@ class TextDiffPage(unittest.TestCase):
                 self.assertNotIn('unsafe-eval', policy)
                 self.assertLess(html.index('Content-Security-Policy'), html.index('<script'))
                 scripts = [attrs for tag, attrs in tags if tag == 'script']
-                self.assertEqual(len(scripts), 1)
+                self.assertEqual(len(scripts), 2)
+                header_scripts = [attrs for attrs in scripts if 'data-site-header' in attrs]
+                self.assertEqual(len(header_scripts), 1)
+                self.assertIn('/site-header.', header_scripts[0]['src'])
+                self.assertEqual(header_scripts[0]['data-isolated'], 'true')
                 for attrs in scripts:
                     self.assertTrue(attrs['src'].startswith('/'))
                     self.assertIn('integrity', attrs)
-                    self.assertEqual(attrs['type'], 'module')
+                    if 'data-site-header' not in attrs:
+                        self.assertEqual(attrs['type'], 'module')
                 worker = next(attrs['data-worker'] for tag, attrs in tags if attrs.get('id') == 'workspace')
                 self.assertTrue(worker.startswith('/assets/js/text-diff-worker.'))
                 self.assertTrue((self.output / worker.lstrip('/')).is_file())
@@ -79,6 +84,14 @@ class TextDiffPage(unittest.TestCase):
                         r'\bfetch\s*\(', r'XMLHttpRequest', r'sendBeacon', r'WebSocket',
                         r'localStorage', r'sessionStorage', r'indexedDB', r'document\.cookie']:
             self.assertIsNone(re.search(pattern, source), pattern)
+
+    def test_shared_header_only_persists_appearance_and_never_collects_text(self):
+        source = (REPO / 'assets/js/site-header.js').read_text()
+        for pattern in [r'\bfetch\s*\(', r'XMLHttpRequest', r'sendBeacon', r'WebSocket', r'\.value\b',
+                        r'innerHTML', r'textContent', r'textarea', r'left-input', r'right-input', r'document\.cookie']:
+            self.assertIsNone(re.search(pattern, source), pattern)
+        keys = re.findall(r'localStorage\.(?:getItem|setItem)\([\'\"]([^\'\"]+)', source)
+        self.assertEqual(keys, ['pref-theme', 'pref-theme'])
 
 
 if __name__ == '__main__':

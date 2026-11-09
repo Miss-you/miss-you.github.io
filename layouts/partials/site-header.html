@@ -1,0 +1,57 @@
+{{- $page := .page -}}
+{{- $isolated := .isolated | default false -}}
+{{- $en := eq $page.Lang "en" -}}
+{{- $defaultSite := $page.Site.Sites.Default -}}
+<header class="site-header">
+  <div class="site-header-inner">
+    <div class="site-brand-row">
+      <a class="site-brand" href="{{ $page.Site.Home.RelPermalink }}" accesskey="h">{{ $page.Site.Title }}</a>
+      <div class="site-controls">
+        {{- if not $page.Site.Params.disableThemeToggle }}
+        <button type="button" id="theme-toggle" accesskey="t" aria-label="{{ cond $en "Toggle light/dark theme" "切换明暗主题" }}" title="{{ cond $en "Toggle light/dark theme" "切换明暗主题" }} (Alt + T)"{{ if $isolated }} disabled{{ end }}>
+          <svg id="moon" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg id="sun" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+        </button>
+        {{- end }}
+        {{- range $page.Site.Home.AllTranslations }}
+          {{- if ne .Lang $page.Lang }}
+            {{- $target := . -}}
+            {{- $language := .Lang -}}
+            {{- range $page.Translations }}
+              {{- if eq .Lang $language }}{{ $target = . }}{{ end -}}
+            {{- end }}
+            <a class="site-language-link" href="{{ $target.RelPermalink }}" lang="{{ $language }}" hreflang="{{ $language }}" aria-label="{{ .Language.LanguageName }}">{{ cond (eq $language "en") "En" (.Language.LanguageName | default $language) }}</a>
+          {{- end }}
+        {{- end }}
+      </div>
+    </div>
+    <nav class="site-menu" id="site-menu" aria-label="{{ cond $en "Main navigation" "主导航" }}">
+      <ul>
+        {{- range $page.Site.Menus.main }}
+          {{- $item := . -}}
+          {{- $external := gt (len (findRE "^([a-zA-Z][a-zA-Z0-9+.-]*:|//)" .URL)) 0 -}}
+          {{- $href := .URL | absLangURL -}}
+          {{- $current := "" -}}
+          {{- $lang := $page.Lang -}}
+          {{- if not $external -}}
+            {{- $target := $page.Site.GetPage .URL -}}
+            {{- if not $target }}{{ $target = $defaultSite.GetPage .URL }}{{ end -}}
+            {{- with $target -}}
+              {{- $href = .RelPermalink -}}
+              {{- $lang = .Lang -}}
+              {{- if eq $page.RelPermalink .RelPermalink -}}
+                {{- $current = "page" -}}
+              {{- else if and (ne .RelPermalink $page.Site.Home.RelPermalink) (strings.HasPrefix $page.RelPermalink .RelPermalink) -}}
+                {{- $current = "location" -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end }}
+          {{- if eq $item.Identifier "rss" -}}
+            {{- with $page.Site.Home.OutputFormats.Get "rss" }}{{ $href = .RelPermalink }}{{ end -}}
+          {{- end }}
+        <li><a class="site-menu-link" href="{{ $href }}"{{ with $current }} aria-current="{{ . }}"{{ end }}{{ if ne $lang $page.Lang }} hreflang="{{ $lang }}"{{ end }}{{ if $external }} rel="noopener noreferrer"{{ end }}>{{ $item.Name }}</a></li>
+        {{- end }}
+      </ul>
+    </nav>
+  </div>
+</header>
