@@ -1,13 +1,19 @@
 +++
 title = "Tools · 常用小工具"
-description = "经常要用到的小工具集合，先从 Unix 时间戳转换开始。"
+description = "本地文本对比、Unix 时间戳转换等常用小工具。"
 layout = "single"
+lang = "zh"
 +++
 
 欢迎来到 **Yousa Driven Development** 的工具台。这里会陆续放上一些日常开发/写作/排查时常用的小工具。  
-目前先上线一个简单的 **Unix 时间戳 ↔ 人类可读时间** 转换器。
 
 <div class="tool-card">
+  <h2>文本对比</h2>
+  <p>并排比较两份文本，标出行级和行内变化。纯前端计算，文本不上传、不自动保存。</p>
+  <p><a class="cursor-btn" href="/tools/text-diff/">打开文本对比器 ↗</a></p>
+</div>
+
+<div class="tool-card" id="unix-time">
   <h2>Unix 时间戳转换</h2>
   <p>支持秒/毫秒时间戳自动识别，也可以把日期字符串转换回 Unix 时间。</p>
 

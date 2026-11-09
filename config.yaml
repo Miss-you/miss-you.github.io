@@ -5,6 +5,9 @@ title: 'Yousa Driven Development | YDD'
 theme: PaperMod
 hasCJKLanguage: true
 
+build:
+  noJSConfigInAssets: true
+
 languages:
   zh:
     languageName: "中文"

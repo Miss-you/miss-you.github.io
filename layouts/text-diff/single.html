@@ -1,0 +1,106 @@
+{{- $en := eq .Lang "en" -}}
+{{- $t := dict
+  "tools" "工具" "home" "首页" "theme" "切换明暗主题" "eyebrow" "LOCAL TEXT DIFF"
+  "lead" "两份文本，变化一目了然。" "private" "本地处理 · 不上传 · 不自动保存"
+  "original" "原始文本" "modified" "更改后文本" "copy" "复制" "pasteLeft" "在这里粘贴原始文本…"
+  "pasteRight" "在这里粘贴更改后的文本…" "compare" "查找差异" "cancel" "取消计算" "swap" "交换文本"
+  "clear" "全部清空" "example" "试用示例" "ignore" "忽略空格与制表符" "wrap" "自动换行"
+  "shortcut" "Ctrl / ⌘ + Enter 开始对比" "result" "对比结果" "previous" "上一处" "next" "下一处"
+  "deleted" "删除" "added" "新增" "emptyTitle" "粘贴两份文本，开始对比"
+  "emptyBody" "原始文本放左侧，更改后的文本放右侧。也可以先试用示例。"
+  "privacy" "隐私与使用说明" "limit" "每侧最多 20 万字符、3,000 行。"
+  "nojs" "此工具需要 JavaScript 才能在浏览器本地计算；启用前文本框不可用。"
+  "loading" "正在初始化本地对比器…" "back" "返回工具台" -}}
+{{- if $en -}}
+  {{- $t = dict
+    "tools" "Tools" "home" "Home" "theme" "Toggle light/dark theme" "eyebrow" "LOCAL TEXT DIFF"
+    "lead" "Two texts. Every change in view." "private" "Local processing · No uploads · No autosave"
+    "original" "Original text" "modified" "Modified text" "copy" "Copy" "pasteLeft" "Paste your original text here…"
+    "pasteRight" "Paste your modified text here…" "compare" "Find differences" "cancel" "Cancel comparison" "swap" "Swap texts"
+    "clear" "Clear all" "example" "Try an example" "ignore" "Ignore spaces and tabs" "wrap" "Wrap lines"
+    "shortcut" "Ctrl / ⌘ + Enter to compare" "result" "Comparison" "previous" "Previous" "next" "Next"
+    "deleted" "Removed" "added" "Added" "emptyTitle" "Paste two texts to compare"
+    "emptyBody" "Original on the left, modified on the right. Or start with an example."
+    "privacy" "Privacy and usage" "limit" "Up to 200,000 characters and 3,000 lines per side."
+    "nojs" "JavaScript is required for local comparison. Text fields are disabled until it loads."
+    "loading" "Initializing local comparison…" "back" "Back to tools" -}}
+{{- end -}}
+{{- $css := resources.Get "css/text-diff.css" | resources.Minify | fingerprint "sha384" -}}
+{{- $worker := resources.Get "js/text-diff/worker.mjs" | js.Build (dict "targetPath" "assets/js/text-diff-worker.js" "target" "es2020" "format" "esm" "minify" true) | fingerprint "sha384" -}}
+{{- $script := resources.Get "js/text-diff/ui.mjs" | js.Build (dict "targetPath" "assets/js/text-diff.js" "target" "es2020" "format" "esm" "minify" true) | fingerprint "sha384" -}}
+<!DOCTYPE html>
+<html lang="{{ .Lang }}" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; worker-src 'self'; connect-src 'none'; img-src 'none'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; media-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ .Description }}">
+  <title>{{ .Title }} | {{ site.Title }}</title>
+  <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">
+  <script type="module" src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#workspace">{{ .Title }}</a>
+  <header class="site-header">
+    <a class="site-title" href="{{ "" | absLangURL }}">Yousa Driven Development <span>| YDD</span></a>
+    <nav aria-label="{{ index $t "home" }}">
+      <a href="{{ "tools/" | absLangURL }}" aria-current="page">{{ index $t "tools" }}</a>
+      {{ range .Translations }}<a href="{{ .RelPermalink }}" lang="{{ .Lang }}">{{ cond (eq .Lang "en") "En" "中文" }}</a>{{ end }}
+      <button type="button" id="theme-toggle" aria-label="{{ index $t "theme" }}" title="{{ index $t "theme" }}" disabled>◐</button>
+    </nav>
+  </header>
+  <main id="workspace" data-lang="{{ .Lang }}" data-worker="{{ $worker.RelPermalink }}">
+    <div class="intro">
+      <div>
+        <p class="eyebrow">{{ index $t "eyebrow" }}</p>
+        <h1>{{ .Title }}</h1>
+        <p class="lead">{{ index $t "lead" }}</p>
+      </div>
+      <p class="privacy-badge"><span aria-hidden="true">●</span> {{ index $t "private" }}</p>
+    </div>
+    <noscript><p class="notice">{{ index $t "nojs" }}</p></noscript>
+    <section class="editors" aria-label="{{ .Title }}">
+      <div class="editor">
+        <div class="editor-heading"><label for="left-input"><span class="side-letter">A</span> {{ index $t "original" }}</label><button type="button" data-copy="left" disabled>{{ index $t "copy" }}</button></div>
+        <textarea id="left-input" placeholder="{{ index $t "pasteLeft" }}" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" aria-describedby="input-limit" disabled></textarea>
+        <div class="editor-meta" id="left-count">0</div>
+      </div>
+      <div class="editor">
+        <div class="editor-heading"><label for="right-input"><span class="side-letter">B</span> {{ index $t "modified" }}</label><button type="button" data-copy="right" disabled>{{ index $t "copy" }}</button></div>
+        <textarea id="right-input" placeholder="{{ index $t "pasteRight" }}" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" aria-describedby="input-limit" disabled></textarea>
+        <div class="editor-meta" id="right-count">0</div>
+      </div>
+    </section>
+    <div class="toolbar">
+      <div class="actions">
+        <button type="button" class="primary" id="compare" disabled>{{ index $t "compare" }} <span aria-hidden="true">↗</span></button>
+        <button type="button" id="cancel" hidden>{{ index $t "cancel" }}</button>
+        <button type="button" id="swap" disabled>{{ index $t "swap" }}</button>
+        <button type="button" id="clear" disabled>{{ index $t "clear" }}</button>
+        <button type="button" class="text-button" id="example" disabled>{{ index $t "example" }}</button>
+      </div>
+      <div class="options">
+        <label><input type="checkbox" id="ignore-whitespace" disabled> {{ index $t "ignore" }}</label>
+        <label><input type="checkbox" id="wrap-lines" checked disabled> {{ index $t "wrap" }}</label>
+      </div>
+    </div>
+    <div class="input-hints"><span id="input-limit">{{ index $t "limit" }}</span><span>{{ index $t "shortcut" }}</span></div>
+    <p id="status" role="status" aria-live="polite">{{ index $t "loading" }}</p>
+    <section class="result-section" aria-labelledby="result-title" aria-busy="false">
+      <div class="result-toolbar">
+        <h2 id="result-title">{{ index $t "result" }}</h2>
+        <div class="legend"><span class="removed-label">− {{ index $t "deleted" }}</span><span class="added-label">+ {{ index $t "added" }}</span></div>
+        <div class="diff-navigation"><span id="diff-position"></span><button type="button" id="previous" disabled>{{ index $t "previous" }}</button><button type="button" id="next" disabled>{{ index $t "next" }}</button></div>
+      </div>
+      <div id="empty-state" class="empty-state"><span aria-hidden="true" class="empty-symbol">− / +</span><h3>{{ index $t "emptyTitle" }}</h3><p>{{ index $t "emptyBody" }}</p></div>
+      <div id="result-scroll" class="result-scroll wrap" tabindex="0" aria-label="{{ index $t "result" }}" hidden>
+        <table class="diff-table"><colgroup><col class="line-number"><col><col class="line-number"><col></colgroup><thead><tr><th colspan="2" scope="colgroup">A · {{ index $t "original" }}</th><th colspan="2" scope="colgroup">B · {{ index $t "modified" }}</th></tr></thead><tbody id="diff-rows"></tbody></table>
+      </div>
+    </section>
+    <details class="privacy-details"><summary>{{ index $t "privacy" }}</summary><div>{{ .Content }}</div></details>
+    <footer><a href="{{ "tools/" | absLangURL }}">← {{ index $t "back" }}</a><span>YDD / LOCAL UTILITIES</span></footer>
+  </main>
+</body>
+</html>
