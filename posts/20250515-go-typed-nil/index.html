@@ -516,6 +516,43 @@ func main() {
     });
   };
   
+  const diagrams = new Map();
+  let painting = false;
+  let repaintRequested = false;
+
+  
+  
+  const repaintDiagrams = async () => {
+    if (diagrams.size === 0) return;
+    repaintRequested = true;
+    if (painting) return;
+    painting = true;
+    try {
+      while (repaintRequested) {
+        repaintRequested = false;
+        initMermaid();
+        const colors = getColors();
+        for (const [node, { code, wrapper }] of diagrams) {
+          if (!node.isConnected) {
+            diagrams.delete(node);
+            continue;
+          }
+          wrapper.style.background = colors.bg;
+          wrapper.style.borderColor = `${colors.border}30`;
+          node.removeAttribute('data-processed');
+          node.textContent = code;
+          try {
+            await mermaid.run({ nodes: [node] });
+          } catch (error) {
+            console.error('Mermaid error:', error);
+          }
+        }
+      }
+    } finally {
+      painting = false;
+    }
+  };
+
   const renderMermaidDiagrams = async () => {
     const allCodeBlocks = document.querySelectorAll('pre code');
     const mermaidBlocks = [];
@@ -529,7 +566,6 @@ func main() {
     
     if (mermaidBlocks.length === 0) return;
     
-    initMermaid();
     const c = getColors();
     
     for (const block of mermaidBlocks) {
@@ -564,13 +600,9 @@ func main() {
       wrapper.appendChild(container);
       
       pre.parentNode.replaceChild(wrapper, pre);
-      
-      try {
-        await mermaid.run({ querySelector: '.mermaid' });
-      } catch (error) {
-        console.error('Mermaid error:', error);
-      }
+      diagrams.set(mermaidDiv, { code, wrapper });
     }
+    await repaintDiagrams();
   };
   
   if (document.readyState === 'loading') {
@@ -581,13 +613,14 @@ func main() {
   
   
   let timeout;
+  let previousDark = isDarkMode();
   const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.attributeName === 'class') {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => location.reload(), 300);
-      }
-    });
+    if (!mutations.some(mutation => mutation.attributeName === 'class')) return;
+    const dark = isDarkMode();
+    if (dark === previousDark) return;
+    previousDark = dark;
+    clearTimeout(timeout);
+    timeout = setTimeout(repaintDiagrams, 100);
   });
-  observer.observe(document.body, { attributes: true });
+  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 </script><style>.mermaid-diagram{font-family:virgil,noto serif sc,Georgia,serif}.mermaid-diagram .mermaid{display:flex;justify-content:center}.mermaid-diagram svg{max-width:100% !important;height:auto !important;font-family:virgil,noto serif sc,Georgia,serif !important}.mermaid-diagram svg text,.mermaid-diagram svg .label,.mermaid-diagram svg .nodeLabel,.mermaid-diagram svg .edgeLabel,.mermaid-diagram svg .messageText,.mermaid-diagram svg .actor text,.mermaid-diagram svg .participant text{fill:#1f1f1f !important;font-family:virgil,noto serif sc,Georgia,serif !important;font-size:15px !important;font-weight:500 !important}.dark .mermaid-diagram svg text,.dark .mermaid-diagram svg .label,.dark .mermaid-diagram svg .nodeLabel,.dark .mermaid-diagram svg .edgeLabel,.dark .mermaid-diagram svg .messageText,.dark .mermaid-diagram svg .actor text,.dark .mermaid-diagram svg .participant text{fill:#dadaeb !important}.mermaid-diagram svg .sequenceDiagram text{font-size:16px !important}.mermaid-diagram svg .actor{font-size:16px !important}.mermaid-diagram svg .messageText{font-size:15px !important}.mermaid-diagram svg .node rect,.mermaid-diagram svg .node circle,.mermaid-diagram svg .node ellipse,.mermaid-diagram svg .node polygon{stroke-width:2px !important}.mermaid-diagram svg{filter:drop-shadow(0 1px 3px rgba(0,0,0,8%))}.dark .mermaid-diagram{background:#1d1e20 !important;border-color:#444 !important;box-shadow:0 2px 8px rgba(0,0,0,.2) !important}@media(max-width:768px){.mermaid-diagram{padding:16px !important;margin:1.5em 0 !important}.mermaid-diagram svg text{font-size:14px !important}}.mermaid-diagram{opacity:0;animation:fadeIn .4s ease-out forwards}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}</style><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="复制";function s(){t.innerHTML="已复制！",setTimeout(()=>{t.innerHTML="复制"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
