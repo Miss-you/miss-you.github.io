@@ -52,8 +52,26 @@ for (const undoView of ['split', 'unified']) {
     if (undoView === 'unified') await page.click('[data-view=split]');
     await expect(page.locator('.cm-content').nth(0)).toContainText('original line');
     await expect(page.locator('.cm-content').nth(0)).toContainText('my new note');
-    await page.locator('.cm-content').nth(1).press('ControlOrMeta+Shift+z');
+    await page.locator('.cm-content').nth(1).press(process.platform === 'darwin' ? 'Meta+Shift+z' : 'Control+y');
     await expect(page.locator('.cm-content').nth(0)).toContainText('changed line');
     await expect(page.locator('.cm-content').nth(0)).toContainText('my new note');
   });
 }
+
+test('Linux keybindings undo and redo an accepted change without losing later A edits', async ({ page }) => {
+  await page.addInitScript(() => Object.defineProperty(navigator, 'platform', { get: () => 'Linux x86_64' }));
+  await page.goto(route);
+  await fill(page, 'original line\nkeep', 'changed line\nkeep');
+  await page.click('[data-view=unified]');
+  await page.locator('.cm-chunkButtons button').first().click();
+  await page.click('[data-view=split]');
+  const editors = page.locator('.cm-content');
+  await editors.nth(0).press('Control+End');
+  await page.keyboard.insertText('\nLinux note');
+  await editors.nth(1).press('Control+z');
+  await expect(editors.nth(0)).toContainText('original line');
+  await expect(editors.nth(0)).toContainText('Linux note');
+  await editors.nth(1).press('Control+y');
+  await expect(editors.nth(0)).toContainText('changed line');
+  await expect(editors.nth(0)).toContainText('Linux note');
+});

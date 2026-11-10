@@ -7,7 +7,7 @@ Decision: retain the original comparator and publish the complete imported appli
 - Application unit tests: 17 files, 91 tests passed; TypeScript no-emit check passed.
 - Existing site JavaScript tests: 28 passed.
 - Hugo output integration tests: 20 passed, including the preview and existing comparator.
-- Browser acceptance against the actual built Hugo output: 26 passed (installed Google Chrome, `PLAYWRIGHT_CHANNEL=chrome`).
+- Browser acceptance against the actual built Hugo output: 27 passed (installed Google Chrome, `PLAYWRIGHT_CHANNEL=chrome`).
 - Locked clean dependency installation and `npm audit`: 0 vulnerabilities.
 - Vite assets plus `hugo --minify --buildFuture`: passed. Repeated the build/unit/type/Hugo/browser gates from a separate export containing only staged source files, without generated assets, partials or node_modules; theme reused at the repository's pinned submodule version. The clean export also passed 91 unit / 20 Hugo / 24 browser checks.
 - Chinese light/dark layouts inspected in the browser; English and 390px mobile routes covered by browser acceptance. Source credit and actual modified-source link retained. Third-party license texts are generated beside runtime assets.
@@ -28,4 +28,4 @@ Browser coverage includes Chinese character highlights, both side histories acro
 
 Document imports compare extracted text, not layout; PDFs have no OCR. GBK auto-detection is not provided. Large input remains limited by the browser and may use coarser highlights. Sharing puts unencrypted document text in the URL fragment. The three pre-existing post language/count warnings listed in README.ydd.md remain outside this tool change.
 
-CI runs the unit/type/site/Hugo/browser gates again before publishing. Remote deployment and live URLs must be checked after the push; this document records local evidence, not a claim about a future workflow result.
+The first remote Chromium run did not trigger redo with the shared ControlOrMeta+Shift+z test chord. Regressions now use CodeMirror’s primary platform binding (Ctrl+Y on Linux, Command+Shift+Z on macOS), retaining the same undo/redo/content assertions, and additionally exercise an explicitly initialized Linux keymap. CI runs the unit/type/site/Hugo/browser gates again before publishing. Remote deployment and live URLs must be checked after the push; this document records local evidence, not a claim about a future workflow result.
