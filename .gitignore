@@ -10,3 +10,10 @@ docs/*
 .DS_Store
 .claude/*
 !.claude/skills/
+# Rebuilt text comparison preview assets
+node_modules/
+tools/text-compare-lite/dist*/
+static/assets/text-compare/
+layouts/partials/generated/text-compare/
+playwright-report/
+test-results/

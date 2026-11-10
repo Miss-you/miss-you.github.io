@@ -76,9 +76,9 @@ class SiteHeaderAcceptance(unittest.TestCase):
         return Header((self.output / path / 'index.html').read_text())
 
     def test_same_navigation_and_brand_across_every_site_section(self):
-        routes = ['', 'tools', 'tools/text-diff', 'kb', 'kb/writing-notes',
+        routes = ['', 'tools', 'tools/text-diff', 'tools/text-diff-preview', 'kb', 'kb/writing-notes',
                   'posts/20261109-header-probe', 'archives', 'tags', 'categories', 'lab']
-        expected = ['归档', '标签', '知识库', '实验室', '工具', '分类', 'RSS', 'GitHub']
+        expected = ['归档', '标签', '知识库', '实验室', '会议', '工具', '分类', 'RSS', 'GitHub']
         for route in routes:
             with self.subTest(route=route):
                 header = self.page(route)
@@ -108,7 +108,7 @@ class SiteHeaderAcceptance(unittest.TestCase):
                 self.assertEqual(urlparse(language[0]['href']).path, target)
 
     def test_english_menu_is_translated_and_all_internal_links_resolve(self):
-        expected = ['Archives', 'Tags', 'Knowledge', 'Lab', 'Tools', 'Categories', 'RSS', 'GitHub']
+        expected = ['Archives', 'Tags', 'Knowledge', 'Lab', 'Events', 'Tools', 'Categories', 'RSS', 'GitHub']
         for prefix in ['', 'en/']:
             header = self.page(prefix + 'tools/text-diff')
             if prefix:

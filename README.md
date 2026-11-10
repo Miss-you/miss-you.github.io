@@ -2,6 +2,18 @@
 
 知识库入口：[/kb/](https://yousali.com/kb/)。新增小知识或经验只需在 `content/kb/` 添加 Markdown；写法、草稿、图片与发布说明见 [知识库维护指南](kb/README.md)。
 
+### 本地构建与工具预览
+
+文本对比预览版基于完整的 text-compare-lite，源码、许可、上游版本与修改记录见 [接入说明](tools/text-compare-lite/README.ydd.md)。需要 Node.js 24 和 Hugo Extended。
+
+```sh
+npm --prefix tools/text-compare-lite ci --ignore-scripts
+node scripts/build-text-compare.mjs
+hugo --minify --buildFuture
+```
+
+`./serve.sh` 和部署流程会先构建工具。修改工具源码后重新运行构建脚本；生成的资源和 Hugo partial 不入库。预览入口为 `/tools/text-diff-preview/` 和 `/en/tools/text-diff-preview/`，原版继续保留。
+
 ### 站点导航维护
 
 - 菜单名称、顺序和目标只改 [config.yaml](config.yaml) 的 `languages.*.menu.main`。RSS 使用 `identifier: rss`，地址取该语言生成的订阅源。

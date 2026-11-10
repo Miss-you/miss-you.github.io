@@ -6,6 +6,12 @@ set -e
 printf "\033[0;32mDeploying updates to GitHub...\033[0m\n"
 
 # Build the project. GitHub Actions will publish ./public to gh-pages.
+# Build the complete local comparison preview before Hugo reads its partials.
+if [ ! -d tools/text-compare-lite/node_modules ]; then
+  npm --prefix tools/text-compare-lite ci --ignore-scripts
+fi
+node scripts/build-text-compare.mjs
+
 hugo --minify --buildFuture
 
 # Add changes to git.

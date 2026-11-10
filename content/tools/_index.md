@@ -8,6 +8,12 @@ lang = "zh"
 欢迎来到 **Yousa Driven Development** 的工具台。这里会陆续放上一些日常开发/写作/排查时常用的小工具。  
 
 <div class="tool-card">
+  <h2>文本对比 · 预览版</h2>
+  <p>实时编辑与合并，并排/单栏视图，文件导入和报告导出。也可比较 JSON、文档和图片。浏览器本地处理，默认不自动保存文本。</p>
+  <p><a class="cursor-btn" href="/tools/text-diff-preview/">打开预览版 ↗</a></p>
+</div>
+
+<div class="tool-card">
   <h2>文本对比</h2>
   <p>并排比较两份文本，标出行级和行内变化。纯前端计算，文本不上传、不自动保存。</p>
   <p><a class="cursor-btn" href="/tools/text-diff/">打开文本对比器 ↗</a></p>

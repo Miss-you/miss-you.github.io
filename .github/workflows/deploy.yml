@@ -22,8 +22,33 @@ jobs:
           hugo-version: '0.148.1'
           extended: true
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: tools/text-compare-lite/package-lock.json
+
+      - name: Validate and build comparison preview
+        run: |
+          npm --prefix tools/text-compare-lite ci --ignore-scripts
+          npm --prefix tools/text-compare-lite test
+          npm --prefix tools/text-compare-lite run typecheck
+          node --test tests/*.test.mjs
+          node scripts/build-text-compare.mjs
+
       - name: Build
         run: hugo --minify --buildFuture
+
+      - name: Validate Hugo integration
+        run: python3 -m unittest discover -s tests -p 'test_*.py'
+
+      - name: Install browser for acceptance tests
+        working-directory: tools/text-compare-lite
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser acceptance
+        run: npm --prefix tools/text-compare-lite run test:blog
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

@@ -49,4 +49,10 @@ echo "🛑 按 Ctrl+C 停止服务器"
 echo ""
 
 # 启动服务器（-D: 包含草稿, --buildFuture: 包含未来日期文章）
+# Build the complete local comparison preview before Hugo reads its partials.
+if [ ! -d tools/text-compare-lite/node_modules ]; then
+  npm --prefix tools/text-compare-lite ci --ignore-scripts
+fi
+node scripts/build-text-compare.mjs
+
 hugo server -D --buildFuture --bind 0.0.0.0

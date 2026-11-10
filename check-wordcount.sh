@@ -54,15 +54,12 @@ for dir in */; do
         html_file="/tmp/hugo-check/posts/${slug}/index.html"
         
         if [ -f "$html_file" ]; then
-            # 提取标题
-            title=$(grep -oP '(?<=<title>).*?(?=</title>)' "$html_file" 2>/dev/null | head -1 || echo "N/A")
-            
-            # 提取字数统计（从 post-meta 部分）
-            word_count=$(grep -oP '\d+\s*(字|words)' "$html_file" 2>/dev/null | head -1 || echo "未找到")
-            
-            # 提取 lang
-            lang=$(grep -oP '^lang:\s*\K\w+' "${dir}index.md" || echo "未设置")
-            
+            # BSD grep (macOS) does not support -P; POSIX ERE is sufficient here.
+            word_count=$(grep -oE '[0-9]+[[:space:]]*(字|words)' "$html_file" | head -1 || true)
+            word_count=${word_count:-未找到}
+            lang=$(sed -nE "s/^lang:[[:space:]]*['\"]?([[:alnum:]_-]+).*$/\\1/p" "${dir}index.md" | head -1)
+            lang=${lang:-未设置}
+
             # 判断状态
             if [ "$lang" = "未设置" ]; then
                 status="❌ 缺少 lang"
@@ -91,7 +88,10 @@ echo "=========================================="
 echo ""
 
 # 启动预览服务器（可选）
-read -p "是否启动本地预览服务器? (y/N): " -n 1 -r
+REPLY=""
+if [[ -t 0 ]]; then
+    read -p "是否启动本地预览服务器? (y/N): " -n 1 -r
+fi
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "🚀 启动 Hugo 服务器..."

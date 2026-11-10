@@ -1,0 +1,29 @@
+{{- $en := eq .Lang "en" -}}
+<!doctype html>
+<html lang="{{ .Lang }}" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; worker-src 'self' blob:; connect-src 'self'; img-src 'self' data: blob:; font-src 'self'; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="{{ .Description }}">
+  <title>{{ .Title }} | {{ site.Title }}</title>
+  <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="icon" type="image/svg+xml" href="/assets/text-compare/icon.svg">
+  {{- $bootstrap := resources.Get "js/text-compare-bootstrap.js" | resources.Minify | fingerprint "sha384" -}}
+  <script src="{{ $bootstrap.RelPermalink }}" integrity="{{ $bootstrap.Data.Integrity }}" crossorigin="anonymous"></script>
+  {{ partial "generated/text-compare/assets.html" . }}
+  {{ partial "site-header-assets.html" (dict "page" . "isolated" true) }}
+</head>
+<body>
+  {{ partial "site-header.html" (dict "page" . "isolated" true) }}
+  <section class="preview-intro" aria-labelledby="preview-title">
+    <div><p class="preview-eyebrow">{{ cond $en "LOCAL TOOLS / PREVIEW" "本地工具 / 预览版" }}</p><h1 id="preview-title">{{ .Title }}</h1></div>
+    <p>{{ cond $en "Edit, compare, and merge in your browser." "边编辑，边比较，逐处合并。" }} <a href="{{ "tools/text-diff/" | relLangURL }}">{{ cond $en "Basic version ↗" "基础版 ↗" }}</a></p>
+  </section>
+  <noscript><p class="preview-notice">{{ cond $en "Enable JavaScript to use this local comparison tool." "请启用 JavaScript，以使用浏览器本地对比工具。" }}</p></noscript>
+  <p id="app-loading" class="preview-notice" role="status">{{ cond $en "Loading the local editor…" "正在加载本地编辑器…" }}</p>
+  {{ partial "generated/text-compare/app.html" . }}
+  <details class="preview-notes"><summary>{{ cond $en "Privacy, file support and preview notes" "隐私、文件支持与预览说明" }}</summary>{{ .Content }}</details>
+</body>
+</html>
