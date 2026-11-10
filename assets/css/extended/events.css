@@ -1,0 +1,38 @@
+.event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: var(--secondary);
+}
+
+.event-meta div {
+  display: flex;
+  gap: 6px;
+}
+
+.event-meta dt {
+  font-weight: 500;
+}
+
+.event-meta dd {
+  margin: 0;
+  color: var(--content);
+}
+
+.event-back {
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+/* AIE knowledge map: the theme already scrolls wide tables; this only lets the 10-column overview fit at desktop width */
+.post-content div.aie-map-table table:not(.highlighttable) th,
+.post-content div.aie-map-table table:not(.highlighttable) td {
+  min-width: 56px;
+}
+
+/* the theme's keep-all stops Chinese from wrapping inside table cells */
+.post-content div.aie-map-table table {
+  word-break: normal;
+}

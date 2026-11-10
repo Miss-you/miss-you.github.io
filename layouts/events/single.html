@@ -1,0 +1,35 @@
+{{- define "main" }}
+<article class="post-single">
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <h1 class="post-title">{{ .Title }}</h1>
+    <dl class="event-meta">
+      {{- with .Params.session }}<div><dt>场次</dt><dd>{{ . }}</dd></div>{{ end }}
+      {{- with .Params.speaker }}<div><dt>讲者</dt><dd>{{ . }}</dd></div>{{ end }}
+      {{- with .Params.org }}<div><dt>机构</dt><dd>{{ . }}</dd></div>{{ end }}
+      {{- with .Params.stage }}<div><dt>会场</dt><dd>{{ . }}</dd></div>{{ end }}
+      {{- if not .Date.IsZero }}<div><dt>日期</dt><dd><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time></dd></div>{{ end }}
+      {{- with .Params.video }}<div><dt>视频</dt><dd><a href="{{ . }}" target="_blank" rel="noopener">观看录像 ↗</a></dd></div>{{ end }}
+    </dl>
+  </header>
+  {{- if (.Param "ShowToc") }}
+  {{- partial "toc.html" . }}
+  {{- end }}
+
+  {{- if .Content }}
+  <div class="post-content">
+    {{- partial "anchored_headings.html" .Content -}}
+  </div>
+  {{- end }}
+
+  <footer class="post-footer">
+    {{- with .Parent }}
+    <p class="event-back"><a href="{{ .RelPermalink }}">← 返回 {{ .Title }}</a></p>
+    {{- end }}
+  </footer>
+
+  {{- if (.Param "comments") }}
+  {{- partial "comments.html" . }}
+  {{- end }}
+</article>
+{{- end }}

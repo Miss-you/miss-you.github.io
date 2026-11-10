@@ -1,0 +1,28 @@
+{{- define "main" }}
+{{- /* Events: the section body (_index.md) carries the session index, so regular pages are not paginated here. */}}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  {{- with .Description }}
+  <div class="post-description">{{ . | markdownify }}</div>
+  {{- end }}
+</header>
+
+{{- with .Content }}
+<div class="post-content">
+  {{- partial "anchored_headings.html" . -}}
+</div>
+{{- end }}
+
+{{- range .Sections }}
+<article class="post-entry">
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">{{ .Title }}</h2>
+  </header>
+  {{- with .Description }}
+  <div class="entry-content"><p>{{ . | plainify }}</p></div>
+  {{- end }}
+  <a class="entry-link" aria-label="{{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+</article>
+{{- end }}
+{{- end }}

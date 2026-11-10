@@ -30,6 +30,9 @@ languages:
         - name: 实验室
           url: lab/
           weight: 12
+        - name: 会议
+          url: events/
+          weight: 13
         - name: 工具
           url: tools/
           weight: 15
@@ -65,6 +68,9 @@ languages:
         - name: Lab
           url: lab/
           weight: 12
+        - name: Events
+          url: events/
+          weight: 13
         - name: Tools
           url: tools/
           weight: 15
