@@ -1,0 +1,306 @@
+<!doctype html><html lang=zh dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Building Robot Hardware for Rapidly Evolving Models | Yousa Driven Development | YDD</title><meta name=keywords content><meta name=description content="通用机器人硬件跟不上模型每周一次的迭代，所以硬件不该追模型，而应做成可预测的稳定接口；DYNA 新机器人弃谐波、改用行星减速器就是按这条原则选的。"><meta name=author content="Miss-you"><link rel=canonical href=https://yousali.com/events/aie-shanghai-2026/s32-dyna-robot-hardware/><link crossorigin=anonymous href=/assets/css/stylesheet.e9701f6596f1d2794908288c989c553b9745777e956fe5fa333c6c08872568d4.css integrity="sha256-6XAfZZbx0nlJCCiMmJxVO5dFd36Vb+X6MzxsCIclaNQ=" rel="preload stylesheet" as=style><link rel=icon href=https://yousali.com/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://yousali.com/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://yousali.com/favicon-32x32.png><link rel=apple-touch-icon href=https://yousali.com/apple-touch-icon.png><link rel=mask-icon href=https://yousali.com/safari-pinned-tab.svg><meta name=theme-color content="#f4f3ee"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=zh href=https://yousali.com/events/aie-shanghai-2026/s32-dyna-robot-hardware/><noscript><style>#theme-toggle,.top-link{display:none}</style></noscript><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel=stylesheet><link rel=stylesheet href=/css/site-header.min.09b7e4b1d83366c3dc209c6bfdda75ca026c173caa86b27ccd696b264f628be1db1f93c38f6b9cf11bff39b524fbac84.css integrity=sha384-CbfksdgzZsPcIJxr/dp1ygJsFzyqhrJ8zWlrJk9ii+HbH5PDj2uc8Rv/ObUk+6yE crossorigin=anonymous><script defer src=/js/site-header.min.fea1c179f14cfe36b0349eadbfc95ad84ef97a0f42347ba89447dabc900d624d1def3c4c5f7372fb0546c80b87ccf640.js integrity=sha384-/qHBefFM/jawNJ6tv8la2E75eg9CNHuolEfavJANYk0d7zxMX3Ny+wVGyAuHzPZA crossorigin=anonymous data-site-header data-default-theme=light></script><meta property="og:url" content="https://yousali.com/events/aie-shanghai-2026/s32-dyna-robot-hardware/"><meta property="og:site_name" content="Yousa Driven Development | YDD"><meta property="og:title" content="Building Robot Hardware for Rapidly Evolving Models"><meta property="og:description" content="通用机器人硬件跟不上模型每周一次的迭代，所以硬件不该追模型，而应做成可预测的稳定接口；DYNA 新机器人弃谐波、改用行星减速器就是按这条原则选的。"><meta property="og:locale" content="zh"><meta property="og:type" content="article"><meta property="article:section" content="events"><meta property="article:published_time" content="2026-11-06T16:05:00+08:00"><meta property="article:modified_time" content="2026-11-10T09:05:10+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Building Robot Hardware for Rapidly Evolving Models"><meta name=twitter:description content="通用机器人硬件跟不上模型每周一次的迭代，所以硬件不该追模型，而应做成可预测的稳定接口；DYNA 新机器人弃谐波、改用行星减速器就是按这条原则选的。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"会议","item":"https://yousali.com/events/"},{"@type":"ListItem","position":2,"name":"AIE 上海 2026","item":"https://yousali.com/events/aie-shanghai-2026/"},{"@type":"ListItem","position":3,"name":"Building Robot Hardware for Rapidly Evolving Models","item":"https://yousali.com/events/aie-shanghai-2026/s32-dyna-robot-hardware/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Building Robot Hardware for Rapidly Evolving Models","name":"Building Robot Hardware for Rapidly Evolving Models","description":"通用机器人硬件跟不上模型每周一次的迭代，所以硬件不该追模型，而应做成可预测的稳定接口；DYNA 新机器人弃谐波、改用行星减速器就是按这条原则选的。","keywords":[],"articleBody":"据作者现场录音整理，按讲者脉络转述，不是逐字稿。讲者是 DYNA 的硬件负责人，英文演讲，约 14 分钟，无问答环节。演讲大量依赖幻灯片上的曲线图，这里只有口头描述，图上的数值看不到；总结页开头约 20 秒没有记下来。\n一句话 讲者认为通用机器人的硬件跟不上模型每周一次的迭代，所以硬件不该追模型，而应该做成可预测的稳定接口：动起来模型能预测，传感反馈模型能信。他用 DYNA 新机器人放弃谐波减速器、改用行星减速器的选型来说明这条原则。\n论断 1. 通用机器人夹在两类传统机器人中间 传统上机器人有两种用途。工业机器人为精度、耐用和定义清楚的生产任务而造，机械设计偏重刚度，负载自重比低。研究平台优先追求突破，其次才是鲁棒性和成本。\n“So one side, we do need to enable new capabilities, so that we could unlock new applications and also deployments. And on the other side, we do need to care a lot about the durability and also the cost of the robots”\n——一方面要解锁新能力，才能打开新应用和部署；另一方面要非常在意耐用性和成本。\n工业侧的例子是研究界常用的某款机械臂，他说它的负载自重比比现在的人形机器人手臂低，没给人形手臂的数。 研究侧的例子是 NASA 2016 年前后造的一款人形机器人，据报道成本约 200 万美元。他说现在机器人成本已大幅下降，但研究平台\"先突破、后成本\"的假设仍然成立。 2. 模型每周迭代，硬件半年只能改一两次 传统产品的软硬件节奏也不一样，但通常在项目开工前就能在一份定义清楚的需求上对齐。通用机器人目标场景太多，很难定义一份长期不变的需求。\n“If we assume we have a weekly updated model for 24 weeks. And that means we have … at least 24 opportunities to change that model set up to try new ideas. But at the same time, I think we can only afford one or two major hardware revisions.”\n——假设模型每周更新一次，24 周就是至少 24 次试新想法的机会；同一时间里硬件只付得起一到两次大改版。\n他设了一个情形：模型团队在第 12 周验证了一个好点子，想让硬件配合改，这基本不可能。这是假设情形，不是实测。 所以硬件需求必须足够清楚，又能跨几年的模型迭代保持有效。 3. 答案是可预测的硬件设计 他说的可预测有两层：硬件的行为模型能预测，同时兼顾鲁棒性和成本；硬件平台是一个稳定的接口，让快速演进的模型都能用。落到具体问题上也是两个：运动，硬件的动作和响应要能被模型预测；传感，反馈要可靠地反映真实物理状态。传动同时影响运动和传感，所以他拿传动选型举例。\n“So in short, we want to design a hardware to narrow the sim-to-real gap so that hardware can actually last long enough for fast evolving models.”\n——简单说，我们要设计能缩小 sim-to-real 差距的硬件，让硬件撑得够久，跟得上快速演进的模型。\n4. 运动侧：弃谐波，用行星 DYNA 刚发布了新一代机器人，他说看过 demo 的人可能没注意到，用的是行星执行器而不是谐波减速器。理由两条：尽量降低传动内阻，让执行器模型更简单直接。\n“we actually use planetary actuators over harmonic drives.”\n——我们用的是行星执行器，而不是谐波减速器。\n他引用已发表的研究说，同样的电机、相近减速比下，谐波减速器的内阻约为行星的两倍，没说出处。 谐波难建模有两个原因：一是迟滞，里面有柔性齿轮，变形不只取决于当前扭矩，还取决于之前的加载历史；二是内阻随动态负载和温度变化。 内部测试：同一个 RL 策略走一个简单的圆形轨迹，分别在仿真和实机上跑，比较左右手的位置。他特意强调，从仿真到实机，跟踪均方根误差只增加了 1.3 毫米。没给谐波方案的对照数，所以这个数字说明行星方案的 sim-to-real 差距小，并不直接说明比谐波好。 5. 传感侧：用好建模的传动估力，不加关节力矩传感器 大多数机器人应用是接触密集的操作，手臂和末端是和物理世界交互的核心，需要力反馈引导行为。可以给机器人加关节传感器，但他说为什么选了另一条路超出本次范围，只讲扭矩透明度。\n“by having a very simple and easier to model … transmission, we can actually have a accurate enough actuator model to give us a very accurate joint torque estimation and thus to give us a very good external force estimation.”\n——传动简单好建模，执行器模型就够准，关节力矩估得准，外力估计也就好。\n仿真测试：在手腕和肘部各施加 y 轴 15 N 外力，估计的均方根误差手腕约 1.39、肘部约 8。作为参照，他给了一个最新文献基线约 1.05，基线是什么方法没听清。 他两次强调这只是仿真结果。 存疑 新一代机器人的产品名没听清，需对照 DYNA 公开资料。 工业机械臂的型号和它的负载自重比数值没听清。 NASA 那款人形机器人的型号和年份需回放确认。 力估计误差的单位按语境应为牛顿；肘部的\"8\"可能是 0.8 或别的数；文献基线可能和六轴力传感器方案有关。总结页开头那段没记下来，可能漏了这组对比的结论。 ","wordCount":"1724","inLanguage":"zh","datePublished":"2026-11-06T16:05:00+08:00","dateModified":"2026-11-10T09:05:10+08:00","author":{"@type":"Person","name":"Miss-you"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://yousali.com/events/aie-shanghai-2026/s32-dyna-robot-hardware/"},"publisher":{"@type":"Organization","name":"Yousa Driven Development | YDD","logo":{"@type":"ImageObject","url":"https://yousali.com/favicon.ico"}}}</script></head><body id=top><header class=site-header><div class=site-header-inner><div class=site-brand-row><a class=site-brand href=/ accesskey=h>Yousa Driven Development | YDD</a><div class=site-controls><button type=button id=theme-toggle accesskey=t aria-label=切换明暗主题 title="切换明暗主题 (Alt + T)">
+<svg id="moon" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+</button>
+<a class=site-language-link href=/en/ lang=en hreflang=en aria-label=English>En</a></div></div><nav class=site-menu id=site-menu aria-label=主导航><ul><li><a class=site-menu-link href=/archives/>归档</a></li><li><a class=site-menu-link href=/tags/>标签</a></li><li><a class=site-menu-link href=/kb/>知识库</a></li><li><a class=site-menu-link href=/lab/>实验室</a></li><li><a class=site-menu-link href=/events/ aria-current=location>会议</a></li><li><a class=site-menu-link href=/tools/>工具</a></li><li><a class=site-menu-link href=/categories/>分类</a></li><li><a class=site-menu-link href=/index.xml>RSS</a></li><li><a class=site-menu-link href=https://github.com/Miss-you rel="noopener noreferrer">GitHub</a></li></ul></nav></div></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://yousali.com/>主页</a>&nbsp;»&nbsp;<a href=https://yousali.com/events/>会议</a>&nbsp;»&nbsp;<a href=https://yousali.com/events/aie-shanghai-2026/>AIE 上海 2026</a></div><h1 class=post-title>Building Robot Hardware for Rapidly Evolving Models</h1><dl class=event-meta><div><dt>场次</dt><dd>S32</dd></div><div><dt>讲者</dt><dd>Zhong Shen</dd></div><div><dt>机构</dt><dd>DYNA</dd></div><div><dt>会场</dt><dd>主舞台</dd></div><div><dt>日期</dt><dd><time datetime=2026-11-06>2026-11-06</time></dd></div></dl></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>目录</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#一句话>一句话</a></li><li><a href=#论断>论断</a><ul><li><a href=#1-通用机器人夹在两类传统机器人中间>1. 通用机器人夹在两类传统机器人中间</a></li><li><a href=#2-模型每周迭代硬件半年只能改一两次>2. 模型每周迭代，硬件半年只能改一两次</a></li><li><a href=#3-答案是可预测的硬件设计>3. 答案是可预测的硬件设计</a></li><li><a href=#4-运动侧弃谐波用行星>4. 运动侧：弃谐波，用行星</a></li><li><a href=#5-传感侧用好建模的传动估力不加关节力矩传感器>5. 传感侧：用好建模的传动估力，不加关节力矩传感器</a></li></ul></li><li><a href=#存疑>存疑</a></li></ul></nav></div></details></div><div class=post-content><p>据作者现场录音整理，按讲者脉络转述，不是逐字稿。讲者是 DYNA 的硬件负责人，英文演讲，约 14 分钟，无问答环节。演讲大量依赖幻灯片上的曲线图，这里只有口头描述，图上的数值看不到；总结页开头约 20 秒没有记下来。</p><h2 id=一句话>一句话<a hidden class=anchor aria-hidden=true href=#一句话>#</a></h2><p>讲者认为通用机器人的硬件跟不上模型每周一次的迭代，所以硬件不该追模型，而应该做成可预测的稳定接口：动起来模型能预测，传感反馈模型能信。他用 DYNA 新机器人放弃谐波减速器、改用行星减速器的选型来说明这条原则。</p><h2 id=论断>论断<a hidden class=anchor aria-hidden=true href=#论断>#</a></h2><h3 id=1-通用机器人夹在两类传统机器人中间>1. 通用机器人夹在两类传统机器人中间<a hidden class=anchor aria-hidden=true href=#1-通用机器人夹在两类传统机器人中间>#</a></h3><p>传统上机器人有两种用途。工业机器人为精度、耐用和定义清楚的生产任务而造，机械设计偏重刚度，负载自重比低。研究平台优先追求突破，其次才是鲁棒性和成本。</p><blockquote><p>&ldquo;So one side, we do need to enable new capabilities, so that we could unlock new applications and also deployments. And on the other side, we do need to care a lot about the durability and also the cost of the robots&rdquo;</p></blockquote><p>——一方面要解锁新能力，才能打开新应用和部署；另一方面要非常在意耐用性和成本。</p><ul><li>工业侧的例子是研究界常用的某款机械臂，他说它的负载自重比比现在的人形机器人手臂低，没给人形手臂的数。</li><li>研究侧的例子是 NASA 2016 年前后造的一款人形机器人，据报道成本约 200 万美元。他说现在机器人成本已大幅下降，但研究平台"先突破、后成本"的假设仍然成立。</li></ul><h3 id=2-模型每周迭代硬件半年只能改一两次>2. 模型每周迭代，硬件半年只能改一两次<a hidden class=anchor aria-hidden=true href=#2-模型每周迭代硬件半年只能改一两次>#</a></h3><p>传统产品的软硬件节奏也不一样，但通常在项目开工前就能在一份定义清楚的需求上对齐。通用机器人目标场景太多，很难定义一份长期不变的需求。</p><blockquote><p>&ldquo;If we assume we have a weekly updated model for 24 weeks. And that means we have &mldr; at least 24 opportunities to change that model set up to try new ideas. But at the same time, I think we can only afford one or two major hardware revisions.&rdquo;</p></blockquote><p>——假设模型每周更新一次，24 周就是至少 24 次试新想法的机会；同一时间里硬件只付得起一到两次大改版。</p><ul><li>他设了一个情形：模型团队在第 12 周验证了一个好点子，想让硬件配合改，这基本不可能。这是假设情形，不是实测。</li><li>所以硬件需求必须足够清楚，又能跨几年的模型迭代保持有效。</li></ul><h3 id=3-答案是可预测的硬件设计>3. 答案是可预测的硬件设计<a hidden class=anchor aria-hidden=true href=#3-答案是可预测的硬件设计>#</a></h3><p>他说的可预测有两层：硬件的行为模型能预测，同时兼顾鲁棒性和成本；硬件平台是一个稳定的接口，让快速演进的模型都能用。落到具体问题上也是两个：运动，硬件的动作和响应要能被模型预测；传感，反馈要可靠地反映真实物理状态。传动同时影响运动和传感，所以他拿传动选型举例。</p><blockquote><p>&ldquo;So in short, we want to design a hardware to narrow the sim-to-real gap so that hardware can actually last long enough for fast evolving models.&rdquo;</p></blockquote><p>——简单说，我们要设计能缩小 sim-to-real 差距的硬件，让硬件撑得够久，跟得上快速演进的模型。</p><h3 id=4-运动侧弃谐波用行星>4. 运动侧：弃谐波，用行星<a hidden class=anchor aria-hidden=true href=#4-运动侧弃谐波用行星>#</a></h3><p>DYNA 刚发布了新一代机器人，他说看过 demo 的人可能没注意到，用的是行星执行器而不是谐波减速器。理由两条：尽量降低传动内阻，让执行器模型更简单直接。</p><blockquote><p>&ldquo;we actually use planetary actuators over harmonic drives.&rdquo;</p></blockquote><p>——我们用的是行星执行器，而不是谐波减速器。</p><ul><li>他引用已发表的研究说，同样的电机、相近减速比下，谐波减速器的内阻约为行星的两倍，没说出处。</li><li>谐波难建模有两个原因：一是迟滞，里面有柔性齿轮，变形不只取决于当前扭矩，还取决于之前的加载历史；二是内阻随动态负载和温度变化。</li><li>内部测试：同一个 RL 策略走一个简单的圆形轨迹，分别在仿真和实机上跑，比较左右手的位置。他特意强调，从仿真到实机，跟踪均方根误差只增加了 1.3 毫米。没给谐波方案的对照数，所以这个数字说明行星方案的 sim-to-real 差距小，并不直接说明比谐波好。</li></ul><h3 id=5-传感侧用好建模的传动估力不加关节力矩传感器>5. 传感侧：用好建模的传动估力，不加关节力矩传感器<a hidden class=anchor aria-hidden=true href=#5-传感侧用好建模的传动估力不加关节力矩传感器>#</a></h3><p>大多数机器人应用是接触密集的操作，手臂和末端是和物理世界交互的核心，需要力反馈引导行为。可以给机器人加关节传感器，但他说为什么选了另一条路超出本次范围，只讲扭矩透明度。</p><blockquote><p>&ldquo;by having a very simple and easier to model &mldr; transmission, we can actually have a accurate enough actuator model to give us a very accurate joint torque estimation and thus to give us a very good external force estimation.&rdquo;</p></blockquote><p>——传动简单好建模，执行器模型就够准，关节力矩估得准，外力估计也就好。</p><ul><li>仿真测试：在手腕和肘部各施加 y 轴 15 N 外力，估计的均方根误差手腕约 1.39、肘部约 8。作为参照，他给了一个最新文献基线约 1.05，基线是什么方法没听清。</li><li>他两次强调这只是仿真结果。</li></ul><h2 id=存疑>存疑<a hidden class=anchor aria-hidden=true href=#存疑>#</a></h2><ul><li>新一代机器人的产品名没听清，需对照 DYNA 公开资料。</li><li>工业机械臂的型号和它的负载自重比数值没听清。</li><li>NASA 那款人形机器人的型号和年份需回放确认。</li><li>力估计误差的单位按语境应为牛顿；肘部的"8"可能是 0.8 或别的数；文献基线可能和六轴力传感器方案有关。总结页开头那段没记下来，可能漏了这组对比的结论。</li></ul></div><footer class=post-footer><p class=event-back><a href=/events/aie-shanghai-2026/>← 返回 AIE 上海 2026</a></p></footer><section class=comments-section id=comments><h2 class=comments-title>评论</h2><div class=giscus data-repo=Miss-you/miss-you.github.io data-repo-id="MDEwOlJlcG9zaXRvcnkzMDIxMjI0NjQ=" data-category=Announcements data-category-id=DIC_kwDOEgIF4M4C4Ala data-mapping=pathname data-strict=1 data-reactions-enabled=1 data-input-position=bottom data-lang=zh-CN></div></section><script>(()=>{const t=document.querySelector(".giscus");if(!t||t.dataset.loaded==="true")return;t.dataset.loaded="true";const n=()=>document.body.classList.contains("dark")?"dark":"light",e=document.createElement("script");e.src="https://giscus.app/client.js",e.async=!0,e.crossOrigin="anonymous",e.setAttribute("data-repo",t.dataset.repo),e.setAttribute("data-repo-id",t.dataset.repoId),e.setAttribute("data-category",t.dataset.category),e.setAttribute("data-category-id",t.dataset.categoryId),e.setAttribute("data-mapping",t.dataset.mapping),e.setAttribute("data-strict",t.dataset.strict),e.setAttribute("data-reactions-enabled",t.dataset.reactionsEnabled),e.setAttribute("data-emit-metadata","0"),e.setAttribute("data-input-position",t.dataset.inputPosition),e.setAttribute("data-theme",n()),e.setAttribute("data-lang",t.dataset.lang),t.appendChild(e);const s=()=>{const e=document.querySelector("iframe.giscus-frame");if(!e||!e.contentWindow)return;e.contentWindow.postMessage({giscus:{setConfig:{theme:n()}}},"https://giscus.app")},o=new MutationObserver(e=>{for(const t of e)t.type==="attributes"&&t.attributeName==="class"&&s()});o.observe(document.body,{attributes:!0,attributeFilter:["class"]})})()</script></article></main><footer class=footer><span>&copy; 2026 <a href=https://yousali.com/>Yousa Driven Development | YDD</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script type=module>
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  
+  
+  const isDarkMode = () => {
+    return document.body.classList.contains('dark');
+  };
+  
+  
+  const mermaidKeywords = [
+    'graph ', 'graph TB', 'graph TD', 'graph LR', 'graph RL', 'graph BT',
+    'flowchart ', 'flowchart TB', 'flowchart TD', 'flowchart LR', 'flowchart RL', 'flowchart BT',
+    'sequenceDiagram', 'classDiagram', 'stateDiagram', 'stateDiagram-v2',
+    'erDiagram', 'journey', 'gantt', 'pie', 'requirementDiagram',
+    'gitGraph', 'mindmap', 'timeline', 'sankey'
+  ];
+  
+  const isMermaidCode = (code) => {
+    const trimmed = code.trim();
+    return mermaidKeywords.some(keyword => trimmed.startsWith(keyword));
+  };
+  
+  
+  const getColors = () => {
+    if (isDarkMode()) {
+      return {
+        
+        bg: '#1d1e20',
+        surface: '#2d2e30',
+        border: '#444',
+        text: '#dadaeb',
+        secondary: '#9c9d9e',
+        line: '#9c9d9e',
+        
+        accent1: '#5a7a96',  
+        accent2: '#6b8e6b',  
+        accent3: '#b8a87c',  
+      };
+    }
+    
+    return {
+      bg: '#f4f3ee',        
+      surface: '#faf9f5',   
+      border: '#2c2c2c',    
+      text: '#1f1f1f',      
+      secondary: '#6c6c6c', 
+      line: '#4a4a4a',      
+      
+      accent1: '#8fb8d4',   
+      accent2: '#a8c6a8',   
+      accent3: '#d4c59a',   
+    };
+  };
+  
+  
+  if (!document.getElementById('mermaid-virgil-font')) {
+    const style = document.createElement('style');
+    style.id = 'mermaid-virgil-font';
+    style.textContent = `
+      @font-face {
+        font-family: "Virgil";
+        src: url("https://excalidraw.nyc3.cdn.digitaloceanspaces.com/fonts/Virgil.woff2") format("woff2");
+        font-display: swap;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  const initMermaid = () => {
+    const c = getColors();
+    
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      themeVariables: {
+        
+        fontFamily: '"Virgil", "Noto Serif SC", Georgia, serif',
+        fontSize: '16px',           
+        
+        
+        background: c.bg,
+        mainBkg: c.surface,
+        
+        
+        primaryColor: c.surface,
+        primaryTextColor: c.text,
+        primaryBorderColor: c.border,
+        
+        
+        secondaryColor: c.accent1,
+        tertiaryColor: c.accent2,
+        
+        
+        lineColor: c.line,
+        nodeBorder: c.border,
+        clusterBkg: c.bg,
+        clusterBorder: c.border,
+        
+        
+        textColor: c.text,
+        titleColor: c.text,
+        nodeTextColor: c.text,
+        labelColor: c.text,
+        
+        
+        edgeLabelBackground: c.bg,
+        
+        
+        actorBorder: c.border,
+        actorBkg: c.surface,
+        actorTextColor: c.text,
+        actorLineColor: c.border,
+        signalColor: c.line,
+        signalTextColor: c.text,
+        
+        
+        stateBorder: c.border,
+        stateBkg: c.surface,
+        
+        
+        cScale0: c.surface,
+        cScale1: c.accent1,
+        cScale2: c.accent2,
+        cScale3: c.accent3,
+        cScale4: c.surface,
+        cScale5: c.accent1,
+      },
+      
+      
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        curve: 'basis',
+        padding: 20,
+        nodeSpacing: 50,
+        rankSpacing: 60,
+      },
+      
+      
+      sequence: {
+        useMaxWidth: true,
+        diagramMarginX: 50,
+        diagramMarginY: 20,
+        actorMargin: 60,
+        width: 160,
+        height: 70,
+        boxMargin: 15,
+        boxTextMargin: 8,
+        noteMargin: 15,
+        messageMargin: 40,
+        mirrorActors: true,
+        bottomMarginAdj: 1,
+        rightAngles: false,
+        showSequenceNumbers: false,
+        
+        actorFontSize: '16px',
+        noteFontSize: '15px',
+        messageFontSize: '15px',
+      },
+      
+      
+      state: {
+        useMaxWidth: true,
+        padding: 15,
+        fontSize: '16px',
+      },
+      
+      
+      class: {
+        useMaxWidth: true,
+        fontSize: '15px',
+      },
+      
+      
+      er: {
+        useMaxWidth: true,
+        fontSize: '15px',
+      },
+      
+      
+      gantt: {
+        useMaxWidth: true,
+        fontSize: '14px',
+      },
+      
+      
+      look: 'handDrawn',
+    });
+  };
+  
+  const diagrams = new Map();
+  let painting = false;
+  let repaintRequested = false;
+
+  
+  
+  const repaintDiagrams = async () => {
+    if (diagrams.size === 0) return;
+    repaintRequested = true;
+    if (painting) return;
+    painting = true;
+    try {
+      while (repaintRequested) {
+        repaintRequested = false;
+        initMermaid();
+        const colors = getColors();
+        for (const [node, { code, wrapper }] of diagrams) {
+          if (!node.isConnected) {
+            diagrams.delete(node);
+            continue;
+          }
+          wrapper.style.background = colors.bg;
+          wrapper.style.borderColor = `${colors.border}30`;
+          node.removeAttribute('data-processed');
+          node.textContent = code;
+          try {
+            await mermaid.run({ nodes: [node] });
+          } catch (error) {
+            console.error('Mermaid error:', error);
+          }
+        }
+      }
+    } finally {
+      painting = false;
+    }
+  };
+
+  const renderMermaidDiagrams = async () => {
+    const allCodeBlocks = document.querySelectorAll('pre code');
+    const mermaidBlocks = [];
+    
+    allCodeBlocks.forEach(block => {
+      const code = block.textContent;
+      if (isMermaidCode(code)) {
+        mermaidBlocks.push(block);
+      }
+    });
+    
+    if (mermaidBlocks.length === 0) return;
+    
+    const c = getColors();
+    
+    for (const block of mermaidBlocks) {
+      const pre = block.parentElement;
+      const code = block.textContent.trim();
+      
+      
+      const wrapper = document.createElement('div');
+      wrapper.className = 'mermaid-diagram';
+      wrapper.style.cssText = `
+        margin: 2em 0;
+        padding: 24px;
+        background: ${c.bg};
+        border: 1px solid ${c.border}30;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        overflow-x: auto;
+      `;
+      
+      
+      const container = document.createElement('div');
+      container.style.cssText = `
+        display: flex;
+        justify-content: center;
+        min-width: fit-content;
+      `;
+      
+      const mermaidDiv = document.createElement('div');
+      mermaidDiv.className = 'mermaid';
+      mermaidDiv.textContent = code;
+      container.appendChild(mermaidDiv);
+      wrapper.appendChild(container);
+      
+      pre.parentNode.replaceChild(wrapper, pre);
+      diagrams.set(mermaidDiv, { code, wrapper });
+    }
+    await repaintDiagrams();
+  };
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderMermaidDiagrams);
+  } else {
+    renderMermaidDiagrams();
+  }
+  
+  
+  let timeout;
+  let previousDark = isDarkMode();
+  const observer = new MutationObserver((mutations) => {
+    if (!mutations.some(mutation => mutation.attributeName === 'class')) return;
+    const dark = isDarkMode();
+    if (dark === previousDark) return;
+    previousDark = dark;
+    clearTimeout(timeout);
+    timeout = setTimeout(repaintDiagrams, 100);
+  });
+  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+</script><style>.mermaid-diagram{font-family:virgil,noto serif sc,Georgia,serif}.mermaid-diagram .mermaid{display:flex;justify-content:center}.mermaid-diagram svg{max-width:100% !important;height:auto !important;font-family:virgil,noto serif sc,Georgia,serif !important}.mermaid-diagram svg text,.mermaid-diagram svg .label,.mermaid-diagram svg .nodeLabel,.mermaid-diagram svg .edgeLabel,.mermaid-diagram svg .messageText,.mermaid-diagram svg .actor text,.mermaid-diagram svg .participant text{fill:#1f1f1f !important;font-family:virgil,noto serif sc,Georgia,serif !important;font-size:15px !important;font-weight:500 !important}.dark .mermaid-diagram svg text,.dark .mermaid-diagram svg .label,.dark .mermaid-diagram svg .nodeLabel,.dark .mermaid-diagram svg .edgeLabel,.dark .mermaid-diagram svg .messageText,.dark .mermaid-diagram svg .actor text,.dark .mermaid-diagram svg .participant text{fill:#dadaeb !important}.mermaid-diagram svg .sequenceDiagram text{font-size:16px !important}.mermaid-diagram svg .actor{font-size:16px !important}.mermaid-diagram svg .messageText{font-size:15px !important}.mermaid-diagram svg .node rect,.mermaid-diagram svg .node circle,.mermaid-diagram svg .node ellipse,.mermaid-diagram svg .node polygon{stroke-width:2px !important}.mermaid-diagram svg{filter:drop-shadow(0 1px 3px rgba(0,0,0,8%))}.dark .mermaid-diagram{background:#1d1e20 !important;border-color:#444 !important;box-shadow:0 2px 8px rgba(0,0,0,.2) !important}@media(max-width:768px){.mermaid-diagram{padding:16px !important;margin:1.5em 0 !important}.mermaid-diagram svg text{font-size:14px !important}}.mermaid-diagram{opacity:0;animation:fadeIn .4s ease-out forwards}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}</style><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="复制";function s(){t.innerHTML="已复制！",setTimeout(()=>{t.innerHTML="复制"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

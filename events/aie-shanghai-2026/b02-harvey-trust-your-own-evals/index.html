@@ -1,0 +1,306 @@
+<!doctype html><html lang=zh dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Trust Your Own Evals, Not the Leaderboard: What 10k+ Internal Agent PRs Taught Us About Adopting Open Models | Yousa Driven Development | YDD</title><meta name=keywords content><meta name=description content="Harvey 内部 agent 的上万个 PR 都能重放成评测集；用它测几类固定任务后发现，该改的常是数据、小 bug 和评测集本身，选模型要信自己的 eval。"><meta name=author content="Miss-you"><link rel=canonical href=https://yousali.com/events/aie-shanghai-2026/b02-harvey-trust-your-own-evals/><link crossorigin=anonymous href=/assets/css/stylesheet.e9701f6596f1d2794908288c989c553b9745777e956fe5fa333c6c08872568d4.css integrity="sha256-6XAfZZbx0nlJCCiMmJxVO5dFd36Vb+X6MzxsCIclaNQ=" rel="preload stylesheet" as=style><link rel=icon href=https://yousali.com/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://yousali.com/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://yousali.com/favicon-32x32.png><link rel=apple-touch-icon href=https://yousali.com/apple-touch-icon.png><link rel=mask-icon href=https://yousali.com/safari-pinned-tab.svg><meta name=theme-color content="#f4f3ee"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=zh href=https://yousali.com/events/aie-shanghai-2026/b02-harvey-trust-your-own-evals/><noscript><style>#theme-toggle,.top-link{display:none}</style></noscript><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel=stylesheet><link rel=stylesheet href=/css/site-header.min.09b7e4b1d83366c3dc209c6bfdda75ca026c173caa86b27ccd696b264f628be1db1f93c38f6b9cf11bff39b524fbac84.css integrity=sha384-CbfksdgzZsPcIJxr/dp1ygJsFzyqhrJ8zWlrJk9ii+HbH5PDj2uc8Rv/ObUk+6yE crossorigin=anonymous><script defer src=/js/site-header.min.fea1c179f14cfe36b0349eadbfc95ad84ef97a0f42347ba89447dabc900d624d1def3c4c5f7372fb0546c80b87ccf640.js integrity=sha384-/qHBefFM/jawNJ6tv8la2E75eg9CNHuolEfavJANYk0d7zxMX3Ny+wVGyAuHzPZA crossorigin=anonymous data-site-header data-default-theme=light></script><meta property="og:url" content="https://yousali.com/events/aie-shanghai-2026/b02-harvey-trust-your-own-evals/"><meta property="og:site_name" content="Yousa Driven Development | YDD"><meta property="og:title" content="Trust Your Own Evals, Not the Leaderboard: What 10k+ Internal Agent PRs Taught Us About Adopting Open Models"><meta property="og:description" content="Harvey 内部 agent 的上万个 PR 都能重放成评测集；用它测几类固定任务后发现，该改的常是数据、小 bug 和评测集本身，选模型要信自己的 eval。"><meta property="og:locale" content="zh"><meta property="og:type" content="article"><meta property="article:section" content="events"><meta property="article:published_time" content="2026-11-05T14:05:00+08:00"><meta property="article:modified_time" content="2026-11-10T09:05:10+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Trust Your Own Evals, Not the Leaderboard: What 10k+ Internal Agent PRs Taught Us About Adopting Open Models"><meta name=twitter:description content="Harvey 内部 agent 的上万个 PR 都能重放成评测集；用它测几类固定任务后发现，该改的常是数据、小 bug 和评测集本身，选模型要信自己的 eval。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"会议","item":"https://yousali.com/events/"},{"@type":"ListItem","position":2,"name":"AIE 上海 2026","item":"https://yousali.com/events/aie-shanghai-2026/"},{"@type":"ListItem","position":3,"name":"Trust Your Own Evals, Not the Leaderboard: What 10k+ Internal Agent PRs Taught Us About Adopting Open Models","item":"https://yousali.com/events/aie-shanghai-2026/b02-harvey-trust-your-own-evals/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Trust Your Own Evals, Not the Leaderboard: What 10k+ Internal Agent PRs Taught Us About Adopting Open Models","name":"Trust Your Own Evals, Not the Leaderboard: What 10k\u002b Internal Agent PRs Taught Us About Adopting Open Models","description":"Harvey 内部 agent 的上万个 PR 都能重放成评测集；用它测几类固定任务后发现，该改的常是数据、小 bug 和评测集本身，选模型要信自己的 eval。","keywords":[],"articleBody":"据现场外部录音整理，未与本人录音对照。讲者是 Harvey（法律 AI 公司）的工程负责人，中文演讲，夹英文术语；末尾有一个简短问答，提问内容没录清。幻灯片和现场视频演示看不到。\n一句话 Harvey 内部的 Slack 协作 agent 产生了上万个 PR，每个 PR 的流程都能重放，于是变成自家评测集。拿它测 PR 描述、code review、修 CI 三类固定任务后，他发现该改的往往不是模型也不是 harness，而是喂给模型的数据、代码里的小 bug 和评测集本身，所以选模型要信自己的内部 eval，不信公开榜单。\n论断 1. 云端 agent 的运行过程本身就是评测集 他今年做的项目叫 Specter，是 Harvey 内部的 agent：多人在 Slack 里和同一个 agent 协作，也可以从网页、手机或自动化触发，从产品需求一路做到工程交付、测试、上线。本地跑的 agent，同事最后拿到的只是一个 PR，背后的 context 和 thinking trace 都没了；放到云端，全过程都留了下来。\n“因为harness和模型都是相当于你的可以替换，所以说从一个task最开始到最结束，呃我们这个固定的流程其实都是可以重放的。”\n规模：他说公司可能有 500 多人在用，产生了大概上万个 PR。没说统计时间段。 他说做内部 agent 的前提是自己做一个东西的成本已经变得很低。 2. 公开 leaderboard 不能直接拿来换模型 别人的 context、agent、harness 和你不同；而且工作里一大半不是生成代码，是让代码达到上线质量。他列了促使他做实验的几个现实问题：新模型几周就出一个，是马上上还是先测；云上 agent 比本地慢，换更快的模型行不行；人人产出更多，PR review 成了瓶颈；还有成本。\n“很多时候你有一大半事情并不是说你是生成代码，而是说你怎么样让这个代码能够达到呃产品上线的这个quality”\n方法：选 review 代码、修 CI、写 PR 描述三类固定任务，把流程拆成多步重放，用 LLM judge 打分；每次只改一个变量，判断该改模型、harness 还是别的。 3. 要改的常常不是模型，是喂给模型的数据 PR 描述的工作流要求人写的部分保留，agent 生成的部分随改动更新，还要附测试结果。他换了模型、换了 harness、换了 prompt 都没变化，问题出在丢给模型的数据上。\n“所以通过这个测试，我发现只要修一些bug，基本上你不用换任何的模型，或者说是prompt就可以做得非常好”\nbug 举例：PR 描述太长时，最后给模型的内容并不是真正能用的，于是漏东西。 他说是准备这次演讲的 slides 时才发现很多 low hanging fruit。没给修 bug 前后的分数。 4. 评测本身比评测结果更重要 收集了大量重放数据，真正能用的不多；判断数据能不能用，是他和做实验的 agent 聊得最多的事。\n“有可能这个code review本身有另外的人或者说Agent在上面留了更多的code review，那你重放的过程中，你这个Agent可能会受到那些后来的signal的影响”\n两种污染：重放时看到了后来别人或 agent 留的 review；PR 之后又有人加了新的 change。 他说花的更多时间是研究评测集该怎么选出来。没给剔除比例。 5. code review 上便宜模型接近 Opus 在 prompt 调到最优、harness 是通用的前提下，DeepSeek V4.1 Flash 在 code review 上已经接近 Opus。Opus max 花钱多得多，多抓到的问题经人工审查\"可能并不重要\"。\n“所以说与其说我们用呃opus max不如直接用opus，与其用opus不如直接用DeepSeek的flash，所以说这个结果也是比较出乎我意料的”\n“接近\"没给分数，“花非常多的钱\"没给金额，人工审查的规模和 Opus 的具体版本都没说。 6. 修 CI 的差别在耗时，不在质量 修 CI 有明确的过与不过，把 agent 放在那里，各模型最后都能跑过，质量差不多。他说有好的验证信号的地方，是 agent harness 提效最多的地方。\n“最后会发现其实这些open weight呢，呃大部分时间都在呃就是思考的更多，它需要可能有更多的这些thinking trace才能解决这个问题”\nOpus 有时一次就过，也会减少对 CI 的重试；open weight 模型（未点名）反复尝试，耗时长，占沙盒运行时间。没给时间数字。 他没有因此放弃 open weight，而是看 trace 做 hill climb：发现不需要全部跑测试、也不用思考那么多，也能得到结果。 7. 差的往往是有没有花时间优化流程 法律侧他们 2024 年做了 Big Law Bench，今年做了针对长时间运行 agent 的 Legal Agent Bench，他说两边是同一套思路：自己设计评测集和评分方法，用自己的数据和任务。\n“它可能最后你差的不是模型，不是harness，差的就只是说你有没有花这个时间精力去把你这个流程给优化”\n这次实验他和 agent 交流一共花了约 7 小时、约 7000 美元，预计每月能给公司省上万美元。省钱是预计，没给现在的模型和每月花费作对比。 他说 Harvey 也对 GLM、Kimi K3 等 open weight 模型做过 post training，但这次的结论是可能不需要训模型就能做到很好。 存疑 问答里有人追问 7000 美元的口径，他的回答涉及这次实验和 Specter 的全部运行，听不清到底只算这次实验还是都算在内。 新模型举例里的\"千万\"疑为千问（Qwen）。 他提到别人用的一个工具或 harness，名字听起来像 Ripple，未确认。 “Kimi K3\"按原话保留，未核对型号名。 ","wordCount":"2155","inLanguage":"zh","datePublished":"2026-11-05T14:05:00+08:00","dateModified":"2026-11-10T09:05:10+08:00","author":{"@type":"Person","name":"Miss-you"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://yousali.com/events/aie-shanghai-2026/b02-harvey-trust-your-own-evals/"},"publisher":{"@type":"Organization","name":"Yousa Driven Development | YDD","logo":{"@type":"ImageObject","url":"https://yousali.com/favicon.ico"}}}</script></head><body id=top><header class=site-header><div class=site-header-inner><div class=site-brand-row><a class=site-brand href=/ accesskey=h>Yousa Driven Development | YDD</a><div class=site-controls><button type=button id=theme-toggle accesskey=t aria-label=切换明暗主题 title="切换明暗主题 (Alt + T)">
+<svg id="moon" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+</button>
+<a class=site-language-link href=/en/ lang=en hreflang=en aria-label=English>En</a></div></div><nav class=site-menu id=site-menu aria-label=主导航><ul><li><a class=site-menu-link href=/archives/>归档</a></li><li><a class=site-menu-link href=/tags/>标签</a></li><li><a class=site-menu-link href=/kb/>知识库</a></li><li><a class=site-menu-link href=/lab/>实验室</a></li><li><a class=site-menu-link href=/events/ aria-current=location>会议</a></li><li><a class=site-menu-link href=/tools/>工具</a></li><li><a class=site-menu-link href=/categories/>分类</a></li><li><a class=site-menu-link href=/index.xml>RSS</a></li><li><a class=site-menu-link href=https://github.com/Miss-you rel="noopener noreferrer">GitHub</a></li></ul></nav></div></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://yousali.com/>主页</a>&nbsp;»&nbsp;<a href=https://yousali.com/events/>会议</a>&nbsp;»&nbsp;<a href=https://yousali.com/events/aie-shanghai-2026/>AIE 上海 2026</a></div><h1 class=post-title>Trust Your Own Evals, Not the Leaderboard: What 10k+ Internal Agent PRs Taught Us About Adopting Open Models</h1><dl class=event-meta><div><dt>场次</dt><dd>B02</dd></div><div><dt>讲者</dt><dd>Joey Wang</dd></div><div><dt>机构</dt><dd>Harvey</dd></div><div><dt>会场</dt><dd>AI 应用分会场</dd></div><div><dt>日期</dt><dd><time datetime=2026-11-05>2026-11-05</time></dd></div></dl></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>目录</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#一句话>一句话</a></li><li><a href=#论断>论断</a><ul><li><a href=#1-云端-agent-的运行过程本身就是评测集>1. 云端 agent 的运行过程本身就是评测集</a></li><li><a href=#2-公开-leaderboard-不能直接拿来换模型>2. 公开 leaderboard 不能直接拿来换模型</a></li><li><a href=#3-要改的常常不是模型是喂给模型的数据>3. 要改的常常不是模型，是喂给模型的数据</a></li><li><a href=#4-评测本身比评测结果更重要>4. 评测本身比评测结果更重要</a></li><li><a href=#5-code-review-上便宜模型接近-opus>5. code review 上便宜模型接近 Opus</a></li><li><a href=#6-修-ci-的差别在耗时不在质量>6. 修 CI 的差别在耗时，不在质量</a></li><li><a href=#7-差的往往是有没有花时间优化流程>7. 差的往往是有没有花时间优化流程</a></li></ul></li><li><a href=#存疑>存疑</a></li></ul></nav></div></details></div><div class=post-content><p>据现场外部录音整理，未与本人录音对照。讲者是 Harvey（法律 AI 公司）的工程负责人，中文演讲，夹英文术语；末尾有一个简短问答，提问内容没录清。幻灯片和现场视频演示看不到。</p><h2 id=一句话>一句话<a hidden class=anchor aria-hidden=true href=#一句话>#</a></h2><p>Harvey 内部的 Slack 协作 agent 产生了上万个 PR，每个 PR 的流程都能重放，于是变成自家评测集。拿它测 PR 描述、code review、修 CI 三类固定任务后，他发现该改的往往不是模型也不是 harness，而是喂给模型的数据、代码里的小 bug 和评测集本身，所以选模型要信自己的内部 eval，不信公开榜单。</p><h2 id=论断>论断<a hidden class=anchor aria-hidden=true href=#论断>#</a></h2><h3 id=1-云端-agent-的运行过程本身就是评测集>1. 云端 agent 的运行过程本身就是评测集<a hidden class=anchor aria-hidden=true href=#1-云端-agent-的运行过程本身就是评测集>#</a></h3><p>他今年做的项目叫 Specter，是 Harvey 内部的 agent：多人在 Slack 里和同一个 agent 协作，也可以从网页、手机或自动化触发，从产品需求一路做到工程交付、测试、上线。本地跑的 agent，同事最后拿到的只是一个 PR，背后的 context 和 thinking trace 都没了；放到云端，全过程都留了下来。</p><blockquote><p>&ldquo;因为harness和模型都是相当于你的可以替换，所以说从一个task最开始到最结束，呃我们这个固定的流程其实都是可以重放的。&rdquo;</p></blockquote><ul><li>规模：他说公司可能有 500 多人在用，产生了大概上万个 PR。没说统计时间段。</li><li>他说做内部 agent 的前提是自己做一个东西的成本已经变得很低。</li></ul><h3 id=2-公开-leaderboard-不能直接拿来换模型>2. 公开 leaderboard 不能直接拿来换模型<a hidden class=anchor aria-hidden=true href=#2-公开-leaderboard-不能直接拿来换模型>#</a></h3><p>别人的 context、agent、harness 和你不同；而且工作里一大半不是生成代码，是让代码达到上线质量。他列了促使他做实验的几个现实问题：新模型几周就出一个，是马上上还是先测；云上 agent 比本地慢，换更快的模型行不行；人人产出更多，PR review 成了瓶颈；还有成本。</p><blockquote><p>&ldquo;很多时候你有一大半事情并不是说你是生成代码，而是说你怎么样让这个代码能够达到呃产品上线的这个quality&rdquo;</p></blockquote><ul><li>方法：选 review 代码、修 CI、写 PR 描述三类固定任务，把流程拆成多步重放，用 LLM judge 打分；每次只改一个变量，判断该改模型、harness 还是别的。</li></ul><h3 id=3-要改的常常不是模型是喂给模型的数据>3. 要改的常常不是模型，是喂给模型的数据<a hidden class=anchor aria-hidden=true href=#3-要改的常常不是模型是喂给模型的数据>#</a></h3><p>PR 描述的工作流要求人写的部分保留，agent 生成的部分随改动更新，还要附测试结果。他换了模型、换了 harness、换了 prompt 都没变化，问题出在丢给模型的数据上。</p><blockquote><p>&ldquo;所以通过这个测试，我发现只要修一些bug，基本上你不用换任何的模型，或者说是prompt就可以做得非常好&rdquo;</p></blockquote><ul><li>bug 举例：PR 描述太长时，最后给模型的内容并不是真正能用的，于是漏东西。</li><li>他说是准备这次演讲的 slides 时才发现很多 low hanging fruit。没给修 bug 前后的分数。</li></ul><h3 id=4-评测本身比评测结果更重要>4. 评测本身比评测结果更重要<a hidden class=anchor aria-hidden=true href=#4-评测本身比评测结果更重要>#</a></h3><p>收集了大量重放数据，真正能用的不多；判断数据能不能用，是他和做实验的 agent 聊得最多的事。</p><blockquote><p>&ldquo;有可能这个code review本身有另外的人或者说Agent在上面留了更多的code review，那你重放的过程中，你这个Agent可能会受到那些后来的signal的影响&rdquo;</p></blockquote><ul><li>两种污染：重放时看到了后来别人或 agent 留的 review；PR 之后又有人加了新的 change。</li><li>他说花的更多时间是研究评测集该怎么选出来。没给剔除比例。</li></ul><h3 id=5-code-review-上便宜模型接近-opus>5. code review 上便宜模型接近 Opus<a hidden class=anchor aria-hidden=true href=#5-code-review-上便宜模型接近-opus>#</a></h3><p>在 prompt 调到最优、harness 是通用的前提下，DeepSeek V4.1 Flash 在 code review 上已经接近 Opus。Opus max 花钱多得多，多抓到的问题经人工审查"可能并不重要"。</p><blockquote><p>&ldquo;所以说与其说我们用呃opus max不如直接用opus，与其用opus不如直接用DeepSeek的flash，所以说这个结果也是比较出乎我意料的&rdquo;</p></blockquote><ul><li>&ldquo;接近"没给分数，&ldquo;花非常多的钱"没给金额，人工审查的规模和 Opus 的具体版本都没说。</li></ul><h3 id=6-修-ci-的差别在耗时不在质量>6. 修 CI 的差别在耗时，不在质量<a hidden class=anchor aria-hidden=true href=#6-修-ci-的差别在耗时不在质量>#</a></h3><p>修 CI 有明确的过与不过，把 agent 放在那里，各模型最后都能跑过，质量差不多。他说有好的验证信号的地方，是 agent harness 提效最多的地方。</p><blockquote><p>&ldquo;最后会发现其实这些open weight呢，呃大部分时间都在呃就是思考的更多，它需要可能有更多的这些thinking trace才能解决这个问题&rdquo;</p></blockquote><ul><li>Opus 有时一次就过，也会减少对 CI 的重试；open weight 模型（未点名）反复尝试，耗时长，占沙盒运行时间。没给时间数字。</li><li>他没有因此放弃 open weight，而是看 trace 做 hill climb：发现不需要全部跑测试、也不用思考那么多，也能得到结果。</li></ul><h3 id=7-差的往往是有没有花时间优化流程>7. 差的往往是有没有花时间优化流程<a hidden class=anchor aria-hidden=true href=#7-差的往往是有没有花时间优化流程>#</a></h3><p>法律侧他们 2024 年做了 Big Law Bench，今年做了针对长时间运行 agent 的 Legal Agent Bench，他说两边是同一套思路：自己设计评测集和评分方法，用自己的数据和任务。</p><blockquote><p>&ldquo;它可能最后你差的不是模型，不是harness，差的就只是说你有没有花这个时间精力去把你这个流程给优化&rdquo;</p></blockquote><ul><li>这次实验他和 agent 交流一共花了约 7 小时、约 7000 美元，预计每月能给公司省上万美元。省钱是预计，没给现在的模型和每月花费作对比。</li><li>他说 Harvey 也对 GLM、Kimi K3 等 open weight 模型做过 post training，但这次的结论是可能不需要训模型就能做到很好。</li></ul><h2 id=存疑>存疑<a hidden class=anchor aria-hidden=true href=#存疑>#</a></h2><ul><li>问答里有人追问 7000 美元的口径，他的回答涉及这次实验和 Specter 的全部运行，听不清到底只算这次实验还是都算在内。</li><li>新模型举例里的"千万"疑为千问（Qwen）。</li><li>他提到别人用的一个工具或 harness，名字听起来像 Ripple，未确认。</li><li>&ldquo;Kimi K3"按原话保留，未核对型号名。</li></ul></div><footer class=post-footer><p class=event-back><a href=/events/aie-shanghai-2026/>← 返回 AIE 上海 2026</a></p></footer><section class=comments-section id=comments><h2 class=comments-title>评论</h2><div class=giscus data-repo=Miss-you/miss-you.github.io data-repo-id="MDEwOlJlcG9zaXRvcnkzMDIxMjI0NjQ=" data-category=Announcements data-category-id=DIC_kwDOEgIF4M4C4Ala data-mapping=pathname data-strict=1 data-reactions-enabled=1 data-input-position=bottom data-lang=zh-CN></div></section><script>(()=>{const t=document.querySelector(".giscus");if(!t||t.dataset.loaded==="true")return;t.dataset.loaded="true";const n=()=>document.body.classList.contains("dark")?"dark":"light",e=document.createElement("script");e.src="https://giscus.app/client.js",e.async=!0,e.crossOrigin="anonymous",e.setAttribute("data-repo",t.dataset.repo),e.setAttribute("data-repo-id",t.dataset.repoId),e.setAttribute("data-category",t.dataset.category),e.setAttribute("data-category-id",t.dataset.categoryId),e.setAttribute("data-mapping",t.dataset.mapping),e.setAttribute("data-strict",t.dataset.strict),e.setAttribute("data-reactions-enabled",t.dataset.reactionsEnabled),e.setAttribute("data-emit-metadata","0"),e.setAttribute("data-input-position",t.dataset.inputPosition),e.setAttribute("data-theme",n()),e.setAttribute("data-lang",t.dataset.lang),t.appendChild(e);const s=()=>{const e=document.querySelector("iframe.giscus-frame");if(!e||!e.contentWindow)return;e.contentWindow.postMessage({giscus:{setConfig:{theme:n()}}},"https://giscus.app")},o=new MutationObserver(e=>{for(const t of e)t.type==="attributes"&&t.attributeName==="class"&&s()});o.observe(document.body,{attributes:!0,attributeFilter:["class"]})})()</script></article></main><footer class=footer><span>&copy; 2026 <a href=https://yousali.com/>Yousa Driven Development | YDD</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script type=module>
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  
+  
+  const isDarkMode = () => {
+    return document.body.classList.contains('dark');
+  };
+  
+  
+  const mermaidKeywords = [
+    'graph ', 'graph TB', 'graph TD', 'graph LR', 'graph RL', 'graph BT',
+    'flowchart ', 'flowchart TB', 'flowchart TD', 'flowchart LR', 'flowchart RL', 'flowchart BT',
+    'sequenceDiagram', 'classDiagram', 'stateDiagram', 'stateDiagram-v2',
+    'erDiagram', 'journey', 'gantt', 'pie', 'requirementDiagram',
+    'gitGraph', 'mindmap', 'timeline', 'sankey'
+  ];
+  
+  const isMermaidCode = (code) => {
+    const trimmed = code.trim();
+    return mermaidKeywords.some(keyword => trimmed.startsWith(keyword));
+  };
+  
+  
+  const getColors = () => {
+    if (isDarkMode()) {
+      return {
+        
+        bg: '#1d1e20',
+        surface: '#2d2e30',
+        border: '#444',
+        text: '#dadaeb',
+        secondary: '#9c9d9e',
+        line: '#9c9d9e',
+        
+        accent1: '#5a7a96',  
+        accent2: '#6b8e6b',  
+        accent3: '#b8a87c',  
+      };
+    }
+    
+    return {
+      bg: '#f4f3ee',        
+      surface: '#faf9f5',   
+      border: '#2c2c2c',    
+      text: '#1f1f1f',      
+      secondary: '#6c6c6c', 
+      line: '#4a4a4a',      
+      
+      accent1: '#8fb8d4',   
+      accent2: '#a8c6a8',   
+      accent3: '#d4c59a',   
+    };
+  };
+  
+  
+  if (!document.getElementById('mermaid-virgil-font')) {
+    const style = document.createElement('style');
+    style.id = 'mermaid-virgil-font';
+    style.textContent = `
+      @font-face {
+        font-family: "Virgil";
+        src: url("https://excalidraw.nyc3.cdn.digitaloceanspaces.com/fonts/Virgil.woff2") format("woff2");
+        font-display: swap;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  const initMermaid = () => {
+    const c = getColors();
+    
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      themeVariables: {
+        
+        fontFamily: '"Virgil", "Noto Serif SC", Georgia, serif',
+        fontSize: '16px',           
+        
+        
+        background: c.bg,
+        mainBkg: c.surface,
+        
+        
+        primaryColor: c.surface,
+        primaryTextColor: c.text,
+        primaryBorderColor: c.border,
+        
+        
+        secondaryColor: c.accent1,
+        tertiaryColor: c.accent2,
+        
+        
+        lineColor: c.line,
+        nodeBorder: c.border,
+        clusterBkg: c.bg,
+        clusterBorder: c.border,
+        
+        
+        textColor: c.text,
+        titleColor: c.text,
+        nodeTextColor: c.text,
+        labelColor: c.text,
+        
+        
+        edgeLabelBackground: c.bg,
+        
+        
+        actorBorder: c.border,
+        actorBkg: c.surface,
+        actorTextColor: c.text,
+        actorLineColor: c.border,
+        signalColor: c.line,
+        signalTextColor: c.text,
+        
+        
+        stateBorder: c.border,
+        stateBkg: c.surface,
+        
+        
+        cScale0: c.surface,
+        cScale1: c.accent1,
+        cScale2: c.accent2,
+        cScale3: c.accent3,
+        cScale4: c.surface,
+        cScale5: c.accent1,
+      },
+      
+      
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        curve: 'basis',
+        padding: 20,
+        nodeSpacing: 50,
+        rankSpacing: 60,
+      },
+      
+      
+      sequence: {
+        useMaxWidth: true,
+        diagramMarginX: 50,
+        diagramMarginY: 20,
+        actorMargin: 60,
+        width: 160,
+        height: 70,
+        boxMargin: 15,
+        boxTextMargin: 8,
+        noteMargin: 15,
+        messageMargin: 40,
+        mirrorActors: true,
+        bottomMarginAdj: 1,
+        rightAngles: false,
+        showSequenceNumbers: false,
+        
+        actorFontSize: '16px',
+        noteFontSize: '15px',
+        messageFontSize: '15px',
+      },
+      
+      
+      state: {
+        useMaxWidth: true,
+        padding: 15,
+        fontSize: '16px',
+      },
+      
+      
+      class: {
+        useMaxWidth: true,
+        fontSize: '15px',
+      },
+      
+      
+      er: {
+        useMaxWidth: true,
+        fontSize: '15px',
+      },
+      
+      
+      gantt: {
+        useMaxWidth: true,
+        fontSize: '14px',
+      },
+      
+      
+      look: 'handDrawn',
+    });
+  };
+  
+  const diagrams = new Map();
+  let painting = false;
+  let repaintRequested = false;
+
+  
+  
+  const repaintDiagrams = async () => {
+    if (diagrams.size === 0) return;
+    repaintRequested = true;
+    if (painting) return;
+    painting = true;
+    try {
+      while (repaintRequested) {
+        repaintRequested = false;
+        initMermaid();
+        const colors = getColors();
+        for (const [node, { code, wrapper }] of diagrams) {
+          if (!node.isConnected) {
+            diagrams.delete(node);
+            continue;
+          }
+          wrapper.style.background = colors.bg;
+          wrapper.style.borderColor = `${colors.border}30`;
+          node.removeAttribute('data-processed');
+          node.textContent = code;
+          try {
+            await mermaid.run({ nodes: [node] });
+          } catch (error) {
+            console.error('Mermaid error:', error);
+          }
+        }
+      }
+    } finally {
+      painting = false;
+    }
+  };
+
+  const renderMermaidDiagrams = async () => {
+    const allCodeBlocks = document.querySelectorAll('pre code');
+    const mermaidBlocks = [];
+    
+    allCodeBlocks.forEach(block => {
+      const code = block.textContent;
+      if (isMermaidCode(code)) {
+        mermaidBlocks.push(block);
+      }
+    });
+    
+    if (mermaidBlocks.length === 0) return;
+    
+    const c = getColors();
+    
+    for (const block of mermaidBlocks) {
+      const pre = block.parentElement;
+      const code = block.textContent.trim();
+      
+      
+      const wrapper = document.createElement('div');
+      wrapper.className = 'mermaid-diagram';
+      wrapper.style.cssText = `
+        margin: 2em 0;
+        padding: 24px;
+        background: ${c.bg};
+        border: 1px solid ${c.border}30;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        overflow-x: auto;
+      `;
+      
+      
+      const container = document.createElement('div');
+      container.style.cssText = `
+        display: flex;
+        justify-content: center;
+        min-width: fit-content;
+      `;
+      
+      const mermaidDiv = document.createElement('div');
+      mermaidDiv.className = 'mermaid';
+      mermaidDiv.textContent = code;
+      container.appendChild(mermaidDiv);
+      wrapper.appendChild(container);
+      
+      pre.parentNode.replaceChild(wrapper, pre);
+      diagrams.set(mermaidDiv, { code, wrapper });
+    }
+    await repaintDiagrams();
+  };
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderMermaidDiagrams);
+  } else {
+    renderMermaidDiagrams();
+  }
+  
+  
+  let timeout;
+  let previousDark = isDarkMode();
+  const observer = new MutationObserver((mutations) => {
+    if (!mutations.some(mutation => mutation.attributeName === 'class')) return;
+    const dark = isDarkMode();
+    if (dark === previousDark) return;
+    previousDark = dark;
+    clearTimeout(timeout);
+    timeout = setTimeout(repaintDiagrams, 100);
+  });
+  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+</script><style>.mermaid-diagram{font-family:virgil,noto serif sc,Georgia,serif}.mermaid-diagram .mermaid{display:flex;justify-content:center}.mermaid-diagram svg{max-width:100% !important;height:auto !important;font-family:virgil,noto serif sc,Georgia,serif !important}.mermaid-diagram svg text,.mermaid-diagram svg .label,.mermaid-diagram svg .nodeLabel,.mermaid-diagram svg .edgeLabel,.mermaid-diagram svg .messageText,.mermaid-diagram svg .actor text,.mermaid-diagram svg .participant text{fill:#1f1f1f !important;font-family:virgil,noto serif sc,Georgia,serif !important;font-size:15px !important;font-weight:500 !important}.dark .mermaid-diagram svg text,.dark .mermaid-diagram svg .label,.dark .mermaid-diagram svg .nodeLabel,.dark .mermaid-diagram svg .edgeLabel,.dark .mermaid-diagram svg .messageText,.dark .mermaid-diagram svg .actor text,.dark .mermaid-diagram svg .participant text{fill:#dadaeb !important}.mermaid-diagram svg .sequenceDiagram text{font-size:16px !important}.mermaid-diagram svg .actor{font-size:16px !important}.mermaid-diagram svg .messageText{font-size:15px !important}.mermaid-diagram svg .node rect,.mermaid-diagram svg .node circle,.mermaid-diagram svg .node ellipse,.mermaid-diagram svg .node polygon{stroke-width:2px !important}.mermaid-diagram svg{filter:drop-shadow(0 1px 3px rgba(0,0,0,8%))}.dark .mermaid-diagram{background:#1d1e20 !important;border-color:#444 !important;box-shadow:0 2px 8px rgba(0,0,0,.2) !important}@media(max-width:768px){.mermaid-diagram{padding:16px !important;margin:1.5em 0 !important}.mermaid-diagram svg text{font-size:14px !important}}.mermaid-diagram{opacity:0;animation:fadeIn .4s ease-out forwards}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}</style><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="复制";function s(){t.innerHTML="已复制！",setTimeout(()=>{t.innerHTML="复制"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

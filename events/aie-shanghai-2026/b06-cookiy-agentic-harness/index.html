@@ -1,0 +1,306 @@
+<!doctype html><html lang=zh dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Agentic Harness: Real-Time Audio and Video AI Interviews | Yousa Driven Development | YDD</title><meta name=keywords content><meta name=description content="AI 用户访谈的成本大头是受访者报酬，所以优化目标是每分钟洞察；他们用三类子 agent 级联、多路并发压延迟、历史坏案例做 benchmark，并坚持不做后训练。"><meta name=author content="Miss-you"><link rel=canonical href=https://yousali.com/events/aie-shanghai-2026/b06-cookiy-agentic-harness/><link crossorigin=anonymous href=/assets/css/stylesheet.e9701f6596f1d2794908288c989c553b9745777e956fe5fa333c6c08872568d4.css integrity="sha256-6XAfZZbx0nlJCCiMmJxVO5dFd36Vb+X6MzxsCIclaNQ=" rel="preload stylesheet" as=style><link rel=icon href=https://yousali.com/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://yousali.com/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://yousali.com/favicon-32x32.png><link rel=apple-touch-icon href=https://yousali.com/apple-touch-icon.png><link rel=mask-icon href=https://yousali.com/safari-pinned-tab.svg><meta name=theme-color content="#f4f3ee"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=zh href=https://yousali.com/events/aie-shanghai-2026/b06-cookiy-agentic-harness/><noscript><style>#theme-toggle,.top-link{display:none}</style></noscript><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel=stylesheet><link rel=stylesheet href=/css/site-header.min.09b7e4b1d83366c3dc209c6bfdda75ca026c173caa86b27ccd696b264f628be1db1f93c38f6b9cf11bff39b524fbac84.css integrity=sha384-CbfksdgzZsPcIJxr/dp1ygJsFzyqhrJ8zWlrJk9ii+HbH5PDj2uc8Rv/ObUk+6yE crossorigin=anonymous><script defer src=/js/site-header.min.fea1c179f14cfe36b0349eadbfc95ad84ef97a0f42347ba89447dabc900d624d1def3c4c5f7372fb0546c80b87ccf640.js integrity=sha384-/qHBefFM/jawNJ6tv8la2E75eg9CNHuolEfavJANYk0d7zxMX3Ny+wVGyAuHzPZA crossorigin=anonymous data-site-header data-default-theme=light></script><meta property="og:url" content="https://yousali.com/events/aie-shanghai-2026/b06-cookiy-agentic-harness/"><meta property="og:site_name" content="Yousa Driven Development | YDD"><meta property="og:title" content="Agentic Harness: Real-Time Audio and Video AI Interviews"><meta property="og:description" content="AI 用户访谈的成本大头是受访者报酬，所以优化目标是每分钟洞察；他们用三类子 agent 级联、多路并发压延迟、历史坏案例做 benchmark，并坚持不做后训练。"><meta property="og:locale" content="zh"><meta property="og:type" content="article"><meta property="article:section" content="events"><meta property="article:published_time" content="2026-11-05T15:10:00+08:00"><meta property="article:modified_time" content="2026-11-10T09:05:10+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Agentic Harness: Real-Time Audio and Video AI Interviews"><meta name=twitter:description content="AI 用户访谈的成本大头是受访者报酬，所以优化目标是每分钟洞察；他们用三类子 agent 级联、多路并发压延迟、历史坏案例做 benchmark，并坚持不做后训练。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"会议","item":"https://yousali.com/events/"},{"@type":"ListItem","position":2,"name":"AIE 上海 2026","item":"https://yousali.com/events/aie-shanghai-2026/"},{"@type":"ListItem","position":3,"name":"Agentic Harness: Real-Time Audio and Video AI Interviews","item":"https://yousali.com/events/aie-shanghai-2026/b06-cookiy-agentic-harness/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Agentic Harness: Real-Time Audio and Video AI Interviews","name":"Agentic Harness: Real-Time Audio and Video AI Interviews","description":"AI 用户访谈的成本大头是受访者报酬，所以优化目标是每分钟洞察；他们用三类子 agent 级联、多路并发压延迟、历史坏案例做 benchmark，并坚持不做后训练。","keywords":[],"articleBody":"据现场外部录音整理，未与本人录音对照。讲者是 Cookiy Labs 创始人，此前在 Instagram、腾讯、TikTok 工作；公司是总部在旧金山的美国公司，他说融资约 730 万美元。中文演讲，夹英文，无问答环节；最后一页话没说完就到了时间。\n一句话 AI 用户访谈的成本大头是给受访者的报酬，不是访谈员，所以优化目标是每分钟拿到的洞察（insight per minute），而不是模型成本。为此他们放弃了大小模型配合和端到端实时模型，改用\"判断、动作、回复\"三类子 agent 级联，用多路并发调用压延迟，用几千条历史坏案例做 benchmark、离线大模型复盘来迭代 harness，并坚持一年内不做后训练。\n论断 1. 成本在受访者，所以优化 insight per minute 用户访谈是很古老的生意：传统做法是线下多对一，主持人提问，业务方和一群 observer 坐在单向镜后观察、递追问。公司做的是把这套能力搬到线上。受访者要拿到不少报酬，才愿意老实分享一两个小时，所以他认为关键不是再压 AI 访谈员的成本，而是让 AI 尽量达到高效人类访谈员的水平。\n“所以我们优化的最终的指标叫做insight per minute，因为站在客户的视角上，他要用尽量少的钱买到尽量多的insight”\n他们尽量用最好最贵的模型，不太在意模型成本。 他自评目前可能只做到线下访谈一半的效果，没说怎么衡量。 2. 和 AI 客服的区别：看见人、多对一 技术栈和 AI 客服类似，是 VAD、STT、LLM、TTS 的管线，下一轮首字延迟要在 1.3 秒内。实时框架他点名了 Agora、LiveKit、Pipecat，说大同小异。不同之处在于 AI 要一边看受访者的脸，判断他是在开小差、玩手机还是认真回答，一边看他共享的屏幕追问，比如\"你刚才做了这个操作，能不能解释一下为什么\"。\n“他要能继续地呃，向这个AI，比如说塞个小纸条说，哎，刚才那个人回答这个问题的时候，我觉得非常有意思，你能不能再问一个问题”\n这里的\"他\"是坐在后面的 observer，AI 要实时接收他们递来的指令。 3. 大小模型配合和端到端实时模型都没走通 大小模型配合听上去很好，但在他们的场景里不行：大模型想清楚下一问该问什么、要不要跳过、是否该结束时，小模型早就聊到下一个话题了，而且大模型经常被小模型带偏。\n“然后很多时候大模型会被小模型带偏，你不管怎么调，这东西我们就是调不好。”\n他口头说谁能帮他们调好，愿意出 10 万美元。 端到端实时模型做不了屏幕共享、复杂的多模态输入，复杂指令遵循也做不到；他认为实时模型的 thinking 能力比较差。 4. 三类子 agent 级联，加并发调用 最后行得通的是把\"判断\"“下一步动作\"“具体回复\"拆成三大类子 agent，每类配一批最好、最快的模型。他说级联不太容易串信息，前两步可以单独做到很快。\n“同一个模型，你完全一样的那个输入去call它，它的那个那个latency是不一样的。我们因为成本不受限制，所以我可以同一个模型我就call五次，我就看谁最快”\n每一家模型都调五次，取最快的。他说模型偶尔输出的 JSON 格式不对、速度慢这类问题，都能这样暴力解决。 没给延迟或提速数字。他说级联效果\"可能\"比之前更好，没给对比数据。 5. 用历史坏案例做 benchmark，离线复盘迭代 “好的洞察\"没有一致定义，同一个问题问两个不同的用户研究员，他们的标准都不一样；有时团队觉得更好，客户不一定觉得更好。他们的办法是把历史上客户或团队自己觉得不好的场景收集起来，精确到某一问。\n“就是一个30分钟的访谈，其中在第15分钟、20秒的时候，人类回了一句话，然后AI问了那个问题，然后那个问题客户觉得你问的好像不太对。”\n他说大概积累了几千条这样的案例做成 benchmark，给大致权重、每次跑多遍，每次优化像打地鼠。 在线要在 1.3 秒内决定问什么，访谈结束后可以把整场 30 分钟到 1 小时的音频和文字交给 Claude Code 慢慢分析，找出问得不对的地方，再回去改实时 harness。 他把这叫作\"半自动 RSI”：有了 benchmark，又能自动找问题，就能自己转起来。他也说这很危险，容易优化到一个奇怪的局部最优。没说人在哪一步介入。 6. 砍 prompt，不做后训练 几个工程师英语不太好，所以用中文写 prompt。8000 字的 prompt 里很多指令互相冲突，尤其是相对小的模型，会变慢，还会出很多怪行为。\n“所以我们最后把prompt本身砍到大概1/3的时候，呃，速度变快，效果还变得更好。”\n没给速度和效果的数字。 他们坚持不做后训练：公司融的钱不多，做的是应用层，他认为未来一年 harness 还有大量空间，不需要自己 fine tune 或 post train 模型。他也承认观察到一些场景，不做后训练好像没办法改变模型的\"性格”。 7. 北美 B2B SaaS 里技术只占一小部分（未讲完） 最后一页他说，作为北美的 B2B SaaS 公司，技术在里面是很小的一部分，最差情况下可以给客户上人工（这处转写不清，疑为人工访谈）；接着提到去菲律宾找英语很好的人类访谈员做比较，话没说完就到了时间。\n存疑 最后一页没讲完，与菲律宾人类访谈员的成本比较是什么结论不清楚。 讲大小模型配合时，他举了\"GPT live\"和 Thinking Machines 的 interactive model 作参照，“GPT live\"具体指哪个产品没听清。 他说三类子 agent 的拆法和某个 decisions API 有关，具体指哪家产品没说清。 ","wordCount":"2267","inLanguage":"zh","datePublished":"2026-11-05T15:10:00+08:00","dateModified":"2026-11-10T09:05:10+08:00","author":{"@type":"Person","name":"Miss-you"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://yousali.com/events/aie-shanghai-2026/b06-cookiy-agentic-harness/"},"publisher":{"@type":"Organization","name":"Yousa Driven Development | YDD","logo":{"@type":"ImageObject","url":"https://yousali.com/favicon.ico"}}}</script></head><body id=top><header class=site-header><div class=site-header-inner><div class=site-brand-row><a class=site-brand href=/ accesskey=h>Yousa Driven Development | YDD</a><div class=site-controls><button type=button id=theme-toggle accesskey=t aria-label=切换明暗主题 title="切换明暗主题 (Alt + T)">
+<svg id="moon" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+</button>
+<a class=site-language-link href=/en/ lang=en hreflang=en aria-label=English>En</a></div></div><nav class=site-menu id=site-menu aria-label=主导航><ul><li><a class=site-menu-link href=/archives/>归档</a></li><li><a class=site-menu-link href=/tags/>标签</a></li><li><a class=site-menu-link href=/kb/>知识库</a></li><li><a class=site-menu-link href=/lab/>实验室</a></li><li><a class=site-menu-link href=/events/ aria-current=location>会议</a></li><li><a class=site-menu-link href=/tools/>工具</a></li><li><a class=site-menu-link href=/categories/>分类</a></li><li><a class=site-menu-link href=/index.xml>RSS</a></li><li><a class=site-menu-link href=https://github.com/Miss-you rel="noopener noreferrer">GitHub</a></li></ul></nav></div></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://yousali.com/>主页</a>&nbsp;»&nbsp;<a href=https://yousali.com/events/>会议</a>&nbsp;»&nbsp;<a href=https://yousali.com/events/aie-shanghai-2026/>AIE 上海 2026</a></div><h1 class=post-title>Agentic Harness: Real-Time Audio and Video AI Interviews</h1><dl class=event-meta><div><dt>场次</dt><dd>B06</dd></div><div><dt>讲者</dt><dd>Davin YC Dong</dd></div><div><dt>机构</dt><dd>Cookiy Labs</dd></div><div><dt>会场</dt><dd>AI 应用分会场</dd></div><div><dt>日期</dt><dd><time datetime=2026-11-05>2026-11-05</time></dd></div></dl></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>目录</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#一句话>一句话</a></li><li><a href=#论断>论断</a><ul><li><a href=#1-成本在受访者所以优化-insight-per-minute>1. 成本在受访者，所以优化 insight per minute</a></li><li><a href=#2-和-ai-客服的区别看见人多对一>2. 和 AI 客服的区别：看见人、多对一</a></li><li><a href=#3-大小模型配合和端到端实时模型都没走通>3. 大小模型配合和端到端实时模型都没走通</a></li><li><a href=#4-三类子-agent-级联加并发调用>4. 三类子 agent 级联，加并发调用</a></li><li><a href=#5-用历史坏案例做-benchmark离线复盘迭代>5. 用历史坏案例做 benchmark，离线复盘迭代</a></li><li><a href=#6-砍-prompt不做后训练>6. 砍 prompt，不做后训练</a></li><li><a href=#7-北美-b2b-saas-里技术只占一小部分未讲完>7. 北美 B2B SaaS 里技术只占一小部分（未讲完）</a></li></ul></li><li><a href=#存疑>存疑</a></li></ul></nav></div></details></div><div class=post-content><p>据现场外部录音整理，未与本人录音对照。讲者是 Cookiy Labs 创始人，此前在 Instagram、腾讯、TikTok 工作；公司是总部在旧金山的美国公司，他说融资约 730 万美元。中文演讲，夹英文，无问答环节；最后一页话没说完就到了时间。</p><h2 id=一句话>一句话<a hidden class=anchor aria-hidden=true href=#一句话>#</a></h2><p>AI 用户访谈的成本大头是给受访者的报酬，不是访谈员，所以优化目标是每分钟拿到的洞察（insight per minute），而不是模型成本。为此他们放弃了大小模型配合和端到端实时模型，改用"判断、动作、回复"三类子 agent 级联，用多路并发调用压延迟，用几千条历史坏案例做 benchmark、离线大模型复盘来迭代 harness，并坚持一年内不做后训练。</p><h2 id=论断>论断<a hidden class=anchor aria-hidden=true href=#论断>#</a></h2><h3 id=1-成本在受访者所以优化-insight-per-minute>1. 成本在受访者，所以优化 insight per minute<a hidden class=anchor aria-hidden=true href=#1-成本在受访者所以优化-insight-per-minute>#</a></h3><p>用户访谈是很古老的生意：传统做法是线下多对一，主持人提问，业务方和一群 observer 坐在单向镜后观察、递追问。公司做的是把这套能力搬到线上。受访者要拿到不少报酬，才愿意老实分享一两个小时，所以他认为关键不是再压 AI 访谈员的成本，而是让 AI 尽量达到高效人类访谈员的水平。</p><blockquote><p>&ldquo;所以我们优化的最终的指标叫做insight per minute，因为站在客户的视角上，他要用尽量少的钱买到尽量多的insight&rdquo;</p></blockquote><ul><li>他们尽量用最好最贵的模型，不太在意模型成本。</li><li>他自评目前可能只做到线下访谈一半的效果，没说怎么衡量。</li></ul><h3 id=2-和-ai-客服的区别看见人多对一>2. 和 AI 客服的区别：看见人、多对一<a hidden class=anchor aria-hidden=true href=#2-和-ai-客服的区别看见人多对一>#</a></h3><p>技术栈和 AI 客服类似，是 VAD、STT、LLM、TTS 的管线，下一轮首字延迟要在 1.3 秒内。实时框架他点名了 Agora、LiveKit、Pipecat，说大同小异。不同之处在于 AI 要一边看受访者的脸，判断他是在开小差、玩手机还是认真回答，一边看他共享的屏幕追问，比如"你刚才做了这个操作，能不能解释一下为什么"。</p><blockquote><p>&ldquo;他要能继续地呃，向这个AI，比如说塞个小纸条说，哎，刚才那个人回答这个问题的时候，我觉得非常有意思，你能不能再问一个问题&rdquo;</p></blockquote><ul><li>这里的"他"是坐在后面的 observer，AI 要实时接收他们递来的指令。</li></ul><h3 id=3-大小模型配合和端到端实时模型都没走通>3. 大小模型配合和端到端实时模型都没走通<a hidden class=anchor aria-hidden=true href=#3-大小模型配合和端到端实时模型都没走通>#</a></h3><p>大小模型配合听上去很好，但在他们的场景里不行：大模型想清楚下一问该问什么、要不要跳过、是否该结束时，小模型早就聊到下一个话题了，而且大模型经常被小模型带偏。</p><blockquote><p>&ldquo;然后很多时候大模型会被小模型带偏，你不管怎么调，这东西我们就是调不好。&rdquo;</p></blockquote><ul><li>他口头说谁能帮他们调好，愿意出 10 万美元。</li><li>端到端实时模型做不了屏幕共享、复杂的多模态输入，复杂指令遵循也做不到；他认为实时模型的 thinking 能力比较差。</li></ul><h3 id=4-三类子-agent-级联加并发调用>4. 三类子 agent 级联，加并发调用<a hidden class=anchor aria-hidden=true href=#4-三类子-agent-级联加并发调用>#</a></h3><p>最后行得通的是把"判断"&ldquo;下一步动作"&ldquo;具体回复"拆成三大类子 agent，每类配一批最好、最快的模型。他说级联不太容易串信息，前两步可以单独做到很快。</p><blockquote><p>&ldquo;同一个模型，你完全一样的那个输入去call它，它的那个那个latency是不一样的。我们因为成本不受限制，所以我可以同一个模型我就call五次，我就看谁最快&rdquo;</p></blockquote><ul><li>每一家模型都调五次，取最快的。他说模型偶尔输出的 JSON 格式不对、速度慢这类问题，都能这样暴力解决。</li><li>没给延迟或提速数字。他说级联效果"可能"比之前更好，没给对比数据。</li></ul><h3 id=5-用历史坏案例做-benchmark离线复盘迭代>5. 用历史坏案例做 benchmark，离线复盘迭代<a hidden class=anchor aria-hidden=true href=#5-用历史坏案例做-benchmark离线复盘迭代>#</a></h3><p>&ldquo;好的洞察"没有一致定义，同一个问题问两个不同的用户研究员，他们的标准都不一样；有时团队觉得更好，客户不一定觉得更好。他们的办法是把历史上客户或团队自己觉得不好的场景收集起来，精确到某一问。</p><blockquote><p>&ldquo;就是一个30分钟的访谈，其中在第15分钟、20秒的时候，人类回了一句话，然后AI问了那个问题，然后那个问题客户觉得你问的好像不太对。&rdquo;</p></blockquote><ul><li>他说大概积累了几千条这样的案例做成 benchmark，给大致权重、每次跑多遍，每次优化像打地鼠。</li><li>在线要在 1.3 秒内决定问什么，访谈结束后可以把整场 30 分钟到 1 小时的音频和文字交给 Claude Code 慢慢分析，找出问得不对的地方，再回去改实时 harness。</li><li>他把这叫作"半自动 RSI&rdquo;：有了 benchmark，又能自动找问题，就能自己转起来。他也说这很危险，容易优化到一个奇怪的局部最优。没说人在哪一步介入。</li></ul><h3 id=6-砍-prompt不做后训练>6. 砍 prompt，不做后训练<a hidden class=anchor aria-hidden=true href=#6-砍-prompt不做后训练>#</a></h3><p>几个工程师英语不太好，所以用中文写 prompt。8000 字的 prompt 里很多指令互相冲突，尤其是相对小的模型，会变慢，还会出很多怪行为。</p><blockquote><p>&ldquo;所以我们最后把prompt本身砍到大概1/3的时候，呃，速度变快，效果还变得更好。&rdquo;</p></blockquote><ul><li>没给速度和效果的数字。</li><li>他们坚持不做后训练：公司融的钱不多，做的是应用层，他认为未来一年 harness 还有大量空间，不需要自己 fine tune 或 post train 模型。他也承认观察到一些场景，不做后训练好像没办法改变模型的"性格&rdquo;。</li></ul><h3 id=7-北美-b2b-saas-里技术只占一小部分未讲完>7. 北美 B2B SaaS 里技术只占一小部分（未讲完）<a hidden class=anchor aria-hidden=true href=#7-北美-b2b-saas-里技术只占一小部分未讲完>#</a></h3><p>最后一页他说，作为北美的 B2B SaaS 公司，技术在里面是很小的一部分，最差情况下可以给客户上人工（这处转写不清，疑为人工访谈）；接着提到去菲律宾找英语很好的人类访谈员做比较，话没说完就到了时间。</p><h2 id=存疑>存疑<a hidden class=anchor aria-hidden=true href=#存疑>#</a></h2><ul><li>最后一页没讲完，与菲律宾人类访谈员的成本比较是什么结论不清楚。</li><li>讲大小模型配合时，他举了"GPT live"和 Thinking Machines 的 interactive model 作参照，&ldquo;GPT live"具体指哪个产品没听清。</li><li>他说三类子 agent 的拆法和某个 decisions API 有关，具体指哪家产品没说清。</li></ul></div><footer class=post-footer><p class=event-back><a href=/events/aie-shanghai-2026/>← 返回 AIE 上海 2026</a></p></footer><section class=comments-section id=comments><h2 class=comments-title>评论</h2><div class=giscus data-repo=Miss-you/miss-you.github.io data-repo-id="MDEwOlJlcG9zaXRvcnkzMDIxMjI0NjQ=" data-category=Announcements data-category-id=DIC_kwDOEgIF4M4C4Ala data-mapping=pathname data-strict=1 data-reactions-enabled=1 data-input-position=bottom data-lang=zh-CN></div></section><script>(()=>{const t=document.querySelector(".giscus");if(!t||t.dataset.loaded==="true")return;t.dataset.loaded="true";const n=()=>document.body.classList.contains("dark")?"dark":"light",e=document.createElement("script");e.src="https://giscus.app/client.js",e.async=!0,e.crossOrigin="anonymous",e.setAttribute("data-repo",t.dataset.repo),e.setAttribute("data-repo-id",t.dataset.repoId),e.setAttribute("data-category",t.dataset.category),e.setAttribute("data-category-id",t.dataset.categoryId),e.setAttribute("data-mapping",t.dataset.mapping),e.setAttribute("data-strict",t.dataset.strict),e.setAttribute("data-reactions-enabled",t.dataset.reactionsEnabled),e.setAttribute("data-emit-metadata","0"),e.setAttribute("data-input-position",t.dataset.inputPosition),e.setAttribute("data-theme",n()),e.setAttribute("data-lang",t.dataset.lang),t.appendChild(e);const s=()=>{const e=document.querySelector("iframe.giscus-frame");if(!e||!e.contentWindow)return;e.contentWindow.postMessage({giscus:{setConfig:{theme:n()}}},"https://giscus.app")},o=new MutationObserver(e=>{for(const t of e)t.type==="attributes"&&t.attributeName==="class"&&s()});o.observe(document.body,{attributes:!0,attributeFilter:["class"]})})()</script></article></main><footer class=footer><span>&copy; 2026 <a href=https://yousali.com/>Yousa Driven Development | YDD</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script type=module>
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  
+  
+  const isDarkMode = () => {
+    return document.body.classList.contains('dark');
+  };
+  
+  
+  const mermaidKeywords = [
+    'graph ', 'graph TB', 'graph TD', 'graph LR', 'graph RL', 'graph BT',
+    'flowchart ', 'flowchart TB', 'flowchart TD', 'flowchart LR', 'flowchart RL', 'flowchart BT',
+    'sequenceDiagram', 'classDiagram', 'stateDiagram', 'stateDiagram-v2',
+    'erDiagram', 'journey', 'gantt', 'pie', 'requirementDiagram',
+    'gitGraph', 'mindmap', 'timeline', 'sankey'
+  ];
+  
+  const isMermaidCode = (code) => {
+    const trimmed = code.trim();
+    return mermaidKeywords.some(keyword => trimmed.startsWith(keyword));
+  };
+  
+  
+  const getColors = () => {
+    if (isDarkMode()) {
+      return {
+        
+        bg: '#1d1e20',
+        surface: '#2d2e30',
+        border: '#444',
+        text: '#dadaeb',
+        secondary: '#9c9d9e',
+        line: '#9c9d9e',
+        
+        accent1: '#5a7a96',  
+        accent2: '#6b8e6b',  
+        accent3: '#b8a87c',  
+      };
+    }
+    
+    return {
+      bg: '#f4f3ee',        
+      surface: '#faf9f5',   
+      border: '#2c2c2c',    
+      text: '#1f1f1f',      
+      secondary: '#6c6c6c', 
+      line: '#4a4a4a',      
+      
+      accent1: '#8fb8d4',   
+      accent2: '#a8c6a8',   
+      accent3: '#d4c59a',   
+    };
+  };
+  
+  
+  if (!document.getElementById('mermaid-virgil-font')) {
+    const style = document.createElement('style');
+    style.id = 'mermaid-virgil-font';
+    style.textContent = `
+      @font-face {
+        font-family: "Virgil";
+        src: url("https://excalidraw.nyc3.cdn.digitaloceanspaces.com/fonts/Virgil.woff2") format("woff2");
+        font-display: swap;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  const initMermaid = () => {
+    const c = getColors();
+    
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      themeVariables: {
+        
+        fontFamily: '"Virgil", "Noto Serif SC", Georgia, serif',
+        fontSize: '16px',           
+        
+        
+        background: c.bg,
+        mainBkg: c.surface,
+        
+        
+        primaryColor: c.surface,
+        primaryTextColor: c.text,
+        primaryBorderColor: c.border,
+        
+        
+        secondaryColor: c.accent1,
+        tertiaryColor: c.accent2,
+        
+        
+        lineColor: c.line,
+        nodeBorder: c.border,
+        clusterBkg: c.bg,
+        clusterBorder: c.border,
+        
+        
+        textColor: c.text,
+        titleColor: c.text,
+        nodeTextColor: c.text,
+        labelColor: c.text,
+        
+        
+        edgeLabelBackground: c.bg,
+        
+        
+        actorBorder: c.border,
+        actorBkg: c.surface,
+        actorTextColor: c.text,
+        actorLineColor: c.border,
+        signalColor: c.line,
+        signalTextColor: c.text,
+        
+        
+        stateBorder: c.border,
+        stateBkg: c.surface,
+        
+        
+        cScale0: c.surface,
+        cScale1: c.accent1,
+        cScale2: c.accent2,
+        cScale3: c.accent3,
+        cScale4: c.surface,
+        cScale5: c.accent1,
+      },
+      
+      
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        curve: 'basis',
+        padding: 20,
+        nodeSpacing: 50,
+        rankSpacing: 60,
+      },
+      
+      
+      sequence: {
+        useMaxWidth: true,
+        diagramMarginX: 50,
+        diagramMarginY: 20,
+        actorMargin: 60,
+        width: 160,
+        height: 70,
+        boxMargin: 15,
+        boxTextMargin: 8,
+        noteMargin: 15,
+        messageMargin: 40,
+        mirrorActors: true,
+        bottomMarginAdj: 1,
+        rightAngles: false,
+        showSequenceNumbers: false,
+        
+        actorFontSize: '16px',
+        noteFontSize: '15px',
+        messageFontSize: '15px',
+      },
+      
+      
+      state: {
+        useMaxWidth: true,
+        padding: 15,
+        fontSize: '16px',
+      },
+      
+      
+      class: {
+        useMaxWidth: true,
+        fontSize: '15px',
+      },
+      
+      
+      er: {
+        useMaxWidth: true,
+        fontSize: '15px',
+      },
+      
+      
+      gantt: {
+        useMaxWidth: true,
+        fontSize: '14px',
+      },
+      
+      
+      look: 'handDrawn',
+    });
+  };
+  
+  const diagrams = new Map();
+  let painting = false;
+  let repaintRequested = false;
+
+  
+  
+  const repaintDiagrams = async () => {
+    if (diagrams.size === 0) return;
+    repaintRequested = true;
+    if (painting) return;
+    painting = true;
+    try {
+      while (repaintRequested) {
+        repaintRequested = false;
+        initMermaid();
+        const colors = getColors();
+        for (const [node, { code, wrapper }] of diagrams) {
+          if (!node.isConnected) {
+            diagrams.delete(node);
+            continue;
+          }
+          wrapper.style.background = colors.bg;
+          wrapper.style.borderColor = `${colors.border}30`;
+          node.removeAttribute('data-processed');
+          node.textContent = code;
+          try {
+            await mermaid.run({ nodes: [node] });
+          } catch (error) {
+            console.error('Mermaid error:', error);
+          }
+        }
+      }
+    } finally {
+      painting = false;
+    }
+  };
+
+  const renderMermaidDiagrams = async () => {
+    const allCodeBlocks = document.querySelectorAll('pre code');
+    const mermaidBlocks = [];
+    
+    allCodeBlocks.forEach(block => {
+      const code = block.textContent;
+      if (isMermaidCode(code)) {
+        mermaidBlocks.push(block);
+      }
+    });
+    
+    if (mermaidBlocks.length === 0) return;
+    
+    const c = getColors();
+    
+    for (const block of mermaidBlocks) {
+      const pre = block.parentElement;
+      const code = block.textContent.trim();
+      
+      
+      const wrapper = document.createElement('div');
+      wrapper.className = 'mermaid-diagram';
+      wrapper.style.cssText = `
+        margin: 2em 0;
+        padding: 24px;
+        background: ${c.bg};
+        border: 1px solid ${c.border}30;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        overflow-x: auto;
+      `;
+      
+      
+      const container = document.createElement('div');
+      container.style.cssText = `
+        display: flex;
+        justify-content: center;
+        min-width: fit-content;
+      `;
+      
+      const mermaidDiv = document.createElement('div');
+      mermaidDiv.className = 'mermaid';
+      mermaidDiv.textContent = code;
+      container.appendChild(mermaidDiv);
+      wrapper.appendChild(container);
+      
+      pre.parentNode.replaceChild(wrapper, pre);
+      diagrams.set(mermaidDiv, { code, wrapper });
+    }
+    await repaintDiagrams();
+  };
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderMermaidDiagrams);
+  } else {
+    renderMermaidDiagrams();
+  }
+  
+  
+  let timeout;
+  let previousDark = isDarkMode();
+  const observer = new MutationObserver((mutations) => {
+    if (!mutations.some(mutation => mutation.attributeName === 'class')) return;
+    const dark = isDarkMode();
+    if (dark === previousDark) return;
+    previousDark = dark;
+    clearTimeout(timeout);
+    timeout = setTimeout(repaintDiagrams, 100);
+  });
+  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+</script><style>.mermaid-diagram{font-family:virgil,noto serif sc,Georgia,serif}.mermaid-diagram .mermaid{display:flex;justify-content:center}.mermaid-diagram svg{max-width:100% !important;height:auto !important;font-family:virgil,noto serif sc,Georgia,serif !important}.mermaid-diagram svg text,.mermaid-diagram svg .label,.mermaid-diagram svg .nodeLabel,.mermaid-diagram svg .edgeLabel,.mermaid-diagram svg .messageText,.mermaid-diagram svg .actor text,.mermaid-diagram svg .participant text{fill:#1f1f1f !important;font-family:virgil,noto serif sc,Georgia,serif !important;font-size:15px !important;font-weight:500 !important}.dark .mermaid-diagram svg text,.dark .mermaid-diagram svg .label,.dark .mermaid-diagram svg .nodeLabel,.dark .mermaid-diagram svg .edgeLabel,.dark .mermaid-diagram svg .messageText,.dark .mermaid-diagram svg .actor text,.dark .mermaid-diagram svg .participant text{fill:#dadaeb !important}.mermaid-diagram svg .sequenceDiagram text{font-size:16px !important}.mermaid-diagram svg .actor{font-size:16px !important}.mermaid-diagram svg .messageText{font-size:15px !important}.mermaid-diagram svg .node rect,.mermaid-diagram svg .node circle,.mermaid-diagram svg .node ellipse,.mermaid-diagram svg .node polygon{stroke-width:2px !important}.mermaid-diagram svg{filter:drop-shadow(0 1px 3px rgba(0,0,0,8%))}.dark .mermaid-diagram{background:#1d1e20 !important;border-color:#444 !important;box-shadow:0 2px 8px rgba(0,0,0,.2) !important}@media(max-width:768px){.mermaid-diagram{padding:16px !important;margin:1.5em 0 !important}.mermaid-diagram svg text{font-size:14px !important}}.mermaid-diagram{opacity:0;animation:fadeIn .4s ease-out forwards}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}</style><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="复制";function s(){t.innerHTML="已复制！",setTimeout(()=>{t.innerHTML="复制"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
