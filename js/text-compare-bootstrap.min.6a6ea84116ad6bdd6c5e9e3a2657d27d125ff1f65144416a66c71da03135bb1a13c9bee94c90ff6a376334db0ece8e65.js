@@ -1,0 +1,1 @@
+(()=>{const e=()=>!!location.hash.startsWith("#v")&&(window.__shareHash=location.hash,history.replaceState(null,"",location.pathname+location.search),!0);e();const t=()=>{e()&&window.dispatchEvent(new Event("sharelink"))};window.addEventListener("popstate",t),window.addEventListener("hashchange",t)})()
