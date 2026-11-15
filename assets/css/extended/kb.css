@@ -128,6 +128,25 @@
 .kb-page .kb-article-header h1 { font: 700 clamp(26px, 3vw, 34px)/1.5 var(--font-serif); margin: 0 0 18px; }
 .kb-page .kb-article-layout { display: grid; grid-template-columns: minmax(0, 1fr) 140px; gap: 28px; }
 .kb-page .kb-article .post-content { margin: 0; font-size: 16px; }
+.kb-page .post-content details {
+  margin: 12px 0 22px;
+  padding: 12px 16px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-size: 15px;
+}
+.kb-page .post-content details summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 500;
+}
+.kb-page .post-content details[open] summary {
+  margin-bottom: 10px;
+}
+.kb-page .post-content details p:last-child {
+  margin-bottom: 0;
+}
 .kb-page .kb-takeaway { border-left: 2px solid var(--accent); background: var(--paper); padding: 16px 20px; margin-bottom: 30px; }
 .kb-page .kb-takeaway h2 { color: var(--accent); font-size: 12px; font-weight: 500; margin: 0 0 8px; }
 .kb-page .kb-takeaway p { font-size: 16px; color: var(--content); }
