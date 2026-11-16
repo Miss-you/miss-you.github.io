@@ -162,11 +162,11 @@ params:
     theme_color: "#f4f3ee"
     disableHLJS: false
     disableFingerprinting: false
-    favicon: "/favicon.ico"
-    favicon16x16: "/favicon-16x16.png"
-    favicon32x32: "/favicon-32x32.png"
-    apple_touch_icon: "/apple-touch-icon.png"
-    safari_pinned_tab: "/safari-pinned-tab.svg"
+    favicon: "/favicon.ico?v=2"
+    favicon16x16: "/favicon-16x16.png?v=2"
+    favicon32x32: "/favicon-32x32.png?v=2"
+    apple_touch_icon: "/apple-touch-icon.png?v=2"
+    safari_pinned_tab: "/safari-pinned-tab.svg?v=2"
 
   # Cover image settings
   cover:
