@@ -2,7 +2,9 @@
 title: "How Much New AI Compute Comes Online in 2027? Backing It Out from NVIDIA's Revenue"
 date: 2026-10-26T13:00:00+08:00
 draft: false
-lang: zh
+lang: en
+translationKey: 20261026-2027-ai-compute-gw-zh
+url: "/posts/20261026-2027-ai-compute-gw/"
 isCJKLanguage: false
 aliases: ["/en/posts/20261026-2027-ai-compute-gw/"]
 tags: ["NVIDIA", "AI Compute", "Data Center", "GPU", "Investing"]

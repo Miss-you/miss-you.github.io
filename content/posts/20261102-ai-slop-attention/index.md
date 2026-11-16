@@ -3,6 +3,7 @@ title: "读着有道理，已经说明不了什么"
 date: 2026-11-02T00:20:00+08:00
 draft: false
 lang: zh
+translationKey: 20261102-ai-slop-attention
 tags: ["AI", "注意力", "信息筛选"]
 categories: ["思维方式"]
 description: "现实能证明一件事发生过，却很难证明它为什么发生。一套保护注意力的筛选办法，以及我原来的想法错在哪。"

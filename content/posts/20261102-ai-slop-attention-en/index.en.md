@@ -2,7 +2,9 @@
 title: "Sounding Right Proves Nothing Now"
 date: 2026-11-02T00:15:00+08:00
 draft: false
-lang: zh
+lang: en
+translationKey: 20261102-ai-slop-attention
+url: "/posts/20261102-ai-slop-attention-en/"
 isCJKLanguage: false
 aliases: ["/en/posts/20261102-ai-slop-attention-en/"]
 tags: ["AI", "Attention", "Information Filtering"]

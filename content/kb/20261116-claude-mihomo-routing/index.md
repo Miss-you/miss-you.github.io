@@ -4,6 +4,7 @@ slug: claude-mihomo-routing
 date: 2026-11-16
 lastmod: 2026-11-16
 lang: zh
+outputs: [HTML, Markdown]
 topic: "工程实践"
 summary: 适用于 Mihomo（原 Clash.Meta）的 24 条 Claude 分流规则，涵盖官方核心域名、可选共享主机边界、入站 CIDR 方向及静态与实网验证方法。
 tags: [Claude, Mihomo, 网络排查]

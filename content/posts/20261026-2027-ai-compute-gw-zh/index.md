@@ -3,6 +3,7 @@ title: "2027 年到底新增多少 GW 算力：从英伟达收入倒推"
 date: 2026-10-26T13:05:00+08:00
 draft: false
 lang: zh
+translationKey: 20261026-2027-ai-compute-gw-zh
 tags: ["英伟达", "AI 算力", "数据中心", "GPU", "投资"]
 categories: ["投资"]
 description: "2027 年新增并真正通电的英伟达算力约 15 GW（IT 口径，合理区间 13–18 GW；电网侧约 18 GW），折合约 23 GW GB200 或 20 GW GB300。从英伟达收入和每 GW 价值量倒推，并用台积电产能、供应链和分析师预测交叉验证。"

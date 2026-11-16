@@ -3,6 +3,15 @@
 
 > {{ .Site.Params.description }} 涵盖 AI Coding 工具使用、Claude Code 深度实践、Agent 工程、以及软件开发方法论。作者：Yousa Li。网站：{{ .Site.BaseURL }}
 
+## Knowledge Base
+
+{{ with .Site.GetPage "/kb" -}}
+- [{{ .Title }}]({{ .Permalink }}){{ with .Description }}: {{ . }}{{ end }}
+{{- with .OutputFormats.Get "RSS" }}
+- [Knowledge Base RSS]({{ .Permalink }}): Updates to knowledge base notes
+{{- end }}
+{{- end }}
+
 ## Blog Posts
 {{ range where .Site.RegularPages "Section" "posts" }}
 - [{{ .Title }}]({{ .Permalink }}){{ with .Description }}: {{ . }}{{ end }}
@@ -10,6 +19,14 @@
 
 ## Optional
 
-- [RSS Feed]({{ "index.xml" | absURL }}): Full content RSS feed for all posts
-- [Tags]({{ "tags/" | absURL }}): Browse posts by topic
+{{- range .Translations }}
+{{- $languageName := .Language.LanguageName }}
+{{- with .OutputFormats.Get "LLMS" }}
+- [{{ $languageName }} site guide]({{ .Permalink }})
+{{- end }}
+{{- end }}
+{{- with .OutputFormats.Get "RSS" }}
+- [Blog RSS]({{ .Permalink }}): Updates to blog posts
+{{- end }}
+- [Tags]({{ "tags/" | absLangURL }}): Browse posts by topic
 - [Archives]({{ "archives/" | absURL }}): All posts in chronological order

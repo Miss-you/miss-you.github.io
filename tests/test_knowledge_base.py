@@ -2,6 +2,7 @@
 
 import json
 from html import unescape
+from html.parser import HTMLParser
 import os
 from pathlib import Path
 import re
@@ -13,6 +14,29 @@ import xml.etree.ElementTree as ET
 
 
 REPO = Path(__file__).resolve().parents[1]
+BASE_URL = "https://yousali.com"
+MIHOMO_ROUTE = "/kb/claude-mihomo-routing/"
+
+
+class PageLinks(HTMLParser):
+    def __init__(self, html):
+        super().__init__()
+        self.lang = None
+        self.links = []
+        self.feed(html)
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == "html":
+            self.lang = attrs.get("lang")
+        elif tag == "link":
+            self.links.append(attrs)
+
+    def hrefs(self, **attributes):
+        return [
+            link.get("href") for link in self.links
+            if all(link.get(name) == value for name, value in attributes.items())
+        ]
 
 
 class KnowledgeBaseAcceptance(unittest.TestCase):
@@ -46,7 +70,7 @@ class KnowledgeBaseAcceptance(unittest.TestCase):
             '## Reproduce\n\nEnglish body-only query.\n', encoding="utf-8",
         )
         kb.joinpath("acceptance-draft.md").write_text(
-            '---\ntitle: "UNPUBLISHED_KB_DRAFT"\nlang: zh\ndraft: true\n---\nDraft.\n',
+            '---\ntitle: "UNPUBLISHED_KB_DRAFT"\nlang: zh\ndraft: true\noutputs: [HTML, Markdown]\n---\nDraft.\n',
             encoding="utf-8",
         )
         cls.output = cls.root / "public"
@@ -100,6 +124,78 @@ class KnowledgeBaseAcceptance(unittest.TestCase):
         self.assertIn("Search knowledge base", page)
         self.assertIn("Independent knowledge acceptance entry", page)
         self.assertNotIn("独立知识验收条目", page)
+
+    def test_llms_index_discovers_the_language_local_knowledge_base_and_feed(self):
+        for prefix in ("", "en/"):
+            with self.subTest(prefix=prefix):
+                index = self.read(f"{prefix}llms.txt")
+                for entry in ("kb/", "kb/index.xml", "index.xml"):
+                    url = f"{BASE_URL}/{prefix}{entry}"
+                    self.assertIn(f"]({url})", index)
+                for target in re.findall(r"\]\(https://yousali\.com/([^)]*)\)", index):
+                    output = target + "index.html" if target.endswith("/") else target
+                    self.assertTrue((self.output / output).is_file(), f"Missing: {target}")
+
+    def test_posts_have_reciprocal_hreflang_and_keep_their_canonical_urls(self):
+        pairs = [
+            ("20261102-ai-slop-attention", "20261102-ai-slop-attention-en"),
+            ("20261026-2027-ai-compute-gw-zh", "20261026-2027-ai-compute-gw"),
+        ]
+        feed = ET.fromstring(self.read("en/index.xml"))
+        english_feed_links = [item.findtext("link") for item in feed.findall("channel/item")]
+        for zh_slug, en_slug in pairs:
+            paths = {"zh": f"/posts/{zh_slug}/", "en": f"/posts/{en_slug}/"}
+            for lang, route in paths.items():
+                with self.subTest(route=route):
+                    page = PageLinks(self.read(f"{route.lstrip('/')}index.html"))
+                    self.assertEqual(page.lang, lang)
+                    self.assertEqual(page.hrefs(rel="canonical"), [BASE_URL + route])
+                    for other_lang, other_route in paths.items():
+                        self.assertEqual(
+                            page.hrefs(rel="alternate", hreflang=other_lang),
+                            [BASE_URL + other_route],
+                        )
+            self.assertIn(BASE_URL + paths["en"], english_feed_links)
+            alias = self.read(f"en/posts/{en_slug}/index.html")
+            self.assertIn(f"url={BASE_URL}{paths['en']}", alias)
+        article = "posts/20261102-ai-slop-attention-en"
+        html = self.read(f"{article}/index.html")
+        for image in ("cover.en.png", "gall-law-post.en.png"):
+            with self.subTest(image=image):
+                asset = f"{article}/images/{image}"
+                self.assertIn("/" + asset, html)
+                self.assertEqual(
+                    (self.output / asset).read_bytes(),
+                    (REPO / "content" / asset).read_bytes(),
+                )
+
+    def test_mihomo_markdown_alternate_preserves_the_yaml_verbatim(self):
+        directory = MIHOMO_ROUTE.strip("/")
+        page = PageLinks(self.read(f"{directory}/index.html"))
+        self.assertEqual(
+            page.hrefs(rel="alternate", type="text/markdown"),
+            [BASE_URL + MIHOMO_ROUTE + "index.md"],
+        )
+        twin = self.read(f"{directory}/index.md")
+        self.assertTrue(twin.startswith("# Claude 分流规则：Mihomo 配置与验收\n"))
+        self.assertIn(BASE_URL + MIHOMO_ROUTE, twin)
+        source = (REPO / "content/kb/20261116-claude-mihomo-routing/index.md").read_text(
+            encoding="utf-8"
+        )
+        yaml_fence = r"(?m)^```yaml\n([\s\S]*?)^```$"
+        actual = re.findall(yaml_fence, twin)
+        self.assertEqual(actual, re.findall(yaml_fence, source))
+        self.assertEqual(len(actual), 1)
+        self.assertEqual(sum(line.startswith("- ") for line in actual[0].splitlines()), 24)
+
+    def test_markdown_output_is_opt_in(self):
+        entries = ["kb/index", "kb/nested/acceptance-probe/index", "en/kb/nested/acceptance-probe/index"]
+        for entry in entries:
+            with self.subTest(entry=entry):
+                page = PageLinks(self.read(f"{entry}.html"))
+                self.assertEqual(page.hrefs(rel="alternate", type="text/markdown"), [])
+                self.assertFalse((self.output / f"{entry}.md").exists())
+        self.assertFalse((self.output / "kb/acceptance-draft/index.md").exists())
 
     def test_lab_stays_available_and_animations_are_copied_verbatim(self):
         self.assertIn("Lab", self.read("lab/index.html"))
