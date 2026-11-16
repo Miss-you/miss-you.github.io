@@ -23,6 +23,9 @@ class PageLinks(HTMLParser):
         super().__init__()
         self.lang = None
         self.links = []
+        self.article_headings = []
+        self.heading = None
+        self.anchor = None
         self.feed(html)
 
     def handle_starttag(self, tag, attrs):
@@ -31,6 +34,22 @@ class PageLinks(HTMLParser):
             self.lang = attrs.get("lang")
         elif tag == "link":
             self.links.append(attrs)
+        elif tag == "h2" and "entry-hint-parent" in attrs.get("class", "").split():
+            self.heading = []
+            self.article_headings.append(self.heading)
+        elif tag == "a" and self.heading is not None:
+            self.anchor = [attrs.get("href"), ""]
+            self.heading.append(self.anchor)
+
+    def handle_data(self, data):
+        if self.anchor is not None:
+            self.anchor[1] += data
+
+    def handle_endtag(self, tag):
+        if tag == "a":
+            self.anchor = None
+        elif tag == "h2":
+            self.heading = None
 
     def hrefs(self, **attributes):
         return [
@@ -112,6 +131,18 @@ class KnowledgeBaseAcceptance(unittest.TestCase):
         links = [item.findtext("link") for item in ET.fromstring(self.read("index.xml")).findall("channel/item")]
         self.assertTrue(links)
         self.assertTrue(all("/posts/" in link for link in links))
+
+    def test_both_homepages_link_to_each_post_from_its_heading(self):
+        for home in ("index.html", "en/index.html"):
+            with self.subTest(home=home):
+                page = PageLinks(self.read(home))
+                self.assertTrue(page.article_headings, "No article headings found")
+                for links in page.article_headings:
+                    self.assertEqual(len(links), 1, "Expected one link in each article heading")
+                    href, title = links[0]
+                    self.assertTrue(title.strip(), "Expected visible text in the article link")
+                    self.assertTrue(href and href.startswith(BASE_URL + "/"), href)
+                    self.assertTrue((self.output / href.removeprefix(BASE_URL + "/") / "index.html").is_file(), href)
 
     def test_knowledge_feed_contains_nested_entries(self):
         feed = ET.fromstring(self.read("kb/index.xml"))

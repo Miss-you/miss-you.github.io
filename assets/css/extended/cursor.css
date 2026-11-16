@@ -106,6 +106,16 @@ body::after {
     font-weight: 700;
 }
 
+.entry-header .entry-title-link {
+    color: inherit;
+}
+
+.entry-title-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
 .post-entry .entry-content,
 .post-entry .entry-footer {
     font-family: var(--font-sans);
