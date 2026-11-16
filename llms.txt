@@ -2,14 +2,17 @@
 
 > 面向 AI 协作编程的实践手记 涵盖 AI Coding 工具使用、Claude Code 深度实践、Agent 工程、以及软件开发方法论。作者：Yousa Li。网站：https://yousali.com/
 
+## Knowledge Base
+
+- [知识库](https://yousali.com/kb/): 把零散的小知识，留在下次找得到的地方。
+- [Knowledge Base RSS](https://yousali.com/kb/index.xml): Updates to knowledge base notes
+
 ## Blog Posts
 
 - [读着有道理，已经说明不了什么](https://yousali.com/posts/20261102-ai-slop-attention/): 现实能证明一件事发生过，却很难证明它为什么发生。一套保护注意力的筛选办法，以及我原来的想法错在哪。
-- [Sounding Right Proves Nothing Now](https://yousali.com/posts/20261102-ai-slop-attention-en/): Reality can prove that something happened. Proving why is much harder. How I plan to filter AI slop, what was wrong with my old tests, and the 24 accounts I read.
 - [用 AI 做事，从「会不会」到「能不能」](https://yousali.com/posts/20261031-ai-sets-up-android-proxy/): 从给安卓配代理，到验证自动同步、重写这篇文章，我开始把注意力从自己会哪些操作，转向手边的资源能不能把事情做成。
 - [人定义「对」，AI 跑到「对」：用 AI 写需求三个月的复盘](https://yousali.com/posts/20261030-human-defines-right/): 一次线下分享的公开版：这一步的「对」，机器能不能自己检查？
 - [2027 年到底新增多少 GW 算力：从英伟达收入倒推](https://yousali.com/posts/20261026-2027-ai-compute-gw-zh/): 2027 年新增并真正通电的英伟达算力约 15 GW（IT 口径，合理区间 13–18 GW；电网侧约 18 GW），折合约 23 GW GB200 或 20 GW GB300。从英伟达收入和每 GW 价值量倒推，并用台积电产能、供应链和分析师预测交叉验证。
-- [How Much New AI Compute Comes Online in 2027? Backing It Out from NVIDIA's Revenue](https://yousali.com/posts/20261026-2027-ai-compute-gw/): About 15 GW of new NVIDIA compute (IT basis, range 13–18 GW; about 18 GW grid-side) powers on in 2027, equal to about 23 GW of GB200 or 20 GW of GB300. Derived from NVIDIA's revenue and revenue per GW, cross-checked against TSMC capacity, the supply chain and analyst forecasts.
 - [一文读懂 Harness Engineering：从 14 篇工程文章中，寻找那个让 AI 不再离经叛道的壳](https://yousali.com/posts/20260405-harness-engineering-guide/): 从 Anthropic、OpenAI、Cursor 三家头部公司的 14 篇工程文章出发，拆解 Harness Engineering 的三层架构：流程管控、并发调度、验证对抗，以及模型进步后的减法逻辑。
 - [你不是在选赛道，你是在选标签](https://yousali.com/posts/20260325-choosing-labels-not-tracks/): To B 还是 To C？这个问题本身就问错了。标签是沟通工具，不该替你做决策。
 - [为什么你读了100本书，生活却没什么变化？](https://yousali.com/posts/20260307-closed-loop-thinking/): 大多数人的努力只有输入没有输出，缺少反馈闭环。闭环不是把事做完，是让判断变准。先执行，再观测，用结果校准下一次判断。
@@ -54,7 +57,7 @@
 - [](https://yousali.com/posts/how-to-control-claude-to-write/)
 
 ## Optional
-
-- [RSS Feed](https://yousali.com/index.xml): Full content RSS feed for all posts
+- [English site guide](https://yousali.com/en/llms.txt)
+- [Blog RSS](https://yousali.com/index.xml): Updates to blog posts
 - [Tags](https://yousali.com/tags/): Browse posts by topic
 - [Archives](https://yousali.com/archives/): All posts in chronological order

@@ -2,13 +2,20 @@
 
 > 面向 AI 协作编程的实践手记 涵盖 AI Coding 工具使用、Claude Code 深度实践、Agent 工程、以及软件开发方法论。作者：Yousa Li。网站：https://yousali.com/
 
+## Knowledge Base
+
+- [Knowledge base](https://yousali.com/en/kb/): Small notes worth coming back to.
+- [Knowledge Base RSS](https://yousali.com/en/kb/index.xml): Updates to knowledge base notes
+
 ## Blog Posts
 
+- [Sounding Right Proves Nothing Now](https://yousali.com/posts/20261102-ai-slop-attention-en/): Reality can prove that something happened. Proving why is much harder. How I plan to filter AI slop, what was wrong with my old tests, and the 24 accounts I read.
+- [How Much New AI Compute Comes Online in 2027? Backing It Out from NVIDIA's Revenue](https://yousali.com/posts/20261026-2027-ai-compute-gw/): About 15 GW of new NVIDIA compute (IT basis, range 13–18 GW; about 18 GW grid-side) powers on in 2027, equal to about 23 GW of GB200 or 20 GW of GB300. Derived from NVIDIA's revenue and revenue per GW, cross-checked against TSMC capacity, the supply chain and analyst forecasts.
 - [Working with AI, or, The Amplifier of Thought](https://yousali.com/en/posts/20250719-working-with-ai-or-the-amplifier-of-thought/): The true value of AI isn't in its ability to think independently, but in how it amplifies and accelerates our own thinking. This article explores proper AI collaboration through a real example of writing a recommendation, and discusses the importance of thinking quality in the AI era.
 - [Hugo 文章目录管理教程](https://yousali.com/en/posts/20250715-hugo-tutorial/): 演示如何为每个Hugo文章创建独立目录，便于管理文章相关的图片和资源
 
 ## Optional
-
-- [RSS Feed](https://yousali.com/index.xml): Full content RSS feed for all posts
-- [Tags](https://yousali.com/tags/): Browse posts by topic
+- [中文 site guide](https://yousali.com/llms.txt)
+- [Blog RSS](https://yousali.com/en/index.xml): Updates to blog posts
+- [Tags](https://yousali.com/en/tags/): Browse posts by topic
 - [Archives](https://yousali.com/archives/): All posts in chronological order
