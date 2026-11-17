@@ -20,19 +20,27 @@ draft: false
 
 立正 Yuzheng Sun 在[《AI User 与 AI Builder 的 5 个差距》](https://www.superlinear.academy/c/ai-resources/ai-mastery)第 4 节建议分别明确规则存放处和工具读取路径，上述双文件结构正是把存放位置与读取入口拆开处理。
 
-## 为什么不用单文件或符号链接？
+## 三种方案怎么选？
 
-Codex 和 Cursor 原生读取 `AGENTS.md`。Claude Code 从 v2.1.277 起也支持原生读取 `AGENTS.md`，默认采用 `claude-md-or-agents-md` 模式。在此默认模式下，只要启动目录或任一上级目录存在 `CLAUDE.md`、`.claude/CLAUDE.md` 或本地未提交的 `CLAUDE.local.md`，Claude Code 就会跳过原生 `AGENTS.md` 兜底。用户全局 `~/.claude/CLAUDE.md` 不触发跳过。
+Codex 和 Cursor 原生读取 `AGENTS.md`。
 
-如果仓库只留 `AGENTS.md`，协作者一旦在本机放了 `CLAUDE.local.md` 记录个人配置，Claude Code 就会直接漏读仓库里的 `AGENTS.md`。在 `AGENTS.md` 同目录放一份写有 `@AGENTS.md` 的 `CLAUDE.md`，能让 Claude Code 显式导入公共规则，避开本地文件触发的跳过机制。[Claude Code 文档](https://code.claude.com/docs/en/memory#agentsmd)
+| 方案 | 实际做法 | 优势与适用场景 | 典型漏读场景 |
+| --- | --- | --- | --- |
+| 同目录 `CLAUDE.md` 导入 | `AGENTS.md` 存公共规则，同目录 `CLAUDE.md` 写裸 `@AGENTS.md` | 跨平台稳定，Claude 专属说明可独立追加 | `@AGENTS.md` 被反引号或代码围栏包裹会让导入失效。相对路径按 `CLAUDE.md` 所在目录计算 |
+| 原生兜底 | 仓库只放一份 `AGENTS.md`，靠新版 Claude Code 自动兜底读取 | 仅维护单文件，适合全员新版且无专属配置的新项目 | 依赖版本与默认模式，协作者本机未提交的 `CLAUDE.local.md` 会直接遮蔽兜底 |
+| 符号链接 | `AGENTS.md` 为真文件，执行 `ln -s AGENTS.md CLAUDE.md` | 不复制正文，适合统一开启符号链接的环境 | `core.symlinks=false` 检出成普通文件（临时仓复现仅含 9 字节目标文件名 `AGENTS.md`），专属说明也无法写在链接上独立维护 |
 
-如果存量仓库只留 `CLAUDE.md`，可以让 Codex 配置回退读取。需要仓库共享就写入受信任项目的 `.codex/config.toml` 顶层，仅个人使用就写入 `~/.codex/config.toml` 顶层。该配置键必须放在 TOML 顶层，放进 `[project]` 表会失效。同一目录一旦存在标准文件 `AGENTS.override.md` 或 `AGENTS.md`，Codex 仍会优先读取它们，不再回退读取 `CLAUDE.md`。[Codex AGENTS.md 文档](https://learn.chatgpt.com/docs/agent-configuration/agents-md)、[Codex 配置参考](https://learn.chatgpt.com/docs/config-file/config-reference)、[Codex Issue #22454](https://github.com/openai/codex/issues/22454)
+默认模式下，启动目录或任一上级目录存在 `CLAUDE.md`、`.claude/CLAUDE.md` 或 `CLAUDE.local.md`，Claude Code 就会跳过原生 `AGENTS.md` 兜底。用户全局 `~/.claude/CLAUDE.md` 不触发跳过。[Claude Code 规则文档](https://code.claude.com/docs/en/memory#agentsmd) 与 [Git 配置文档](https://git-scm.com/docs/git-config#Documentation/git-config.txt-coresymlinks)。
+
+若存量老项目暂时只留 `CLAUDE.md` 且只需打通 Codex，可在受信任项目的 `.codex/config.toml` 或个人 `~/.codex/config.toml` 顶层加上回退文件名。
 
 ```toml
 project_doc_fallback_filenames = ["CLAUDE.md"]
 ```
 
-如果改用 Git 符号链接 `CLAUDE.md -> AGENTS.md`，就无法单独追加 Claude Code 专属说明，还会受 `core.symlinks=false` 限制。在临时仓用 `git clone -c core.symlinks=false` 模拟检出，软链会退化成只有 9 字节 `AGENTS.md` 文本的普通文件。[Git 配置文档](https://git-scm.com/docs/git-config#Documentation/git-config.txt-coresymlinks)、[Claude Code 文档](https://code.claude.com/docs/en/memory#agentsmd)
+同一目录内 `AGENTS.override.md` 与 `AGENTS.md` 优先级仍高于回退文件。常见踩坑是把这行误塞进 `[project]` 等表下导致失效。[Codex 指令文件文档](https://learn.chatgpt.com/docs/agent-configuration/agents-md) 与 [配置说明](https://learn.chatgpt.com/docs/config-file/config-reference)。
+
+官方更新日志记录 2025 年 5 月 9 日 v0.2.107 加入 `CLAUDE.md` 通用的 `@path/to/file.md` 导入语法，此后便能借它引入 `AGENTS.md`。在官方仓库 issue #6235 中，2025 年 8 月 24 日已有用户贴出在 `CLAUDE.md` 里直接写 `@AGENTS.md` 的配置实例。Claude Code 直接发现 `AGENTS.md` 的原生兜底，则是在 2026 年 9 月 18 日发布的 v2.1.277 才正式新增。参考 [v0.2.107 更新记录](https://code.claude.com/docs/en/changelog#0-2-107)、[2025 年的使用记录](https://github.com/anthropics/claude-code/issues/6235#issuecomment-3217884068) 与 [v2.1.277 发布说明](https://github.com/anthropics/claude-code/releases/tag/v2.1.277)。
 
 ## 多包仓库如何按目录加载与验收？
 
