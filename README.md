@@ -16,6 +16,8 @@ hugo --minify --buildFuture
 
 ### 站点导航维护
 
+- 顶栏按读者要做的事组织：用「归档」按时间找文章，用「标签」按主题横跨文章浏览。新增顶栏入口前，写清读者要完成什么、现有入口为什么不够，以及目标页已有多少内容能支撑这个用途。同一用途只保留一个主入口。
+- 写文章时，优先复用已有标签；同义词和不同空格写法统一到一个名称，只有确实需要跨文章查找的主题才新增标签。「分类」可能与标签交叉，当前作为文章元数据保留；隐藏菜单项与下线页面分开处理，中英文的分类索引和旧链接继续可访问。
 - 菜单名称、顺序和目标只改 [config.yaml](config.yaml) 的 `languages.*.menu.main`。RSS 使用 `identifier: rss`，地址取该语言生成的订阅源。
 - 所有 Hugo 页面共用 [导航模板](layouts/partials/site-header.html) 和 [导航样式](assets/css/site-header.css)。页面内不再复制菜单或覆盖导航断点；语言切换优先使用当前页译文，缺失的栏目使用默认语言页面。
 - [公共资源入口](layouts/partials/site-header-assets.html) 加载本地资源。[外观脚本](assets/js/site-header.js) 只处理菜单滚动和 `pref-theme` 外观偏好。普通页面的主题点击仍由 PaperMod 页脚负责，避免绑定两次。

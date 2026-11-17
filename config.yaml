@@ -36,9 +36,6 @@ languages:
         - name: 工具
           url: tools/
           weight: 15
-        - name: 分类
-          url: categories/
-          weight: 20
         - name: RSS
           identifier: rss
           url: /index.xml
@@ -74,9 +71,6 @@ languages:
         - name: Tools
           url: tools/
           weight: 15
-        - name: Categories
-          url: categories/
-          weight: 20
         - name: RSS
           identifier: rss
           url: /index.xml

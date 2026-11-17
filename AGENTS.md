@@ -7,6 +7,12 @@
 - **Note on word counting**: `layouts/partials/post_meta.html` overrides the theme default to use `.CountWords` instead of `.WordCount`, providing better CJK (Chinese/Japanese/Korean) character counting.
 - The PaperMod theme is vendored inside `themes/` via submodules; run `git submodule update --init --recursive` after cloning.
 
+## 站点主导航
+
+- 适用于 `config.yaml` 的 `languages.*.menu.main` 和渲染主导航的共享模板。
+- **一个读者任务只留一个主入口。** 新增入口前，写清读者来做什么、现有入口哪里不够、目标页有没有足够内容。当前「归档」用于按时间找文章，「标签」用于按主题找文章。
+- 文章元数据和 Hugo 自动生成的索引页不自动进入主导航。移除菜单项时默认保留页面和旧链接；若要下线页面，单独评估链接兼容。修改菜单时核对中英文入口。配置和验收方式见 [站点导航维护](README.md#站点导航维护)。
+
 ## Build, Test, and Development Commands
 
 ### Quick Start
