@@ -7,12 +7,6 @@
 - **Note on word counting**: `layouts/partials/post_meta.html` overrides the theme default to use `.CountWords` instead of `.WordCount`, providing better CJK (Chinese/Japanese/Korean) character counting.
 - The PaperMod theme is vendored inside `themes/` via submodules; run `git submodule update --init --recursive` after cloning.
 
-## 站点主导航
-
-- 适用于 `config.yaml` 的 `languages.*.menu.main` 和渲染主导航的共享模板。
-- **一个读者任务只留一个主入口。** 新增入口前，写清读者来做什么、现有入口哪里不够、目标页有没有足够内容。当前「归档」用于按时间找文章，「标签」用于按主题找文章。
-- 文章元数据和 Hugo 自动生成的索引页不自动进入主导航。移除菜单项时默认保留页面和旧链接；若要下线页面，单独评估链接兼容。修改菜单时核对中英文入口。配置和验收方式见 [站点导航维护](README.md#站点导航维护)。
-
 ## Build, Test, and Development Commands
 
 ### Quick Start
@@ -50,14 +44,15 @@ These scripts help catch common issues like missing `lang` parameters which caus
 - Treat each substantive Wiki entry as one concrete question or item. Prefer a brief personal-practice section that records the author's situation, action, and observed result or evidence, with date and conditions when known. This is a flexible writing convention, not a rigid heading or mechanical template; navigation and maintenance guides may adapt it to their purpose.
 - Base practice details on the user's account or verifiable material. Attribute subjective impressions to the author; do not invent dates, measurements, outcomes, or claim that a proposal was tested. If essential practice details are missing, ask targeted questions or explicitly mark the gap; keep unverified new content in draft when a verified practice is required and unavailable; do not unpublish an existing page for that reason.
 - For turning rough user notes into a new or updated knowledge-base entry, use the `writing-wiki-from-practice` skill in `.codex/skills/writing-wiki-from-practice/SKILL.md` when available, and follow the prose review workflow below.
-- For prose under `content/kb/`, use the recommendations in the personal knowledge base's [`2026-10-26-现成写作skill评估.md`](../my-obsidian/docs/research/2026-10-26-现成写作skill评估.md): apply [qu-ai-wei](https://github.com/LifelongLazyLearner/qu-ai-wei/blob/HEAD/SKILL.md) for structure and language, then finish with [lieflat-less-ai-tone](https://github.com/larashero3-dotcom/lieflat-less-ai-tone/blob/HEAD/SKILL.md). Read the current official skill and necessary references; the research note is guidance, not a substitute for current source files.
-- Between those two passes, apply the existing local `essay-phase3` workflow in order: `writing-5-no-preach`, `writing-6-style`, `writing-7-trim`, and `writing-8-rhythm` (under `~/.codex/skills/`).
-- Also apply the personal knowledge base's [`reducing-reading-fatigue`](../my-obsidian/.agents/skills/reducing-reading-fatigue/SKILL.md), including its local `scripts/fatigue_scan.py` and `references/catalog.md`, before final cleanup. Define the reader and check the whole text as well as individual sentences; reducing reading burden is distinct from removing AI writing patterns. Do not impose a report outline on a short tutorial.
+- For new reader-facing entries and substantive revisions, use this repository's [writing-workflows](.agents/skills/writing-workflows/SKILL.md) and [project configuration](kb/writing-workflows.md). It includes pinned local editing rules and prose scanners. Argon via Antigravity CLI writes and revises the prose, prompts, exercises, and explanations. Use independent fresh-context reviewers for fact checking and cold reading, and report unavailable checks accurately.
+- For the full discussion → local knowledge note → public blog workflow, use this repository's [thinking-to-knowledge](.agents/skills/thinking-to-knowledge/SKILL.md). Read any private repository mapping from ignored local configuration. The public repository must remain usable without a particular sibling repository or globally installed writing skills.
+- Every analysis in that workflow must actually query lizheng MCP and read relevant original passages. All prose generation and revision must actually use agy. If either is unavailable, report the incomplete stage and obtain explicit user agreement before substituting another source or writer.
+- Apply the pinned MIT-licensed qu-ai-wei text, author-voice guidance, reading-burden review, and final cleanup through the project workflow. Its local resources replace the unavailable global essay-phase3 steps and external voice rewrite service. The current lieflat-less-ai-tone release adds script/approval steps and a noncommercial license, so evaluate it separately only when requested. Preserve protected text and evidence strength; short tutorials should stay proportionate to the question.
 - Keep quoted prompts and rules, code, front matter, URLs, image references, facts, and technical instructions accurate; preserve user-specified wording verbatim. Adapt trimming and punctuation to the content, and do not invent personal experience.
-- Prefer factual accuracy and readability over deletion quotas, blanket punctuation bans, artificial rhythm, or AI detector scores. For third-party skills, read source text only; do not run third-party scripts or permanently install skills without explicit user authorization. If a skill, reference, or local path is unavailable, report the gap and use the available local workflow without claiming to have used the missing source.
+- Prefer factual accuracy and readability over deletion quotas, blanket punctuation bans, artificial rhythm, or AI detector scores. The reviewed prose scanners already vendored in this project may run as documented in kb/writing-workflows.md. For newly fetched third-party skills, read source text only; do not execute their scripts or permanently install them without user authorization. If a skill, reference, or local path is unavailable, report the gap and use the available local workflow without claiming to have used the missing source.
 
 ## Testing Guidelines
-- No automated test suite exists; validate changes with `hugo server` for visual QA and `hugo --minify` before committing.
+- Use the existing tests under `tests/` and the current CI workflow. Knowledge entries follow kb/README.md; validate with Hugo and inspect the rendered page before committing. UI changes also need the relevant browser checks.
 - When editing templates or CSS, test both light/dark modes and EN/ZH routes to avoid regressions.
 - **Verify word count**: After adding a new post, check that the meta line shows reasonable numbers (e.g., "14 min · 6500 字" for Chinese, not "1 min · 131 words"). If incorrect, ensure `lang` is set in front matter.
 

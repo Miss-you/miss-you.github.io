@@ -2,6 +2,8 @@
 
 入口：`/kb/`，英文入口：`/en/kb/`。正文放在 `content/kb/`，与博客共用 Hugo 和 GitHub Pages。
 
+从讨论到本地笔记再到博客条目，使用项目技能 [thinking-to-knowledge](../.agents/skills/thinking-to-knowledge/SKILL.md)。本仓库可独立运行的 [写作配置](writing-workflows.md) 指向项目内规则与扫描器；私人知识库位置只放在忽略提交的本机配置。
+
 ## 最简单的新增方式
 
 新增 `content/kb/YYYYMMDD-my-note.md`，填好 front matter，再写普通 Markdown：

@@ -17,3 +17,5 @@ static/assets/text-compare/
 layouts/partials/generated/text-compare/
 playwright-report/
 test-results/
+# Private mapping to the author's separate knowledge repository
+kb/knowledge-pipeline.local.md

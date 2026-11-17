@@ -1,0 +1,317 @@
+"""Rule definitions, banned lexicon, and regex patterns for prose linting."""
+
+from __future__ import annotations
+
+import re
+
+CHECK_ORDER = [
+    "em_dash",
+    "quotes",
+    "bracket_gloss",
+    "eval_label",
+    "polarity",
+    "meta_preamble",
+    "not_x_but_y",
+    "when_clause",
+    "banned_word",
+    "number_density",
+    "single_sentence_paragraph",
+    "embedded_links",
+    "bare_url",
+    "english_density",
+    "repeated_url",
+    "domain_anchor",
+    "h2_count",
+    "title_book_marks",
+    "bei_passive",
+    "passive_parallelism",
+    "char_count",
+]
+
+HARD_ZERO_CHECKS = {
+    "em_dash",
+    "bracket_gloss",
+    "eval_label",
+    "polarity",
+    "meta_preamble",
+    "not_x_but_y",
+    "when_clause",
+    "banned_word",
+    "title_book_marks",
+    "bare_url",
+    "passive_parallelism",
+}
+
+BANNED_WORDS: tuple[str, ...] = (
+    # hollow evaluation / throat-clearing
+    "值得关注",
+    "值得一提",
+    "值得注意",
+    "值得一读",
+    "意义重大",
+    "深刻变化",
+    "深入探讨",
+    "毫无疑问",
+    "不言而喻",
+    "至关重要",
+    # AI-slop growth / war / drama metaphors
+    "长出来",
+    "叙事弧线",
+    "叙事弧",
+    "奠定基础",
+    "为后续奠定",
+    "疯狂发版",
+    "一地鸡毛",
+    "竞赛才刚刚开始",
+    "范式转移",
+    "闭眼编",
+    "击穿",
+    "打穿",
+    "拆解",
+    "收口",
+    "生长",
+    "赋能",
+    "颠覆性",
+    "颠覆",
+    "结构性",
+    "很稳",
+    "更稳",
+    "卡点",
+    # worn shorthand metaphors & theatrical drama tropes readers shouldn't be shown
+    "撞上两堵墙",
+    "撞到两堵墙",
+    "两堵墙",
+    "沦为摆设",
+    "无人问津",
+    "僵尸项目",
+    "生死线",
+    "铁律",
+    "闹笑话",
+    "带进沟里",
+    "后背发凉",
+    "尺子",
+    "撑破",
+    "撑不住",
+    "算账",
+    "第一刀",
+    "第二刀",
+    "第三刀",
+    "这三刀",
+    "三刀",
+    "切一刀",
+    "三次切割",
+    # English "cannot stand / stand up to scrutiny" calques
+    "站不住脚",
+    "站得住脚",
+    "站不住",
+    "站得住",
+    # attribution hedges: the article is the author's view; state judgments directly
+    "按我们的理解",
+    "在我们的理解",
+    "我们的理解是",
+    "按我们的推断",
+    "在我们看来",
+    "我们认为",
+    "我们觉得",
+    # bare 值得 (after longer 值得* forms above)
+    "值得",
+    # scaffold phrases often left in body
+    "这意味着",
+    "从这个角度看",
+    "需要注意的是",
+    "核心要素",
+    "核心约束",
+)
+
+RULES: dict[str, str] = {
+    "em_dash": (
+        "COMMUNICATION.md / external prose：不用破折号（—— / —）做情绪停顿或补成分隔；"
+        "改用逗号、冒号、分句或拆成两句。\n"
+        "→ 下列每一处是否在做停顿/补充？若是，改掉；若是代码/原文引用里的字符，可保留并说明。"
+    ),
+    "quotes": (
+        "COMMUNICATION.md：不用引号包裹普通概念词（除非绝对有歧义）。"
+        "external writing 纠正模式：只有直接引用他人原话才用引号；概念提述、伪强调、拿腔拿调一律去掉。\n"
+        "→ 下列每一处是否是直接引语？不是则去掉引号。"
+    ),
+    "bracket_gloss": (
+        "bestpractice_external_prose.md §5：括号补译不是术语解释。"
+        "除正式全称、缩写展开、原文引语或确有检索价值的首次名称外，"
+        "不用「中文（English）」或「English（中文释义）」。"
+        "选一个正文称呼，让后续动作解释它。\n"
+        "→ 下列是否词典式中英双写？删掉括号后意义不变就直接删；删后不懂则重写关系，不要留词条。"
+    ),
+    "eval_label": (
+        "COMMUNICATION.md：去掉「很+形容词」评价标签（如「很直接：」「很清晰：」）。"
+        "删词测试：删标签后信息不减，就让事实直接开头。\n"
+        "→ 下列是否自我评价式引导？是则删标签或改成可测量事实。"
+    ),
+    "polarity": (
+        "COMMUNICATION.md / bestpractice_external_prose.md：去极化与去剧烈修辞。"
+        "避免「这根本不是」「绝不」「死死锁在」「残酷现实」「根本无法」「极其典型」等。"
+        "诊断改法：去掉极性修饰，用中性事实与利益边界说话。\n"
+        "→ 下列极性/戏剧化措辞能否改成中性表述？"
+    ),
+    "meta_preamble": (
+        "COMMUNICATION.md：零元评论铺垫。不要在句首/段首宣布自己正在干什么"
+        "（「具体来说」「接下来我们看」「需要重点说明的是」）。直接进入内容。\n"
+        "→ 下列是否元评论脚手架？是则删掉引导，直接写内容。"
+    ),
+    "not_x_but_y": (
+        "external writing 高频纠正：少用模板化「不是 X，而是 Y」。"
+        "它常制造假对立与翻译腔。\n"
+        "→ 下列是否可改成直接陈述事实/取舍，而不走「不是…而是…」句式？"
+    ),
+    "when_clause": (
+        "COMMUNICATION.md / external prose / 用户纠正：避免英文直译从句「当……时」「在……的时候」。"
+        "这类句式带有明显的翻译腔，损害中文叙述的自然连贯与呼吸感。\n"
+        "→ 下列每一处是否为「当……时 / 在……的时候」翻译腔句式？是则改用直接陈述句、动词前置或顺引句式。"
+    ),
+    "banned_word": (
+        "external prose / COMMUNICATION / 晨报与 AGY writer 稳定禁词表："
+        "空评价（值得*、意义重大）、战争/生长隐喻（击穿、打穿、拆解、长出来、生长、收口、闭眼编）、"
+        "空架子名词（结构性、叙事弧线、奠定基础、赋能、范式转移、颠覆）、"
+        "套路比喻（尺子、撑破、撑不住、算账）、"
+        "口语表演（疯狂发版、一地鸡毛、很稳；单字「稳」作评价一律禁用，稳定、稳态、平稳除外；单字「硬」同理，硬件、硬盘、硬编码、硬币除外）、脚手架（这意味着、从这个角度看）、归属式限定（按我们的理解、在我们看来、我们认为、我们觉得：文章本来就是作者的观点，判断直接陈述，不确定性用内容交代）。\n"
+        "→ 下列命中是否 AI 腔/空修辞？是则改成具体动作、事实或中性表述；"
+        "若是不可替代的技术本义（如生物学「生长」），保留并在自查里写明理由。"
+    ),
+    "number_density": (
+        "用户纠正（2026-10-03）：数字高浓度罗列推高每段认知负担，读者会直接跳过——"
+        "它看起来有内容，实际把判断让位给了记数。单段数字 token 触发线已收紧到 5，"
+        "连续 2 段各 ≥3 也触发；stats 另给出全文数字总量与每千字密度供 CI 观察。\n"
+        "默认改法是着眼 high-level intuition 而非技术细节：一段只保留 1-2 个承担因果"
+        "或对比直觉的数字，其余数字三选一处理——归组配因果、降级为约数（如「几块卡跑两天」）、"
+        "或移入表格/材料清单。判断数字去留的标准：删掉后段落判断是否依然成立。\n"
+        "→ 下列每段是否保留超过直觉承载所需的数字？按上述三法压缩；"
+        "确为逐项核对所需（账单明细、对照表）时保留并在自查里写明理由。"
+    ),
+    "single_sentence_paragraph": (
+        "用户高频纠正（>50% 写作 session）：不要大量自然段只有一句话；"
+        "按语义逻辑合理合并，不必 aggressive，但不要说明书式单句段连排。"
+        "COMMUNICATION.md：句子有呼吸，自然过渡；不要把自然的一段切成连续说明书短句。\n"
+        "→ 下列单句段能否与相邻段合并，或补足成有呼吸的自然段？"
+    ),
+    "embedded_links": (
+        "workflow_external_writing / 用户纠正：事实与来源应做成正文 Markdown embedded link"
+        "（`[锚文本](url)`），方便读者核查与溯源；不要只在文末堆链接清单，也不要漏掉来源 URL。"
+        "对外文章要求至少有 3 个以上的行内嵌入链接。\n"
+        "→ 当前正文 Markdown 行内链接少于 3 个，请从 source_contract 补充正文行内嵌入链接。"
+    ),
+    "english_density": (
+        "用户纠正：正文是中文文章。单段英文词过多，说明英文引文墙压过了中文判断。"
+        "长英文引文压成中文转述 + 短引文（一句话以内、承重才留）；英文术语首次出现给中文称呼，后续统一用中文；"
+        "品牌名、通用借词（token、PR）、文件名可以保留英文。\n"
+        "→ 下列段落能否把英文压成中文转述 + 短引文？"
+    ),
+    "repeated_url": (
+        "用户纠正：同一来源 URL 只在首次出现时给嵌入链接，之后用文字指代（更新日志 / 论坛帖 / 官方文档）；"
+        "不另设独立的参考资料来源章节，需要的来源一律行内嵌入。重复挂链接读起来像脚注堆砌。\n"
+        "→ 下列重复出现的链接能否改成文字指代？"
+    ),
+    "domain_anchor": (
+        "用户纠正：所有链接用嵌入形式 `[中文标签](url)`，锚文本是中文标签或判断句；"
+        "不用域名或 URL 当锚文本（`[cursor.com/blog/x](...)` 读起来就是贴了个 URL）。\n"
+        "→ 下列链接的锚文本能否改成中文标签或判断句，如 [官方发布博客](url)？"
+    ),
+    "bare_url": (
+        "external writing：来源应写成 `[锚文本](url)` embedded link，避免正文裸 URL。\n"
+        "→ 下列裸 URL 能否改成带锚文本的 Markdown 链接？"
+    ),
+    "h2_count": (
+        "workflow_external_writing：正文的 H2 章节数量建议最多 4 个；"
+        "如果 H2 章节超过 4 个，内容容易切得太碎，请合理合并或精简章节。"
+        "多事件简报/堆叠体裁可在自查中说明理由保留。\n"
+        "→ 当前 H2 数量是否超过 4 个？如超过请做合并，或在自查中写明体裁理由。"
+    ),
+    "title_book_marks": (
+        "用户纠正：标题不要用书名号《》。\n"
+        "→ H1/标题中的书名号是否应去掉？"
+    ),
+    "bei_passive": (
+        "COMMUNICATION.md：主动语态，减少被动。避免英文直译「被…」。"
+        "只要去掉「被」仍然通顺，就去掉。单个「被」字句不是绝对禁用。\n"
+        "→ 下列含「被」的句子去掉「被」是否仍通顺？通顺则改主动。"
+    ),
+    "passive_parallelism": (
+        "COMMUNICATION.md / bestpractice_external_prose.md：中文不写英文式的被动排比"
+        "（passive parallelism）。「能力被 agent 调用、被 agent 组装、被 agent 运营」"
+        "「这些工具被团队使用、被客户验证」这类连续「被」字排比会让读者一直猜动作的主语。"
+        "单个「被」字句不是绝对禁用；连续 ≥3 个「被」或用顿号串起的「被…、被…」一律改。"
+        "诊断改法：让动作的主语回到句首，改成主动句："
+        "「agent 可以调用公司的能力、组装公司的能力、运营公司」；"
+        "「团队使用这些工具，客户验证它们，平台负责分发」。\n"
+        "→ 下列被动排比能否改成主语明确的主动句？"
+    ),
+    "char_count": (
+        "用户纠正：外部分析长文 CJK 汉字字数要求在 2000 字以上（建议 2500 字以上）。"
+        "若字数少于 2000 字，必须与用户确认是否有明确要求允许短篇；"
+        "如无明确例外授权，必须补充细节与机制至 2000–2500 字以上。\n"
+        "→ 当前字数少于 2000 字，请确认用户是否明确允许短篇；若未明确允许，请补充深度与承重证据至 2500 字以上。"
+    ),
+}
+
+EM_DASH_RE = re.compile(r"——|—")
+QUOTE_RE = re.compile(
+    r"“[^”]{0,80}”|「[^」]{0,80}」|『[^』]{0,80}』|\"[^\"\n]{0,80}\""
+)
+BRACKET_GLOSS_RE = re.compile(
+    r"(?:"
+    r"[\u4e00-\u9fff]{1,30}[ \t]*[（(][ \t]*[A-Za-z][A-Za-z0-9 +/\-_.]{1,40}[ \t]*[）)]"
+    r"|"
+    r"[A-Za-z][A-Za-z0-9 +/\-_.]{1,40}[ \t]*[（(][ \t]*[\u4e00-\u9fff][^）)]{0,30}[）)]"
+    r")"
+)
+EVAL_LABEL_RE = re.compile(r"很[\u4e00-\u9fff]{1,6}[：:]")
+POLARITY_RE = re.compile(
+    r"这根本不是|根本不是|根本无法|绝不是|绝不意味着|绝不取决于|绝不|"
+    r"绝对不是|绝对不能|死死锁|极其典型|极其|极致的|极端的|"
+    r"无比|残酷|灾难来得|一场灾难"
+)
+META_PREAMBLE_RE = re.compile(
+    r"具体来说|接下来我们看|接下来看|需要重点说明的是|需要指出的是|"
+    r"总而言之|综上所述|下面我们来看|首先需要明确"
+)
+NOT_X_BUT_Y_RE = re.compile(r"不是[^，。；\n]{0,20}，而是")
+WHEN_CLAUSE_RE = re.compile(r"当[^，。！？\n]{2,30}?[时候]|在[^，。！？\n]{2,30}?时候")
+# 单字「稳」作评价用（做稳、求稳、稳住）一律禁用；「稳定」「稳态」「平稳」是正常词，放行。
+STANDALONE_WEN_PATTERN = r"(?<!平)稳(?![定态])"
+# 单字「硬」作评价用（硬理由、硬门槛、硬核）一律禁用；硬件、硬盘、硬编码、硬币是正常词，放行。
+STANDALONE_YING_PATTERN = r"硬(?![件盘编币])"
+BANNED_WORD_RE = re.compile(
+    "|".join(re.escape(w) for w in BANNED_WORDS)
+    + "|" + STANDALONE_WEN_PATTERN
+    + "|" + STANDALONE_YING_PATTERN
+)
+BEI_RE = re.compile(r"被[\u4e00-\u9fff]{1,12}")
+# 被动排比检测：排除「被动」这类元讨论，只看真正的「被」字标记。
+PASSIVE_TOKEN_RE = re.compile(r"被(?!动)")
+PASSIVE_CHAIN_MAX_GAP = 30  # 两个「被」之间超过这个长度就视为不同子句，不连成排比
+MD_LINK_RE = re.compile(r"(?<!!)\[([^\]]*)\]\(([^)]+)\)")
+MD_IMAGE_RE = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
+BARE_URL_RE = re.compile(r"(?<!\()(?<!\]\()https?://[^\s)\]>\"']+")
+
+# Number-density (laundry list) detection: any Arabic numeral run or CJK numeral
+# used as data. Matches integers, decimals, percentages, and common unit pairs.
+NUMBER_TOKEN_RE = re.compile(
+    r"\d+(?:[.,]\d+)?"
+)
+
+# Number-density thresholds per paragraph. 2026-10-03 用户纠偏：技术长文数字密集段
+# 是认知负担信号，阈值收紧，并新增全文总量观察（numbers_total / numbers_per_1000_cjk）。
+NUMBER_DENSITY_PARA_MIN_NUMBERS = 5  # single paragraph with >= 5 numbers → candidate
+NUMBER_DENSITY_WINDOW_PARAS = 2  # >= 2 consecutive prose paragraphs
+NUMBER_DENSITY_WINDOW_MIN_NUMBERS = 3  # each with >= 3 numbers
+
+# English density / link discipline (REVIEW-level)
+ENGLISH_WORD_RE = re.compile(r"[A-Za-z][A-Za-z'’\-]*")
+ENGLISH_DENSITY_THRESHOLD = 20  # English words in one prose paragraph, link URLs excluded
+REPEATED_URL_THRESHOLD = 2  # first inline mention + one entry in the closing source list
+DOMAIN_ANCHOR_RE = re.compile(r"[A-Za-z0-9.-]+\.[a-z]{2,}(/[^\s)]*)?", re.IGNORECASE)
+
+H1_RE = re.compile(r"^#\s+(.+)$", re.M)
+H2_RE = re.compile(r"^##\s+(.+)$", re.M)
+SENTENCE_END_RE = re.compile(r"[。！？…]+|[.!?](?=\s|$)")
+CJK_RE = re.compile(r"[\u4e00-\u9fff]")
+CODE_FENCE_RE = re.compile(r"^```")
+FRONT_MATTER_RE = re.compile(r"^---\n.*?\n---\n", re.S)
