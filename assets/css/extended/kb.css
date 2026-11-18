@@ -75,6 +75,9 @@
 }
 .kb-page .kb-feed { font-size: 12px; color: var(--accent); }
 .kb-page .kb-index-main, .kb-page .kb-reader, .kb-page .kb-article { min-width: 0; }
+.kb-page .post-content table:not(.highlighttable, .highlight table) {
+  word-break: normal;
+}
 .kb-page .breadcrumbs { margin-bottom: 22px; font-size: 12px; color: var(--secondary); }
 .kb-page .kb-heading {
   padding-bottom: 24px;

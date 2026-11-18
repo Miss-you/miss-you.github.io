@@ -28,7 +28,9 @@ Codex 和 Cursor 原生读取 `AGENTS.md`。
 | --- | --- | --- | --- |
 | 同目录 `CLAUDE.md` 导入 | `AGENTS.md` 存公共规则，同目录 `CLAUDE.md` 写裸 `@AGENTS.md` | 跨平台稳定，Claude 专属说明可独立追加 | `@AGENTS.md` 被反引号或代码围栏包裹会让导入失效。相对路径按 `CLAUDE.md` 所在目录计算 |
 | 原生兜底 | 仓库只放一份 `AGENTS.md`，靠新版 Claude Code 自动兜底读取 | 仅维护单文件，适合全员新版且无专属配置的新项目 | 依赖版本与默认模式，协作者本机未提交的 `CLAUDE.local.md` 会直接遮蔽兜底 |
-| 符号链接 | `AGENTS.md` 为真文件，执行 `ln -s AGENTS.md CLAUDE.md` | 不复制正文，适合统一开启符号链接的环境 | `core.symlinks=false` 检出成普通文件（临时仓复现仅含 9 字节目标文件名 `AGENTS.md`），专属说明也无法写在链接上独立维护 |
+| 符号链接 | `AGENTS.md` 为真文件，执行 `ln -s AGENTS.md CLAUDE.md` | 不复制正文，适合统一开启符号链接的环境 | `core.symlinks=false` 检出成普通文件，专属说明也无法写在链接上独立维护 |
+
+在临时仓复现 `core.symlinks=false` 检出时，`CLAUDE.md` 会检出成普通文件，仅含 9 字节目标文件名 `AGENTS.md`。
 
 默认模式下，启动目录或任一上级目录存在 `CLAUDE.md`、`.claude/CLAUDE.md` 或 `CLAUDE.local.md`，Claude Code 就会跳过原生 `AGENTS.md` 兜底。用户全局 `~/.claude/CLAUDE.md` 不触发跳过。[Claude Code 规则文档](https://code.claude.com/docs/en/memory#agentsmd) 与 [Git 配置文档](https://git-scm.com/docs/git-config#Documentation/git-config.txt-coresymlinks)。
 
@@ -50,8 +52,12 @@ project_doc_fallback_filenames = ["CLAUDE.md"]
 
 ## 多包仓库如何按目录加载与验收？
 
-Claude Code 启动会从当前工作目录向上加载符合条件的规则，后续在会话中访问更深目录才可能按需加载那里的规则，并不笼统保证自动加载所有后代目录的文件。根目录的 `@AGENTS.md` 只导入根目录那一份文件，子包如 `repo/packages/api` 有自己的共享规则，就需要把 `AGENTS.md` 和含 `@AGENTS.md` 导入行的 `CLAUDE.md` 放在该子包同目录。
+根目录的 `@AGENTS.md` 只导入根目录那一份文件，子包如 `repo/packages/api` 有自己的共享规则，就需要把 `AGENTS.md` 和含 `@AGENTS.md` 导入行的 `CLAUDE.md` 放在该子包同目录。写完规则后，分别从根目录 `repo` 和子目录 `repo/packages/api` 启动新会话验收。
 
-Codex 的读取方向相反，启动会从项目根到当前启动目录逐层向下读取，每层最多取一份规则文件。Cursor 则按当前工作文件所属的作用域加载嵌套的 `AGENTS.md`。[Cursor 规则文档](https://cursor.com/docs/rules)
+| 工具 | 加载范围 | 验收办法 |
+| --- | --- | --- |
+| Claude Code | 启动从当前工作目录向上加载符合条件的规则；后续在会话中访问更深目录才可能按需加载那里的规则，并不笼统保证自动加载所有后代目录的文件 | 从根启动并访问子目录文件，再从子目录直接启动，期间运行 `/memory`或 `/context all`确认实际加载列表 |
+| Codex | 读取方向相反，启动从项目根到当前启动目录逐层向下读取，每层最多取一份规则文件 | 在两个目录下查会话日志，或运行`codex debug prompt-input`查看实际拼入的提示词 |
+| Cursor | 按当前工作文件所属的作用域加载嵌套的 `AGENTS.md` | 分别打开根目录和子目录的文件，检查各自命中的规则作用域 |
 
-写完规则后，分别从根目录 `repo` 和子目录 `repo/packages/api` 启动新会话验收。Claude Code 可从根启动并访问子目录文件，再从子目录直接启动，期间运行 `/memory` 或 `/context all` 确认实际加载列表。Codex 可在两个目录下查会话日志，或运行 `codex debug prompt-input` 查看实际拼入的提示词。Cursor 可分别打开根目录和子目录的文件，检查各自命中的规则作用域。
+参考：[Cursor 规则文档](https://cursor.com/docs/rules)
