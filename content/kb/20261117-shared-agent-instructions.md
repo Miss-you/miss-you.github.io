@@ -2,7 +2,7 @@
 title: "多工具共用 AGENTS.md 与 CLAUDE.md 的防漂移配置"
 slug: "shared-agent-instructions"
 date: "2026-11-17"
-lastmod: "2026-11-17"
+lastmod: "2026-11-18"
 lang: "zh"
 topic: "工程实践"
 summary: "介绍在同一仓库中用 @AGENTS.md 薄壳同步 Claude Code、Codex 与 Cursor 规则的做法、四种方案取舍及子目录加载核对步骤。"
@@ -40,7 +40,13 @@ project_doc_fallback_filenames = ["CLAUDE.md"]
 
 同一目录内 `AGENTS.override.md` 与 `AGENTS.md` 优先级仍高于回退文件。常见踩坑是把这行误塞进 `[project]` 等表下导致失效。[Codex 指令文件文档](https://learn.chatgpt.com/docs/agent-configuration/agents-md) 与 [配置说明](https://learn.chatgpt.com/docs/config-file/config-reference)。
 
-官方更新日志记录 2025 年 5 月 9 日 v0.2.107 加入 `CLAUDE.md` 通用的 `@path/to/file.md` 导入语法，此后便能借它引入 `AGENTS.md`。在官方仓库 issue #6235 中，2025 年 8 月 24 日已有用户贴出在 `CLAUDE.md` 里直接写 `@AGENTS.md` 的配置实例。Claude Code 直接发现 `AGENTS.md` 的原生兜底，则是在 2026 年 9 月 18 日发布的 v2.1.277 才正式新增。参考 [v0.2.107 更新记录](https://code.claude.com/docs/en/changelog#0-2-107)、[2025 年的使用记录](https://github.com/anthropics/claude-code/issues/6235#issuecomment-3217884068) 与 [v2.1.277 发布说明](https://github.com/anthropics/claude-code/releases/tag/v2.1.277)。
+### Claude Code 何时支持这些功能？
+
+| 时间 | 版本或记录 | 支持变化 | 来源 |
+| --- | --- | --- | --- |
+| 2025年5月9日 | v0.2.107 | `CLAUDE.md` 加入通用的 `@path/to/file.md` 文件导入机制。写入 `@AGENTS.md` 属于复用该通用导入能力，当时尚未推出专门的 `AGENTS.md` 支持。 | [官方更新日志](https://code.claude.com/docs/en/changelog#0-2-107) |
+| 2025年8月24日 | Issue #6235 用户评论 | 用户 coygeek 展示了在 `CLAUDE.md` 中写入 `@AGENTS.md` 的实例。此日期属于已查到的社区使用记录，有别于官方功能发布日期。 | [原始评论](https://github.com/anthropics/claude-code/issues/6235#issuecomment-3217884068) |
+| 2026年9月18日 | v2.1.277 | 新增原生的 `AGENTS.md` 兜底支持。满足默认加载条件时可直接读取该文件。 | [官方发布说明](https://github.com/anthropics/claude-code/releases/tag/v2.1.277) |
 
 ## 多包仓库如何按目录加载与验收？
 

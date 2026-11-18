@@ -41,6 +41,7 @@ These scripts help catch common issues like missing `lang` parameters which caus
 - Ensure bilingual copies live under matching paths inside `content/en/` and `content/zh/` when applicable.
 
 ## Knowledge-base Writing Workflow
+- 知识库正文需要并列说明多个时间或版本节点时，用表格列出日期、版本或记录、具体变化及来源，避免把多个节点和链接挤进同一长段。区分功能发布日期与已有使用记录，适用条件随对应节点保留。依据为用户对 Claude Code 支持时间段落的修改要求，2026-11-18。
 - Treat each substantive Wiki entry as one concrete question or item. Prefer a brief personal-practice section that records the author's situation, action, and observed result or evidence, with date and conditions when known. This is a flexible writing convention, not a rigid heading or mechanical template; navigation and maintenance guides may adapt it to their purpose.
 - Base practice details on the user's account or verifiable material. Attribute subjective impressions to the author; do not invent dates, measurements, outcomes, or claim that a proposal was tested. If essential practice details are missing, ask targeted questions or explicitly mark the gap; keep unverified new content in draft when a verified practice is required and unavailable; do not unpublish an existing page for that reason.
 - For turning rough user notes into a new or updated knowledge-base entry, use the `writing-wiki-from-practice` skill in `.codex/skills/writing-wiki-from-practice/SKILL.md` when available, and follow the prose review workflow below.
