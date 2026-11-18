@@ -4,7 +4,7 @@
 
 | 阶段 | 条件 | 如何检查或处理 |
 | --- | --- | --- |
-| 成文与修订 | `agy`、已登录的 Antigravity、可用的 `gemini-4-argon-high` | `command -v agy`、`agy --help`；登录成功不等于模型请求成功，必须确认 JSON 的 `status` 和非空 `response` |
+| 成文、修改与去 AI 味 | `agy`、已登录的 Antigravity、可用的 `gemini-4-hydrogen-high` 和 ACP | `command -v agy`、`agy acp --help`；实际调用检查退出码、JSON `status == SUCCESS`、`stop_reason == end_turn` 和非空正文；模型列表或登录状态不能代替请求成功 |
 | 分析与来源检索 | 每次分析实际调用 lizheng MCP，并读取相关原文 | MCP 配置和请求头只存在本机，输出不包含凭证；不可用就报告未完成，用户明确同意后才能换用其他来源或快照，不冒称 MCP 结果 |
 | 独立审稿 | 宿主的独立子代理或另一个无起草上下文的审稿会话 | 事实审查拿来源契约，冷读只拿最终正文及读者身份；缺少独立审稿能力就报告未完成 |
 | 文稿扫描 | Python 3.10+，项目内 `writing_skill` 与阅读负担脚本 | 按 `writing-workflows` 的项目配置运行，无须 `pip install` 或全局 skill |
@@ -13,20 +13,24 @@
 | 提交扫描 | `gitleaks`，或项目流程中的等效变更内容扫描 | 扫描本次准备提交的内容，检查日志隐藏命中的凭证值 |
 | 推送与部署 | GitHub Git 认证、`gh` 或等效 API、网络和站点工作流权限 | 不写死代理、凭证助手和个人账号；执行中区分 Git、GitHub API 与 Google API 的连接问题 |
 
-## Argon 调用
+## Hydrogen ACP 调用
 
-在独立临时目录中存 `prompt.md` 和 JSON 结果，每个阶段新会话，串行调用。材料直接内联到 prompt，说明只输出正文、不访问文件和工具。不要把私密材料发送到公开仓库或提交临时调用日志。
+正文、Prompt、练习、解析、局部修改及去 AI 味默认都使用 `agy acp --stdio` 的 `gemini-4-hydrogen-high`。在独立私有临时目录中准备 `prompt.md` 和 JSON 结果，每个阶段新会话，串行调用。把必要材料内联到 prompt，说明只输出正文、不访问文件或工具；调用外部模型前遵守当前任务的私密材料和许可边界，不把私密材料提交到公开仓库。
+
+客户端使用 POSIX 管道与进程组，在 macOS/Linux 上运行；Windows 原生环境尚未验证。
+
+从项目根目录运行：
 
 ```sh
-agy --print "$(cat prompt.md)" \
-  --model gemini-4-argon-high --mode plan \
-  --print-timeout 12m --output-format json > result.json
+python3 .agents/skills/thinking-to-knowledge/scripts/agy_acp_writer.py \
+  --prompt-file /path/to/prompt.md --output-file /path/to/result.json \
+  --cwd . --timeout-seconds 720
 ```
 
-固定带 `-high` 的模型名不要再配 `--effort low`，该组合会报冲突。`--disable-slash-commands` 会让 `--mode plan` 失效，只有诊断命令展开时才考虑，不把它当沙箱。调用权限由宿主控制。
+该客户端启动 `agy acp --stdio`，依次初始化、创建会话、请求模型 `gemini-4-hydrogen-high`、设置 plan 模式并发送文本；拼接 `agent_message_chunk`，只在 `stopReason` 为 `end_turn` 且正文非空时写 `status: SUCCESS`。工具权限请求或工具调用会使本次写作失败，不静默批准；plan 模式和事后监听不是操作系统沙箱，不能保证在通知到达前阻止工具执行。退出码、`status`、`stop_reason`、非空正文和是否对题都必须核对，再保存正文。结果保留会话 ID、请求模型和实际响应；模型切换的 ACP 成功响应表示请求被接受，不独立证明服务内部实际使用了什么模型。
 
-检查退出码、JSON `status == SUCCESS`、非空 `response` 及是否对题，再保存为稿件。超时可能只返回部分输出，不能当终稿。按调用方工具支持的会话 ID 等待，输出未返回不等于模型未运行。重试前确认旧进程已结束，避免多条写作会话并发。认证、额度或模型不可用时如实报告，不能静默改用 GPT 写作。
+超时、取消、部分输出、权限或认证错误均不是终稿。客户端结束自己启动的进程及仍在同一进程组的子进程，不能控制主动脱离该组的后台进程；重试前确认旧进程已结束，避免并发写作。认证、额度或模型不可用时如实报告；未经用户明确同意，不换模型或让编排模型代写。只有某个受控宿主无法运行此脚本时，才可使用等价 ACP 客户端执行相同协议和检查，仍须保留真实调用证据，不改用 `agy --print` 冒充 ACP。
 
 只记录必要的可核对信息，如模型、调用时间、成功状态和修改范围。完整响应保留在私有底稿以便核查，公开页只放最终文章。
 
-用户于 2026-11-18 明确要求本流程分析必须使用 lizheng MCP、写作必须使用 agy。即使已有本地资料或宿主本身是 Argon，也实际通过 MCP 做本次检索、通过 agy 产出正文；不沿用上游按宿主跳过 CLI 的例外。
+用户于 2026-11-18 明确要求分析实际使用 lizheng MCP；同日又明确指定写作默认用 agy 的 Gemini 4 Hydrogen，通过 ACP 完成正文、修改和去 AI 味。即使宿主已有相同模型，也须实际执行 MCP 和 ACP，不沿用上游按宿主跳过 CLI 的例外。

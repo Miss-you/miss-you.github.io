@@ -2,7 +2,7 @@
 
 公开知识条目的执行入口是 [.agents/skills/writing-workflows/SKILL.md](../.agents/skills/writing-workflows/SKILL.md)，从讨论到双知识库的编排入口是 [thinking-to-knowledge](../.agents/skills/thinking-to-knowledge/SKILL.md)。两个技能及规则资源均随本仓库保存。
 
-正文、Prompt、练习题、解析和语言改写用 Antigravity CLI 的 Argon。调用方式、超时和输出核对见项目技能的 runtime.md。事实审查和冷读交给宿主的独立会话，不能用起草会话自评。作者表达约定和固定第三方规则在本仓库 writing-workflows 技能内，无需全局安装。
+正文、Prompt、练习题、解析和语言改写用 `agy` 的 Gemini 4 Hydrogen 通过 ACP。调用方式、超时和输出核对见项目技能的 runtime.md。事实审查和冷读交给宿主的独立会话，不能用起草会话自评。作者表达约定和固定第三方规则在本仓库 writing-workflows 技能内，无需全局安装。
 
 每次分析必须实际查询 lizheng MCP 并读到相关原文，写作必须实际通过 agy 完成。两个步骤都不能静默跳过或替换。工具不可用则报告该环节未完成，替代来源或写作方式须经用户明确同意。此要求来自用户 2026-11-18 的明确说明。
 
