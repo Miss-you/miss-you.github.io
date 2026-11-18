@@ -3,6 +3,8 @@ languageCode: 'zh-cn'
 defaultContentLanguage: 'zh'
 title: 'Yousa Driven Development | YDD'
 theme: PaperMod
+ignoreFiles:
+  - '(^|/)(AGENTS|CLAUDE)\.md$'
 hasCJKLanguage: true
 
 build:

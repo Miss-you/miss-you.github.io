@@ -24,6 +24,8 @@
 ### Pre-deployment Checks
 Before pushing changes, run the following checks to ensure correct configuration:
 
+在提交新文章前，务必运行以下检查：
+
 ```bash
 # Check all posts have correct lang parameter and word count estimates
 python3 check-posts.py
@@ -34,11 +36,75 @@ python3 check-posts.py
 
 These scripts help catch common issues like missing `lang` parameters which cause incorrect word count display (e.g., showing "131 words" for a 6000-character Chinese article).
 
+**`check-posts.py`** 会输出：
+- 是否有文章缺少 `lang` 参数
+- 预估的中文字符数
+- 建议的字数显示格式
+
+**`check-wordcount.sh`** 会：
+- 构建 Hugo 站点
+- 提取每篇文章实际渲染的字数统计
+- 对比 `lang` 参数与显示格式是否匹配
+
+如果看到 `lang=zh` 但显示 "XXX words"，或 `lang=en` 但显示 "XXX 字"，说明模板可能有问题。
+
+
 ## Coding Style & Naming Conventions
 - Follow Hugo/PaperMod conventions: partials use Go templates with two-space indentation; SCSS/CSS files prefer 2-space indents and kebab-case class names (e.g., `.ydd-hero`).
 - Keep front matter keys lowercase kebab-case (`title`, `date`, `tags`), and name post directories `YYYYMMDD-slug/` so permalinks remain stable.
 - **Required: Always include `lang` in front matter** (`lang: zh` or `lang: en`). This ensures correct word count and reading time for Chinese/English content. Without it, Hugo defaults to English tokenization, causing incorrect stats (e.g., "131 words" for a 6000-character Chinese article).
+- 图片资源放在文章目录的 `images/` 子目录中
 - Ensure bilingual copies live under matching paths inside `content/en/` and `content/zh/` when applicable.
+
+## 创建新文章时的必要步骤
+
+### 1. 文章目录结构
+```
+content/posts/YYYYMMDD-slug/
+└── index.md
+```
+
+- 目录名格式：`YYYYMMDD-slug`（日期前缀 + 短横线分隔的 slug）
+- permalink 由目录名决定，保持简洁稳定
+
+### 2. Front Matter 模板（必须包含 lang）
+
+```yaml
+---
+title: "文章标题"
+date: 2026-02-14T12:30:00+08:00
+draft: false
+lang: zh                      # ← 必须！zh 或 en
+tags: ["标签1", "标签2"]
+categories: ["分类"]
+description: "文章摘要"
+cover:
+    image: ""
+    alt: ""
+    caption: ""
+    relative: true
+---
+```
+
+**⚠️ 重要：lang 参数**
+- 中文文章：`lang: zh`
+- 英文文章：`lang: en`
+- **不要省略** —— 省略会导致 Hugo 默认按英文分词统计字数，中文 6000 字可能只显示 "131 words"
+
+### 3. 字数统计验证
+
+发布后检查文章列表页的字数显示：
+- 正确示例：`14 min · 6500 字`（中文）
+- 正确示例：`8 min · 1200 words`（英文）
+- 错误示例：`1 min · 131 words`（中文文章被错误统计）
+
+如果看到错误示例，检查 front matter 是否缺少 `lang` 参数。
+
+## 项目技术栈
+
+- **静态生成器**: Hugo (v0.148.1)
+- **主题**: PaperMod (子模块)
+- **部署**: GitHub Pages (通过 GitHub Actions)
 
 ## Knowledge-base Writing Workflow
 - 知识库正文需要并列说明多个时间或版本节点时，用表格列出日期、版本或记录、具体变化及来源，避免把多个节点和链接挤进同一长段。区分功能发布日期与已有使用记录，适用条件随对应节点保留。依据为用户对 Claude Code 支持时间段落的修改要求，2026-11-18。
@@ -64,3 +130,17 @@ These scripts help catch common issues like missing `lang` parameters which caus
 ## Deployment Notes
 - GitHub Actions (.github/workflows/deploy.yml) builds on each `main` push and publishes `public/` to `gh-pages`. Do not commit `public/` or `docs/`; both are ignored.
 - Custom domain is handled through CNAME on `gh-pages`; verify `yousali.com` after major releases.
+
+## References
+
+- [PaperMod 文档](https://github.com/adityatelange/hugo-PaperMod/wiki)
+
+## 规则文件维护约定
+
+公共项目规则统一在对应层级的 `AGENTS.md` 中唯一维护，同目录 `CLAUDE.md` 仅通过裸 `@AGENTS.md` 导入并按需追加必要的 Claude 专属说明，个人说明只保存在被忽略的 `CLAUDE.local.md` 或用户级配置中而不复制到公共文件。
+
+子目录规则维持原有作用域与优先级且需保留各自独立入口（根目录导入不递归导入所有子目录），同时不修改第三方 vendor、主题、依赖及历史示例。
+
+本配置维护说明依据用户于 2026-11-18 提出的已授权配置维护明确要求整理。
+
+Hugo 忽略各级 AGENTS.md 与 CLAUDE.md，避免项目规则文件被当作站点文章构建发布。
