@@ -189,6 +189,7 @@ class KnowledgeBaseAcceptance(unittest.TestCase):
             self.assertIn(BASE_URL + paths["en"], english_feed_links)
             alias = self.read(f"en/posts/{en_slug}/index.html")
             self.assertIn(f"url={BASE_URL}{paths['en']}", alias)
+            self.assertFalse((self.output / f"en/en/posts/{en_slug}/index.html").exists())
         article = "posts/20261102-ai-slop-attention-en"
         html = self.read(f"{article}/index.html")
         for image in ("cover.en.png", "gall-law-post.en.png"):

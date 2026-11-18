@@ -119,10 +119,19 @@ test('large Chinese input stays editable and preserves content through a view sw
   await page.goto(route);
   const original = '这是需要保持完整的中文段落。'.repeat(1500);
   const changed = original.replace('需要', '必须') + '\n新增内容。';
-  await page.locator('.cm-content').nth(0).click();
-  await page.keyboard.insertText(original);
-  await page.locator('.cm-content').nth(1).click();
-  await page.keyboard.insertText(changed);
+  // Wait for each input to reach the editor before focusing the other side.
+  // The metadata reflects the whole document, not CodeMirror's visible DOM.
+  const insert = async (side: number, text: string) => {
+    const accepted = await page.locator('.cm-content').nth(side).evaluate((el, value) => {
+      (el as HTMLElement).focus();
+      return document.execCommand('insertText', false, value);
+    }, text);
+    expect(accepted).toBe(true);
+  };
+  await insert(0, original);
+  await expect(page.locator('#meta-a')).toHaveText('1 line');
+  await insert(1, changed);
+  await expect(page.locator('#meta-b')).toHaveText('2 lines');
   await page.click('[data-view=unified]', { timeout: 10000 });
   await page.click('[data-view=split]');
   // CodeMirror virtualizes off-screen DOM. Verify complete content through the

@@ -6,7 +6,6 @@ lang: en
 translationKey: 20261102-ai-slop-attention
 url: "/posts/20261102-ai-slop-attention-en/"
 isCJKLanguage: false
-aliases: ["/en/posts/20261102-ai-slop-attention-en/"]
 tags: ["AI", "Attention", "Information Filtering"]
 categories: ["Thinking"]
 description: "Reality can prove that something happened. Proving why is much harder. How I plan to filter AI slop, what was wrong with my old tests, and the 24 accounts I read."
