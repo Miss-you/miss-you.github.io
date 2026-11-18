@@ -108,7 +108,9 @@ cover:
 
 ## Knowledge-base Writing Workflow
 - For writing artifacts in this repository, use `agy` with `gemini-4-hydrogen-high` over ACP by default for drafting, revisions, and de-AI editing; follow [runtime conditions](.agents/skills/thinking-to-knowledge/references/runtime.md). The user's explicit instructions take precedence.
-- 知识库正文需要并列说明多个时间或版本节点时，用表格列出日期、版本或记录、具体变化及来源，避免把多个节点和链接挤进同一长段。区分功能发布日期与已有使用记录，适用条件随对应节点保留。依据为用户对 Claude Code 支持时间段落的修改要求，2026-11-18。
+- 每次新增或实质修订知识库正文，主动检查表格、Mermaid 与段落/列表的取舍，按 [图表选择与验收](.agents/skills/writing-workflows/references/visual-structure.md) 执行，并把选择带入项目配置的 agy 写作会话和独立审稿。图表应减少跨段配对、心算或重建流程等具体负担；短而清楚的段落、简单顺序清单和需要连贯推理的叙述可保留，不设图表数量或覆盖率要求。
+- 多个时间或版本节点并列时，优先用「时间、版本或记录、变化、来源」四列表格；多对象、多维度比较适合表格，分支、并行、汇合或有依据的因果/数据流程适合 Mermaid。区分正式发布与已有使用记录，来源和适用条件随对应节点保留；最后编辑时间不能证明其他操作已在该时点完成。
+- 图表必须经过实际手机与桌面渲染检查，保留完整条件、引用和证据强度。表格避免把整段推理塞进单元格；Mermaid 使用站点现有渲染方式，核对中文标签、箭头、条件和明暗模式，不把并行画成串行或把相关画成因果。检查未做就如实记录，不以源码或构建成功代替渲染验收。此约定来自用户 2026-11-18 的图表盘点与规则补充要求。
 - Treat each substantive Wiki entry as one concrete question or item. Prefer a brief personal-practice section that records the author's situation, action, and observed result or evidence, with date and conditions when known. This is a flexible writing convention, not a rigid heading or mechanical template; navigation and maintenance guides may adapt it to their purpose.
 - Base practice details on the user's account or verifiable material. Attribute subjective impressions to the author; do not invent dates, measurements, outcomes, or claim that a proposal was tested. If essential practice details are missing, ask targeted questions or explicitly mark the gap; keep unverified new content in draft when a verified practice is required and unavailable; do not unpublish an existing page for that reason.
 - For turning rough user notes into a new or updated knowledge-base entry, use the `writing-wiki-from-practice` skill in `.codex/skills/writing-wiki-from-practice/SKILL.md` when available, and follow the prose review workflow below.

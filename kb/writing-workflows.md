@@ -15,6 +15,12 @@ python3.12 -B .agents/skills/writing-workflows/resources/fatigue_scan.py <稿件
 
 先检查所选 Python 的版本。脚本会提示值得核查的位置，人工记录引用、误报、篇幅适配和每个未修正提示的理由。短知识条目不因长文默认阈值而扩写。无需安装全局 writing_skill 包。
 
+## 图表选择与渲染检查
+
+新增或实质修订知识条目时，写作流程会主动执行 [图表选择与验收](../.agents/skills/writing-workflows/references/visual-structure.md)：写作前判断形式并交给项目配置的 agy 会话，事实审查核对表格各行及流程箭头，冷读检查是否减少理解负担，图表有改动再查看手机、桌面和明暗模式渲染。短段落和简单清单可以原样保留，不要求每篇都有图表。
+
+这项检查由写作与审稿执行，现有 prose lint、fatigue scan 不会自动判定图表是否需要或关系是否真实。记录实际完成的检查，不能把脚本无告警当成图表验收通过。
+
 私人知识库的位置由用户提供，或记在忽略提交的 `kb/knowledge-pipeline.local.md`。公开条目不引用该文件、不写本机路径。只有整理本地副本需要这个映射，单独编辑博客时可直接使用本项目技能。
 
 依赖固定文本的版本及许可证在技能的 references/provenance.md 和 `kb/vendor/writing-skill/PROVENANCE.md`。构建按 [维护指南](README.md) 和当前 CI；文稿检查与 Hugo 构建是两件事，都完成再发布。
