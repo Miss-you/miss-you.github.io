@@ -73,6 +73,18 @@ project_doc_fallback_filenames = ["CLAUDE.md"]
 
 同一目录内 `AGENTS.override.md` 与 `AGENTS.md` 优先级仍高于回退文件。常见踩坑是把这行误塞进 `[project]` 等表下导致失效。[Codex 指令文件文档](https://learn.chatgpt.com/docs/agent-configuration/agents-md) 与 [配置说明](https://learn.chatgpt.com/docs/config-file/config-reference)。
 
+### 为什么长期维护更倾向导入？
+
+多平台长期维护时，优先用 `CLAUDE.md` 首行裸 `@AGENTS.md` [导入](https://code.claude.com/docs/en/memory#share-one-file-with-other-coding-tools)复用 `AGENTS.md`：它是普通文本，环境兼容和追加专属说明都更直接。
+
+| 比较项 | 导入 | 符号链接 |
+| :--- | :--- | :--- |
+| 检出 | 按普通文本检出，内容即引用指令。 | [`core.symlinks=false`](https://git-scm.com/docs/git-config#Documentation/git-config.txt-coresymlinks) 时检出为纯文本，不再指向正文。 |
+| 保存 | 各文件独立读写，互不影响。 | 取决于工具实现：覆盖写入可保留，临时文件替换可能断链（见 [Vim `backupcopy`](https://vimhelp.org/options.txt.html#%27backupcopy%27)）。 |
+| 专属说明 | 可在 `@AGENTS.md` 下方直接追加。 | 不能单独追加，但可另用 [`.claude/rules/`](https://code.claude.com/docs/en/memory#organize-rules-with-clauderules) 等原生配置。 |
+
+可选在 pre-commit 或 CI 中检查两点：`CLAUDE.md` 首行是否为裸 `@AGENTS.md`，同目录是否存在 `AGENTS.md`。这只查结构，不保证语义不漂移或实际加载成功；加载情况仍以 `/context all` 核对。
+
 ### Claude Code 何时支持这些功能？
 
 | 时间 | 版本或记录 | 支持变化 | 来源 |
@@ -92,3 +104,8 @@ project_doc_fallback_filenames = ["CLAUDE.md"]
 | Cursor | 按当前工作文件所属的作用域加载嵌套的 `AGENTS.md` | 分别打开根目录和子目录的文件，检查各自命中的规则作用域 |
 
 参考：[Cursor 规则文档](https://cursor.com/docs/rules)
+## 什么时候可以只留 AGENTS.md？
+
+如果项目只服务于 Claude Code，直接维护 `CLAUDE.md` 也是可行选择。另一方面，Claude Code [v2.1.277](https://github.com/anthropics/claude-code/releases/tag/v2.1.277) 已在 2026 年 9 月加入[原生 `AGENTS.md` 支持](https://code.claude.com/docs/en/memory#agentsmd)。
+
+按我自己的使用习惯，现阶段仍会保留 `@AGENTS.md` 薄壳，不会仅凭日期到了就自动删除。我的个人计划是等原生支持推出约半年、到 2027 年 3 月之后，再复查所用版本、读取模式以及根目录和子目录的实际加载结果，确认通过后再切成只留 `AGENTS.md`。
