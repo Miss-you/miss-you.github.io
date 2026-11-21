@@ -32,6 +32,22 @@
           "thumb_t": 25
         }
       ]
+    },
+    {
+      "id": "network-basics",
+      "title": "网络代理与工具拆解",
+      "summary": "用 3D 路由装置拆解日常上网与 AI 工具使用中的核心机制，可随时点击右下角控制台接管模型。",
+      "teardown_dir": "sims/network-basics",
+      "items": [
+        {
+          "slug": "proxy-routing",
+          "title": "代理核心拆解 · 系统代理、分流与节点排查",
+          "summary": "系统代理为什么像快递总开关？规则模式与全局模式有什么区别？为什么选了「自动选择」反而打不开 Gemini？五幕 3D 动画拆解，附四步排查清单。",
+          "keywords": ["系统代理", "规则 vs 全局", "Gemini 排查"],
+          "length": "25 秒 · 5 幕",
+          "thumb_t": 7.5
+        }
+      ]
     }
   ]
 }
