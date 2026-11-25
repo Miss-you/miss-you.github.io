@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}">
+<head>{{ partial "head.html" . }}</head>
+<body class="kb-page{{ if not .IsPage }} list{{ end }}{{ if eq site.Params.defaultTheme "dark" }} dark{{ end }}" id="top">
+  {{ partialCached "header.html" . .Page }}
+  <main class="main kb-main">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partialCached "footer.html" . .Layout .Kind (.Param "hideFooter") (.Param "ShowCodeCopyButtons") }}
+  {{- $script := resources.Get "js/kb.js" | resources.Minify | fingerprint }}
+  <script defer src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" crossorigin="anonymous"></script>
+</body>
+</html>

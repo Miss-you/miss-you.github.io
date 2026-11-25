@@ -1,0 +1,46 @@
+{{- $current := . -}}
+{{- $root := site.GetPage "/stories" -}}
+{{- $pages := partial "stories/pages.html" . -}}
+{{- $topics := slice -}}
+{{- range $pages -}}
+  {{- $topics = $topics | append (partial "stories/topic.html" .) -}}
+{{- end -}}
+{{- $topics = sort (uniq $topics) -}}
+<details class="kb-sidebar" open>
+  <summary>{{ i18n "stories_directory" }}</summary>
+  <div class="kb-sidebar-content">
+    <p class="kb-eyebrow">1001 NIGHTS</p>
+    <h2>{{ i18n "stories_directory" }}</h2>
+    <nav aria-label="{{ i18n "stories_directory" }}">
+      <a class="kb-topic-link{{ if not .IsPage }} is-active{{ end }}" href="{{ $root.RelPermalink }}" data-kb-topic=""{{ if not .IsPage }} aria-current="page"{{ end }}>
+        <span>{{ i18n "stories_all" }}</span><span class="kb-topic-count">{{ len $pages }}</span>
+      </a>
+      {{- range $topics }}
+        {{- $topic := . -}}
+        {{- $notes := slice -}}
+        {{- range $pages -}}
+          {{- if eq (partial "stories/topic.html" .) $topic -}}
+            {{- $notes = $notes | append . -}}
+          {{- end -}}
+        {{- end -}}
+        {{- $active := and $current.IsPage (eq (partial "stories/topic.html" $current) $topic) -}}
+        <div class="kb-topic-group">
+          <a class="kb-topic-link{{ if $active }} is-active{{ end }}" href="{{ $root.RelPermalink }}?topic={{ $topic | urlquery }}" data-kb-topic="{{ $topic }}">
+            <span>{{ $topic }}</span><span class="kb-topic-count">{{ len $notes }}</span>
+          </a>
+          {{- if $current.IsPage }}
+          <ul class="kb-note-nav">
+            {{- range $notes }}
+            <li><a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $current.RelPermalink }} aria-current="page"{{ end }}>{{ .Title }}</a></li>
+            {{- end }}
+          </ul>
+          {{- end }}
+        </div>
+      {{- end }}
+    </nav>
+    <p class="kb-sidebar-note">{{ i18n "stories_sidebar_note" }}</p>
+    {{- with $root.OutputFormats.Get "RSS" }}
+    <a class="kb-feed" href="{{ .RelPermalink }}">{{ i18n "stories_feed" }} ↗</a>
+    {{- end }}
+  </div>
+</details>

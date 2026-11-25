@@ -38,3 +38,29 @@ kb_feed:
   other: 订阅知识更新
 kb_words:
   other: 字
+stories_directory:
+  other: 故事目录
+stories_all:
+  other: 全部故事
+stories_search:
+  other: 搜索一千零一夜
+stories_placeholder:
+  other: 搜索标题、关键词或正文…
+stories_count:
+  other: '{{ .Count }} 个故事'
+stories_results:
+  other: '找到 {{ .Count }} 个故事'
+stories_empty:
+  other: 没有找到匹配的故事
+stories_back:
+  other: 返回一千零一夜
+stories_related:
+  other: 同主题故事
+stories_sidebar_note:
+  other: 一个真实故事，一个切面。不讲大道理，留给读者自己琢磨。
+stories_search_hint:
+  other: 标题、标签和正文均可搜索
+stories_nojs:
+  other: 启用 JavaScript 可以搜索和筛选；也可以直接浏览下方全部故事。
+stories_feed:
+  other: 订阅故事更新

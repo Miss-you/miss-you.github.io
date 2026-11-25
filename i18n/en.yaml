@@ -40,3 +40,31 @@ kb_feed:
   other: Subscribe to updates
 kb_words:
   other: words
+stories_directory:
+  other: Story directory
+stories_all:
+  other: All stories
+stories_search:
+  other: Search 1001 Nights
+stories_placeholder:
+  other: Search titles, keywords or full text…
+stories_count:
+  one: '1 story'
+  other: '{{ .Count }} stories'
+stories_results:
+  one: '1 story found'
+  other: '{{ .Count }} stories found'
+stories_empty:
+  other: No matching stories
+stories_back:
+  other: Back to 1001 Nights
+stories_related:
+  other: Related stories
+stories_sidebar_note:
+  other: One real story, one angle. No preaching, left for you to reflect on.
+stories_search_hint:
+  other: Search includes titles, tags and full text
+stories_nojs:
+  other: Enable JavaScript to search and filter, or browse all stories below.
+stories_feed:
+  other: Subscribe to stories

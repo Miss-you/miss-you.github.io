@@ -29,12 +29,15 @@ languages:
         - name: 知识库
           url: kb/
           weight: 11
+        - name: 一千零一夜
+          url: stories/
+          weight: 12
         - name: 实验室
           url: lab/
-          weight: 12
+          weight: 13
         - name: 会议
           url: events/
-          weight: 13
+          weight: 14
         - name: 工具
           url: tools/
           weight: 15
@@ -64,12 +67,15 @@ languages:
         - name: Knowledge
           url: kb/
           weight: 11
+        - name: 1001 Nights
+          url: stories/
+          weight: 12
         - name: Lab
           url: lab/
-          weight: 12
+          weight: 13
         - name: Events
           url: events/
-          weight: 13
+          weight: 14
         - name: Tools
           url: tools/
           weight: 15
