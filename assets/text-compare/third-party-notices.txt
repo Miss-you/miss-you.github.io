@@ -1346,7 +1346,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
---- @napi-rs/canvas-darwin-arm64 1.0.9 (MIT) ---
+--- @napi-rs/canvas-linux-x64-gnu 1.0.9 (MIT) ---
+
+
+--- @napi-rs/canvas-linux-x64-musl 1.0.9 (MIT) ---
 
 
 --- codemirror 6.0.2 (MIT) ---
