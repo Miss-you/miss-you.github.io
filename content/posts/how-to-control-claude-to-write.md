@@ -1,3 +1,8 @@
+---
+title: "如何用 Claude Code 辅助写作"
+lang: zh
+---
+
 ### 1️⃣ 设定写作目标与受众
 
 | 要素   | 提问 Claude Code 的示例                                        |
