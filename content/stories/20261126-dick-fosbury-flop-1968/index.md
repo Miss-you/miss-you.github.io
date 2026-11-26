@@ -17,3 +17,5 @@ draft: false
 在沙坑或木屑坑的时代，背朝下落地很容易伤到颈背。那段时间，泡沫海绵落地区正在赛场逐步推广，松软的垫子减少了落地受伤的风险，让背部着地变得更可尝试。不过新跳法并非只靠更换落地区就能成立，垫子只是提供了更安全的落地条件，从临场抬臀仰肩到稳定地头先过杆，靠的还是福斯贝里这两年的持续修正。
 
 [国际奥委会的技术梳理](https://www.olympics.com/ioc/news/richard-fosbury-high-jump-revolution)将这种从背后过杆的方式视为继剪式与俯卧式之后的技术变革。据[国际奥委会回顾记录](https://www.olympics.com/ioc/news/dick-fosbury-flop-olympic-gold-high-jump-pioneer-dead-76)，1968 年墨西哥城奥运会男子跳高决赛上，福斯贝里用这一后来被称为背越式的新动作跳出 2.24 米，打破奥运纪录夺得金牌。到了四年后的 1972 年奥运会，参赛的 40 名选手中已有 28 人改用这种跳法。
+
+![福斯贝里仰背越过横杆，身下是落地软垫](images/illustration.webp)

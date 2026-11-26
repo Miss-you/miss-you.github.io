@@ -16,4 +16,6 @@ draft: false
 
 这笔签约背后，是运动家队对市场低估之处的寻找。当年参与球队决策的保罗·德波德斯塔后来在[访谈中回顾](https://www.purplerow.com/purple-row-community/80286/purple-row-after-dark-paul-depodesta-revisits-moneyball)，上垒率在当时可能被市场低估了，不过俱乐部评估球员时还看很多其他因素，而且市场后来对上垒率的估值也随着时间多次变化、反复循环。到了 2002 年常规赛，生涯头一回出任一垒手的哈特伯格一共获得了 [68 次保送](https://www.mlb.com/player/scott-hatteberg-115608)，在常规赛里为球队持续制造上垒机会。
 
+![哈特伯格在本垒放下球棒，开始走向一垒](images/illustration.webp)
+
 整个常规赛，这支[以低薪资结合数据分析与价值型交易组建的球队](https://www.mlb.com/news/2002-twins-a-s-alds-recap)一路打出了百胜以上的战绩。根据[2002 年联盟常规赛战绩表](https://www.mlb.com/standings/league/2002)，运动家队取得 103 胜 59 负，与 103 胜 58 负的纽约洋基队胜场相同，但两队胜率不同。到了五战三胜的 2002 年美联分区赛，运动家队 2 比 3 输给了明尼苏达双城队。就在球队止步的这 5 场季后赛里，哈特伯格个人的上垒率达到了 .588，个人出众的上垒表现与球队的出局就这样同时发生。
