@@ -54,7 +54,7 @@
 - [性能调优利器--火焰图](https://yousali.com/posts/flame/): 本文主要分享火焰图使用技巧，介绍 systemtap 的原理机制，如何使用火焰图快速定位性能问题原因，同时加深对 systemtap 的理解。
 - [使用 Github Pages 和 Hugo 搭建个人博客教程](https://yousali.com/posts/how-to-create-blog/): Github Pages 建站教程 
 - [Go 语言：解决数据库中 null 值的问题](https://yousali.com/posts/go-mysql-null/): 本文主要介绍如何使用 go 语言 database/sql 库从数据库中读取 null 值的问题，以及如何向数据库中插入 null 值。本文在这里使用的是 sql.NullString, sql.NullInt64, sql.NullFloat64 等结构体，为了方便书写，它们的泛指我会使用 sql.Null 来表示. 
-- [](https://yousali.com/posts/how-to-control-claude-to-write/)
+- [如何用 Claude Code 辅助写作](https://yousali.com/posts/how-to-control-claude-to-write/)
 
 ## Optional
 - [English site guide](https://yousali.com/en/llms.txt)
