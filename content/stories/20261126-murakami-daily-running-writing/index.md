@@ -12,6 +12,8 @@ draft: false
 
 写长篇小说初稿时，村上春树在[《我的职业是小说家》](https://bpb-ca-c1.wpmucdn.com/mycharlesbest.sd43.bc.ca/dist/c/2806/files/2023/10/Novelist-as-a-Vocation-Haruki-Murakami.pdf)里记下过一条定量规矩：每天写十页。写满十页就停笔，哪怕当天手感极好、写得顺畅也不多写。写得再磕绊，也尽力达到这十页才收工。把每天的上限和下限一起卡在十页，单看一天不算多，却能防止顺手时透支次日的精力。
 
+![村上春树放下笔，把当日写完的稿页收拢在桌上](images/illustration.webp)
+
 不过，他并非一开始就是全职作家。早年在酒吧经营期间，他最初的两本书其实是在家中厨房桌上写成的。直到 1981 年，他才离开并卖掉酒吧，转做全职写作者。每天坐在书桌前写作以后，平时缺乏走动，体力很快成了不轻的负担。他在[《跑步的小说家》](https://www.newyorker.com/magazine/2008/06/09/haruki-murakami-the-running-novelist)里说明了自己转行后如何平衡体力，并从 1982 年秋天开始规律的日常跑步，慢慢把生活作息重新理顺。
 
 后来在接受[《巴黎评论》（The Paris Review）访谈](https://www.theparisreview.org/interviews/2/the-art-of-fiction-no-182-haruki-murakami)时，他讲起过自己进入长篇小说写作状态时的典型一天：凌晨四点起床写作，下午安排跑步或游泳，之后读点书、听听音乐，到了晚上九点上床睡觉。但这只是他在受访时描述的长篇写作期作息，并不等于他几十年里每天都这样一成不变。同一篇访谈的前言就提到，他也曾一边任教一边写过《奇鸟行状录》。
