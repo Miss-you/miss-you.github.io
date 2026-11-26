@@ -14,6 +14,8 @@ draft: false
 
 据[《卫报》初版团队口述史](https://www.theguardian.com/books/2022/jun/18/riot-kings-cross-oral-history-harry-potter-philosophers-stone-25-publishers)，布鲁姆斯伯里出版社董事长回忆，自己曾把书稿拿给八岁的女儿爱丽丝读。经手的编辑则知道当年纸本儿童书能卖几千册已算不错，他记得当时预付版税从 2000 英镑谈到约 2500 英镑，还曾劝罗琳去找一份日间工作。
 
+![出版人把一叠手稿递给坐在桌边的女儿](images/illustration.webp)
+
 后来该书在英国出版时，董事长在同一篇口述中回忆，首印发行了 500 册精装本，同时印行了 5150 册平装本。不过，美国版权其实早在英国版问世前就已经成交。初版团队同事在口述中提到，美国学乐出版社在英国出版前便支付了 10.5 万美元买下美国版权。随后，依据[学乐出版社 20 周年记录](https://www.scholastic.com/newsroom/all-news/press-release/scholastic-marks-the-20th-anniversary-of-harry-potter-and-the-so.html)，该书首卷于 1998 年 9 月在美国出版，首印达到 5 万册。
 
 把时间拉回签约前后，经手编辑当年依纸本童书的寻常销量估算前景，劝罗琳找份日间工作，反映的是出版方签下新人作品时的常规判断。但在手稿写成并熬过多次退稿之后，英国版问世前便先行成交的美国版权，以及美国首卷随后的大规模起印，让这部原本前途未卜的书稿在出版前后赢得了超出起初预期的市场关注。
