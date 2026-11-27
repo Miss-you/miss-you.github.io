@@ -46,9 +46,6 @@
               {{- end -}}
             {{- end -}}
           {{- end }}
-          {{- if eq $item.Identifier "rss" -}}
-            {{- with $page.Site.Home.OutputFormats.Get "rss" }}{{ $href = .RelPermalink }}{{ end -}}
-          {{- end }}
         <li><a class="site-menu-link" href="{{ $href }}"{{ with $current }} aria-current="{{ . }}"{{ end }}{{ if ne $lang $page.Lang }} hreflang="{{ $lang }}"{{ end }}{{ if $external }} rel="noopener noreferrer"{{ end }}>{{ $item.Name }}</a></li>
         {{- end }}
       </ul>

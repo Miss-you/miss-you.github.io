@@ -1,0 +1,72 @@
+.subscribe-feeds {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  margin: 0 0 32px;
+  padding: 0;
+}
+
+.subscribe-feeds li {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(12px, 3vw, 20px);
+}
+
+.subscribe-feeds h2 {
+  margin-bottom: 8px;
+  font-size: 1.0625rem;
+}
+
+.subscribe-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.subscribe-controls a,
+.subscribe-controls button {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.subscribe-controls a {
+  flex: 1 1 18rem;
+  min-width: 0;
+  background: var(--theme);
+  color: var(--content);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.subscribe-controls button {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--theme);
+  font: inherit;
+  cursor: pointer;
+}
+
+.subscribe-controls button:hover {
+  opacity: 0.85;
+}
+
+.subscribe-controls :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.subscribe-status {
+  margin-top: 8px;
+  color: var(--content);
+  font-size: 0.875rem;
+}
+
+.subscribe-status:empty {
+  margin: 0;
+}

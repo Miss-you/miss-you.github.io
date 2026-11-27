@@ -64,3 +64,15 @@ stories_nojs:
   other: 启用 JavaScript 可以搜索和筛选；也可以直接浏览下方全部故事。
 stories_feed:
   other: 订阅故事更新
+subscribe_blog_zh:
+  other: 中文博客
+subscribe_blog_en:
+  other: 英文博客
+subscribe_stories:
+  other: 一千零一夜
+subscribe_copy:
+  other: 复制地址
+subscribe_copied:
+  other: 已复制地址
+subscribe_copy_failed:
+  other: 浏览器未能访问剪贴板，地址已选中，请手动复制。

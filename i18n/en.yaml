@@ -68,3 +68,15 @@ stories_nojs:
   other: Enable JavaScript to search and filter, or browse all stories below.
 stories_feed:
   other: Subscribe to stories
+subscribe_blog_zh:
+  other: Chinese blog
+subscribe_blog_en:
+  other: English blog
+subscribe_stories:
+  other: 1001 Nights
+subscribe_copy:
+  other: Copy URL
+subscribe_copied:
+  other: URL copied
+subscribe_copy_failed:
+  other: Clipboard access failed. The URL is selected for manual copying.

@@ -7,6 +7,7 @@ import subprocess
 import tempfile
 import unittest
 from urllib.parse import urlparse
+import xml.etree.ElementTree as ET
 
 REPO = Path(__file__).resolve().parents[1]
 
@@ -77,7 +78,7 @@ class SiteHeaderAcceptance(unittest.TestCase):
 
     def test_same_navigation_and_brand_across_every_site_section(self):
         routes = ['', 'tools', 'tools/text-diff', 'tools/text-diff-preview', 'kb', 'kb/writing-notes',
-                  'stories', 'posts/20261109-header-probe', 'archives', 'tags', 'categories', 'lab']
+                  'stories', 'subscribe', 'posts/20261109-header-probe', 'archives', 'tags', 'categories', 'lab']
         expected = ['归档', '标签', '知识库', '一千零一夜', '实验室', '会议', '工具', 'RSS', 'GitHub']
         for route in routes:
             with self.subTest(route=route):
@@ -100,6 +101,8 @@ class SiteHeaderAcceptance(unittest.TestCase):
         for route, target in [('tools/text-diff', '/en/tools/text-diff/'),
                               ('en/tools/text-diff', '/tools/text-diff/'),
                               ('kb/writing-notes', '/en/kb/writing-notes/'),
+                              ('subscribe', '/en/subscribe/'),
+                              ('en/subscribe', '/subscribe/'),
                               ('posts/20261109-header-probe', '/en/posts/20261109-header-probe/'),
                               ('posts/header-no-translation', '/en/')]:
             with self.subTest(route=route):
@@ -146,12 +149,18 @@ class SiteHeaderAcceptance(unittest.TestCase):
             self.assertNotIn('<script', header.group())
             self.assertIsNone(re.search(r'\son[a-z]+=', header.group()))
 
-    def test_subpath_deployment_keeps_menu_and_rss_under_the_base_path(self):
+    def test_subpath_deployment_keeps_subscription_and_feeds_under_the_base_path(self):
         for prefix in ['', 'en/']:
             html = (self.subpath / prefix / 'tools/text-diff/index.html').read_text()
             header = Header(html)
             rss = next(link for link in header.menu if link['text'] == 'RSS')
-            self.assertEqual(urlparse(rss['href']).path, f'/preview/{prefix}index.xml')
+            self.assertEqual(urlparse(rss['href']).path, f'/preview/{prefix}subscribe/')
+            subscribe = (self.subpath / prefix / 'subscribe/index.html').read_text()
+            for feed in ['index.xml', 'en/index.xml', 'stories/index.xml']:
+                self.assertIn(f'https://example.test/preview/{feed}', subscribe)
+                root = ET.parse(self.subpath / feed).getroot()
+                self.assertEqual(root.tag, 'rss', feed)
+                self.assertTrue(root.findall('channel/item'), feed)
             for link in header.links:
                 url = urlparse(link['href'])
                 if url.netloc and url.netloc != 'example.test':

@@ -1,0 +1,33 @@
+{{- define "main" }}
+{{- $zh := site.Sites.Default }}
+{{- $en := index (where site.Sites "Language.Lang" "en") 0 }}
+{{- $stories := $zh.GetPage "/stories" }}
+{{- $feeds := slice
+  (dict "label" (i18n "subscribe_blog_zh") "page" $zh.Home)
+  (dict "label" (i18n "subscribe_blog_en") "page" $en.Home)
+  (dict "label" (i18n "subscribe_stories") "page" $stories)
+}}
+{{- $copy := i18n "subscribe_copy" }}
+
+<header class="page-header">
+  <h1>{{ .Title }}</h1>
+  <p>{{ .Description }}</p>
+</header>
+
+<ul class="subscribe-feeds" data-subscribe data-copied="{{ i18n "subscribe_copied" }}" data-copy-failed="{{ i18n "subscribe_copy_failed" }}">
+  {{- range $feeds }}
+    {{- $feed := .page.OutputFormats.Get "RSS" }}
+  <li>
+    <h2>{{ .label }}</h2>
+    <div class="subscribe-controls">
+      <a href="{{ $feed.Permalink }}">{{ $feed.Permalink }}</a>
+      <button type="button" aria-label="{{ $copy }} · {{ .label }}" hidden>{{ $copy }}</button>
+    </div>
+    <p class="subscribe-status" role="status"></p>
+  </li>
+  {{- end }}
+</ul>
+
+{{- $script := resources.Get "js/subscribe.js" | resources.Minify | fingerprint "sha384" }}
+<script type="module" src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" crossorigin="anonymous"></script>
+{{- end }}
